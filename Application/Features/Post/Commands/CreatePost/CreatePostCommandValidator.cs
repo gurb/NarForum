@@ -14,9 +14,7 @@ namespace Application.Features.Post.Commands.CreatePost
             RuleFor(x => x.Content)
                 .NotEmpty().WithMessage("{Content} is required")
                 .NotNull()
-                .MaximumLength(10000)
-                .WithMessage("{Content} must bw fewer than 10000 characters");
-
+                .MaximumLength(10000).WithMessage("{Content} must bw fewer than 10000 characters");
         }
 
     }
