@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Contracts.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.DatabaseContext;
+using Persistence.Repositories;
 
 namespace Persistence.Extensions
 {
@@ -14,6 +16,11 @@ namespace Persistence.Extensions
                     options.UseSqlServer(configuration.GetConnectionString("ForumDatabaseConnectionString"));
                 }
             );
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IHeadingRepository, HeadingRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             return services;
         }
