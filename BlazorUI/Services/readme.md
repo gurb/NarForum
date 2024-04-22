@@ -1,0 +1,13 @@
+- used nswag for generate client api code
+- open NSwagStudio
+- run the api after new update
+- get the json url from swagger ui and copy paste to OpenAPI/Swagger Specification URL space
+- Click the "Create local Copy" button
+- **runtime must be Net80 
+- Check CSharp Client and open tab CSharp Client
+- Copy "namespace" Base folder and paste it
+- Uncheck "Use the base URL for the request" if you don't
+- Check "Generate interfaces for Client classes" if you don't
+- Choose JSON Liberary as SystemTextJson if you don't
+- Copy folder path of Base folder and paste it in "Output file path" input and put file name "ServiceClient.cs" at the end of the path
+- Click the Generate Files button
