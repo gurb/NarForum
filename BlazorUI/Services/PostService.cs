@@ -27,7 +27,6 @@ namespace BlazorUI.Services
             }
             catch (ApiException ex)
             {
-
                 return ConvertApiExceptions<Guid>(ex);
             }
         }

@@ -1,0 +1,50 @@
+﻿@page "/posts"
+
+<h3>Posts</h3>
+
+@if (string.IsNullOrEmpty(Message) == false)
+{
+    <div class="alert alert-danger">
+        @Message
+    </div>
+}
+
+@if (Posts == null)
+{
+    <p>Loading Data...</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                @* <th>Actions</th> *@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var post in Posts)
+            {
+                <tr>
+                    <td>@post.Id</td>
+                    <td>@post.Content</td>
+@*                     <td>
+                        <button @onclick=@(() => AllocateLeaveType(leaveType.Id)) class="btn btn-dark">
+                            Allocate Leave
+                        </button>
+                        <button @onclick=@(() => EditLeaveType(leaveType.Id)) class="btn btn-warning">
+                            Edit
+                        </button>
+                        <button @onclick=@(() => DetailsLeaveType(leaveType.Id)) class="btn btn-dark">
+                            Details
+                        </button>
+                        <button @onclick=@(() => DeleteLeaveType(leaveType.Id)) class="btn btn-dark">
+                            Delete
+                        </button>
+                    </td> *@
+                </tr>
+            }
+        </tbody>
+    </table>
+}
