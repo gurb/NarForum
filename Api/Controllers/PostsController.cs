@@ -33,6 +33,5 @@ namespace Api.Controllers
             var response = await _mediator.Send(command);
             return Ok(response);
         }
-
     }
 }
