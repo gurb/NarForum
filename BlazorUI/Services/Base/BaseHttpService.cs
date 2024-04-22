@@ -1,10 +1,10 @@
 ﻿namespace BlazorUI.Services.Base
 {
-    public class BaseHttpServicecs
+    public class BaseHttpService
     {
         protected IClient _client;
 
-        public BaseHttpServicecs(IClient client)
+        public BaseHttpService(IClient client)
         {
             _client = client;
         }
