@@ -32,8 +32,9 @@ public class AuthenticationService : BaseHttpService, IAuthenticationService
                 return true;
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            var tct = ex.Message.ToString();
             return false;
         }
 
