@@ -1,7 +1,7 @@
 using BlazorUI.Contracts;
 using BlazorUI.Models;
-using BlazorUI.Models.Post;
 using Microsoft.AspNetCore.Components;
+using BlazorUI.Models.Authentication;
 
 namespace BlazorUI.Pages;
 
