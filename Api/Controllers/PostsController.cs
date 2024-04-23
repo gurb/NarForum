@@ -1,12 +1,14 @@
 ﻿using Application.Features.Post.Commands.CreatePost;
 using Application.Features.Post.Queries.GetAllPosts;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PostsController : ControllerBase
     {
         private readonly IMediator _mediator;
