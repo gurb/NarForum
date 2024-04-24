@@ -1,4 +1,6 @@
 ﻿@page "/posts"
+@using BlazorUI.Pages.Posts.Component;
+
 
 <h3>Posts</h3>
 
@@ -15,36 +17,10 @@
 }
 else
 {
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                @* <th>Actions</th> *@
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var post in Posts)
-            {
-                <tr>
-                    <td>@post.Id</td>
-                    <td>@post.Content</td>
-@*                     <td>
-                        <button @onclick=@(() => AllocateLeaveType(leaveType.Id)) class="btn btn-dark">
-                            Allocate Leave
-                        </button>
-                        <button @onclick=@(() => EditLeaveType(leaveType.Id)) class="btn btn-warning">
-                            Edit
-                        </button>
-                        <button @onclick=@(() => DetailsLeaveType(leaveType.Id)) class="btn btn-dark">
-                            Details
-                        </button>
-                        <button @onclick=@(() => DeleteLeaveType(leaveType.Id)) class="btn btn-dark">
-                            Delete
-                        </button>
-                    </td> *@
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="container-fluid">
+        @foreach (var post in Posts)
+        {
+            <PostCard Id="@post.Id.ToString()" Username="User" Content="@post.Content"></PostCard>
+        }
+    </div>
 }

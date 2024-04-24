@@ -14,7 +14,7 @@ namespace Persistence.DatabaseContext
         public DbSet<Post> Posts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Heading> Headings { get; set; }
-
+        public DbSet<Section> Sections { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
