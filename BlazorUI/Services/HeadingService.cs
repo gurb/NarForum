@@ -1,12 +1,12 @@
-﻿using Blazored.LocalStorage;
-using BlazorUI.Contracts;
+﻿using BlazorUI.Contracts;
 using BlazorUI.Services.Base;
+using BlazorUI.Services.Common;
 
 namespace BlazorUI.Services
 {
     public class HeadingService : BaseHttpService, IHeadingService
     {
-        public HeadingService(IClient client, ILocalStorageService localStorage) : base(client, localStorage)
+        public HeadingService(IClient client, LocalStorageService localStorage) : base(client, localStorage)
         {
 
         }

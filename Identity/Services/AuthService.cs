@@ -2,6 +2,7 @@
 using Application.Exceptions;
 using Application.Models.Identity;
 using Identity.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -45,7 +46,7 @@ public class AuthService : IAuthService
         }
 
         JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
-
+       
 
         var response = new AuthResponse
         {
@@ -57,6 +58,8 @@ public class AuthService : IAuthService
 
         return response;
     }
+
+   
 
     private async Task<JwtSecurityToken> GenerateToken(ForumUser user)
     {
@@ -76,6 +79,7 @@ public class AuthService : IAuthService
         .Union(userClaims)
         .Union(roleClaims);
 
+        TimeZoneInfo.ClearCachedData();
 
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
 

@@ -1,13 +1,13 @@
-﻿using Blazored.LocalStorage;
+﻿using BlazorUI.Services.Common;
 
 namespace BlazorUI.Services.Base
 {
     public class BaseHttpService
     {
         protected IClient _client;
-        protected readonly ILocalStorageService _localStorage;
+        protected readonly LocalStorageService _localStorage;
 
-        public BaseHttpService(IClient client, ILocalStorageService localStorage)
+        public BaseHttpService(IClient client, LocalStorageService localStorage)
         {
             _client = client;
             _localStorage = localStorage;
@@ -31,9 +31,9 @@ namespace BlazorUI.Services.Base
 
         protected async Task AddBearerToken()
         {
-            if (await _localStorage.ContainKeyAsync("token"))
+            if (await _localStorage.ContainsKey("token"))
                 _client.HttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
-                    await _localStorage.GetItemAsync<string>("token"));
+                    await _localStorage.GetItem("token"));
         }
     }
 }

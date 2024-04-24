@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Blazored.LocalStorage;
 using BlazorUI.Contracts;
 using BlazorUI.Models.Post;
 using BlazorUI.Services.Base;
+using BlazorUI.Services.Common;
 
 namespace BlazorUI.Services
 {
@@ -10,7 +10,7 @@ namespace BlazorUI.Services
     {
         private readonly IMapper _mapper;
 
-        public PostService(IClient client, IMapper mapper, ILocalStorageService localStorage) : base(client, localStorage) 
+        public PostService(IClient client, IMapper mapper, LocalStorageService localStorage) : base(client, localStorage) 
         {
             _mapper = mapper;
         }

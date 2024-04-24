@@ -1,10 +1,10 @@
-using Blazored.LocalStorage;
 using BlazorUI;
 using BlazorUI.Contracts;
 using BlazorUI.Handlers;
 using BlazorUI.Providers;
 using BlazorUI.Services;
 using BlazorUI.Services.Base;
+using BlazorUI.Services.Common;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -15,7 +15,8 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddTransient<JwtAuthorizationMessageHandler>();
 builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:7147")).AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
 
-builder.Services.AddBlazoredLocalStorage();
+//builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<LocalStorageService>();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
 

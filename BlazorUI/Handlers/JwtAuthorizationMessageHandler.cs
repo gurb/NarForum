@@ -1,4 +1,4 @@
-﻿using Blazored.LocalStorage;
+﻿using BlazorUI.Services.Common;
 using System.Net.Http.Headers;
 
 namespace BlazorUI.Handlers
@@ -8,16 +8,16 @@ namespace BlazorUI.Handlers
 
     public class JwtAuthorizationMessageHandler : DelegatingHandler
     {
-        private readonly ILocalStorageService _localStorageService;
+        private readonly LocalStorageService _localStorageService;
 
-        public JwtAuthorizationMessageHandler(ILocalStorageService localStorageService)
+        public JwtAuthorizationMessageHandler(LocalStorageService localStorageService)
         {
             _localStorageService = localStorageService;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var token = await _localStorageService.GetItemAsync<string>("token");
+            var token = await _localStorageService.GetItem("token");
             if (!string.IsNullOrEmpty(token))
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
