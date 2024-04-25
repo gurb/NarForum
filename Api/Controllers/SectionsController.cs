@@ -24,9 +24,9 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<List<SectionDTO>> Get()
         {
-            var posts = await _mediator.Send(new GetSectionsQuery());
+            var sections = await _mediator.Send(new GetSectionsQuery());
 
-            return posts;
+            return sections;
         }
 
 

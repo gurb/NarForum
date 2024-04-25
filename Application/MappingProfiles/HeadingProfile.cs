@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using Application.Features.Heading.Commands.CreateHeading;
+using Application.Features.Heading.Queries;
+using AutoMapper;
+using Domain;
 
 namespace Application.MappingProfiles
 {
@@ -6,7 +9,8 @@ namespace Application.MappingProfiles
     {
         public HeadingProfile()
         {
-            //CreateMap<CategoryProfileDTO, Category>();
+            CreateMap<HeadingDTO, Heading>().ReverseMap();
+            CreateMap<CreateHeadingCommand, Heading>().ReverseMap();
         }
     }
 }

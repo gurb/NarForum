@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using BlazorUI.Models.Category;
+using BlazorUI.Models.Heading;
 using BlazorUI.Models.Post;
 using BlazorUI.Models.Section;
 using BlazorUI.Services.Base;
@@ -14,6 +16,12 @@ namespace BlazorUI.MappingProfiles
 
             CreateMap<SectionDTO, SectionVM>().ReverseMap();
             CreateMap<CreateSectionCommand, SectionVM>().ReverseMap();
+
+            CreateMap<CategoryDTO, CategoryVM>().ReverseMap();
+            CreateMap<CreateCategoryCommand, CategoryVM>().ReverseMap();
+
+            CreateMap<HeadingDTO, HeadingVM>().ReverseMap();
+            CreateMap<CreateHeadingCommand, HeadingVM>().ReverseMap();
         }
     }
 }
