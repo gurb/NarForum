@@ -1,14 +1,18 @@
 ﻿@page "/"
+@using BlazorUI.Models.Section
+@using BlazorUI.Pages.Sections;
 
 <PageTitle>Index</PageTitle>
 
-<h1 class="text-center">Welcome to HR Leave Management System</h1>
+<h1 class="text-center">Forum</h1>
 <br />
 <br />
 
 <AuthorizeView>
     <Authorized>
         <button class="btn btn-danger" @onclick="Logout">Logout</button>
+        <button class="btn btn-primary" onclick=@(async () => await AddSection(new SectionVM{Name="Section"}))>Add Section</button>
+        <SectionList></SectionList>
     </Authorized>
     <NotAuthorized>
         <button class="btn btn-success" @onclick="GoToLogin">Login</button>

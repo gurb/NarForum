@@ -21,6 +21,7 @@ namespace Persistence.Extensions
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IHeadingRepository, HeadingRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ISectionRepository, SectionRepository>();
 
             return services;
         }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlazorUI.Models.Post;
+using BlazorUI.Models.Section;
 using BlazorUI.Services.Base;
 
 namespace BlazorUI.MappingProfiles
@@ -10,6 +11,9 @@ namespace BlazorUI.MappingProfiles
         {
             CreateMap<PostDTO, PostVM>().ReverseMap();
             CreateMap<CreatePostCommand, PostVM>().ReverseMap();
+
+            CreateMap<SectionDTO, SectionVM>().ReverseMap();
+            CreateMap<CreateSectionCommand, SectionVM>().ReverseMap();
         }
     }
 }

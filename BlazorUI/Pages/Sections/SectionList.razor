@@ -1,0 +1,17 @@
+﻿<h3>SectionList</h3>
+
+@if (Sections == null)
+{
+    <p>Loading Data...</p>
+}
+else
+{
+    <div class="container-fluid">
+        @foreach (var sec in Sections)
+        {
+            <SectionCard Name='@sec.Name'></SectionCard>
+        }
+    </div>
+}
+
+
