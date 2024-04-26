@@ -1,0 +1,52 @@
+﻿@inject IJSRuntime JSRuntime;
+
+@if(isOpen)
+{
+    <div class="custom-modal-overlay" id="custom-modal-overlay-id">
+        <div class="custom-modal">
+            <div class="custom-modal-content">
+                <div class="custom-modal-header">
+                    <div class="custom-modal-title-area">
+                        <h3 class="custom-modal-title">
+                            Add Images
+                        </h3>
+                    </div>
+                    <div class="custom-modal-close-area">
+                        <span class="close" @onclick="CloseModal">&times;</span>
+                    </div>
+                </div>
+                <div id="custom-modal-inner">
+                    @ChildContent
+                </div>
+                <div class="custom-modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public string ModalId { get; set; } = string.Empty;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private bool isOpen { get; set; }
+
+
+    public async void ShowModal()
+    {
+        isOpen = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async void CloseModal()
+    {
+        isOpen = false;
+        await InvokeAsync(StateHasChanged);
+    }
+}

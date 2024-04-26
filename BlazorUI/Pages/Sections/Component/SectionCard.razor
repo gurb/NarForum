@@ -1,12 +1,24 @@
-﻿<div class="row section-card-body">
+﻿@using BlazorUI.Pages.Category.Modal;
+
+<div class="row section-card-body">
     <div class="col-6">@Name</div>
     <div class="col-6 text-end">
-        <a href="/" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</a>
+        <a href="/" @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</a>
     </div>
 </div>
 
 
+<AddCategoryModal @ref="addCategoryModal"></AddCategoryModal>
+
 @code {
+    AddCategoryModal? addCategoryModal;
+
     [Parameter]
     public string Name { get; set; } = string.Empty;
+
+
+    private void OpenModal()
+    {
+        addCategoryModal?.ShowModal();
+    }
 }

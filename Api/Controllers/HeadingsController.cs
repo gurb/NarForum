@@ -1,5 +1,6 @@
 ﻿using Application.Features.Heading.Commands.CreateHeading;
 using Application.Features.Heading.Queries;
+using Application.Features.Heading.Queries.GetHeadings;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,0 +1,17 @@
+﻿<Modal @ref="modal">
+    ekle
+</Modal>
+
+@code {
+    Modal? modal;
+
+    public void ShowModal()
+    {
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        modal?.CloseModal();
+    }
+}
