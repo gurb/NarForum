@@ -21,6 +21,7 @@ namespace BlazorUI.Pages.Sections
         public List<CategoryVM>? Categories { get; private set; }
 
 
+
         public string Message { get; set; } = string.Empty;
 
         protected override async Task OnInitializedAsync()

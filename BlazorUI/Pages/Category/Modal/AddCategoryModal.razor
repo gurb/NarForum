@@ -1,4 +1,5 @@
 ﻿@using BlazorUI.Models.Category
+@using BlazorUI.Services.UI
 <Modal @ref="modal" ModalTitle="Add Category" Callback="@HandleRegister">
     <EditForm Model="@Model" OnValidSubmit="HandleRegister">
         <DataAnnotationsValidator />
@@ -22,6 +23,9 @@
 
     [Inject]
     private ICategoryService CategoryService { get; set; }
+
+    [Inject]
+    public RefreshStateService RefreshStateService { get; set; }
 
     protected override void OnInitialized()
     {
@@ -47,5 +51,9 @@
         };
 
         var result = await CategoryService.CreateCategory(category);
+
+        RefreshStateService.RefreshSectionList();
+        
+        CloseModal();
     }
 }
