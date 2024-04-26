@@ -8,9 +8,12 @@
 </div>
 
 
-<AddCategoryModal @ref="addCategoryModal"></AddCategoryModal>
+<AddCategoryModal @ref="addCategoryModal" SectionVM="@Model"></AddCategoryModal>
 
 @code {
+    [Parameter]
+    public SectionVM Model { get; set; }
+
     AddCategoryModal? addCategoryModal;
 
     [Parameter]

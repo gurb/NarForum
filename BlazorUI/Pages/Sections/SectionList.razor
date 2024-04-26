@@ -7,7 +7,7 @@ else
     <div class="container-fluid">
         @foreach (var sec in Sections)
         {
-            <SectionCard Name='@sec.Name'></SectionCard>
+            <SectionCard Model="sec" Name='@sec.Name'></SectionCard>
         }
     </div>
 }

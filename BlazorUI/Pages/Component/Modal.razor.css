@@ -37,7 +37,7 @@
 .custom-modal-header {
     display: grid;
     grid-template-columns: 1fr 40px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #eee;
     min-height: 50px;
 }
 
@@ -46,11 +46,13 @@ h3.custom-modal-title {
 }
 
 #custom-modal-inner {
+    padding: 10px;
 }
 
 .custom-modal-footer {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #eee;
     min-height: 50px;
+    padding:10px 0px;
 }
 
 .close {

@@ -8,7 +8,7 @@
                 <div class="custom-modal-header">
                     <div class="custom-modal-title-area">
                         <h3 class="custom-modal-title">
-                            Add Images
+                            @ModalTitle
                         </h3>
                     </div>
                     <div class="custom-modal-close-area">
@@ -18,9 +18,8 @@
                 <div id="custom-modal-inner">
                     @ChildContent
                 </div>
-                <div class="custom-modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                <div class="custom-modal-footer text-end">
+                    <button type="button" @onclick="callbackMethod" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
@@ -33,7 +32,14 @@
     public string ModalId { get; set; } = string.Empty;
 
     [Parameter]
+    public string ModalTitle { get; set; } = string.Empty;
+
+
+    [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
 
     private bool isOpen { get; set; }
 
@@ -48,5 +54,11 @@
     {
         isOpen = false;
         await InvokeAsync(StateHasChanged);
+    }
+
+
+    protected async Task callbackMethod()
+    {
+        await Callback.InvokeAsync();
     }
 }
