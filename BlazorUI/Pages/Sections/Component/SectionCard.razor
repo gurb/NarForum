@@ -1,4 +1,5 @@
-﻿@using BlazorUI.Pages.Category.Modal;
+﻿@using BlazorUI.Models.Category
+@using BlazorUI.Pages.Category.Modal;
 
 <div class="row section-card-body">
     <div class="col-6">@Name</div>
@@ -7,12 +8,27 @@
     </div>
 </div>
 
+@if(Categories == null)
+{
+    <p>Not Found Categories</p>
+}
+else
+{
+    @foreach (var category in Categories)
+    {
+        <CategoryCard Model="category"></CategoryCard>
+    }
+}
+
 
 <AddCategoryModal @ref="addCategoryModal" SectionVM="@Model"></AddCategoryModal>
 
 @code {
     [Parameter]
     public SectionVM Model { get; set; }
+
+    [Parameter]
+    public List<CategoryVM>? Categories { get; set; }
 
     AddCategoryModal? addCategoryModal;
 

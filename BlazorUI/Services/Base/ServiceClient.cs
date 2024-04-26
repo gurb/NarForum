@@ -1116,6 +1116,12 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("sectionId")]
+        public int? SectionId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("parentCategoryId")]
+        public int? ParentCategoryId { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]

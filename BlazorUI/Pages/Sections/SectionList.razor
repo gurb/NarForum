@@ -7,7 +7,7 @@ else
     <div class="container-fluid">
         @foreach (var sec in Sections)
         {
-            <SectionCard Model="sec" Name='@sec.Name'></SectionCard>
+            <SectionCard Model="sec" Name='@sec.Name' Categories="Categories != null ? Categories?.Where(x => x.SectionId == sec.Id).ToList() : null"></SectionCard>
         }
     </div>
 }

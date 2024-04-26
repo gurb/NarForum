@@ -1,0 +1,10 @@
+﻿@using BlazorUI.Models.Category
+
+<div class="row category-card-body">
+    <div class="col-6">@Model.Name</div>
+</div>
+
+@code {
+    [Parameter]
+    public CategoryVM Model { get; set; }
+}
