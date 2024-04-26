@@ -1,8 +1,11 @@
 ﻿@using BlazorUI.Models.Category
 @using BlazorUI.Pages.Category.Modal;
+@using BlazorUI.Services.UI
 
 <div class="row section-card-body">
-    <div class="col-6">@Name</div>
+    <div class="col-6">
+        @Name
+    </div>
     <div class="col-6 text-end">
         <a href="/" @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</a>
     </div>
@@ -21,7 +24,7 @@ else
 }
 
 
-<AddCategoryModal @ref="addCategoryModal" SectionVM="@Model"></AddCategoryModal>
+<AddCategoryModal @ref="addCategoryModal" SectionVM="@Model" Callback="Refresh"></AddCategoryModal>
 
 @code {
     [Parameter]
@@ -35,9 +38,19 @@ else
     [Parameter]
     public string Name { get; set; } = string.Empty;
 
+    [Inject] 
+    RefreshStateService RefreshStateService { get; set; }
+
 
     private void OpenModal()
     {
         addCategoryModal?.ShowModal();
     }
+
+    private async Task Refresh()
+    {
+        RefreshStateService.RefreshSectionList();
+    }
+
+    
 }

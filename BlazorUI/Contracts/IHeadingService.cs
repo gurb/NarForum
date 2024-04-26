@@ -7,6 +7,8 @@ namespace BlazorUI.Contracts
     {
         // queries
         Task<List<HeadingVM>> GetHeadings();
+        Task<List<HeadingVM>> GetHeadingsByCategoryName(string name);
+        Task<List<HeadingVM>> GetHeadingsByCategoryId(int id);
 
         // commands
         Task<ApiResponse<Guid>> CreateHeading(HeadingVM post);

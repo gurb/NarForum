@@ -1,0 +1,78 @@
+﻿@page "/category/{CategoryName}"
+@using BlazorUI.Pages.Category.Modal
+
+
+<div class="row section-card-body">
+    <div class="col-6">
+        @CategoryName
+    </div>
+    <div class="col-6 text-end">
+        <a @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</a>
+    </div>
+</div>
+
+@if(!isLoaded)
+{
+    <p>Loading Data...</p>
+}
+else
+{
+    @foreach (var category in Categories)
+    {
+        <p>@category.Name</p>
+    }
+
+    <hr />
+    <hr />
+
+    @foreach (var heading in Headings)
+    {
+        <p>@heading.Title</p>
+    }
+}
+
+@if(Model != null)
+{
+    <AddCategoryModal @ref="addCategoryModal" ParentCategoryVM="@Model" Callback="RefreshCategories"></AddCategoryModal>
+}
+
+@code {
+    private bool isLoaded { get; set; }
+    private CategoryVM? Model { get; set; }
+
+    [Parameter]
+    public string CategoryName { get; set; }
+
+    [Inject]
+    public ICategoryService CategoryService { get; set; }
+
+    [Inject]
+    public IHeadingService HeadingService { get; set; }
+
+
+    public List<CategoryVM>? Categories { get; set; }
+
+    public List<HeadingVM>? Headings { get; set; }
+
+    AddCategoryModal? addCategoryModal;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = await CategoryService.GetCategoryByName(CategoryName);
+        Categories = await CategoryService.GetCategoriesByName(CategoryName);
+        Headings = await HeadingService.GetHeadingsByCategoryName(CategoryName);
+        isLoaded = true;
+    }
+
+    private void OpenModal()
+    {
+        addCategoryModal?.ShowModal();
+    }
+
+    private async Task RefreshCategories()
+    {
+        Categories = await CategoryService.GetCategoriesByName(CategoryName);
+        await InvokeAsync(StateHasChanged);
+    }
+}

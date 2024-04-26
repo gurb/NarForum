@@ -14,20 +14,38 @@ namespace Application.Features.Heading.Queries.GetHeadings
     {
         private readonly IMapper _mapper;
         private readonly IHeadingRepository _headingRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public GetHeadingsQueryHandler(IMapper mapper, IHeadingRepository headingRepository)
+        public GetHeadingsQueryHandler(IMapper mapper, IHeadingRepository headingRepository, ICategoryRepository categoryRepository)
         {
             _mapper = mapper;
             _headingRepository = headingRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<List<HeadingDTO>> Handle(GetHeadingsQuery request, CancellationToken cancellationToken)
         {
             // query the database
-            var categories = await _headingRepository.GetAsync();
+            var headings = await _headingRepository.GetAsync();
+
+
+            if (request.CategoryId != null)
+            {
+                headings = headings.Where(x => x.CategoryId == request.CategoryId).ToList();
+            }
+
+            if (request.CategoryName != null)
+            {
+                var category = _categoryRepository.GetByName(request.CategoryName);
+
+                if (category != null)
+                {
+                    headings = headings.Where(x => x.CategoryId == category.Id).ToList();
+                }
+            }
 
             // convert data objecs to DTOs
-            var data = _mapper.Map<List<HeadingDTO>>(categories);
+            var data = _mapper.Map<List<HeadingDTO>>(headings);
 
             // return list of DTOs
             return data;

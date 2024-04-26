@@ -1,5 +1,6 @@
 ﻿using Application.Features.Category.Commands.CreateCategory;
 using Application.Features.Category.Queries.GetCategories;
+using Application.Features.Category.Queries.GetCategory;
 using AutoMapper;
 using Domain;
 

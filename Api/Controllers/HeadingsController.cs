@@ -27,6 +27,31 @@ namespace Api.Controllers
             return headings;
         }
 
+        [HttpGet("GetHeadingsByCategoryId")]
+        public async Task<List<HeadingDTO>> GetHeadingsByCategoryId(int CategoryId)
+        {
+            var query = new GetHeadingsQuery
+            {
+                CategoryId = CategoryId
+            };
+
+            var headings = await _mediator.Send(query);
+
+            return headings;
+        }
+
+        [HttpGet("GetHeadingsByCategoryName")]
+        public async Task<List<HeadingDTO>> GetHeadingsByCategoryName(string CategoryName)
+        {
+            var query = new GetHeadingsQuery
+            {
+                CategoryName = CategoryName
+            };
+
+            var headings = await _mediator.Send(query);
+
+            return headings;
+        }
 
         [HttpPost]
         [ProducesResponseType(201)]

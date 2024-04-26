@@ -19,13 +19,20 @@
     public CategoryVM Model { get; set; }
 
     [Parameter]
-    public SectionVM SectionVM { get; set; }
+    public SectionVM? SectionVM { get; set; }
+
+    [Parameter]
+    public CategoryVM? ParentCategoryVM { get; set; }
 
     [Inject]
     private ICategoryService CategoryService { get; set; }
 
     [Inject]
     public RefreshStateService RefreshStateService { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
 
     protected override void OnInitialized()
     {
@@ -44,15 +51,31 @@
 
     protected async Task HandleRegister()
     {
-        CategoryVM category = new CategoryVM
+        CategoryVM? category;
+
+        if(ParentCategoryVM != null)
         {
-            Name = Model.Name,
-            SectionId = SectionVM.Id
-        };
+            category = new CategoryVM
+            {
+                Name = Model.Name,
+                ParentCategoryId = ParentCategoryVM.Id,
+                SectionId = ParentCategoryVM.SectionId
+            };
+        }
+        else
+        {
+            category = new CategoryVM
+            {
+                Name = Model.Name,
+                SectionId = SectionVM.Id
+            };
+        }
 
         var result = await CategoryService.CreateCategory(category);
 
-        RefreshStateService.RefreshSectionList();
+
+        await Callback.InvokeAsync();
+        
         
         CloseModal();
     }

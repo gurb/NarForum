@@ -33,11 +33,26 @@ namespace BlazorUI.Services
 
         public async Task<List<HeadingVM>> GetHeadings()
         {
-            var posts = await _client.HeadingsAllAsync();
-            var data = _mapper.Map<List<HeadingVM>>(posts);
+            var headings = await _client.HeadingsAllAsync();
+            var data = _mapper.Map<List<HeadingVM>>(headings);
 
             return data;
         }
 
+        public async Task<List<HeadingVM>> GetHeadingsByCategoryId(int id)
+        {
+            var headings = await _client.GetHeadingsByCategoryIdAsync(id);
+            var data = _mapper.Map<List<HeadingVM>>(headings);
+
+            return data;
+        }
+
+        public async Task<List<HeadingVM>> GetHeadingsByCategoryName(string name)
+        {
+            var headings = await _client.GetHeadingsByCategoryNameAsync(name);
+            var data = _mapper.Map<List<HeadingVM>>(headings);
+
+            return data;
+        }
     }
 }

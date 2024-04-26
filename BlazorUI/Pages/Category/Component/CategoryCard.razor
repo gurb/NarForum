@@ -1,10 +1,22 @@
 ﻿@using BlazorUI.Models.Category
 
 <div class="row category-card-body">
-    <div class="col-6">@Model.Name</div>
+    <div class="col-6">
+        <a href="@url" @onclick="OpenCategory" class="link-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Name </a>
+    </div>
 </div>
 
 @code {
     [Parameter]
     public CategoryVM Model { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    string url { get { return $"/category/{Model.Name}"; } }
+
+    private void OpenCategory()
+    {
+        // NavigationManager.NavigateTo($"/category/{Model.Name}");
+    }
 }

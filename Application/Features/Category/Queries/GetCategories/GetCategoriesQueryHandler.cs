@@ -1,12 +1,7 @@
 ﻿using Application.Contracts.Persistence;
-using Application.Features.Section.Queries.GetSections;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Application.Features.Category.Queries.GetCategories
 {
@@ -25,6 +20,22 @@ namespace Application.Features.Category.Queries.GetCategories
         {
             // query the database
             var categories = await _categoryRepository.GetAsync();
+
+
+            if(request.ParentCategoryId != null)
+            {
+                categories = categories.Where(x => x.ParentCategoryId == request.ParentCategoryId).ToList();
+            }
+
+            if(request.CategoryName != null)
+            {
+                var parentCategory = categories.FirstOrDefault(x => x.Name == request.CategoryName);
+
+                if(parentCategory != null)
+                {
+                    categories = categories.Where(x => x.ParentCategoryId == parentCategory.Id).ToList();
+                }
+            }
 
             // convert data objecs to DTOs
             var data = _mapper.Map<List<CategoryDTO>>(categories);
