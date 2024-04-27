@@ -56,5 +56,13 @@ namespace BlazorUI.Services
 
             return data;
         }
+
+        public async Task<List<CategoryVM>> GetSectionCategories()
+        {
+            var categories = await _client.GetSectionCategoriesAsync();
+            var data = _mapper.Map<List<CategoryVM>>(categories);
+
+            return data;
+        }
     }
 }

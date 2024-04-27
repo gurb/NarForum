@@ -12,5 +12,7 @@ namespace Application.Features.Category.Queries.GetCategories
         public int? ParentCategoryId { get; set; }
 
         public string? CategoryName { get; set; }
+
+        public bool? IsOnlySection { get; set; }
     }
 }

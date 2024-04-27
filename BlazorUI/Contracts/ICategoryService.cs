@@ -8,6 +8,7 @@ namespace BlazorUI.Contracts
         // queries
         Task<CategoryVM> GetCategoryByName(string CategoryName);
         Task<List<CategoryVM>> GetCategories();
+        Task<List<CategoryVM>> GetSectionCategories();
         Task<List<CategoryVM>> GetCategoriesByName(string CategoryName);
 
         // commands

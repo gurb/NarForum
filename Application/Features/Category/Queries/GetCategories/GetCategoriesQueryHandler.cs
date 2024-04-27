@@ -37,6 +37,11 @@ namespace Application.Features.Category.Queries.GetCategories
                 }
             }
 
+            if(request.IsOnlySection != null && request.IsOnlySection == true)
+            {
+                categories = categories.Where(x => x.ParentCategoryId == null).ToList();
+            }
+
             // convert data objecs to DTOs
             var data = _mapper.Map<List<CategoryDTO>>(categories);
 

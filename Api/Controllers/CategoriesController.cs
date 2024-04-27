@@ -27,6 +27,19 @@ namespace Api.Controllers
             return categories;
         }
 
+        [HttpGet("GetSectionCategories")]
+        public async Task<List<CategoryDTO>> GetSectionCategories()
+        {
+            var query = new GetCategoriesQuery
+            {
+                IsOnlySection = true
+            };
+
+            var categories = await _mediator.Send(query);
+
+            return categories;
+        }
+
         [HttpGet("GetCategoryByName")]
         public async Task<CategoryDTO> Get(string Name)
         {
