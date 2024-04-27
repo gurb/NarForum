@@ -2,12 +2,15 @@
 @using BlazorUI.Pages.Category.Modal
 
 
-<div class="row section-card-body">
-    <div class="col-6">
+<div class="row current-category-card-body">
+    <div class="col-8">
         @CategoryName
     </div>
-    <div class="col-6 text-end">
-        <a @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</a>
+    <div class="col-2 text-end">
+        <button @onclick="CreateHeading" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Create Heading</button>
+    </div>
+    <div class="col-2 text-end">
+        <button @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</button>
     </div>
 </div>
 
@@ -49,6 +52,9 @@ else
     [Inject]
     public IHeadingService HeadingService { get; set; }
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
 
     public List<CategoryVM>? Categories { get; set; }
 
@@ -69,6 +75,12 @@ else
     {
         addCategoryModal?.ShowModal();
     }
+
+    private void CreateHeading()
+    {
+        NavigationManager.NavigateTo("/create-heading");
+    }
+
 
     private async Task RefreshCategories()
     {

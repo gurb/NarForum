@@ -1,0 +1,18 @@
+﻿@page "/create-heading"
+@page "/create-heading/{CategoryName}"
+
+
+@if(CategoryName != null)
+{
+    <p>Create Heading for @CategoryName</p>
+}
+else
+{
+    <p>Create Heading</p>
+}
+
+
+@code {
+    [Parameter]
+    public string? CategoryName { get; set; }
+}
