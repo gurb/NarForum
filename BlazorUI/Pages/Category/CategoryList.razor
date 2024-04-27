@@ -70,6 +70,14 @@ else
         isLoaded = true;
     }
 
+    protected async override Task OnParametersSetAsync()
+    {
+        Model = await CategoryService.GetCategoryByName(CategoryName);
+        Categories = await CategoryService.GetCategoriesByName(CategoryName);
+        Headings = await HeadingService.GetHeadingsByCategoryName(CategoryName);
+        isLoaded = true;
+    }
+
     private void OpenModal()
     {
         addCategoryModal?.ShowModal();

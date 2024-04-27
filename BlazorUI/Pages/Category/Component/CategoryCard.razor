@@ -2,7 +2,7 @@
 
 <div class="row category-card-body">
     <div class="col-6">
-        <a href="@url" @onclick="OpenCategory" class="link-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Name </a>
+        <a href="@url" class="link-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Name </a>
     </div>
 </div>
 
@@ -13,10 +13,10 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
-    string url { get { return $"/category/{Model.Name}"; } }
-
-    private void OpenCategory()
-    {
-        // NavigationManager.NavigateTo($"/category/{Model.Name}");
+    string url { 
+        get 
+        {
+            return $"/category/{Model.Name}"; 
+        } 
     }
 }
