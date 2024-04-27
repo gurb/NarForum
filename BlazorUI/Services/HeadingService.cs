@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BlazorUI.Contracts;
 using BlazorUI.Models.Heading;
+using BlazorUI.Models.Post;
 using BlazorUI.Services.Base;
 using BlazorUI.Services.Common;
 
@@ -31,6 +32,7 @@ namespace BlazorUI.Services
             }
         }
 
+       
         public async Task<List<HeadingVM>> GetHeadings()
         {
             var headings = await _client.HeadingsAllAsync();

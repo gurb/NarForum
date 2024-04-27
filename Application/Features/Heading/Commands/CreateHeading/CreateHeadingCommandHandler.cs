@@ -13,11 +13,13 @@ namespace Application.Features.Heading.Commands.CreateHeading
     {
         private readonly IMapper _mapper;
         private readonly IHeadingRepository _HeadingRepository;
+        private readonly IPostRepository _PostRepository;
 
-        public CreateHeadingCommandHandler(IMapper mapper, IHeadingRepository HeadingRepository)
+        public CreateHeadingCommandHandler(IMapper mapper, IHeadingRepository HeadingRepository, IPostRepository PostRepository)
         {
             _mapper = mapper;
             _HeadingRepository = HeadingRepository;
+            _PostRepository = PostRepository;
         }
 
         public async Task<int> Handle(CreateHeadingCommand request, CancellationToken cancellationToken)
@@ -34,8 +36,20 @@ namespace Application.Features.Heading.Commands.CreateHeading
             // convert to domain entity object
             var Heading = _mapper.Map<Domain.Heading>(request);
 
+
             // add to database
             await _HeadingRepository.CreateAsync(Heading);
+
+            if (request.Content != null)
+            {
+                Domain.Post headingPost = new Domain.Post
+                {
+                    HeadingId = Heading.Id,
+                    Content = request.Content,
+                };
+
+                await _PostRepository.CreateAsync(headingPost);
+            }
 
             // return record id
             return Heading.Id;

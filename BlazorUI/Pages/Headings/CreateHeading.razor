@@ -37,6 +37,11 @@ else
         <ValidationMessage For="@(() => Model.Title)" />
     </div>
 
+    <div class="form-group form-margin">
+        <label for="exampleFormControlTextarea1">Example textarea</label>
+        <InputTextArea id="Post" class="form-control" @bind-Value="@Model.Content"></InputTextArea>
+    </div>
+
     <div class="form-group text-end">
         <input type="submit" value="Create" class="btn btn-primary" />
     </div>
@@ -49,6 +54,7 @@ else
     private List<CategoryVM>? categories;
 
     public HeadingVM Model { get; set; }
+    public PostVM PostModel { get; set; }
 
     [Parameter]
     public string? CategoryName { get; set; }
@@ -65,6 +71,7 @@ else
     protected async override Task OnInitializedAsync()
     {
         Model = new HeadingVM();
+        PostModel = new PostVM();
         categories = await CategoryService.GetCategories();
 
         if(CategoryName != null)
@@ -87,17 +94,17 @@ else
 
     protected async Task HandleCreateHeading()
     {
-       
-
         HeadingVM? heading;
 
         heading = new HeadingVM
         {
             Title = Model.Title,
-            CategoryId = Model.CategoryId
+            CategoryId = Model.CategoryId,
+            Content = Model.Content
         };
 
         var result = await HeadingService.CreateHeading(heading);
+
 
         NavigationManager.NavigateTo($"/category/{CategoryName}");
     }

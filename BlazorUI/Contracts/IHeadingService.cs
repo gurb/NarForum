@@ -1,4 +1,5 @@
 ﻿using BlazorUI.Models.Heading;
+using BlazorUI.Models.Post;
 using BlazorUI.Services.Base;
 
 namespace BlazorUI.Contracts
@@ -11,6 +12,6 @@ namespace BlazorUI.Contracts
         Task<List<HeadingVM>> GetHeadingsByCategoryId(int id);
 
         // commands
-        Task<ApiResponse<Guid>> CreateHeading(HeadingVM post);
+        Task<ApiResponse<Guid>> CreateHeading(HeadingVM heading);
     }
 }
