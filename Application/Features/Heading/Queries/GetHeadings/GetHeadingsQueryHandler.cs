@@ -36,7 +36,7 @@ namespace Application.Features.Heading.Queries.GetHeadings
 
             if (request.CategoryName != null)
             {
-                var category = _categoryRepository.GetByName(request.CategoryName);
+                var category = await _categoryRepository.GetByName(request.CategoryName);
 
                 if (category != null)
                 {

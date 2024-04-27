@@ -10,5 +10,6 @@ namespace Application.Features.Heading.Commands.CreateHeading
     public class CreateHeadingCommand : IRequest<int>
     {
         public string? Title { get; set; }
+        public int? CategoryId { get; set; }
     }
 }
