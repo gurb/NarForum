@@ -22,15 +22,14 @@ else
 {
     @foreach (var category in Categories)
     {
-        <p>@category.Name</p>
+        <CategoryCard Model="category"></CategoryCard>
     }
 
-    <hr />
     <hr />
 
     @foreach (var heading in Headings)
     {
-        <p>@heading.Title</p>
+        <HeadingCard Model="heading" CategoryName="@CategoryName"></HeadingCard>
     }
 }
 

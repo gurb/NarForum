@@ -1,5 +1,19 @@
-﻿<h3>HeadingCard</h3>
+﻿<div class="row heading-card-body">
+    <div class="col-6">
+        <a href="@url" class="link-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Title</a>
+    </div>
+</div>
 
 @code {
+    [Parameter]
+    public HeadingVM Model { get; set; }
 
+    [Parameter]
+    public string CategoryName { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    string url { get { return $"/category/{CategoryName}/{Model.Title.ToFriendlyUrl()}-{Model.Id}"; } }
+    
 }

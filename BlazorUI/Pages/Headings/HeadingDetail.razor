@@ -1,0 +1,15 @@
+﻿@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:int}"
+
+<p>Heading Detail</p>
+
+@code {
+    [Parameter]
+    public string CategoryName { get; set; }
+
+    [Parameter]
+    public string FriendlyUrl { get; set; }
+
+    [Parameter]
+    public int HeadingId { get; set; }
+
+}
