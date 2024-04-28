@@ -10,3 +10,6 @@
 # example
 > add-migration Forum01 -c ForumDbContext
 > update-database -Context ForumDbContext
+
+> add-migration Id02 -c ForumIdentityDbContext
+> update-database -Context ForumIdentityDbContext

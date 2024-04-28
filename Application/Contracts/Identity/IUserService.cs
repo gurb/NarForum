@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Models.Identity.User;
+
 
 namespace Application.Contracts.Identity
 {
     public interface IUserService
     {
         public string UserId { get; }
+
+        public Task<UserInfoResponse> GetUserInfo(UserInfoRequest request);
     }
 }
