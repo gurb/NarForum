@@ -39,5 +39,13 @@ namespace BlazorUI.Services
 
             return data;
         }
+
+        public async Task<List<PostVM>> GetPostsByHeadingId(int id)
+        {
+            var posts = await _client.GetPostsByHeadingIdAsync(id);
+            var data = _mapper.Map<List<PostVM>>(posts);
+
+            return data;
+        }
     }
 }

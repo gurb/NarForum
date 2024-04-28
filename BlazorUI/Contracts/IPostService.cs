@@ -8,8 +8,12 @@ namespace BlazorUI.Contracts
 
         // queries
         Task<List<PostVM>> GetPosts();
+        Task<List<PostVM>> GetPostsByHeadingId(int id);
+
 
         // commands
         Task<ApiResponse<Guid>> CreatePost(PostVM post);
+
+
     }
 }

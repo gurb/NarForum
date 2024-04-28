@@ -26,6 +26,19 @@ namespace Api.Controllers
             return posts;
         }
 
+        [HttpGet("GetPostsByHeadingId")]
+        public async Task<List<PostDTO>> GetPostsByHeadingId(int HeadingId)
+        {
+            var query = new GetPostsQuery
+            {
+                HeadingId = HeadingId
+            };
+
+            var posts = await _mediator.Send(query);
+
+            return posts;
+        }
+
 
         [HttpPost]
         [ProducesResponseType(201)]

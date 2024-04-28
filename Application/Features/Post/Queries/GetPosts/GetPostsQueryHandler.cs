@@ -20,7 +20,16 @@ namespace Application.Features.Post.Queries.GetPosts
         public async Task<List<PostDTO>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
             // query the database
-            var posts = await _postRepository.GetAsync();
+            List<Domain.Post> posts;
+
+            if(request.HeadingId != null)
+            {
+                posts = await _postRepository.GetPostsByHeadingId(request.HeadingId.Value);
+            }
+            else
+            {
+                posts = await _postRepository.GetAsync();
+            }
 
             // convert data objecs to DTOs
             var data = _mapper.Map<List<PostDTO>>(posts);

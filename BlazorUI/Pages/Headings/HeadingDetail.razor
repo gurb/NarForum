@@ -2,6 +2,19 @@
 
 <p>Heading Detail</p>
 
+@if(Posts != null)
+{
+    @foreach (var post in Posts)
+    {
+        <p>@post.Content</p>
+    }
+}
+else
+{
+    <p>Loading...</p>
+}
+
+
 @code {
     [Parameter]
     public string CategoryName { get; set; }
@@ -12,4 +25,14 @@
     [Parameter]
     public int HeadingId { get; set; }
 
+    [Inject]
+    public IPostService PostService { get; set; }
+
+    public List<PostVM>? Posts { get; private set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        // get posts by id
+        Posts = await PostService.GetPostsByHeadingId(HeadingId);
+    }
 }
