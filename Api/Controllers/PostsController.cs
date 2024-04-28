@@ -1,5 +1,6 @@
 ﻿using Application.Features.Post.Commands.CreatePost;
 using Application.Features.Post.Queries.GetAllPosts;
+using Application.Features.Post.Queries.GetPostsWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,21 @@ namespace Api.Controllers
             var query = new GetPostsQuery
             {
                 HeadingId = HeadingId
+            };
+
+            var posts = await _mediator.Send(query);
+
+            return posts;
+        }
+
+        [HttpGet("GetPostsByHeadingIdWithPagination")]
+        public async Task<PostsPaginationDTO> GetPostsByHeadingIdWithPagination(int HeadingId, int pageIndex, int pageSize)
+        {
+            var query = new GetPostsWithPaginationQuery
+            {
+                HeadingId = HeadingId,
+                PageIndex = pageIndex,
+                PageSize = pageSize
             };
 
             var posts = await _mediator.Send(query);

@@ -1,0 +1,47 @@
+﻿<EditForm class="CustomForm" Model="@Model" OnValidSubmit="HandleCreatePost">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group form-margin">
+        <label for="exampleFormControlTextarea1">Create Post</label>
+        <InputTextArea id="Post" class="form-control" @bind-Value="@Model.Content"></InputTextArea>
+    </div>
+
+    <div class="form-group text-end">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</EditForm>
+
+@code {
+    public PostVM Model { get; set; }
+
+    [Parameter]
+    public int HeadingId { get; set; }
+
+    [Inject]
+    public IPostService? PostService { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = new PostVM();
+    }
+
+    protected async Task HandleCreatePost()
+    {
+        PostVM? post;
+
+        post = new PostVM
+        {
+            HeadingId = HeadingId,
+            Content = Model.Content
+        };
+
+        var result = await PostService.CreatePost(post);
+
+        await Callback.InvokeAsync();
+
+        // NavigationManager.NavigateTo($"/category/{CategoryName}");
+    }
+}

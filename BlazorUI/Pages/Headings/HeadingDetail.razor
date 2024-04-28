@@ -1,4 +1,5 @@
 ﻿@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:int}"
+@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:int}/{PageIndex:int}"
 
 <p>Heading Detail</p>
 
@@ -8,11 +9,14 @@
     {
         <PostCard Id="@post.Id.ToString()" Content="@post.Content"></PostCard>
     }
+    <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
 }
 else
 {
     <p>Loading...</p>
 }
+
+<CreatePostForm HeadingId="@HeadingId" Callback="RefreshPosts"></CreatePostForm>
 
 
 @code {
@@ -25,14 +29,40 @@ else
     [Parameter]
     public int HeadingId { get; set; }
 
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
+
     [Inject]
     public IPostService PostService { get; set; }
 
     public List<PostVM>? Posts { get; private set; }
 
-    protected async override Task OnInitializedAsync()
+    private string getBaseUrl()
     {
-        // get posts by id
-        Posts = await PostService.GetPostsByHeadingId(HeadingId);
+        return $"category/{CategoryName}/{FriendlyUrl}-{HeadingId}/";
+    }
+
+    // Pagination variables
+    private int PageSize = 3; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (PageIndex == 0) PageIndex = 1;
+
+        CurrentPage = PageIndex;
+        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId, PageIndex, PageSize);
+        Posts = postPagination.Posts;
+        TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshPosts()
+    {
+        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId, 1, PageSize);
+        Posts = postPagination.Posts;
+        TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
+        await InvokeAsync(StateHasChanged);
     }
 }

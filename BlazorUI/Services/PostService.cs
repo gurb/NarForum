@@ -47,5 +47,14 @@ namespace BlazorUI.Services
 
             return data;
         }
+
+        public async Task<PostsPaginationVM> GetPostsByHeadingIdWithPagination(int id, int pageIndex, int pageSize)
+        {
+            var postsPagination = await _client.GetPostsByHeadingIdWithPaginationAsync(id, pageIndex, pageSize);
+
+            var data = _mapper.Map<PostsPaginationVM>(postsPagination);
+
+            return data;
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace BlazorUI.MappingProfiles
         public MappingConfig()
         {
             CreateMap<PostDTO, PostVM>().ReverseMap();
+            CreateMap<PostsPaginationDTO, PostsPaginationVM>().ReverseMap();
             CreateMap<CreatePostCommand, PostVM>().ReverseMap();
 
             CreateMap<SectionDTO, SectionVM>().ReverseMap();
