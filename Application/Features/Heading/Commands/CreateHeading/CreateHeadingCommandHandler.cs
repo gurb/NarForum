@@ -1,4 +1,5 @@
-﻿using Application.Contracts.Persistence;
+﻿using Application.Contracts.Identity;
+using Application.Contracts.Persistence;
 using AutoMapper;
 using MediatR;
 using System;
@@ -15,11 +16,14 @@ namespace Application.Features.Heading.Commands.CreateHeading
         private readonly IHeadingRepository _HeadingRepository;
         private readonly IPostRepository _PostRepository;
 
-        public CreateHeadingCommandHandler(IMapper mapper, IHeadingRepository HeadingRepository, IPostRepository PostRepository)
+        private readonly IUserService _userService;
+
+        public CreateHeadingCommandHandler(IMapper mapper, IHeadingRepository HeadingRepository, IPostRepository PostRepository, IUserService userService)
         {
             _mapper = mapper;
             _HeadingRepository = HeadingRepository;
             _PostRepository = PostRepository;
+            _userService = userService;
         }
 
         public async Task<int> Handle(CreateHeadingCommand request, CancellationToken cancellationToken)
@@ -33,8 +37,12 @@ namespace Application.Features.Heading.Commands.CreateHeading
             //    throw new BadRequestException("Invalid Post", validationResult);
             //}
 
+            var user = await _userService.GetCurrentUser();
+
+
             // convert to domain entity object
             var Heading = _mapper.Map<Domain.Heading>(request);
+            Heading.UserId = user.UserId;
 
 
             // add to database
@@ -46,9 +54,16 @@ namespace Application.Features.Heading.Commands.CreateHeading
                 {
                     HeadingId = Heading.Id,
                     Content = request.Content,
+                    UserId = user.UserId
                 };
 
+                headingPost.UserId = user.UserId;
+
                 await _PostRepository.CreateAsync(headingPost);
+
+                Heading.MainPostId = headingPost.Id;
+
+                await _HeadingRepository.UpdateAsync(Heading);
             }
 
             // return record id

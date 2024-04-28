@@ -3,6 +3,7 @@ using BlazorUI.Models.Category;
 using BlazorUI.Models.Heading;
 using BlazorUI.Models.Post;
 using BlazorUI.Models.Section;
+using BlazorUI.Models.User;
 using BlazorUI.Services.Base;
 
 namespace BlazorUI.MappingProfiles
@@ -24,6 +25,8 @@ namespace BlazorUI.MappingProfiles
             CreateMap<HeadingDTO, HeadingVM>().ReverseMap();
             CreateMap<HeadingsPaginationDTO, HeadingsPaginationVM>().ReverseMap();
             CreateMap<CreateHeadingCommand, HeadingVM>().ReverseMap();
+
+            CreateMap<UserInfoResponse, UserInfoVM>().ReverseMap();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Identity;
 using Application.Models.Identity.User;
+using Azure.Core;
 using Identity.DatabaseContext;
 using Identity.Models;
 using Microsoft.AspNetCore.Http;
@@ -24,10 +25,24 @@ namespace Identity.Services
 
         public string UserId { get { return _contextAccessor.HttpContext?.User?.FindFirstValue("uid"); } }
 
+        public async Task<UserInfoResponse> GetCurrentUser()
+        {
+            var user = await _userManager.GetUserAsync(_contextAccessor!.HttpContext!.User);
+
+            UserInfoResponse response = new UserInfoResponse
+            {
+                UserId = Int32.Parse(user.Id),
+                UserName = user.UserName,
+                RegisterDate = user.RegisterDate,
+            };
+
+            return response;
+        }
+
         public async Task<UserInfoResponse> GetUserInfo(UserInfoRequest request)
         {
             UserInfoResponse response = new UserInfoResponse();
-
+            
             var user = await _identityDbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.UserId.ToString());
 
             response.UserName = user.UserName;
