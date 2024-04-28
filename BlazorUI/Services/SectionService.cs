@@ -39,7 +39,5 @@ namespace BlazorUI.Services
 
             return data;
         }
-
-
     }
 }

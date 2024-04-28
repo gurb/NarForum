@@ -1,6 +1,8 @@
 ﻿using Application.Features.Heading.Commands.CreateHeading;
 using Application.Features.Heading.Queries;
 using Application.Features.Heading.Queries.GetHeadings;
+using Application.Features.Heading.Queries.GetHeadingsWithPagination;
+using Application.Features.Post.Queries.GetPostsWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +54,22 @@ namespace Api.Controllers
 
             return headings;
         }
+
+        [HttpGet("GetHeadingsByCategoryNameWithPagination")]
+        public async Task<HeadingsPaginationDTO> GetHeadingsByCategoryNameWithPagination(string CategoryName, int pageIndex, int pageSize)
+        {
+            var query = new GetHeadingsWithPaginationQuery
+            {
+                CategoryName = CategoryName,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+
+            var posts = await _mediator.Send(query);
+
+            return posts;
+        }
+
 
         [HttpPost]
         [ProducesResponseType(201)]

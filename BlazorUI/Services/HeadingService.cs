@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BlazorUI.Contracts;
 using BlazorUI.Models.Heading;
-using BlazorUI.Models.Post;
 using BlazorUI.Services.Base;
 using BlazorUI.Services.Common;
 
@@ -53,6 +52,15 @@ namespace BlazorUI.Services
         {
             var headings = await _client.GetHeadingsByCategoryNameAsync(name);
             var data = _mapper.Map<List<HeadingVM>>(headings);
+
+            return data;
+        }
+
+        public async Task<HeadingsPaginationVM> GetHeadingsByCategoryNameWithPagination(string categoryName, int pageIndex, int pageSize)
+        {
+            var headingsPagination = await _client.GetHeadingsByCategoryNameWithPaginationAsync(categoryName, pageIndex, pageSize);
+
+            var data = _mapper.Map<HeadingsPaginationVM>(headingsPagination);
 
             return data;
         }
