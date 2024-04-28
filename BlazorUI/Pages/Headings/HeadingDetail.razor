@@ -6,7 +6,7 @@
 {
     @foreach (var post in Posts)
     {
-        <p>@post.Content</p>
+        <PostCard Id="@post.Id.ToString()" Content="@post.Content"></PostCard>
     }
 }
 else
