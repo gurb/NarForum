@@ -7,6 +7,7 @@ namespace BlazorUI.Contracts
     public interface IHeadingService
     {
         // queries
+        Task<HeadingVM> GetHeadingById(int id);
         Task<List<HeadingVM>> GetHeadings();
         Task<List<HeadingVM>> GetHeadingsByCategoryName(string name);
         Task<List<HeadingVM>> GetHeadingsByCategoryId(int id);

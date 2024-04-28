@@ -1,7 +1,7 @@
 ﻿.post-card {
     border: 1px solid #ccc;
     padding: 10px;
-    margin-bottom:10px;
+    margin-bottom:25px;
     height:auto;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .post-card-content {
-
+    font-size:0.9em;
 }
 
 

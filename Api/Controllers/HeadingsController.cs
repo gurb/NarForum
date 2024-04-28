@@ -1,5 +1,7 @@
-﻿using Application.Features.Heading.Commands.CreateHeading;
+﻿using Application.Features.Category.Queries.GetCategories;
+using Application.Features.Heading.Commands.CreateHeading;
 using Application.Features.Heading.Queries;
+using Application.Features.Heading.Queries.GetHeading;
 using Application.Features.Heading.Queries.GetHeadings;
 using Application.Features.Heading.Queries.GetHeadingsWithPagination;
 using Application.Features.Post.Queries.GetPostsWithPagination;
@@ -27,6 +29,20 @@ namespace Api.Controllers
             var headings = await _mediator.Send(new GetHeadingsQuery());
 
             return headings;
+        }
+
+
+        [HttpGet("GetHeadingById")]
+        public async Task<HeadingDTO> GetHeadingById(int HeadingId)
+        {
+            var query = new GetHeadingQuery
+            {
+                HeadingId = HeadingId
+            };
+
+            var heading = await _mediator.Send(query);
+
+            return heading;
         }
 
         [HttpGet("GetHeadingsByCategoryId")]
@@ -69,7 +85,6 @@ namespace Api.Controllers
 
             return posts;
         }
-
 
         [HttpPost]
         [ProducesResponseType(201)]

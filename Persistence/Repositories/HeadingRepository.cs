@@ -12,6 +12,11 @@ namespace Persistence.Repositories
 
         }
 
+        public async Task<Heading?> GetHeadingById(int? HeadingId)
+        {
+            return await _context.Headings.AsNoTracking().FirstOrDefaultAsync(x => x.Id == HeadingId);
+        }
+
         public async Task<List<Heading>> GetHeadingsByCategoryIdWithPagination(int categoryId, int pageIndex, int pageSize)
         {
             var totalCount = _context.Headings.AsNoTracking().Count();

@@ -30,8 +30,14 @@ namespace BlazorUI.Services
                 return ConvertApiExceptions<Guid>(ex);
             }
         }
+        public async Task<HeadingVM> GetHeadingById(int id)
+        {
+            var heading = await _client.GetHeadingByIdAsync(id);
+            var data = _mapper.Map<HeadingVM>(heading);
 
-       
+            return data;
+        }
+
         public async Task<List<HeadingVM>> GetHeadings()
         {
             var headings = await _client.HeadingsAllAsync();
