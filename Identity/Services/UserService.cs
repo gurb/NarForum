@@ -27,13 +27,13 @@ namespace Identity.Services
 
         public async Task<UserInfoResponse> GetCurrentUser()
         {
-            var user = await _userManager.GetUserAsync(_contextAccessor!.HttpContext!.User);
+            string id = UserId;
+            var currentUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
 
             UserInfoResponse response = new UserInfoResponse
             {
-                UserId = Int32.Parse(user.Id),
-                UserName = user.UserName,
-                RegisterDate = user.RegisterDate,
+                UserName = currentUser.UserName,
+                RegisterDate = currentUser.RegisterDate,
             };
 
             return response;
@@ -43,9 +43,10 @@ namespace Identity.Services
         {
             UserInfoResponse response = new UserInfoResponse();
             
-            var user = await _identityDbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.UserId.ToString());
+            var user = await _identityDbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserName == request.UserName);
 
             response.UserName = user.UserName;
+            response.RegisterDate = user.RegisterDate;
 
             return response;
         }

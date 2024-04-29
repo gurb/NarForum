@@ -42,7 +42,7 @@ namespace Application.Features.Heading.Commands.CreateHeading
 
             // convert to domain entity object
             var Heading = _mapper.Map<Domain.Heading>(request);
-            Heading.UserId = user.UserId;
+            Heading.UserName = user.UserName;
 
 
             // add to database
@@ -54,10 +54,8 @@ namespace Application.Features.Heading.Commands.CreateHeading
                 {
                     HeadingId = Heading.Id,
                     Content = request.Content,
-                    UserId = user.UserId
+                    UserName = user.UserName
                 };
-
-                headingPost.UserId = user.UserId;
 
                 await _PostRepository.CreateAsync(headingPost);
 

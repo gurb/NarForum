@@ -4,6 +4,6 @@ namespace BlazorUI.Contracts
 {
     public interface IUserService
     {
-        Task<UserInfoVM> GetUserInfo(int userId);
+        Task<UserInfoVM> GetUserInfo(string userName);
     }
 }

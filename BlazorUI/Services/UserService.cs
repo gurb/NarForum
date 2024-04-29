@@ -15,10 +15,9 @@ public class UserService : BaseHttpService, IUserService
         _mapper = mapper;
     }
 
-    public async Task<UserInfoVM> GetUserInfo(int userId)
+    public async Task<UserInfoVM> GetUserInfo(string userName)
     {
         UserInfoRequest request = new UserInfoRequest();
-        request.UserId = userId;
         var userInfo = await _client.GetUserInfoAsync(request);
         var data = _mapper.Map<UserInfoVM>(userInfo);
 

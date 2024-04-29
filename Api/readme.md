@@ -8,8 +8,8 @@
 
 
 # example
-> add-migration Forum02 -c ForumDbContext
+> add-migration Forum03 -c ForumDbContext
 > update-database -Context ForumDbContext
 
-> add-migration Id02 -c ForumIdentityDbContext
+> add-migration Id03 -c ForumIdentityDbContext
 > update-database -Context ForumIdentityDbContext

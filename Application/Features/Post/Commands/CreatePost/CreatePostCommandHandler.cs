@@ -35,7 +35,7 @@ namespace Application.Features.Post.Commands.CreatePost
 
             var user = await _userService.GetCurrentUser();
 
-            post.UserId = user.UserId;
+            post.UserName = user.UserName;
 
             // add to database
             await _postRepository.CreateAsync(post);
