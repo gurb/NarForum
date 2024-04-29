@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.DatabaseContext;
 
@@ -11,9 +12,11 @@ using Persistence.DatabaseContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    partial class ForumDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240429105646_Forum04")]
+    partial class Forum04
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,11 +33,11 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DateCreate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("DateCreate")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime?>("DateUpdate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("DateUpdate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -70,11 +73,11 @@ namespace Persistence.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DateCreate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("DateCreate")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime?>("DateUpdate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("DateUpdate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int?>("MainPostId")
                         .HasColumnType("int");
@@ -109,11 +112,11 @@ namespace Persistence.Migrations
                         .HasMaxLength(10000)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DateCreate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("DateCreate")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime?>("DateUpdate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("DateUpdate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int?>("HeadingId")
                         .HasColumnType("int");
@@ -136,9 +139,9 @@ namespace Persistence.Migrations
                         {
                             Id = 1,
                             Content = "Post Content",
-                            DateCreate = new DateTime(2024, 4, 29, 11, 57, 50, 216, DateTimeKind.Utc).AddTicks(9324),
-                            DateUpdate = new DateTime(2024, 4, 29, 11, 57, 50, 216, DateTimeKind.Utc).AddTicks(9328),
-                            SGuid = "aa89b6cc-95b3-44f9-8e1c-c924f75e3c58"
+                            DateCreate = new DateTimeOffset(new DateTime(2024, 4, 29, 13, 56, 46, 61, DateTimeKind.Unspecified).AddTicks(2798), new TimeSpan(0, 3, 0, 0, 0)),
+                            DateUpdate = new DateTimeOffset(new DateTime(2024, 4, 29, 13, 56, 46, 61, DateTimeKind.Unspecified).AddTicks(2838), new TimeSpan(0, 3, 0, 0, 0)),
+                            SGuid = "e717e150-0d2b-4b4f-9846-45eb60009fcd"
                         });
                 });
 
@@ -150,11 +153,11 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DateCreate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("DateCreate")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTime?>("DateUpdate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("DateUpdate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
                         .IsRequired()

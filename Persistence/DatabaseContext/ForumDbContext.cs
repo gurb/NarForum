@@ -28,11 +28,11 @@ namespace Persistence.DatabaseContext
         {
             foreach (var entry in base.ChangeTracker.Entries<BaseEntity>().Where(x => x.State == EntityState.Added || x.State == EntityState.Modified))
             {
-                entry.Entity.DateUpdate = DateTime.Now;
+                entry.Entity.DateUpdate = DateTime.UtcNow;
                 
                 if(entry.State == EntityState.Added)
                 {
-                    entry.Entity.DateCreate = DateTime.Now;
+                    entry.Entity.DateCreate = DateTime.UtcNow;
                 }
             }
 

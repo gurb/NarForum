@@ -19,13 +19,22 @@ public class GetSectionsQueryHandler: IRequestHandler<GetSectionsQuery, List<Sec
     public async Task<List<SectionDTO>> Handle(GetSectionsQuery request, CancellationToken cancellationToken)
     {
         // query the database
-        var sections = await _sectionRepository.GetAsync();
+        try
+        {
+            var sections = await _sectionRepository.GetAsync();
+            var data = _mapper.Map<List<SectionDTO>>(sections);
+
+            // return list of DTOs
+            return data;
+        }
+        catch (Exception ex)
+        {
+            var message = ex.Message;   
+        }
+        return null;
 
         // convert data objecs to DTOs
-        var data = _mapper.Map<List<SectionDTO>>(sections);
-
-        // return list of DTOs
-        return data;
+        
     }
 }
 

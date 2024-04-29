@@ -1,5 +1,31 @@
-﻿<h3>UserProfile</h3>
+﻿@page "/user/{UserName}"
+
+
+@if (@Model == null)
+{
+    
+}
+else
+{
+    <h3>@Model.UserName</h3>
+    <small>Member Since @Model.RegisterDate</small>
+    <small>@Model.HeadingCounter Headings</small>
+    <small>@Model.PostCounter Posts</small>
+}
+
 
 @code {
+    UserInfoVM? Model;
 
+    [Parameter]
+    public string UserName { get; set; }
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+
+    protected async override Task OnParametersSetAsync()
+    {
+        Model = await UserService.GetUserInfo(UserName);
+    }
 }

@@ -41,12 +41,18 @@ namespace Identity.Services
 
         public async Task<UserInfoResponse> GetUserInfo(UserInfoRequest request)
         {
-            UserInfoResponse response = new UserInfoResponse();
-            
             var user = await _identityDbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserName == request.UserName);
 
-            response.UserName = user.UserName;
-            response.RegisterDate = user.RegisterDate;
+            UserInfoResponse response = new UserInfoResponse
+            {
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                RegisterDate = user.RegisterDate,
+                Description = user.Description,
+                PostCounter = 100,
+                HeadingCounter = 10,
+            };
 
             return response;
         }

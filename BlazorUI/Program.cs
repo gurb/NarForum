@@ -27,6 +27,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IHeadingService, HeadingService>();
 builder.Services.AddScoped<ISectionService, SectionService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

@@ -4,6 +4,7 @@ using Identity.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity.Migrations
 {
     [DbContext(typeof(ForumIdentityDbContext))]
-    partial class ForumIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240429105741_Id04")]
+    partial class Id04
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,8 +55,8 @@ namespace Identity.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastOnlineTime")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("LastOnlineTime")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -78,8 +81,8 @@ namespace Identity.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("RegisterDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("RegisterDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -108,19 +111,19 @@ namespace Identity.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cda5be96-0b20-4505-990d-6d965c6689d5",
+                            ConcurrencyStamp = "f4371935-3a9a-4543-81dd-c5e3bdb08f25",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
                             LastName = "Admin",
-                            LastOnlineTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastOnlineTime = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEN/XYE+d0fpe4gG4/DotEN3aX7paMh+jN9YXkaJoxKw1AhBeBk5EfehCumm/5SMr3A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK0TpeSTZeZG56E7o/jXcw+s6xogcuRHf7zF8eIeJqQ4FaCV6EDWtOba8mo0ZBTiJw==",
                             PhoneNumberConfirmed = false,
-                            RegisterDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "d56146c5-a6a1-45c7-b231-960aeadac760",
+                            RegisterDate = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            SecurityStamp = "9b199e7d-b7cf-4e98-bcd3-7b8f9610615f",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         },
@@ -128,19 +131,19 @@ namespace Identity.Migrations
                         {
                             Id = "9e224968-33e4-4652-b7b7-8574d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f16bb09b-93d9-4347-bb92-d42b9a67c29f",
+                            ConcurrencyStamp = "dbb51b91-74f0-4ded-8772-3ec956ba82bb",
                             Email = "user@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
                             LastName = "User",
-                            LastOnlineTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastOnlineTime = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@LOCALHOST.COM",
                             NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG0N52RELJAV6c1TYep/1FB6gYwBa2D+LXLDEU3UA1LXyBvJkcOlxZyBbcakoZuHwQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHSxRi9CVeut8FKNnV4RyvbxmpVY+YXukEagQAYxYpQ8XVozqOyk41zQF3RBwJWh6g==",
                             PhoneNumberConfirmed = false,
-                            RegisterDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "4a9c28a4-c65e-46c9-9d6e-613842a50045",
+                            RegisterDate = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            SecurityStamp = "c98d276a-5b59-4c62-948a-e661cf5ad763",
                             TwoFactorEnabled = false,
                             UserName = "user@localhost.com"
                         });

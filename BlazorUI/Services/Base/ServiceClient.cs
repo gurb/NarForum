@@ -2115,7 +2115,7 @@ namespace BlazorUI.Services.Base
         public string Password { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
-        public System.DateTimeOffset DateTime { get; set; }
+        public System.DateTime DateTime { get; set; }
 
     }
 
@@ -2222,8 +2222,8 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("userId")]
-        public int UserId { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("userName")]
+        public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("mainPostId")]
         public int MainPostId { get; set; }
@@ -2252,8 +2252,8 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("userId")]
-        public int UserId { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("userName")]
+        public string UserName { get; set; }
 
     }
 
@@ -2326,7 +2326,7 @@ namespace BlazorUI.Services.Base
         public string Password { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
-        public System.DateTimeOffset DateTime { get; set; }
+        public System.DateTime DateTime { get; set; }
 
     }
 
@@ -2367,8 +2367,23 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("description")]
+        public string Description { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("registerDate")]
-        public System.DateTimeOffset RegisterDate { get; set; }
+        public System.DateTime RegisterDate { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("firstName")]
+        public string FirstName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("lastName")]
+        public string LastName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("postCounter")]
+        public int PostCounter { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("headingCounter")]
+        public int HeadingCounter { get; set; }
 
     }
 

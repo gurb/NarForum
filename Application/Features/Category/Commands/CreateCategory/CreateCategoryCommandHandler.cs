@@ -32,13 +32,23 @@ namespace Application.Features.Category.Commands.CreateCategory
             //}
 
             // convert to domain entity object
-            var category = _mapper.Map<Domain.Category>(request);
+            try
+            {
+                var category = _mapper.Map<Domain.Category>(request);
 
-            // add to database
-            await _categoryRepository.CreateAsync(category);
+                // add to database
+                await _categoryRepository.CreateAsync(category);
+
+                return category.Id;
+
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+            }
+            return 0;
 
             // return record id
-            return category.Id;
         }
     }
 }

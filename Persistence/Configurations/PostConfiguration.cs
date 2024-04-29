@@ -18,8 +18,8 @@ namespace Persistence.Configurations
                 {
                     Id = 1,
                     Content = "Post Content",
-                    DateCreate = DateTime.Now,
-                    DateUpdate = DateTime.Now,
+                    DateCreate = DateTime.UtcNow,
+                    DateUpdate = DateTime.UtcNow,
                 }
             );
 

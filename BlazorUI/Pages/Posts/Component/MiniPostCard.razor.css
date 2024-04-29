@@ -1,0 +1,19 @@
+﻿.custom-mini-post {
+}
+
+.custom-mini-post-username {
+    font-size: 14px;
+}
+
+.custom-mini-post-content {
+    padding: 20px;
+    font-size: 14px;
+}
+
+.custom-mini-post-date {
+    float:right;
+}
+
+.custom-mini-post-footer {
+    background: #f9f9f9;
+}
