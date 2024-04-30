@@ -2,6 +2,7 @@
 using Application.Features.Post.Queries.GetPostsWithPagination;
 using AutoMapper;
 using MediatR;
+using System.Collections;
 
 
 namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
@@ -26,6 +27,8 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
 
             List<Domain.Heading> headings;
             // query the database
+
+
             
             if (request.CategoryName != null)
             {
@@ -44,6 +47,34 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
                     };
                     return dto;
                 }
+            }
+
+            if (request.UserName != null)
+            {
+
+                headings = await _headingRepository.GetHeadingsByUserNameWithPagination(request.UserName, request.PageIndex!.Value, request.PageSize!.Value);
+
+                List<int> categoryIds = headings.Select(x => x.CategoryId).ToList();
+
+                List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));
+
+                var data = _mapper.Map<List<HeadingDTO>>(headings);
+
+                foreach (var heading in data)
+                {
+                    var category = categories.FirstOrDefault(x => x.Id == heading.CategoryId);
+                    if(category != null)
+                    {
+                        heading.CategoryName = category.Name;
+                    }
+                }
+
+                HeadingsPaginationDTO dto = new HeadingsPaginationDTO
+                {
+                    Headings = data,
+                    TotalCount = _headingRepository.GetHeadingsCountByUserName(request.UserName)
+                };
+                return dto;
             }
 
 

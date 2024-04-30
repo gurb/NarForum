@@ -5,6 +5,7 @@ using Persistence.DatabaseContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +30,11 @@ namespace Persistence.Repositories
         {
             _context.Remove(entity);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().AsNoTracking().Where(predicate).ToListAsync();
         }
 
         public async Task<List<T>> GetAsync()

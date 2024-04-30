@@ -55,6 +55,21 @@ namespace Api.Controllers
             return posts;
         }
 
+        [HttpGet("GetPostsByUserNameWithPagination")]
+        public async Task<PostsPaginationDTO> GetPostsByUserNameWithPagination(string UserName, int pageIndex, int pageSize)
+        {
+            var query = new GetPostsWithPaginationQuery
+            {
+                UserName = UserName,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+
+            var posts = await _mediator.Send(query);
+
+            return posts;
+        }
+
 
         [HttpPost]
         [ProducesResponseType(201)]

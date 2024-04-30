@@ -1,10 +1,8 @@
-﻿using Application.Features.Category.Queries.GetCategories;
-using Application.Features.Heading.Commands.CreateHeading;
+﻿using Application.Features.Heading.Commands.CreateHeading;
 using Application.Features.Heading.Queries;
 using Application.Features.Heading.Queries.GetHeading;
 using Application.Features.Heading.Queries.GetHeadings;
 using Application.Features.Heading.Queries.GetHeadingsWithPagination;
-using Application.Features.Post.Queries.GetPostsWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -77,6 +75,21 @@ namespace Api.Controllers
             var query = new GetHeadingsWithPaginationQuery
             {
                 CategoryName = CategoryName,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+
+            var posts = await _mediator.Send(query);
+
+            return posts;
+        }
+
+        [HttpGet("GetHeadingsByUserNameWithPagination")]
+        public async Task<HeadingsPaginationDTO> GetHeadingsByUserNameWithPagination(string UserName, int pageIndex, int pageSize)
+        {
+            var query = new GetHeadingsWithPaginationQuery
+            {
+                UserName = UserName,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };

@@ -10,6 +10,8 @@ namespace BlazorUI.Contracts
         Task<List<PostVM>> GetPosts();
         Task<List<PostVM>> GetPostsByHeadingId(int id);
         Task<PostsPaginationVM> GetPostsByHeadingIdWithPagination(int id, int pageIndex, int pageSize);
+        Task<PostsPaginationVM> GetPostsByUserNameWithPagination(string userName, int pageIndex, int pageSize);
+
 
 
         // commands

@@ -32,9 +32,29 @@ namespace Persistence.Repositories
             return productsPerPage;
         }
 
+        public async Task<List<Post>> GetPostsByUserNameWithPagination(string userName, int pageIndex, int pageSize)
+        {
+            var totalCount = _context.Posts.AsNoTracking().Count();
+
+            var totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+
+            var productsPerPage = await _context.Posts.AsNoTracking()
+                .Where(x => x.UserName == userName)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return productsPerPage;
+        }
+
         public int GetPostsCountByHeadingId(int headingId)
         {
             return  _context.Posts.AsNoTracking().Where(x => x.HeadingId == headingId).Count();
+        }
+
+        public int GetPostsCountByUserName(string userName)
+        {
+            return _context.Posts.AsNoTracking().Where(x => x.UserName == userName).Count();
         }
     }
 }

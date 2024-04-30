@@ -1,18 +1,41 @@
 ﻿@page "/user/{UserName}"
 
-
 @if (@Model == null)
 {
     
 }
 else
 {
-    <h3>@Model.UserName</h3>
-    <small>Member Since @Model.RegisterDate</small>
-    <small>@Model.HeadingCounter Headings</small>
-    <small>@Model.PostCounter Posts</small>
-}
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="d-flex flex-column align-items-center text-center">
+                    @* <span class="font-weight-bold">@Model.UserName</span> *@
+                    <span> </span>
+                    <div class="user-profile-user-image">
+                        <img class="rounded-circle" width="128px" height="128px" src="/images/profile.png">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 user-profile-info">
+                <h3>@Model.UserName</h3>
+                <small>Member Since @Model.RegisterDate</small>
+                <br />
+                <small>@Model.HeadingCounter Headings</small>
+                <br />
+                <small>@Model.PostCounter Posts</small>
+            </div>
+        </div>
+        <div class="row user-profile-entries">
+            <div class="col-sm-6 user-profile-headings">
+                <UserHeadings UserInfo="Model"></UserHeadings>
+            </div>
+            <div class="col-sm-6 user-profile-posts">
+                <UserPosts UserInfo="Model"></UserPosts>
+            </div>
+        </div>
 
+
+}
 
 @code {
     UserInfoVM? Model;

@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Users\Component\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>

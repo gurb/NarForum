@@ -70,5 +70,14 @@ namespace BlazorUI.Services
 
             return data;
         }
+
+        public async Task<HeadingsPaginationVM> GetHeadingsByUserNameWithPagination(string userName, int pageIndex, int pageSize)
+        {
+            var headingsPagination = await _client.GetHeadingsByUserNameWithPaginationAsync(userName, pageIndex, pageSize);
+
+            var data = _mapper.Map<HeadingsPaginationVM>(headingsPagination);
+
+            return data;
+        }
     }
 }
