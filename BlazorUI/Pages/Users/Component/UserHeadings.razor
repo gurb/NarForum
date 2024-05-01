@@ -6,7 +6,8 @@
     {
         <HeadingCard Model="heading" CategoryName="@heading.CategoryName"></HeadingCard>
     }
-    <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    @* <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" /> *@
+    <Pagination UseCallback=true TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" PageChanged="OnPageChanged" />
 }
 
 @code {
@@ -34,5 +35,17 @@
     {
         HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsByUserNameWithPagination(UserInfo.UserName, 1, PageSize);
         Headings = headingsPagination.Headings;
+        TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    private async Task OnPageChanged(int page)
+    {
+        CurrentPage = page;
+        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsByUserNameWithPagination(UserInfo.UserName, page, PageSize);
+        Headings = headingsPagination.Headings;
+        TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+        await InvokeAsync(StateHasChanged); // Refreshing the UI
     }
 }

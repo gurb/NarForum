@@ -1,0 +1,32 @@
+﻿@inject IJSRuntime JSRuntime;
+
+
+<nav style="--bs-breadcrumb-divider: '›';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        @if(Items != null) {
+            @foreach (var item in Items)
+            {
+                @if (item.IsCurrentPage == false)
+                {
+                    <li class="breadcrumb-item"><a href="@item.HrefLink">@item.Text</a></li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item active" aria-current="page">@item.Text</li>
+                }
+            }
+        }
+    </ol>
+</nav>
+
+
+
+@code {
+    [Parameter]
+    public List<BreadcrumbItem>? Items { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+    }
+}

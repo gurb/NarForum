@@ -2,6 +2,7 @@
 @page "/category/{CategoryName}/{PageIndex:int}"
 @using BlazorUI.Pages.Category.Modal
 
+<AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 
 <div class="row current-category-card-body">
     <div class="col-8">
@@ -23,6 +24,7 @@ else
 {
     @foreach (var category in Categories)
     {
+        
         <CategoryCard Model="category"></CategoryCard>
     }
 
@@ -78,6 +80,18 @@ else
     private int TotalPages = 1;
     private int CurrentPage = 1;
 
+    private List<BreadcrumbItem> BreadcrumbItems { get; set; }
+
+
+    protected void SetBreadcrumb()
+    {
+        BreadcrumbItems = new List<BreadcrumbItem>
+        {
+            new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" },
+            new BreadcrumbItem { Text = CategoryName, IsCurrentPage=true },
+        };
+    }
+
     protected async override Task OnParametersSetAsync()
     {
         if (PageIndex == 0) PageIndex = 1;
@@ -89,6 +103,8 @@ else
         HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsByCategoryNameWithPagination(CategoryName, PageIndex, PageSize);
         Headings = headingsPagination.Headings;
         TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+
+        SetBreadcrumb();
 
         isLoaded = true;
     }

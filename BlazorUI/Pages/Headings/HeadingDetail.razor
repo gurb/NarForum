@@ -5,8 +5,10 @@
 @inject IJSRuntime JS
 @implements IAsyncDisposable
 
+
 @if (Heading != null)
 {
+    <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
     <h1 class="heading-title">@Heading.Title</h1>
 }
 
@@ -56,6 +58,8 @@ else
 
     public List<PostVM>? Posts { get; private set; }
 
+    private List<BreadcrumbItem> BreadcrumbItems { get; set; }
+
     private string getBaseUrl()
     {
         return $"category/{CategoryName}/{FriendlyUrl}-{HeadingId}/";
@@ -68,6 +72,15 @@ else
 
     private IJSInProcessObjectReference? module;
 
+    protected void SetBreadcrumb()
+    {
+        BreadcrumbItems = new List<BreadcrumbItem>
+        {
+            new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" },
+            new BreadcrumbItem { Text = CategoryName, HrefLink = $"/category/{CategoryName}/" },
+            new BreadcrumbItem { Text = Heading.Title, IsCurrentPage = true },
+        };
+    }
 
     protected async override Task OnParametersSetAsync()
     {
@@ -79,8 +92,10 @@ else
         Posts = postPagination.Posts;
         await ScrollToEntry();
         TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
-        await InvokeAsync(StateHasChanged);
 
+        SetBreadcrumb();
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task ScrollToEntry()
