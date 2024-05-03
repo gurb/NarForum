@@ -12,5 +12,7 @@ namespace Application.Features.Category.Queries.GetCategories
         public string Name { get; set; } = string.Empty;
         public int? SectionId { get; set; }
         public int? ParentCategoryId { get; set; }
+
+        public int HeadingCounter { get; set; }
     }
 }

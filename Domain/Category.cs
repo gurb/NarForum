@@ -9,5 +9,7 @@ namespace Domain
         public int? ParentCategoryId { get; set; }
         public Section? Section { get; set; }
         public int? SectionId { get; set; }
+
+        public int HeadingCounter { get; set; }
     }
 }

@@ -15,15 +15,18 @@ namespace Application.Features.Heading.Commands.CreateHeading
         private readonly IMapper _mapper;
         private readonly IHeadingRepository _HeadingRepository;
         private readonly IPostRepository _PostRepository;
+        private readonly ICategoryRepository _CategoryRepository;
+
 
         private readonly IUserService _userService;
 
-        public CreateHeadingCommandHandler(IMapper mapper, IHeadingRepository HeadingRepository, IPostRepository PostRepository, IUserService userService)
+        public CreateHeadingCommandHandler(IMapper mapper, IHeadingRepository HeadingRepository, IPostRepository PostRepository, IUserService userService, ICategoryRepository categoryRepository)
         {
             _mapper = mapper;
             _HeadingRepository = HeadingRepository;
             _PostRepository = PostRepository;
             _userService = userService;
+            _CategoryRepository = categoryRepository;
         }
 
         public async Task<int> Handle(CreateHeadingCommand request, CancellationToken cancellationToken)
@@ -43,6 +46,13 @@ namespace Application.Features.Heading.Commands.CreateHeading
             // convert to domain entity object
             var Heading = _mapper.Map<Domain.Heading>(request);
             Heading.UserName = user.UserName;
+
+
+            var category = _CategoryRepository.GetByIdAsync(Heading.CategoryId);
+
+            if (category != null)
+            {
+            }
 
 
             // add to database

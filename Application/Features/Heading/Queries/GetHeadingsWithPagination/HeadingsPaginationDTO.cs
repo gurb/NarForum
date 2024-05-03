@@ -4,5 +4,6 @@
     {
         public List<HeadingDTO>? Headings { get; set; }
         public int TotalCount { get; set; }
+
     }
 }

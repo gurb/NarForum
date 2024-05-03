@@ -9,5 +9,7 @@
         public string? Content { get; set; }
         public string? UserName { get; set; } = string.Empty;
         public int MainPostId { get; set; }
+
+        public int PostCounter { get; set; }
     }
 }
