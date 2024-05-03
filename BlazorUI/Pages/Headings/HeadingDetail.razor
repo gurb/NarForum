@@ -52,6 +52,9 @@ else
     public IHeadingService HeadingService { get; set; }
 
     [Inject]
+    public ICategoryService CategoryService { get; set; }
+
+    [Inject]
     public NavigationManager NavigationManager { get; set; }
 
     HeadingVM? Heading { get; set; }
@@ -72,14 +75,18 @@ else
 
     private IJSInProcessObjectReference? module;
 
-    protected void SetBreadcrumb()
+    protected async Task SetBreadcrumb()
     {
-        BreadcrumbItems = new List<BreadcrumbItem>
+        var parentCategories = await CategoryService.GetParentCategoriesByName(CategoryName);
+        parentCategories = parentCategories.OrderBy(x => x.Id).ToList();
+
+        BreadcrumbItems = new List<BreadcrumbItem>();
+        BreadcrumbItems.Add(new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" });
+        foreach (var parent in parentCategories)
         {
-            new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" },
-            new BreadcrumbItem { Text = CategoryName, HrefLink = $"/category/{CategoryName}/" },
-            new BreadcrumbItem { Text = Heading.Title, IsCurrentPage = true },
-        };
+            BreadcrumbItems.Add(new BreadcrumbItem { Text = parent.Name, HrefLink = $"/category/{parent.Name}/" });
+        }
+        BreadcrumbItems.Add(new BreadcrumbItem { Text = Heading!.Title, IsCurrentPage = true });
     }
 
     protected async override Task OnParametersSetAsync()
@@ -93,7 +100,7 @@ else
         await ScrollToEntry();
         TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
 
-        SetBreadcrumb();
+        await SetBreadcrumb();
 
         await InvokeAsync(StateHasChanged);
     }

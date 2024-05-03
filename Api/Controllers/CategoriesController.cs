@@ -1,6 +1,7 @@
 ﻿using Application.Features.Category.Commands.CreateCategory;
 using Application.Features.Category.Queries.GetCategories;
 using Application.Features.Category.Queries.GetCategory;
+using Application.Features.Category.Queries.GetParentCategories;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -69,6 +70,19 @@ namespace Api.Controllers
         public async Task<List<CategoryDTO>> GetCategoriesByName(string Name)
         {
             var query = new GetCategoriesQuery
+            {
+                CategoryName = Name
+            };
+
+            var categories = await _mediator.Send(query);
+
+            return categories;
+        }
+
+        [HttpGet("GetParentCategoriesByName")]
+        public async Task<List<CategoryDTO>> GetParentCategoriesByName(string Name)
+        {
+            var query = new GetParentCategoriesQuery
             {
                 CategoryName = Name
             };

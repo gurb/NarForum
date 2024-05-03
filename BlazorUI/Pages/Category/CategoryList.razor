@@ -83,13 +83,18 @@ else
     private List<BreadcrumbItem> BreadcrumbItems { get; set; }
 
 
-    protected void SetBreadcrumb()
+    protected async Task SetBreadcrumb()
     {
-        BreadcrumbItems = new List<BreadcrumbItem>
+        var parentCategories = await CategoryService.GetParentCategoriesByName(CategoryName);
+        parentCategories = parentCategories.OrderBy(x => x.Id).ToList();
+
+        BreadcrumbItems = new List<BreadcrumbItem>();
+        BreadcrumbItems.Add(new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" });
+        foreach (var parent in parentCategories)
         {
-            new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" },
-            new BreadcrumbItem { Text = CategoryName, IsCurrentPage=true },
-        };
+            BreadcrumbItems.Add(new BreadcrumbItem { Text = parent.Name, HrefLink = $"/category/{parent.Name}/" });
+        }
+        BreadcrumbItems.Last().IsCurrentPage = true;
     }
 
     protected async override Task OnParametersSetAsync()
@@ -104,7 +109,7 @@ else
         Headings = headingsPagination.Headings;
         TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
-        SetBreadcrumb();
+        await SetBreadcrumb();
 
         isLoaded = true;
     }
