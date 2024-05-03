@@ -4,15 +4,30 @@
 
 <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 
-<div class="row current-category-card-body">
-    <div class="col-8">
-        @CategoryName
+<div class="row">
+    <div class="col-6">
+        <h1>@CategoryName</h1>
     </div>
-    <div class="col-2 text-end">
+    <div class="col-3 text-end">
         <button @onclick="CreateHeading" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Create Heading</button>
     </div>
-    <div class="col-2 text-end">
+    <div class="col-3 text-end">
         <button @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</button>
+    </div>
+</div>
+
+<div class="row current-category-card-body">
+    <div class="col-4">
+        Sub Categories
+    </div>
+    <div class="col-2">
+        Headings
+    </div>
+    <div class="col-2">
+       Posts
+    </div>
+    <div class="col-4">
+        Last Post
     </div>
 </div>
 
@@ -27,8 +42,18 @@ else
         
         <CategoryCard Model="category"></CategoryCard>
     }
-
     <hr />
+    <div class="row current-category-card-body">
+        <div class="col-6">
+            Headings
+        </div>
+        <div class="col-2">
+            Posts
+        </div>
+        <div class="col-4">
+            Last Post
+        </div>
+    </div>
 
     @foreach (var heading in Headings)
     {
@@ -81,7 +106,6 @@ else
     private int CurrentPage = 1;
 
     private List<BreadcrumbItem> BreadcrumbItems { get; set; }
-
 
     protected async Task SetBreadcrumb()
     {

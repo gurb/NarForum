@@ -1,10 +1,9 @@
 ﻿.section-card-body {
     padding: 5px 10px;
     border: 1px solid #ddd;
-    margin-bottom:10px;
-    background:#909090;
-    font-size: 1em;
-    font-weight:600;
-    color: ghostwhite;
+    margin-bottom: 10px;
+    background: #eee;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #333;
 }
-
