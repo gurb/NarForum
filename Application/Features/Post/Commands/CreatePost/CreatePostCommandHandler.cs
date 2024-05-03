@@ -30,10 +30,18 @@ namespace Application.Features.Post.Commands.CreatePost
                 throw new BadRequestException("Invalid Post", validationResult);
             }
 
+
+
             // convert to domain entity object
             var post = _mapper.Map<Domain.Post>(request);
 
             var user = await _userService.GetCurrentUser();
+            var lastPost = await _postRepository.GetLastPost(post.HeadingId);
+
+            if(lastPost != null)
+            {
+                post.HeadingIndex = lastPost.HeadingIndex + 1;
+            }
 
             post.UserName = user.UserName;
 

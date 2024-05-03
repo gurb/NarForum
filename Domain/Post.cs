@@ -8,5 +8,6 @@ namespace Domain
         public int? HeadingId { get; set; }
         public string Content { get; set; } = string.Empty;
         public string? UserName { get; set; }
+        public int HeadingIndex { get; set; }
     }
 }

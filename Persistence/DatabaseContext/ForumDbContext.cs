@@ -33,6 +33,7 @@ namespace Persistence.DatabaseContext
                 if(entry.State == EntityState.Added)
                 {
                     entry.Entity.DateCreate = DateTime.UtcNow;
+                    entry.Entity.IsActive = true;
                 }
             }
 

@@ -3,7 +3,8 @@
 namespace Application.Contracts.Persistence
 {
     public interface IPostRepository : IGenericRepository<Post> 
-    { 
+    {
+        Task<Post?> GetLastPost(int? headingId);
         Task<List<Post>> GetPostsByHeadingId(int headingId);
 
         int GetPostsCountByHeadingId(int headingId);
