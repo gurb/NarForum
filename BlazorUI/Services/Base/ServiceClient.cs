@@ -2469,6 +2469,9 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("headingTitle")]
         public string HeadingTitle { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("headingIndex")]
+        public int? HeadingIndex { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]

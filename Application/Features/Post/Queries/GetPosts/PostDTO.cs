@@ -15,5 +15,6 @@ namespace Application.Features.Post.Queries.GetAllPosts
 
         public string? CategoryName { get; set; }
         public string? HeadingTitle { get; set; }
+        public int? HeadingIndex { get; set; }
     }
 }

@@ -35,15 +35,22 @@
         PostsPaginationVM postsPagination = await PostService.GetPostsByUserNameWithPagination(UserInfo.UserName, 1, PageSize);
         Posts = postsPagination.Posts;
         TotalPages = (int)Math.Ceiling((double)postsPagination.TotalCount / PageSize);
-        DefinePageIndexOfPosts(1);
+        DefinePageIndexOfPosts();
         await InvokeAsync(StateHasChanged);
     }
 
-    private void DefinePageIndexOfPosts(int index)
+    private void DefinePageIndexOfPosts()
     {
         foreach (var post in Posts)
         {
-            post.PageIndex = index;
+            if(post.HeadingIndex == 0)
+            {
+                post.PageIndex = 1;
+            }
+            else
+            {
+                post.PageIndex = ((int)((double)post.HeadingIndex! / PageSize)) + 1;
+            }
         }
     }
 
@@ -53,7 +60,7 @@
         PostsPaginationVM postsPagination = await PostService.GetPostsByUserNameWithPagination(UserInfo.UserName, page, PageSize);
         Posts = postsPagination.Posts;
         TotalPages = (int)Math.Ceiling((double)postsPagination.TotalCount / PageSize);
-        DefinePageIndexOfPosts(page);
+        DefinePageIndexOfPosts();
         await InvokeAsync(StateHasChanged); // Refreshing the UI
     }
 }
