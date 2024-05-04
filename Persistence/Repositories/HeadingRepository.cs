@@ -58,5 +58,19 @@ namespace Persistence.Repositories
             var totalCount = _context.Headings.AsNoTracking().Where(x => x.UserName == userName).Count();
             return totalCount;
         }
+
+        public async Task IncreasePostCounter(int HeadingId)
+        {
+            var heading = await _context.Headings.FirstOrDefaultAsync(x => x.Id == HeadingId);
+
+            if (heading != null)
+            {
+                heading.PostCounter++;
+
+                _context.Update(heading);
+                _context.Entry(heading).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

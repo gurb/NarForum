@@ -52,8 +52,8 @@ namespace Application.Features.Heading.Commands.CreateHeading
 
             if (category != null)
             {
+                await _CategoryRepository.IncreaseHeadingCounter(Heading.CategoryId);
             }
-
 
             // add to database
             await _HeadingRepository.CreateAsync(Heading);

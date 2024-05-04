@@ -10,13 +10,15 @@ namespace Application.Features.Post.Commands.CreatePost
     {
         private readonly IMapper _mapper;
         private readonly IPostRepository _postRepository;
+        private readonly IHeadingRepository _headingRepository;
         private readonly IUserService _userService;
 
-        public CreatePostCommandHandler(IMapper mapper, IPostRepository postRepository, IUserService userService)
+        public CreatePostCommandHandler(IMapper mapper, IPostRepository postRepository, IUserService userService, IHeadingRepository headingRepository)
         {
             _mapper = mapper;
             _postRepository = postRepository;
             _userService = userService;
+            _headingRepository = headingRepository;
         }
 
         public async Task<int> Handle(CreatePostCommand request, CancellationToken cancellationToken)
@@ -47,6 +49,14 @@ namespace Application.Features.Post.Commands.CreatePost
 
             // add to database
             await _postRepository.CreateAsync(post);
+
+
+            var heading = await _headingRepository.GetByIdAsync(post.HeadingId!.Value);
+
+            if (heading != null)
+            {
+                await _headingRepository.IncreasePostCounter(post.HeadingId!.Value);
+            }
 
             // return record id
             return post.Id;

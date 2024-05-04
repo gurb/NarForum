@@ -2448,6 +2448,9 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("parentCategoryId")]
         public int? ParentCategoryId { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("headingCounter")]
+        public int HeadingCounter { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -2525,6 +2528,9 @@ namespace BlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("mainPostId")]
         public int MainPostId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("postCounter")]
+        public int PostCounter { get; set; }
 
     }
 

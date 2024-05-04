@@ -12,5 +12,7 @@ namespace Application.Contracts.Persistence
         int GetHeadingsCountByCategoryId(int categoryId);
         int GetHeadingsCountByUserName(string userName);
 
+        Task IncreasePostCounter(int HeadingId);
+
     }
 }
