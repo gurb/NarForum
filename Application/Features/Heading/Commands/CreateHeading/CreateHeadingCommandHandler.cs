@@ -73,6 +73,8 @@ namespace Application.Features.Heading.Commands.CreateHeading
             if (Heading.Id != 0 && category != null)
             {
                 await _CategoryRepository.IncreaseHeadingCounter(Heading.CategoryId);
+                await _HeadingRepository.IncreasePostCounter(Heading.Id);
+                await _CategoryRepository.IncreasePostCounter(Heading.Id);
             }
 
             // return record id
