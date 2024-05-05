@@ -48,16 +48,12 @@ namespace Application.Features.Heading.Commands.CreateHeading
             Heading.UserName = user.UserName;
 
 
-            var category = _CategoryRepository.GetByIdAsync(Heading.CategoryId);
-
-            if (category != null)
-            {
-                await _CategoryRepository.IncreaseHeadingCounter(Heading.CategoryId);
-            }
+            var category = await _CategoryRepository.GetByIdAsync(Heading.CategoryId);
 
             // add to database
             await _HeadingRepository.CreateAsync(Heading);
 
+            
             if (request.Content != null)
             {
                 Domain.Post headingPost = new Domain.Post
@@ -72,6 +68,11 @@ namespace Application.Features.Heading.Commands.CreateHeading
                 Heading.MainPostId = headingPost.Id;
 
                 await _HeadingRepository.UpdateAsync(Heading);
+            }
+
+            if (Heading.Id != 0 && category != null)
+            {
+                await _CategoryRepository.IncreaseHeadingCounter(Heading.CategoryId);
             }
 
             // return record id

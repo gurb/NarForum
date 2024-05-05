@@ -14,5 +14,6 @@ namespace Application.Features.Category.Queries.GetCategories
         public int? ParentCategoryId { get; set; }
 
         public int HeadingCounter { get; set; }
+        public int PostCounter { get; set; }
     }
 }

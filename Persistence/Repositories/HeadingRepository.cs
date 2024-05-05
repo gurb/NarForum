@@ -61,7 +61,7 @@ namespace Persistence.Repositories
 
         public async Task IncreasePostCounter(int HeadingId)
         {
-            var heading = await _context.Headings.FirstOrDefaultAsync(x => x.Id == HeadingId);
+            var heading = _context.Headings.FirstOrDefault(x => x.Id == HeadingId);
 
             if (heading != null)
             {

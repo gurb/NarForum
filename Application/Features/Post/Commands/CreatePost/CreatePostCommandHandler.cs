@@ -11,14 +11,16 @@ namespace Application.Features.Post.Commands.CreatePost
         private readonly IMapper _mapper;
         private readonly IPostRepository _postRepository;
         private readonly IHeadingRepository _headingRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IUserService _userService;
 
-        public CreatePostCommandHandler(IMapper mapper, IPostRepository postRepository, IUserService userService, IHeadingRepository headingRepository)
+        public CreatePostCommandHandler(IMapper mapper, IPostRepository postRepository, IUserService userService, IHeadingRepository headingRepository, ICategoryRepository categoryRepository)
         {
             _mapper = mapper;
             _postRepository = postRepository;
             _userService = userService;
             _headingRepository = headingRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<int> Handle(CreatePostCommand request, CancellationToken cancellationToken)
@@ -31,7 +33,6 @@ namespace Application.Features.Post.Commands.CreatePost
             {
                 throw new BadRequestException("Invalid Post", validationResult);
             }
-
 
 
             // convert to domain entity object
@@ -56,6 +57,7 @@ namespace Application.Features.Post.Commands.CreatePost
             if (heading != null)
             {
                 await _headingRepository.IncreasePostCounter(post.HeadingId!.Value);
+                await _categoryRepository.IncreasePostCounter(post.HeadingId!.Value);
             }
 
             // return record id

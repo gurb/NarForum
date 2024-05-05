@@ -7,5 +7,6 @@
         public int SectionId { get; set; }
         public int? ParentCategoryId { get; set; }
         public int HeadingCounter { get; set; }
+        public int PostCounter { get; set; }
     }
 }
