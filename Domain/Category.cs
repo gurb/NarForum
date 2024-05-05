@@ -12,5 +12,9 @@ namespace Domain
 
         public int HeadingCounter { get; set; }
         public int PostCounter { get; set; }
+
+        public int? LastHeadingId { get; set; }
+        public int? LastPostId { get; set; }
+        public int? LastUserName { get; set; }
     }
 }

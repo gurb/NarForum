@@ -11,5 +11,9 @@ namespace Domain
         public int? MainPostId { get; set; }
 
         public int PostCounter { get; set; }
+
+        public string? LastUserName { get; set; }
+        public int? LastPostId { get; set; }
+        public DateTime? ActiveDate { get; set; }
     }
 }
