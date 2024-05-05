@@ -2,13 +2,30 @@
 @using BlazorUI.Pages.Category.Modal;
 @using BlazorUI.Services.UI
 
-<div class="row section-card-body">
-    <div class="col-6">
-        @Name
-    </div>
-    <div class="col-6 text-end">
+<div class="row">
+     <div class="col-12 text-end">
         <a href="/" @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</a>
     </div>
+</div>
+
+<div class="row section-card-body">
+    <div class="col-sm-4">
+        @Model.Name
+    </div>
+    <div class="col-sm-2">
+        Headings
+    </div>
+    <div class="col-sm-2">
+        Posts
+    </div>
+    <div class="col-sm-4">
+        Last Post
+    </div>
+
+</div>
+
+<div class="row current-category-card-body">
+    
 </div>
 
 @if(Categories == null)
