@@ -17,7 +17,7 @@
     @foreach (var post in Posts)
     {
         @* <PostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></PostCard> *@
-        <MiniPostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></MiniPostCard>
+        <MiniPostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName" IsOP='Heading!.UserName == post.UserName'></MiniPostCard>
     }
     <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
 }

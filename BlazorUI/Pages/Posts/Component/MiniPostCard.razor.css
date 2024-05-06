@@ -3,6 +3,7 @@
 
 .custom-mini-post-username {
     font-size: 14px;
+    margin-top:2px;
 }
 
 .custom-mini-post-content {
@@ -16,4 +17,19 @@
 
 .custom-mini-post-footer {
     background: #f9f9f9;
+}
+
+.custom-mini-post-image {
+    float: left;
+}
+
+.post-badge {
+    background-color: #999 !important;
+    font-size: 9px;
+    padding: 4px;
+    margin-left: 10px;
+}
+
+.post-favorite-button {
+    float: right;
 }

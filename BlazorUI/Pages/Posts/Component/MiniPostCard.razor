@@ -1,7 +1,12 @@
 ﻿<article id="@Id" class="card mb-4 custom-mini-post">
-    <header class="card-header border-0 bg-transparent">
+    <header class="card-header border-0 bg-transparent align-items-center">
         <img src="https://via.placeholder.com/30x30"
-             class="rounded-circle me-2" /><a href="/user/@Username" class="fw-semibold text-decoration-none custom-mini-post-username">@(Username != null ? Username : "User")</a>
+             class="rounded-circle me-2 custom-mini-post-image align-items-center" />
+             <a href="/user/@Username" class="fw-semibold text-decoration-none custom-mini-post-username">@(Username != null ? Username : "User")</a>
+                @if (IsOP)
+                {
+                    <span class="badge bg-primary post-badge">OP</span>
+                }
             <span class="ms-3 small text-muted custom-mini-post-date">2 months ago</span>
     </header>
     <div class="card-body custom-mini-post-content">
@@ -13,18 +18,23 @@
             <i class="bi bi-hand-thumbs-up me-1"></i>(3)
         </button>
         <button type="button"
-                class="btn btn-link btn-sm text-decoration-none">
-            Reply
+                class="btn btn-link btn-sm text-decoration-none ps-0">
+            <i class="bi bi-hand-thumbs-down me-1"></i>(3)
         </button>
         <button type="button"
-                class="btn btn-light btn-sm border rounded-4 ms-2">
-            <i class="bi bi-check-circle-fill text-secondary"></i> Add Favorites
+                class="btn btn-link btn-sm text-decoration-none">
+            <i class="bi bi-reply"></i> Reply
+        </button>
+        <button type="button"
+                class="btn btn-light btn-sm border rounded-4 ms-2 post-favorite-button">
+            <i class="bi bi-star"></i> Add Favorites
         </button>
     </footer>
 </article>
 
 @code {
-
+    [Parameter]
+    public bool IsOP { get; set; }
 
     [Parameter]
     public string Id { get; set; } = string.Empty;
