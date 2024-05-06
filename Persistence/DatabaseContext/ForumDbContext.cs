@@ -16,6 +16,9 @@ namespace Persistence.DatabaseContext
         public DbSet<Heading> Headings { get; set; }
         public DbSet<Section> Sections { get; set; }
 
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // find all configurations file from assembly and apply
