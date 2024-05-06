@@ -61,11 +61,27 @@ namespace Persistence.Repositories
 
         public async Task IncreasePostCounter(int HeadingId)
         {
-            var heading = _context.Headings.FirstOrDefault(x => x.Id == HeadingId);
+            var heading = await _context.Headings.FirstOrDefaultAsync(x => x.Id == HeadingId);
 
             if (heading != null)
             {
                 heading.PostCounter++;
+
+                _context.Update(heading);
+                _context.Entry(heading).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateHeadingWhenCreatePost(int headingId, string lastUserName, int lastPostId)
+        {
+            var heading = await _context.Headings.FirstOrDefaultAsync(x => x.Id == headingId);
+
+            if (heading != null)
+            {
+                heading.LastPostId = lastPostId;
+                heading.ActiveDate = DateTime.UtcNow;
+                heading.LastUserName = lastUserName;
 
                 _context.Update(heading);
                 _context.Entry(heading).State = EntityState.Modified;

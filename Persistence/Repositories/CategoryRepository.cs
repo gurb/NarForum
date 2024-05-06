@@ -2,6 +2,7 @@
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DatabaseContext;
+using System.Collections.Generic;
 
 namespace Persistence.Repositories
 {
@@ -66,6 +67,23 @@ namespace Persistence.Repositories
                 list.Add(category);
 
                 await IterateCategoryHeadingCounter(category.ParentCategoryId, list, allCategories);
+            }
+        }
+
+        public async Task UpdateCategoryWhenCreatePost(int categoryId, string lastUserName, int lastHeadingId,  int lastPostId)
+        {
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == categoryId);
+
+            if (category != null)
+            {
+                category.LastHeadingId = lastHeadingId;
+                category.LastPostId = lastPostId;
+                category.LastUserName = lastUserName;
+                category.ActiveDate = DateTime.UtcNow;
+
+                _context.Update(category);
+                _context.Entry(category).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
             }
         }
     }

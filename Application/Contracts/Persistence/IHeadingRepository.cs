@@ -13,6 +13,6 @@ namespace Application.Contracts.Persistence
         int GetHeadingsCountByUserName(string userName);
 
         Task IncreasePostCounter(int HeadingId);
-
+        Task UpdateHeadingWhenCreatePost(int headingId, string lastUserName, int lastPostId);
     }
 }

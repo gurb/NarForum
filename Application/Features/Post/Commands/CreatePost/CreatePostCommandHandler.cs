@@ -51,11 +51,14 @@ namespace Application.Features.Post.Commands.CreatePost
             // add to database
             await _postRepository.CreateAsync(post);
 
-
             var heading = await _headingRepository.GetByIdAsync(post.HeadingId!.Value);
+
+
 
             if (heading != null)
             {
+                await _headingRepository.UpdateHeadingWhenCreatePost(heading.Id, post.UserName, post.Id);
+                await _categoryRepository.UpdateCategoryWhenCreatePost(heading.CategoryId, post.UserName, heading.Id, post.Id);
                 await _headingRepository.IncreasePostCounter(post.HeadingId!.Value);
                 await _categoryRepository.IncreasePostCounter(post.HeadingId!.Value);
             }

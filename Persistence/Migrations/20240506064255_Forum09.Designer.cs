@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.DatabaseContext;
 
@@ -11,9 +12,11 @@ using Persistence.DatabaseContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    partial class ForumDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240506064255_Forum09")]
+    partial class Forum09
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace Persistence.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("ActiveDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateCreate")
                         .HasColumnType("datetime2");
@@ -51,8 +51,8 @@ namespace Persistence.Migrations
                     b.Property<int?>("LastPostId")
                         .HasColumnType("int");
 
-                    b.Property<string>("LastUserName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("LastUserName")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -178,11 +178,11 @@ namespace Persistence.Migrations
                         {
                             Id = 1,
                             Content = "Post Content",
-                            DateCreate = new DateTime(2024, 5, 6, 6, 57, 57, 853, DateTimeKind.Utc).AddTicks(7642),
-                            DateUpdate = new DateTime(2024, 5, 6, 6, 57, 57, 853, DateTimeKind.Utc).AddTicks(7647),
+                            DateCreate = new DateTime(2024, 5, 6, 6, 42, 55, 46, DateTimeKind.Utc).AddTicks(7322),
+                            DateUpdate = new DateTime(2024, 5, 6, 6, 42, 55, 46, DateTimeKind.Utc).AddTicks(7328),
                             HeadingIndex = 0,
                             IsActive = true,
-                            SGuid = "c6451e25-80e2-4818-82d8-5ac12f96d09a"
+                            SGuid = "cbb7e965-36fa-47a5-aa73-27aae81bb080"
                         });
                 });
 

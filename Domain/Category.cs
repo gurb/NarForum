@@ -15,6 +15,7 @@ namespace Domain
 
         public int? LastHeadingId { get; set; }
         public int? LastPostId { get; set; }
-        public int? LastUserName { get; set; }
+        public string? LastUserName { get; set; }
+        public DateTime? ActiveDate { get; set; }
     }
 }
