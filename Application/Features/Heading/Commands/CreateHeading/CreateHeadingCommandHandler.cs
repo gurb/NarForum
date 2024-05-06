@@ -1,6 +1,7 @@
 ﻿using Application.Contracts.Identity;
 using Application.Contracts.Persistence;
 using AutoMapper;
+using Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -68,6 +69,9 @@ namespace Application.Features.Heading.Commands.CreateHeading
                 Heading.MainPostId = headingPost.Id;
 
                 await _HeadingRepository.UpdateAsync(Heading);
+
+                await _HeadingRepository.UpdateHeadingWhenCreatePost(Heading.Id, headingPost.UserName, headingPost.Id);
+                await _CategoryRepository.UpdateCategoryWhenCreatePost(Heading.CategoryId, headingPost.UserName, Heading.Id, headingPost.Id);
             }
 
             if (Heading.Id != 0 && category != null)

@@ -72,7 +72,17 @@ namespace Persistence.Repositories
 
         public async Task UpdateCategoryWhenCreatePost(int categoryId, string lastUserName, int lastHeadingId,  int lastPostId)
         {
-            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == categoryId);
+            List<Domain.Category> categoryList = new List<Category>();
+            var categories = await _context.Categories.Where(x => x.IsActive).ToListAsync();
+            await IterateUpdateCategoryWhenCreatePost(categoryId, lastUserName, lastHeadingId, lastPostId, categoryList, categories);
+
+            _context.UpdateRange(categoryList);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task IterateUpdateCategoryWhenCreatePost(int categoryId, string lastUserName, int lastHeadingId, int lastPostId, List<Domain.Category> list, List<Domain.Category> allCategories)
+        {
+            var category =  allCategories.FirstOrDefault(x => x.Id == categoryId);
 
             if (category != null)
             {
@@ -81,9 +91,12 @@ namespace Persistence.Repositories
                 category.LastUserName = lastUserName;
                 category.ActiveDate = DateTime.UtcNow;
 
-                _context.Update(category);
-                _context.Entry(category).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
+                list.Add(category);
+
+                if(category.ParentCategoryId != null)
+                {
+                    await IterateUpdateCategoryWhenCreatePost(category.ParentCategoryId.Value, lastUserName, lastHeadingId, lastPostId, list, allCategories);
+                }
             }
         }
     }

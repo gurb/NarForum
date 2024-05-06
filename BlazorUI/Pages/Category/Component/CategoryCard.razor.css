@@ -9,6 +9,43 @@
     color: #333;
 }
 
+.category-card-heading-counter {
+    font-weight: 500;
+}
+
+.category-card-post-counter {
+    font-weight: 500;
+}
+
 .link-category-primary {
     color: #2c83d3;
+    text-decoration: none;
+}
+
+.last-post-summary {
+    line-height:1em;
+}
+
+.last-post-heading {
+    font-size:0.9em;
+    font-weight:600;
+}
+
+.last-post-heading a {
+    text-decoration: none;
+}
+
+.last-post-username {
+    font-size: 0.75em;
+    font-weight:400;
+}
+
+.last-post-username a {
+    text-decoration: none;
+}
+
+.last-post-date {
+    font-size: 0.7em;
+    color: #666;
+    font-weight: 400;
 }

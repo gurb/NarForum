@@ -1,9 +1,14 @@
-﻿<div class="row heading-card-body">
-    <div class="col-6">
+﻿<div class="row heading-card-body align-items-center">
+    <div class="col-sm-6">
         <a href="@url" class="link-heading-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Title</a>
     </div>
-    <div class="col-2">
+    <div class="col-sm-2">
         @Model.PostCounter
+    </div>
+    <div class="col-sm-4 last-post-summary">
+        <small class="last-post-username">by <a href="@userUrl">@Model.LastUserName</a></small>
+        <br />
+        <small class="last-post-date">@Model.ActiveDate</small>
     </div>
 </div>
 
@@ -18,4 +23,12 @@
     public NavigationManager NavigationManager { get; set; }
 
     string url { get { return $"/category/{CategoryName}/{Model.Title.ToFriendlyUrl()}-{Model.Id}"; } }
+
+    string userUrl
+    {
+        get
+        {
+            return $"/user/{Model.LastUserName}";
+        }
+    }
 }

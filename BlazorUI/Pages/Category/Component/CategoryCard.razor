@@ -1,17 +1,21 @@
 ﻿@using BlazorUI.Models.Category
 
-<div class="row category-card-body">
+<div class="row category-card-body align-items-center">
     <div class="col-4">
         <a href="@url" class="link-category-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Name </a>
     </div>
-    <div class="col-2">
+    <div class="col-2 category-card-heading-counter">
         @Model.HeadingCounter
     </div>
-    <div class="col-2">
+    <div class="col-2 category-card-post-counter">
        @Model.PostCounter
     </div>
-    <div class="col-4">
-       @*  <a href="@url" class="link-category-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Name </a> *@
+    <div class="col-4 last-post-summary">
+        <small class="last-post-heading"><a href="@lastHeadingUrl">@Model.LastHeadingTitle</a></small>
+       <br />
+       <small class="last-post-username">by <a href="@userUrl">@Model.LastUserName</a></small>
+       <br />
+       <small class="last-post-date">@Model.ActiveDate</small>
     </div>
 </div>
 
@@ -27,5 +31,25 @@
         {
             return $"/category/{Model.Name}"; 
         } 
+    }
+
+    string userUrl
+    {
+        get
+        {
+            return $"/user/{Model.LastUserName}";
+        }
+    }
+
+    string lastHeadingUrl
+    {
+        get
+        {
+            if(Model.LastHeadingTitle != null)
+            {
+                return $"/category/{Model.Name}/{Model.LastHeadingTitle.ToFriendlyUrl()}-{Model.LastHeadingId}/";
+            }
+            return null;
+        }
     }
 }

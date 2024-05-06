@@ -9,8 +9,25 @@
     color: #333;
 }
 
-
-
 .link-heading-primary {
     color: #2c83d3;
+}
+
+.last-post-summary {
+    line-height: 1em;
+}
+
+.last-post-username {
+    font-size: 0.75em;
+    font-weight: 400;
+}
+
+.last-post-username a {
+    text-decoration: none;
+}
+
+.last-post-date {
+    font-size: 0.7em;
+    color: #666;
+    font-weight: 400;
 }
