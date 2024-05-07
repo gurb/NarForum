@@ -3255,7 +3255,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
-        public int? UserName { get; set; }
+        public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
         public int? PostId { get; set; }
@@ -3474,7 +3474,7 @@ namespace BlazorUI.Services.Base
         public int Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
-        public int? UserName { get; set; }
+        public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
         public int? HeadingId { get; set; }

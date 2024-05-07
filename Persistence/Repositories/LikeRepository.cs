@@ -38,5 +38,10 @@ namespace Persistence.Repositories
         {
             return await _context.Likes.AsNoTracking().Where(predicate).ToListAsync();
         }
+
+        public async Task<Like?> GetAsync(Expression<Func<Like, bool>> predicate)
+        {
+            return await _context.Likes.FirstOrDefaultAsync(predicate);
+        }
     }
 }

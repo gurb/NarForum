@@ -18,10 +18,24 @@ namespace Application.Features.Like.Queries.GetLikes
         public async Task<List<LikeDTO>> Handle(GetLikesQuery request, CancellationToken cancellationToken)
         {
             // query the database
-            var favorites = new List<Domain.Like>();
+            List<Domain.Like> likes = new List<Domain.Like>();
+
+
+            if(request.HeadingId != null)
+            {
+                likes = await _likeRepository.GetAllAsync(x => x.HeadingId == request.HeadingId);
+            }
+            else if(request.PostId != null)
+            {
+                likes = await _likeRepository.GetAllAsync(x => x.PostId == request.PostId);
+            }
+            else if(request.UserName != null)
+            {
+                likes = await _likeRepository.GetAllAsync(x => x.UserName == request.UserName);
+            }
 
             // convert data objecs to DTOs
-            var data = _mapper.Map<List<LikeDTO>>(favorites);
+            var data = _mapper.Map<List<LikeDTO>>(likes);
 
             // return list of DTOs
             return data;

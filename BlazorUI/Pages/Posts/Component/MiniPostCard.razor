@@ -14,12 +14,30 @@
     </div>
     <footer class="card-footer custom-mini-post-footer border-0 py-1 px-3">
         <button type="button"
+                @onclick="like"
                 class="btn btn-link btn-sm text-decoration-none ps-0">
-            <i class="bi bi-hand-thumbs-up me-1"></i>(3)
+            @if(Post.IsLike != null && Post.IsLike.Value)
+            {
+                <i class="bi bi-hand-thumbs-up-fill me-1"></i>
+            }
+            else
+            {
+                <i class="bi bi-hand-thumbs-up me-1"></i>
+            }
+            (@Post.LikeCounter)
         </button>
         <button type="button"
+                @onclick="unlike"
                 class="btn btn-link btn-sm text-decoration-none ps-0">
-            <i class="bi bi-hand-thumbs-down me-1"></i>(3)
+            @if (Post.IsLike != null && Post.IsLike.Value == false)
+            {
+                <i class="bi bi-hand-thumbs-down-fill me-1"></i>
+            }
+            else
+            {
+                <i class="bi bi-hand-thumbs-down me-1"></i>
+            }
+            (@Post.UnlikeCounter)
         </button>
         <button type="button"
                 class="btn btn-link btn-sm text-decoration-none">
@@ -37,6 +55,9 @@
     public bool IsOP { get; set; }
 
     [Parameter]
+    public int PostId { get; set; }
+
+    [Parameter]
     public string Id { get; set; } = string.Empty;
 
     [Parameter]
@@ -44,4 +65,25 @@
 
     [Parameter]
     public string Content { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<int> LikeCallback { get; set; }
+
+    [Parameter]
+    public EventCallback<int> UnLikeCallback { get; set; }
+
+
+    [Parameter]
+    public PostVM Post { get; set; }
+
+
+    protected async Task like()
+    {
+        await LikeCallback.InvokeAsync(PostId);
+    }
+
+    protected async Task unlike()
+    {
+        await UnLikeCallback.InvokeAsync(PostId);
+    }
 }

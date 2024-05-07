@@ -9,7 +9,7 @@ namespace Application.Features.Like.Commands.AddLike
 {
     public class AddLikeCommand : IRequest<int>
     {
-        public int? UserName { get; set; }
+        public string? UserName { get; set; }
         public int? PostId { get; set; }
         public int? HeadingId { get; set; }
         public DateTime DateTime { get; set; } = DateTime.UtcNow;

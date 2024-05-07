@@ -17,7 +17,7 @@
     @foreach (var post in Posts)
     {
         @* <PostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></PostCard> *@
-        <MiniPostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName" IsOP='Heading!.UserName == post.UserName'></MiniPostCard>
+        <MiniPostCard Post="post" Id="@post.Id.ToString()" PostId="@post.Id" Content="@post.Content" Username="@post.UserName" IsOP='Heading!.UserName == post.UserName' LikeCallback="(postId) => LikePost(postId)" UnLikeCallback="(postId) => UnLikePost(postId)"></MiniPostCard>
     }
     <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
 }
@@ -57,11 +57,28 @@ else
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
+    [Inject]
+    public ILikeService LikeService { get; set; }
+
+    [Inject]
+    public IFavoriteService FavoriteService { get; set; }
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
     HeadingVM? Heading { get; set; }
+
+    UserInfoVM CurrentUser { get; set; }
 
     public List<PostVM>? Posts { get; private set; }
 
     private List<BreadcrumbItem> BreadcrumbItems { get; set; }
+
+
+    public List<LikeVM>? Likes { get; private set; }
+    public List<FavoriteVM>? Favorites { get; private set; }
+
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     private string getBaseUrl()
     {
@@ -74,6 +91,8 @@ else
     private int CurrentPage = 1;
 
     private IJSInProcessObjectReference? module;
+
+    private string CurrentUsername { get; set; } = string.Empty;
 
     protected async Task SetBreadcrumb()
     {
@@ -89,14 +108,47 @@ else
         BreadcrumbItems.Add(new BreadcrumbItem { Text = Heading!.Title, IsCurrentPage = true });
     }
 
+    private void SetLikes()
+    {
+        if (Posts == null && Likes == null)
+            return;
+
+        foreach (var post in Posts)
+        {
+            post.LikeCounter = Likes.Where(x => x.PostId == post.Id && x.IsLike == true).Count();
+            post.UnlikeCounter = Likes.Where(x => x.PostId == post.Id && x.IsLike == false).Count();
+            var like = Likes.FirstOrDefault(x => x.PostId == post.Id && x.UserName == CurrentUsername);
+            if(like != null)
+            {
+                post.IsLike = like.IsLike;
+            }
+            else
+            {
+                post.IsLike = null;
+            }
+        }
+    }
+
     protected async override Task OnParametersSetAsync()
     {
         if (PageIndex == 0) PageIndex = 1;
+
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            CurrentUsername = user.Identity.Name;
+        }
 
         CurrentPage = PageIndex;
         Heading = await HeadingService.GetHeadingById(HeadingId);
         PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId, PageIndex, PageSize);
         Posts = postPagination.Posts;
+
+        Likes = await LikeService.GetLikesByHeadingId(HeadingId);
+        SetLikes();
+
         await ScrollToEntry();
         TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
 
@@ -119,7 +171,6 @@ else
             await module.InvokeAsync<string>("BlazorScrollToId", PostId.ToString());
         }
     }
-    
 
     protected async Task RefreshPosts()
     {
@@ -137,4 +188,76 @@ else
             await module.DisposeAsync();
         }
     }
+
+    protected async Task LikePost(int PostId)
+    {
+        LikeVM newLike = new LikeVM
+        {
+            PostId = PostId,
+            HeadingId = Heading!.Id,
+            IsLike = true
+        };
+
+        var post = Posts.FirstOrDefault(x => x.Id == PostId);
+
+        if (post != null)
+        {
+            if (post.IsLike == true)
+            {
+                post.IsLike = null;
+                post.LikeCounter--;
+            }
+            else if(post.IsLike == false)
+            {
+                post.IsLike = true;
+                post.LikeCounter++;
+                post.UnlikeCounter--;
+            }
+            else if(post.IsLike == null)
+            {
+                post.IsLike = true;
+                post.LikeCounter++;
+            }
+
+        }
+        await InvokeAsync(StateHasChanged);
+
+        await LikeService.AddLike(newLike);
+    }
+
+    protected async Task UnLikePost(int PostId)
+    {
+        LikeVM newLike = new LikeVM
+        {
+            PostId = PostId,
+            HeadingId = Heading!.Id,
+            IsLike = false
+        };
+
+        var post = Posts.FirstOrDefault(x => x.Id == PostId);
+
+        if (post != null)
+        {
+            if(post.IsLike == false)
+            {
+                post.IsLike = null;
+                post.UnlikeCounter--;
+            }
+            else if (post.IsLike == true)
+            {
+                post.IsLike = false;
+                post.UnlikeCounter++;
+                post.LikeCounter--;
+            }
+            else if (post.IsLike == null)
+            {
+                post.IsLike = false;
+                post.UnlikeCounter++;
+            }
+        }
+        await InvokeAsync(StateHasChanged);
+
+        await LikeService.AddLike(newLike);
+    }
+
 }

@@ -1,20 +1,21 @@
-﻿using Application.Contracts.Persistence;
+﻿using Application.Contracts.Identity;
+using Application.Contracts.Persistence;
 using AutoMapper;
 using MediatR;
 
 namespace Application.Features.Like.Commands.AddLike
 {
-
-
     public class AddLikeCommandHandler : IRequestHandler<AddLikeCommand, int>
     {
         private readonly IMapper _mapper;
         private readonly ILikeRepository _likeRepository;
+        private readonly IUserService _userService;
 
-        public AddLikeCommandHandler(IMapper mapper, ILikeRepository likeRepository)
+        public AddLikeCommandHandler(IMapper mapper, ILikeRepository likeRepository, IUserService userService)
         {
             _mapper = mapper;
             _likeRepository = likeRepository;
+            _userService = userService;
         }
 
         public async Task<int> Handle(AddLikeCommand request, CancellationToken cancellationToken)
@@ -29,15 +30,36 @@ namespace Application.Features.Like.Commands.AddLike
             //}
 
             // convert to domain entity object
+
+            var user = await _userService.GetCurrentUser();
+            request.UserName = user.UserName;
+
             try
             {
-                var like = _mapper.Map<Domain.Like>(request);
+                var oldLike = await _likeRepository.GetAsync(x => x.HeadingId == request.HeadingId && x.UserName == request.UserName && x.PostId == request.PostId);
 
-                // add to database
-                await _likeRepository.AddAsync(like);
+                if (oldLike != null)
+                {
+                    if(request.IsLike == oldLike.IsLike)
+                    {
+                        await _likeRepository.DeleteAsync(oldLike);
+                    }
+                    else
+                    {
+                        oldLike.IsLike = request.IsLike;
+                        await _likeRepository.UpdateAsync(oldLike);
+                    }
 
-                return like.Id;
+                    return oldLike.Id;
+                }
+                else
+                {
+                    var like = _mapper.Map<Domain.Like>(request);
 
+                    await _likeRepository.AddAsync(like);
+
+                    return like.Id;
+                }
             }
             catch (Exception ex)
             {
