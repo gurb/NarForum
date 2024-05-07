@@ -11,7 +11,8 @@ namespace Application.Features.Like.Commands.AddLike
     {
         public int? UserName { get; set; }
         public int? PostId { get; set; }
-        public DateTime DateTime { get; set; }
-        public bool? IsLıke { get; set; }
+        public int? HeadingId { get; set; }
+        public DateTime DateTime { get; set; } = DateTime.UtcNow;
+        public bool? IsLike { get; set; }
     }
 }

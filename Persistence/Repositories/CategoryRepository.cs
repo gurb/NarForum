@@ -18,8 +18,6 @@ namespace Persistence.Repositories
             return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Name == name);
         }
 
-        
-
         public async Task IncreasePostCounter(int HeadingId)
         {
             var heading = await _context.Headings.FirstOrDefaultAsync(x => x.Id == HeadingId);

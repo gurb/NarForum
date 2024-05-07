@@ -1,12 +1,8 @@
 ﻿using Application.Contracts.Persistence;
 using Domain;
+using Microsoft.EntityFrameworkCore;
 using Persistence.DatabaseContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
@@ -19,14 +15,28 @@ namespace Persistence.Repositories
             _context = context;
         }
 
-        public Task AddAsync(Favorite Entity)
+        public async Task AddAsync(Favorite Entity)
         {
-            throw new NotImplementedException();
+            await _context.AddAsync(Entity);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<List<Favorite>> GetAllAsync(Expression<Func<Favorite, bool>> predicate)
+        public async Task UpdateAsync(Favorite entity)
         {
-            throw new NotImplementedException();
+            _context.Update(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Favorite entity)
+        {
+            _context.Remove(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Favorite>> GetAllAsync(Expression<Func<Favorite, bool>> predicate)
+        {
+            return await _context.Favorites.AsNoTracking().Where(predicate).ToListAsync();
         }
     }
 }

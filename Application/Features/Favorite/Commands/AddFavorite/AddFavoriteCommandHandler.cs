@@ -1,11 +1,6 @@
 ﻿using Application.Contracts.Persistence;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Favorite.Commands.AddFavorite
 {
@@ -13,12 +8,12 @@ namespace Application.Features.Favorite.Commands.AddFavorite
     public class AddFavoriteCommandHandler : IRequestHandler<AddFavoriteCommand, int>
     {
         private readonly IMapper _mapper;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IFavoriteRepository _favoriteRepository;
 
-        public AddFavoriteCommandHandler(IMapper mapper, ICategoryRepository categoryRepository)
+        public AddFavoriteCommandHandler(IMapper mapper, IFavoriteRepository favoriteRepository)
         {
             _mapper = mapper;
-            _categoryRepository = categoryRepository;
+            _favoriteRepository = favoriteRepository;
         }
 
         public async Task<int> Handle(AddFavoriteCommand request, CancellationToken cancellationToken)
@@ -35,12 +30,12 @@ namespace Application.Features.Favorite.Commands.AddFavorite
             // convert to domain entity object
             try
             {
-                var category = _mapper.Map<Domain.Category>(request);
+                var favorite = _mapper.Map<Domain.Favorite>(request);
 
                 // add to database
-                await _categoryRepository.CreateAsync(category);
+                await _favoriteRepository.AddAsync(favorite);
 
-                return category.Id;
+                return favorite.Id;
 
             }
             catch (Exception ex)
@@ -48,8 +43,6 @@ namespace Application.Features.Favorite.Commands.AddFavorite
                 var message = ex.Message;
             }
             return 0;
-
-            // return record id
         }
     }
 }

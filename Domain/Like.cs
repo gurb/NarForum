@@ -11,7 +11,8 @@ namespace Domain
         public int Id { get; set; }
         public int? UserName { get; set; }
         public int? PostId { get; set; }
+        public int? HeadingId { get; set; }
         public DateTime DateTime { get; set; }
-        public bool? IsLıke { get; set; }
+        public bool? IsLike { get; set; }
     }
 }

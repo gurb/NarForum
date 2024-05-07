@@ -1,12 +1,6 @@
 ﻿using Application.Contracts.Persistence;
-using Application.Features.Favorite.Commands.AddFavorite;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Like.Commands.AddLike
 {
@@ -15,12 +9,12 @@ namespace Application.Features.Like.Commands.AddLike
     public class AddLikeCommandHandler : IRequestHandler<AddLikeCommand, int>
     {
         private readonly IMapper _mapper;
-        private readonly IForumD _categoryRepository;
+        private readonly ILikeRepository _likeRepository;
 
-        public AddLikeCommandHandler(IMapper mapper, ICategoryRepository categoryRepository)
+        public AddLikeCommandHandler(IMapper mapper, ILikeRepository likeRepository)
         {
             _mapper = mapper;
-            _categoryRepository = categoryRepository;
+            _likeRepository = likeRepository;
         }
 
         public async Task<int> Handle(AddLikeCommand request, CancellationToken cancellationToken)
@@ -37,12 +31,12 @@ namespace Application.Features.Like.Commands.AddLike
             // convert to domain entity object
             try
             {
-                var category = _mapper.Map<Domain.Category>(request);
+                var like = _mapper.Map<Domain.Like>(request);
 
                 // add to database
-                await _categoryRepository.CreateAsync(category);
+                await _likeRepository.AddAsync(like);
 
-                return category.Id;
+                return like.Id;
 
             }
             catch (Exception ex)
