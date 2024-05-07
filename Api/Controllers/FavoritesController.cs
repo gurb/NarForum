@@ -52,6 +52,20 @@ namespace Api.Controllers
             return favorites;
         }
 
+        [HttpGet("GetFavoritesByHeadingIdAndUserName")]
+        public async Task<List<FavoriteDTO>> GetFavoritesByHeadingIdAndUserName(int headingId, string userName)
+        {
+            var favorites = await _mediator.Send(
+                new GetFavoritesQuery
+                {
+                    HeadingId = headingId,
+                    UserName = userName
+                }
+            );
+
+            return favorites;
+        }
+
 
         [HttpPost("AddFavorite")]
         [ProducesResponseType(201)]

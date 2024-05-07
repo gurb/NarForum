@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BlazorUI.Models.Category;
+using BlazorUI.Models.Favorite;
 using BlazorUI.Models.Heading;
+using BlazorUI.Models.Like;
 using BlazorUI.Models.Post;
 using BlazorUI.Models.Section;
 using BlazorUI.Models.User;
@@ -27,6 +29,12 @@ namespace BlazorUI.MappingProfiles
             CreateMap<CreateHeadingCommand, HeadingVM>().ReverseMap();
 
             CreateMap<UserInfoResponse, UserInfoVM>().ReverseMap();
+
+            CreateMap<LikeDTO, LikeVM>().ReverseMap();
+            CreateMap<AddLikeCommand, LikeVM>().ReverseMap();
+
+            CreateMap<FavoriteDTO, FavoriteVM>().ReverseMap();
+            CreateMap<AddFavoriteCommand, FavoriteVM>().ReverseMap();
         }
     }
 }

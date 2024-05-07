@@ -26,6 +26,8 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IHeadingService, HeadingService>();
 builder.Services.AddScoped<ISectionService, SectionService>();
+builder.Services.AddScoped<ILikeService, LikeService>();
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
