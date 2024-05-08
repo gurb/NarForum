@@ -1,4 +1,5 @@
-﻿using Application.Contracts.Persistence;
+﻿using Application.Contracts.Identity;
+using Application.Contracts.Persistence;
 using AutoMapper;
 using MediatR;
 
@@ -9,34 +10,36 @@ namespace Application.Features.Favorite.Commands.AddFavorite
     {
         private readonly IMapper _mapper;
         private readonly IFavoriteRepository _favoriteRepository;
+        private readonly IUserService _userService;
 
-        public AddFavoriteCommandHandler(IMapper mapper, IFavoriteRepository favoriteRepository)
+        public AddFavoriteCommandHandler(IMapper mapper, IFavoriteRepository favoriteRepository, IUserService userService)
         {
             _mapper = mapper;
             _favoriteRepository = favoriteRepository;
+            _userService = userService;
         }
 
         public async Task<int> Handle(AddFavoriteCommand request, CancellationToken cancellationToken)
         {
-            // validate incoming data
-            //var validator = new CreatePostCommandValidator();
-            //var validationResult = await validator.ValidateAsync(request, cancellationToken);
+            var user = await _userService.GetCurrentUser();
+            request.UserName = user.UserName;
 
-            //if (validationResult.Errors.Any())
-            //{
-            //    throw new BadRequestException("Invalid Post", validationResult);
-            //}
-
-            // convert to domain entity object
             try
             {
-                var favorite = _mapper.Map<Domain.Favorite>(request);
+                var oldFavorite = await _favoriteRepository.GetAsync(x => x.HeadingId == request.HeadingId && x.UserName == request.UserName && x.PostId == request.PostId);
 
-                // add to database
-                await _favoriteRepository.AddAsync(favorite);
+                if (oldFavorite != null)
+                {
+                    await _favoriteRepository.DeleteAsync(oldFavorite);
+                }
+                else
+                {
+                    var favorite = _mapper.Map<Domain.Favorite>(request);
 
-                return favorite.Id;
-
+                    // add to database
+                    await _favoriteRepository.AddAsync(favorite);
+                    return favorite.Id;
+                }
             }
             catch (Exception ex)
             {

@@ -38,5 +38,10 @@ namespace Persistence.Repositories
         {
             return await _context.Favorites.AsNoTracking().Where(predicate).ToListAsync();
         }
+
+        public async Task<Favorite?> GetAsync(Expression<Func<Favorite, bool>> predicate)
+        {
+            return await _context.Favorites.FirstOrDefaultAsync(predicate);
+        }
     }
 }

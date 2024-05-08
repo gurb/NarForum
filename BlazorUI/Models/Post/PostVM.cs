@@ -17,5 +17,6 @@
         public bool? IsLike { get; set; }
         public int LikeCounter { get; set; }
         public int UnlikeCounter { get; set; }
+        public bool IsFavorite { get; set; }
     }
 }

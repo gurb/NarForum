@@ -24,7 +24,7 @@
             {
                 <i class="bi bi-hand-thumbs-up me-1"></i>
             }
-            (@Post.LikeCounter)
+            @Post.LikeCounter
         </button>
         <button type="button"
                 @onclick="unlike"
@@ -37,15 +37,24 @@
             {
                 <i class="bi bi-hand-thumbs-down me-1"></i>
             }
-            (@Post.UnlikeCounter)
+            @Post.UnlikeCounter
         </button>
         <button type="button"
                 class="btn btn-link btn-sm text-decoration-none">
             <i class="bi bi-reply"></i> Reply
         </button>
         <button type="button"
+                @onclick="favorite"
                 class="btn btn-light btn-sm border rounded-4 ms-2 post-favorite-button">
-            <i class="bi bi-star"></i> Add Favorites
+            @if (Post.IsFavorite)
+            {
+                <i class="bi bi-star-fill"></i>
+            }
+            else
+            {
+                <i class="bi bi-star"></i>
+            }
+             Add Favorites
         </button>
     </footer>
 </article>
@@ -72,6 +81,8 @@
     [Parameter]
     public EventCallback<int> UnLikeCallback { get; set; }
 
+    [Parameter]
+    public EventCallback<int> AddFavoriteCallback { get; set; }
 
     [Parameter]
     public PostVM Post { get; set; }
@@ -85,5 +96,10 @@
     protected async Task unlike()
     {
         await UnLikeCallback.InvokeAsync(PostId);
+    }
+
+    protected async Task favorite()
+    {
+        await AddFavoriteCallback.InvokeAsync(PostId);
     }
 }

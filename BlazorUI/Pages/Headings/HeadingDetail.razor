@@ -17,7 +17,7 @@
     @foreach (var post in Posts)
     {
         @* <PostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></PostCard> *@
-        <MiniPostCard Post="post" Id="@post.Id.ToString()" PostId="@post.Id" Content="@post.Content" Username="@post.UserName" IsOP='Heading!.UserName == post.UserName' LikeCallback="(postId) => LikePost(postId)" UnLikeCallback="(postId) => UnLikePost(postId)"></MiniPostCard>
+        <MiniPostCard Post="post" Id="@post.Id.ToString()" PostId="@post.Id" Content="@post.Content" Username="@post.UserName" IsOP='Heading!.UserName == post.UserName' LikeCallback="(postId) => LikePost(postId)" UnLikeCallback="(postId) => UnLikePost(postId)" AddFavoriteCallback="(postId) => AddFavorite(postId)"></MiniPostCard>
     }
     <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
 }
@@ -92,7 +92,7 @@ else
 
     private IJSInProcessObjectReference? module;
 
-    private string CurrentUsername { get; set; } = string.Empty;
+    private string? CurrentUsername { get; set; }
 
     protected async Task SetBreadcrumb()
     {
@@ -108,9 +108,29 @@ else
         BreadcrumbItems.Add(new BreadcrumbItem { Text = Heading!.Title, IsCurrentPage = true });
     }
 
+    private void SetFavorites()
+    {
+        if (Posts == null || Favorites == null)
+            return;
+
+        foreach (var post in Posts)
+        {
+            var favorite = Favorites.FirstOrDefault(x => x.PostId == post.Id && x.UserName == CurrentUsername);
+
+            if(favorite != null)
+            {
+                post.IsFavorite = true;
+            }
+            else
+            {
+                post.IsFavorite = false;
+            }
+        }
+    }
+
     private void SetLikes()
     {
-        if (Posts == null && Likes == null)
+        if (Posts == null || Likes == null)
             return;
 
         foreach (var post in Posts)
@@ -147,7 +167,14 @@ else
         Posts = postPagination.Posts;
 
         Likes = await LikeService.GetLikesByHeadingId(HeadingId);
+
+        if(CurrentUsername != null)
+        {
+            Favorites = await FavoriteService.GetFavoritesByHeadingIdAndUserName(HeadingId, CurrentUsername);
+        }
+
         SetLikes();
+        SetFavorites();
 
         await ScrollToEntry();
         TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
@@ -260,4 +287,22 @@ else
         await LikeService.AddLike(newLike);
     }
 
+    protected async Task AddFavorite(int PostId)
+    {
+        FavoriteVM newFavorite = new FavoriteVM
+        {
+            PostId = PostId,
+            HeadingId = Heading!.Id,
+        };
+
+        var post = Posts.FirstOrDefault(x => x.Id == PostId);
+
+        if(post != null)
+        {
+            post.IsFavorite = !post.IsFavorite;
+        }
+
+        await InvokeAsync(StateHasChanged);
+        await FavoriteService.AddFavorite(newFavorite);
+    }
 }
