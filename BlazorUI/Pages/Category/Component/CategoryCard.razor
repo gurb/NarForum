@@ -1,16 +1,17 @@
 ﻿@using BlazorUI.Models.Category
 
 <div class="row category-card-body align-items-center">
-    <div class="col-4">
+    <div class="col-sm-4">
+        <i class="bi bi-journals" style="font-size:1.5em;margin-right:20px;"></i>
         <a href="@url" class="link-category-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Name </a>
     </div>
-    <div class="col-2 category-card-heading-counter">
+    <div class="col-sm-2 category-card-heading-counter">
         @Model.HeadingCounter
     </div>
-    <div class="col-2 category-card-post-counter">
+    <div class="col-sm-2 category-card-post-counter">
        @Model.PostCounter
     </div>
-    <div class="col-4 last-post-summary">
+    <div class="col-sm-4 last-post-summary">
         <small class="last-post-heading"><a href="@lastHeadingUrl">@Model.LastHeadingTitle</a></small>
        <br />
        <small class="last-post-username">by <a href="@userUrl">@Model.LastUserName</a></small>
