@@ -9,6 +9,7 @@ namespace Domain
         public int CategoryId { get; set; }
         public string? UserName { get; set; }
         public int? MainPostId { get; set; }
+        public bool IsLock { get; set; }
 
         public int PostCounter { get; set; }
 

@@ -1,10 +1,60 @@
-﻿<EditForm class="CustomForm" Model="@Model" OnValidSubmit="HandleCreatePost">
+﻿@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<EditForm class="CustomForm" Model="@Model" OnValidSubmit="HandleCreatePost">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <div class="form-group form-margin">
+	<div class="container-form">
+	<div class="toolbar">
+		<div class="head">
+				<InputSelect class="form-select" aria-label="Default select example" @bind-Value="@formatBlockSelectedIndex" @oninput="formatBlockHandle">
+				@foreach (var formatBlock in formatBlocks)
+				{
+					<option value="@formatBlock.Type">@formatBlock.Text</option>
+				}
+			</InputSelect>
+
+				<InputSelect class="form-select" aria-label="Default select example" @bind-Value="@fontSizeSelectedIndex" @oninput="fontSizeHandle">
+				@foreach (var fontSize in fontSizes)
+				{
+					<option value="@fontSize.Index">@fontSize.Text</option>
+				}
+			</InputSelect>
+			
+			<div class="color">
+				<span>Color</span>
+				<input type="color" oninput="formatDoc('foreColor', this.value); this.value='#000000';">
+			</div>
+			<div class="color">
+				<span>Background</span>
+				<input type="color" oninput="formatDoc('hiliteColor', this.value); this.value='#000000';">
+			</div>
+		</div>
+		<div class="btn-toolbar">
+			<button @onclick="@(()=>formatDoc(undo))" type="button"><i class='bx bx-undo'></i></button>
+			<button @onclick="@(()=>formatDoc(redo))" type="button"><i class='bx bx-redo'></i></button>
+			<button @onclick="@(() => formatDoc(bold))" type="button"><i class='bx bx-bold'></i></button>
+			<button @onclick="@(() => formatDoc(underline))" type="button"><i class='bx bx-underline'></i></button>
+			<button @onclick="@(() => formatDoc(italic))" type="button"><i class='bx bx-italic'></i></button>
+			<button @onclick="@(() => formatDoc(strikeThrough))" type="button"><i class='bx bx-strikethrough'></i></button>
+			<button @onclick="@(() => formatDoc(insertOrderedList))" type="button"><i class='bx bx-list-ol'></i></button>
+			<button @onclick="@(() => formatDoc(insertUnorderedList))" type="button"><i class='bx bx-list-ul'></i></button>
+			<button @onclick="@(() => addLink())" type="button"><i class='bx bx-link'></i></button>
+			<button @onclick="@(() => formatDoc(unlink))" type="button"><i class='bx bx-unlink'></i></button>
+			<button id="show-code" data-active="false" type="button">&lt;/&gt;</button>
+		</div>
+	</div>
+		<div id="content" contenteditable="true" spellcheck="false" @oninput="UpdateModelContent">
+		
+	</div>
+
+	</div>
+
+
+    @* <div class="form-group form-margin">
         <label for="exampleFormControlTextarea1">Create Post</label>
         <InputTextArea id="Post" class="form-control" @bind-Value="@Model.Content"></InputTextArea>
-    </div>
+    </div> *@
 
     <div class="form-group text-end">
         <input type="submit" value="Create" class="btn btn-primary" />
@@ -12,36 +62,156 @@
 </EditForm>
 
 @code {
-    public PostVM Model { get; set; }
+	[Parameter]
+	public PostVM Model { get; set; }
 
-    [Parameter]
-    public int HeadingId { get; set; }
+	[Parameter]
+	public int HeadingId { get; set; }
 
-    [Inject]
-    public IPostService? PostService { get; set; }
+	[Inject]
+	public IPostService? PostService { get; set; }
 
-    [Parameter]
-    public EventCallback<int> Callback { get; set; }
+	[Parameter]
+	public EventCallback<int> Callback { get; set; }
 
-    protected async override Task OnInitializedAsync()
-    {
-        Model = new PostVM();
-    }
+	[Parameter]
+	public EventCallback<int> AddData { get; set; }
 
-    protected async Task HandleCreatePost()
-    {
-        PostVM? post;
+	const string formatBlock = "formatBlock";
+	const string undo = "undo";
+	const string redo = "redo";
+	const string bold = "bold";
+	const string underline = "underline";
+	const string italic = "italic";
+	const string strikeThrough = "strikeThrough";
+	const string insertOrderedList = "insertOrderedList";
+	const string insertUnorderedList = "insertUnorderedList";
+	const string unlink = "unlink";
 
-        post = new PostVM
+	int fontSizeSelectedIndex = 2;
+	string formatBlockSelectedIndex = string.Empty;
+
+	class FormatBlockType
+	{
+		public string Type { get; set; } = string.Empty;
+		public string Text { get; set; } = string.Empty;
+	}
+
+	List<FormatBlockType> formatBlocks = new List<FormatBlockType>
+	{
+		new FormatBlockType { Text = "None", Type=string.Empty},
+		new FormatBlockType { Text = "Heading 1", Type="h1"},
+		new FormatBlockType { Text = "Heading 2", Type="h2"},
+		new FormatBlockType { Text = "Heading 3", Type="h3"},
+		new FormatBlockType { Text = "Heading 4", Type="h4"},
+		new FormatBlockType { Text = "Heading 5", Type="h5"},
+		new FormatBlockType { Text = "Heading 6", Type="h6"},
+		new FormatBlockType { Text = "Paragraph", Type="p"},
+	};
+
+	class FontSizeType
+	{
+		public int Index { get; set; }
+		public string Text { get; set; } = string.Empty;
+	}
+
+	List<FontSizeType> fontSizes = new List<FontSizeType>
+	{
+		new FontSizeType { Text = "Extra small", Index=0},
+		new FontSizeType { Text = "Small", Index=1},
+		new FontSizeType { Text = "Regular", Index=2},
+		new FontSizeType { Text = "Medium", Index=3},
+		new FontSizeType { Text = "Large", Index=4},
+		new FontSizeType { Text = "Extra Large", Index=5},
+		new FontSizeType { Text = "Big", Index=6},
+	};
+
+	private IJSInProcessObjectReference? module;
+
+	[JSInvokable]
+	public Task<string> SetDataToModelContent(string param)
+	{
+		Model.Content = param;
+
+		return Task.FromResult(Model.Content); ;
+	}
+
+	protected async override Task OnAfterRenderAsync(bool firstRender)
+	{
+		await base.OnAfterRenderAsync(firstRender);
+		if (firstRender)
+		{
+			module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Posts/CreatePostForm.razor.js");
+		}
+	}
+
+	async Task UpdateModelContent(ChangeEventArgs e)
+	{
+		Model.Content = await module.InvokeAsync<string>("getData");
+	}
+
+	public async Task SetContenteditable()
+	{
+		await module.InvokeAsync<string>("setData", Model.Content);
+	}
+
+	protected async Task HandleCreatePost()
+	{
+		PostVM? post;
+
+		post = new PostVM
         {
             HeadingId = HeadingId,
             Content = Model.Content
         };
 
-        var result = await PostService.CreatePost(post);
+		var result = await PostService.CreatePost(post);
 
-        await Callback.InvokeAsync();
+		await Callback.InvokeAsync();
 
-        // NavigationManager.NavigateTo($"/category/{CategoryName}");
-    }
+		// NavigationManager.NavigateTo($"/category/{CategoryName}");
+	}
+
+	async ValueTask IAsyncDisposable.DisposeAsync()
+	{
+		if (module is not null)
+		{
+			await module.DisposeAsync();
+		}
+	}
+
+	protected async Task formatDoc(string command)
+	{
+		if (module != null)
+		{
+			await module.InvokeAsync<string>("formatDoc", command);
+		}
+	}
+
+	async Task addLink()
+	{
+		if (module != null)
+		{
+			await module.InvokeAsync<string>("addLink");
+		}
+	}
+
+	protected async Task formatBlockHandle()
+	{
+		if (module != null)
+		{
+			string value = formatBlocks.Where(x => x.Type == formatBlockSelectedIndex).First().Type;
+
+			await module.InvokeAsync<string>("formatDoc", "formatBlock", value);
+		}
+	}
+
+	protected async Task fontSizeHandle()
+	{
+		if (module != null)
+		{
+			int value = fontSizes.Where(x => fontSizes.IndexOf(x) == fontSizeSelectedIndex).First().Index;
+			await module.InvokeAsync<string>("formatDoc", "fontSize", value.ToString());
+		}
+	}
 }

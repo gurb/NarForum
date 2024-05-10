@@ -19,6 +19,10 @@ namespace Persistence.DatabaseContext
         public DbSet<Like> Likes { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
 
+        public DbSet<Quote> Quotes { get; set; }
+        public DbSet<Reply> Replies { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // find all configurations file from assembly and apply

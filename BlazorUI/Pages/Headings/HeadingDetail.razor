@@ -17,7 +17,16 @@
     @foreach (var post in Posts)
     {
         @* <PostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></PostCard> *@
-        <MiniPostCard Post="post" Id="@post.Id.ToString()" PostId="@post.Id" Content="@post.Content" Username="@post.UserName" IsOP='Heading!.UserName == post.UserName' LikeCallback="(postId) => LikePost(postId)" UnLikeCallback="(postId) => UnLikePost(postId)" AddFavoriteCallback="(postId) => AddFavorite(postId)"></MiniPostCard>
+        <MiniPostCard Post="post" 
+            Id="@post.Id.ToString()" 
+            PostId="@post.Id" 
+            Content="@post.Content" 
+            Username="@post.UserName" 
+            IsOP='Heading!.UserName == post.UserName' 
+            LikeCallback="(postId) => LikePost(postId)" 
+            UnLikeCallback="(postId) => UnLikePost(postId)" 
+            AddFavoriteCallback="(postId) => AddFavorite(postId)"
+            ReplyCallback="(postId) => AddReply(postId)"></MiniPostCard>
     }
     <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
 }
@@ -26,7 +35,7 @@ else
     <p>Loading...</p>
 }
 
-<CreatePostForm HeadingId="@HeadingId" Callback="RefreshPosts"></CreatePostForm>
+<CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingId" Callback="RefreshPosts"></CreatePostForm>
 
 
 @code {
@@ -71,6 +80,7 @@ else
     UserInfoVM CurrentUser { get; set; }
 
     public List<PostVM>? Posts { get; private set; }
+    public PostVM CreateModel { get; set; }
 
     private List<BreadcrumbItem> BreadcrumbItems { get; set; }
 
@@ -93,6 +103,8 @@ else
     private IJSInProcessObjectReference? module;
 
     private string? CurrentUsername { get; set; }
+
+    CreatePostForm child;
 
     protected async Task SetBreadcrumb()
     {
@@ -151,6 +163,8 @@ else
 
     protected async override Task OnParametersSetAsync()
     {
+        CreateModel = new PostVM();
+
         if (PageIndex == 0) PageIndex = 1;
 
         var authState = await authenticationStateTask;
@@ -304,5 +318,12 @@ else
 
         await InvokeAsync(StateHasChanged);
         await FavoriteService.AddFavorite(newFavorite);
+    }
+
+    protected async Task AddReply(int PostId)
+    {
+        CreateModel.Content += $"\n<div contenteditable='false' style='background:yellow'>test</div>\n<p>cevap yaz..</p>";
+        await child.SetContenteditable();
+        await InvokeAsync(StateHasChanged);
     }
 }

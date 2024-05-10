@@ -10,7 +10,7 @@
             <span class="ms-3 small text-muted custom-mini-post-date">2 months ago</span>
     </header>
     <div class="card-body custom-mini-post-content">
-        @Content
+        @((MarkupString)Content)
     </div>
     <footer class="card-footer custom-mini-post-footer border-0 py-1 px-3">
         <button type="button"
@@ -40,6 +40,7 @@
             @Post.UnlikeCounter
         </button>
         <button type="button"
+                @onclick="reply"
                 class="btn btn-link btn-sm text-decoration-none">
             <i class="bi bi-reply"></i> Reply
         </button>
@@ -85,6 +86,9 @@
     public EventCallback<int> AddFavoriteCallback { get; set; }
 
     [Parameter]
+    public EventCallback<int> ReplyCallback { get; set; }
+
+    [Parameter]
     public PostVM Post { get; set; }
 
 
@@ -101,5 +105,10 @@
     protected async Task favorite()
     {
         await AddFavoriteCallback.InvokeAsync(PostId);
+    }
+
+    protected async Task reply()
+    {
+        await ReplyCallback.InvokeAsync(PostId);
     }
 }
