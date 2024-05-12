@@ -7,45 +7,52 @@
 	<div class="container-form">
 	<div class="toolbar">
 		<div class="head">
-				<InputSelect class="form-select" aria-label="Default select example" @bind-Value="@formatBlockSelectedIndex" @oninput="formatBlockHandle">
-				@foreach (var formatBlock in formatBlocks)
-				{
-					<option value="@formatBlock.Type">@formatBlock.Text</option>
-				}
-			</InputSelect>
-
-				<InputSelect class="form-select" aria-label="Default select example" @bind-Value="@fontSizeSelectedIndex" @oninput="fontSizeHandle">
-				@foreach (var fontSize in fontSizes)
-				{
-					<option value="@fontSize.Index">@fontSize.Text</option>
-				}
-			</InputSelect>
-			
-			<div class="color">
-				<span>Color</span>
-				<input type="color" oninput="formatDoc('foreColor', this.value); this.value='#000000';">
-			</div>
-			<div class="color">
-				<span>Background</span>
-				<input type="color" oninput="formatDoc('hiliteColor', this.value); this.value='#000000';">
+			<div class="row">
+				<div class="col-sm-3">
+					<InputSelect class="form-select form-select-sm" aria-label="Default select example" @bind-Value="@formatBlockSelectedIndex" @oninput="formatBlockHandle">
+						@foreach (var formatBlock in formatBlocks)
+						{
+							<option value="@formatBlock.Type">@formatBlock.Text</option>
+						}
+					</InputSelect>
+				</div>
+				<div class="col-sm-3">
+					<InputSelect class="form-select form-select-sm" aria-label="Default select example" @bind-Value="@fontSizeSelectedIndex" @oninput="fontSizeHandle">
+						@foreach (var fontSize in fontSizes)
+						{
+							<option value="@fontSize.Index">@fontSize.Text</option>
+						}
+					</InputSelect>
+				</div>
+				<div class="col-sm-3">
+					@* <div class="color">
+						<span>Color</span>
+						<input type="color" oninput="formatDoc('foreColor', this.value); this.value='#000000';">
+					</div> *@
+				</div>
+				<div class="col-sm-3">
+					@* <div class="color">
+						<span>Background</span>
+						<input type="color" oninput="formatDoc('hiliteColor', this.value); this.value='#000000';">
+					</div> *@
+				</div>
 			</div>
 		</div>
 		<div class="btn-toolbar">
-			<button @onclick="@(()=>formatDoc(undo))" type="button"><i class='bx bx-undo'></i></button>
-			<button @onclick="@(()=>formatDoc(redo))" type="button"><i class='bx bx-redo'></i></button>
-			<button @onclick="@(() => formatDoc(bold))" type="button"><i class='bx bx-bold'></i></button>
-			<button @onclick="@(() => formatDoc(underline))" type="button"><i class='bx bx-underline'></i></button>
-			<button @onclick="@(() => formatDoc(italic))" type="button"><i class='bx bx-italic'></i></button>
-			<button @onclick="@(() => formatDoc(strikeThrough))" type="button"><i class='bx bx-strikethrough'></i></button>
-			<button @onclick="@(() => formatDoc(insertOrderedList))" type="button"><i class='bx bx-list-ol'></i></button>
-			<button @onclick="@(() => formatDoc(insertUnorderedList))" type="button"><i class='bx bx-list-ul'></i></button>
-			<button @onclick="@(() => addLink())" type="button"><i class='bx bx-link'></i></button>
-			<button @onclick="@(() => formatDoc(unlink))" type="button"><i class='bx bx-unlink'></i></button>
-			<button id="show-code" data-active="false" type="button">&lt;/&gt;</button>
+			<button @onclick="@(() => formatDoc(undo))" type="button"><i class="bi bi-arrow-counterclockwise"></i></button>
+			<button @onclick="@(() => formatDoc(redo))" type="button"><i class="bi bi-arrow-clockwise"></i></button>
+			<button @onclick="@(() => formatDoc(bold))" type="button"><i class="bi bi-type-bold"></i></button>
+			<button @onclick="@(() => formatDoc(underline))" type="button"><i class="bi bi-type-underline"></i></button>
+			<button @onclick="@(() => formatDoc(italic))" type="button"><i class="bi bi-type-italic"></i></button>
+			<button @onclick="@(() => formatDoc(strikeThrough))" type="button"><i class="bi bi-type-strikethrough"></i></button>
+			<button @onclick="@(() => formatDoc(insertOrderedList))" type="button"><i class="bi bi-list-ol"></i></button>
+			<button @onclick="@(() => formatDoc(insertUnorderedList))" type="button"><i class="bi bi-list-ul"></i></button>
+			<button @onclick="@(() => addLink())" type="button"><i class="bi bi-link"></i></button>
+@* 			<button @onclick="@(() => formatDoc(unlink))" type="button"><i class='bx bx-unlink'></i></button>
+			<button id="show-code" data-active="false" type="button">&lt;/&gt;</button> *@
 		</div>
 	</div>
 		<div id="content" contenteditable="true" spellcheck="false" @oninput="UpdateModelContent">
-		
 	</div>
 
 	</div>

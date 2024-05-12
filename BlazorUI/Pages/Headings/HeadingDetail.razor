@@ -29,13 +29,13 @@
             ReplyCallback="(postId) => AddReply(postId)"></MiniPostCard>
     }
     <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingId" Callback="RefreshPosts"></CreatePostForm>
 }
 else
 {
     <p>Loading...</p>
 }
 
-<CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingId" Callback="RefreshPosts"></CreatePostForm>
 
 
 @code {

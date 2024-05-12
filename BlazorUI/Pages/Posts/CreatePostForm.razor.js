@@ -50,9 +50,7 @@ export function setData(modelData) {
 }
 
 export function formatDoc(cmd, value = null) {
-	console.log("testtststst");
 	if (value) {
-		console.log("testtststst");
 		document.execCommand(cmd, false, value);
 	} else {
 		document.execCommand(cmd);

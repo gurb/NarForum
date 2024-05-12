@@ -7,18 +7,16 @@
     background: #fff;
     border-radius: 8px;
     overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, .125);
 }
 
 .toolbar {
     padding: 16px;
-    background: #eee;
+    background: rgb(249, 249, 249);
 }
 
 .toolbar .head {
-    display: flex;
-    grid-gap: 10px;
     margin-bottom: 16px;
-    flex-wrap: wrap;
 }
 
 .toolbar .head > input {
