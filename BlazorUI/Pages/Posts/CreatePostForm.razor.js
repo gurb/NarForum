@@ -62,6 +62,28 @@ export function checkEnterCursorInQuote() {
 	}
 }
 
+export function checkDeleteCursorInQuote() {
+	var selection = window.getSelection();
+	var range = selection.getRangeAt(0);
+	var blockquote = getParentBlockquote(range);
+	if (blockquote) {
+		var cursorPosition = window.getSelection().getRangeAt(0).startOffset; 
+		selection.anchorNode.parentElement.innerHTML = removeHTMLCode(selection.anchorNode.parentElement.innerHTML);
+
+		range.setStart(selection.anchorNode.firstChild, cursorPosition);
+		range.collapse(true);
+		selection.removeAllRanges();
+		selection.addRange(range);
+		selection.anchorNode.parentElement.focus();
+	}
+}
+
+
+function removeHTMLCode(text) {
+	return text.replace(/<[^>]*>?/gm, '');
+}
+
+
 export function checkClickInQuote() {
 	var selection = window.getSelection();
 	var range = selection.getRangeAt(0);

@@ -52,7 +52,7 @@
 			<button id="show-code" data-active="false" type="button">&lt;/&gt;</button> *@
 		</div>
 	</div>
-		<div id="content" contenteditable="true" spellcheck="false" @oninput="UpdateModelContent" @onkeydown="ContentKeyDown" @ondblclick="ControlSelection">
+		<div id="content" contenteditable="true" spellcheck="false" @oninput="UpdateModelContent" @onkeydown="ContentKeyDown" @ondblclick="ControlSelection" @onkeyup="ContentKeyUp">
 	</div>
 
 	</div>
@@ -134,7 +134,7 @@
 	};
 
 	private IJSInProcessObjectReference? module;
-	
+
 	protected async override Task OnAfterRenderAsync(bool firstRender)
 	{
 		await base.OnAfterRenderAsync(firstRender);
@@ -148,6 +148,15 @@
 	{
 		if (e.Code == "Enter" || e.Code == "NumpadEnter") {
 			await module.InvokeAsync<string>("checkEnterCursorInQuote");
+		}
+
+	}
+
+	protected async Task ContentKeyUp(KeyboardEventArgs e)
+	{
+		if (e.Code == "Backspace" || e.Code == "Delete")
+		{
+			await module.InvokeAsync<string>("checkDeleteCursorInQuote");
 		}
 	}
 
