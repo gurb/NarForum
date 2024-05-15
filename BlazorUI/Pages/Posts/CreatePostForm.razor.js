@@ -5,12 +5,11 @@ let textData = "";
 
 let active = false;
 
+
 document.onload = function () {
 	content = document.getElementById('content');
 	showCode = document.getElementById('show-code');
 	filename = document.getElementById('filename');
-
-	
 
 	content.addEventListener('mouseenter', function () {
 		const a = content.querySelectorAll('a');
@@ -25,6 +24,7 @@ document.onload = function () {
 		})
 	});
 
+
 	showCode.addEventListener('click', function () {
 		showCode.dataset.active = !active;
 		active = !active
@@ -36,6 +36,53 @@ document.onload = function () {
 			content.setAttribute('contenteditable', true);
 		}
 	});
+}
+
+export function checkEnterCursorInQuote() {
+	var selection = window.getSelection();
+	var range = selection.getRangeAt(0);
+	var blockquote = getParentBlockquote(range);
+	content = document.getElementById('content');
+	console.log("testtttet 1");
+	if (blockquote) {
+		var evt = window.event || arguments.callee.caller.arguments[0];
+		console.log(evt);
+		evt.preventDefault();
+		const selection = window.getSelection();
+		const range = selection.getRangeAt(0);
+		const newLine = document.createElement('div');
+		newLine.innerHTML = "&nbsp;";
+
+		selection.anchorNode.parentElement.insertAdjacentElement('afterend', newLine)
+		range.setStart(newLine, 0);
+		range.collapse(true);
+		selection.removeAllRanges();
+		selection.addRange(range);
+		newLine.focus();
+	}
+}
+
+export function checkClickInQuote() {
+	var selection = window.getSelection();
+	var range = selection.getRangeAt(0);
+	var blockquote = getParentBlockquote(range);
+	if (blockquote) {
+		var evt = window.event || arguments.callee.caller.arguments[0];
+		evt.preventDefault();
+		var sel = window.getSelection();
+		sel.removeAllRanges();
+	}
+}
+
+function getParentBlockquote(range) {
+	var node = range.commonAncestorContainer;
+	while (node) {
+		if (node.nodeName && node.nodeName.toUpperCase() === 'BLOCKQUOTE') {
+			return node;
+		}
+		node = node.parentNode;
+	}
+	return null;
 }
 
 export function getData() {

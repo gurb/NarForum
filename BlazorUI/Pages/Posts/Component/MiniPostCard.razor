@@ -86,7 +86,7 @@
     public EventCallback<int> AddFavoriteCallback { get; set; }
 
     [Parameter]
-    public EventCallback<int> ReplyCallback { get; set; }
+    public EventCallback<PostVM> ReplyCallback { get; set; }
 
     [Parameter]
     public PostVM Post { get; set; }
@@ -109,6 +109,6 @@
 
     protected async Task reply()
     {
-        await ReplyCallback.InvokeAsync(PostId);
+        await ReplyCallback.InvokeAsync(Post);
     }
 }

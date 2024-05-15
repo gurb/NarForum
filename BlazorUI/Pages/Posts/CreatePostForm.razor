@@ -52,7 +52,7 @@
 			<button id="show-code" data-active="false" type="button">&lt;/&gt;</button> *@
 		</div>
 	</div>
-		<div id="content" contenteditable="true" spellcheck="false" @oninput="UpdateModelContent">
+		<div id="content" contenteditable="true" spellcheck="false" @oninput="UpdateModelContent" @onkeydown="ContentKeyDown" @ondblclick="ControlSelection">
 	</div>
 
 	</div>
@@ -134,15 +134,7 @@
 	};
 
 	private IJSInProcessObjectReference? module;
-
-	[JSInvokable]
-	public Task<string> SetDataToModelContent(string param)
-	{
-		Model.Content = param;
-
-		return Task.FromResult(Model.Content); ;
-	}
-
+	
 	protected async override Task OnAfterRenderAsync(bool firstRender)
 	{
 		await base.OnAfterRenderAsync(firstRender);
@@ -152,14 +144,28 @@
 		}
 	}
 
+	protected async Task ContentKeyDown(KeyboardEventArgs e)
+	{
+		if (e.Code == "Enter" || e.Code == "NumpadEnter") {
+			await module.InvokeAsync<string>("checkEnterCursorInQuote");
+		}
+	}
+
+	protected async Task ControlSelection()
+	{
+		await module.InvokeAsync<string>("checkClickInQuote");
+	}
+
 	async Task UpdateModelContent(ChangeEventArgs e)
 	{
-		Model.Content = await module.InvokeAsync<string>("getData");
+		// Model.Content = await module.InvokeAsync<string>("getData");
+		Model.DisplayContent = await module.InvokeAsync<string>("getData");
 	}
 
 	public async Task SetContenteditable()
 	{
-		await module.InvokeAsync<string>("setData", Model.Content);
+		// await module.InvokeAsync<string>("setData", Model.Content);
+		await module.InvokeAsync<string>("setData", Model.DisplayContent);
 	}
 
 	protected async Task HandleCreatePost()

@@ -26,7 +26,7 @@
             LikeCallback="(postId) => LikePost(postId)" 
             UnLikeCallback="(postId) => UnLikePost(postId)" 
             AddFavoriteCallback="(postId) => AddFavorite(postId)"
-            ReplyCallback="(postId) => AddReply(postId)"></MiniPostCard>
+            ReplyCallback="(post) => AddReply(post)"></MiniPostCard>
     }
     <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
     <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingId" Callback="RefreshPosts"></CreatePostForm>
@@ -320,9 +320,12 @@ else
         await FavoriteService.AddFavorite(newFavorite);
     }
 
-    protected async Task AddReply(int PostId)
+    protected async Task AddReply(PostVM post)
     {
-        CreateModel.Content += $"\n<div contenteditable='false' style='background:yellow'>test</div>\n<p>cevap yaz..</p>";
+        CreateModel.Content += $"\n[Quote](PostId={PostId})[/Quote]";
+        // var postContent = await PostService.Get
+        CreateModel.DisplayContent += $"\n<blockquote class='quote-box'>{post.Content}</blockquote>\n<p>reply..</p>";
+
         await child.SetContenteditable();
         await InvokeAsync(StateHasChanged);
     }

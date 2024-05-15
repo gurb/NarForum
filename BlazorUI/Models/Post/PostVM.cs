@@ -18,5 +18,6 @@
         public int LikeCounter { get; set; }
         public int UnlikeCounter { get; set; }
         public bool IsFavorite { get; set; }
+        public string DisplayContent { get; set; } = string.Empty;
     }
 }
