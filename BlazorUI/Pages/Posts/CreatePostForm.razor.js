@@ -24,7 +24,6 @@ document.onload = function () {
 		})
 	});
 
-
 	showCode.addEventListener('click', function () {
 		showCode.dataset.active = !active;
 		active = !active

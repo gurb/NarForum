@@ -324,7 +324,7 @@ else
     {
         CreateModel.Content += $"\n[Quote](PostId={PostId})[/Quote]";
         // var postContent = await PostService.Get
-        CreateModel.DisplayContent += $"\n<blockquote class='quote-box'>{post.Content}</blockquote>\n<p>reply..</p>";
+        CreateModel.DisplayContent += $"\n<blockquote author-quote='{post.UserName}' class='quote-box'>{post.Content}</blockquote>\n<p>reply..</p>";
 
         await child.SetContenteditable();
         await InvokeAsync(StateHasChanged);
