@@ -1,6 +1,7 @@
 ﻿@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:int}"
 @page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:int}/{PageIndex:int}"
 @page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:int}/{PageIndex:int}/{PostId:int}"
+@using System.Text.RegularExpressions
 
 @inject IJSRuntime JS
 @implements IAsyncDisposable
@@ -179,6 +180,7 @@ else
         Heading = await HeadingService.GetHeadingById(HeadingId);
         PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId, PageIndex, PageSize);
         Posts = postPagination.Posts;
+        ConfigureDisplayPosts(Posts);
 
         Likes = await LikeService.GetLikesByHeadingId(HeadingId);
 
@@ -196,6 +198,36 @@ else
         await SetBreadcrumb();
 
         await InvokeAsync(StateHasChanged);
+    }
+
+    private void ConfigureDisplayPosts(List<PostVM>? posts)
+    {
+        if (posts == null) return;
+        if (posts.Count == 0) return;
+
+        foreach (var post in posts)
+        {
+            post.DisplayContent = GenerateDisplayContent(post.Content);
+        }
+    }
+
+    private string GenerateDisplayContent(string content)
+    {
+        string displayContent = content;
+
+        Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=(\d+)\)\[\/Quote\]");
+        MatchCollection matches = quoteRegex.Matches(displayContent);
+
+        foreach (Match match in matches)
+        {
+            string postId = match.Groups[1].Value;
+
+            string newTag = $"<blockquote author-quote='Alıntı' post-id='{postId}' class='quote-box'>{{post.Content}}</blockquote>";
+
+            displayContent = displayContent.Replace(match.Value, newTag);
+        }
+
+        return displayContent;
     }
 
     private async Task ScrollToEntry()
@@ -217,6 +249,7 @@ else
     {
         PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId, 1, PageSize);
         Posts = postPagination.Posts;
+        ConfigureDisplayPosts(Posts);
         await ScrollToEntry();
         TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
         await InvokeAsync(StateHasChanged);
@@ -322,11 +355,58 @@ else
 
     protected async Task AddReply(PostVM post)
     {
-        CreateModel.Content += $"\n[Quote](PostId={PostId})[/Quote]";
+        CreateModel.Content += $"\n[Quote](PostId={post.Id})[/Quote]";
+
         // var postContent = await PostService.Get
-        CreateModel.DisplayContent += $"\n<blockquote author-quote='{post.UserName}' class='quote-box'>{post.Content}</blockquote>\n<p>reply..</p>";
+        string handledPost = DeleteQuoteTagsInQuote(post.Content);
+        CreateModel.DisplayContent += $"\n<blockquote author-quote='Alıntı' post-id='{post.Id}' class='quote-box'>{handledPost}</blockquote>\n<div>reply..</div>";
 
         await child.SetContenteditable();
         await InvokeAsync(StateHasChanged);
+    }
+
+
+    private string DeleteQuoteTagsInQuote(string content)
+    {
+        string newContent = content;
+
+        // Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=(\d+)\)\[\/Quote\]");
+        // Regex quoteRegex2 = new Regex(@"<blockquote\s+author-quote='([^']*)'\s+post-id='(\d+)'\s+class='quote-box'\s*>([\s\S]*?)<\/blockquote>");
+        // Regex quoteRegex3 = new Regex(@"<blockquote author-quote='([^']*)' post-id='(\d+)' class='quote-box'>(.*?)<\/blockquote>");
+        Regex quoteRegex4 = new Regex(@"<blockquote\s+author-quote=""([^""]*)""\s+post-id=""(\d+)""\s+class=""quote-box"">([\s\S]*?)<\/blockquote>");
+        // MatchCollection matches = quoteRegex.Matches(newContent);
+        // MatchCollection matches2 = quoteRegex2.Matches(newContent);
+        // MatchCollection matches3 = quoteRegex3.Matches(newContent);
+        MatchCollection matches4 = quoteRegex4.Matches(newContent);
+
+        // foreach (Match match in matches)
+        // {
+        //     string postId = match.Groups[1].Value;
+
+        //     newContent = newContent.Replace(match.Value, string.Empty);
+        // }
+
+        // foreach (Match match in matches2)
+        // {
+        //     string postId = match.Groups[1].Value;
+
+        //     newContent = newContent.Replace(match.Value, string.Empty);
+        // }
+
+        // foreach (Match match in matches3)
+        // {
+        //     string postId = match.Groups[1].Value;
+
+        //     newContent = newContent.Replace(match.Value, string.Empty);
+        // }
+
+        foreach (Match match in matches4)
+        {
+            string postId = match.Groups[1].Value;
+
+            newContent = newContent.Replace(match.Value, string.Empty);
+        }
+
+        return newContent;
     }
 }
