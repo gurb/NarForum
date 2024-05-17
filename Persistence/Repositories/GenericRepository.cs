@@ -26,6 +26,12 @@ namespace Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task CreateListAsync(List<T> entities)
+        {
+			await _context.AddRangeAsync(entities);
+			await _context.SaveChangesAsync();
+		}
+
         public async Task DeleteAsync(T entity)
         {
             _context.Remove(entity);

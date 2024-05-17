@@ -10,7 +10,8 @@ namespace Application.Contracts.Persistence
         Task CreateAsync(T Entity);
         Task UpdateAsync(T Entity);
         Task DeleteAsync(T Entity);
+        Task CreateListAsync(List<T> Entities);
 
-        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
+		Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
     }
 }

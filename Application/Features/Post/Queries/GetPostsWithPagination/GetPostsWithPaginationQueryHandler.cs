@@ -2,6 +2,7 @@
 using Application.Features.Post.Queries.GetAllPosts;
 using AutoMapper;
 using MediatR;
+using System.Linq;
 
 namespace Application.Features.Post.Queries.GetPostsWithPagination
 {
@@ -11,13 +12,20 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
         private readonly IPostRepository _postRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IHeadingRepository _headingRepository;
+        private readonly IQuoteRepository _quoteRepository;
 
-        public GetPostsWithPaginationQueryHandler(IMapper mapper, IPostRepository postRepository, IHeadingRepository headingRepository, ICategoryRepository categoryRepository)
+        public GetPostsWithPaginationQueryHandler(
+            IMapper mapper, 
+            IPostRepository postRepository, 
+            IHeadingRepository headingRepository, 
+            ICategoryRepository categoryRepository, 
+            IQuoteRepository quoteRepository)
         {
             _mapper = mapper;
             _postRepository = postRepository;
             _categoryRepository = categoryRepository;
             _headingRepository = headingRepository;
+            _quoteRepository = quoteRepository;
         }
 
         public async Task<PostsPaginationDTO> Handle(GetPostsWithPaginationQuery request, CancellationToken cancellationToken)
@@ -33,9 +41,24 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
                 // convert data objecs to DTOs
                 var data = _mapper.Map<List<PostDTO>>(posts);
 
+
+                // get quotes bounded with post
+                List<PostDTO> quotePosts = new List<PostDTO>();
+                List<int> PostIds = posts.Select(x => x.Id).ToList();
+                List<Domain.Quote> quotes = await _quoteRepository.GetAllAsync(x => PostIds.Contains(x.PostId!.Value));
+                
+                if(quotes != null && quotes.Count > 0)
+                {
+                    List<int?> QuotePostIds = quotes.Select(x => x.QuotePostId).ToList();
+                    var quotePostList = await _postRepository.GetAllAsync(x => QuotePostIds.Contains(x.Id));
+                    quotePosts = _mapper.Map<List<PostDTO>>(quotePostList);
+                }
+
+
                 dto = new PostsPaginationDTO
                 {
                     Posts = data,
+                    QuotePosts = quotePosts,
                     TotalCount = _postRepository.GetPostsCountByHeadingId(request.HeadingId.Value)
                 };
             }

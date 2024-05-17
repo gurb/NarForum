@@ -81,6 +81,8 @@ else
     UserInfoVM CurrentUser { get; set; }
 
     public List<PostVM>? Posts { get; private set; }
+    public List<PostVM>? QuotePosts { get; private set; }
+
     public PostVM CreateModel { get; set; }
 
     private List<BreadcrumbItem> BreadcrumbItems { get; set; }
@@ -180,6 +182,8 @@ else
         Heading = await HeadingService.GetHeadingById(HeadingId);
         PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId, PageIndex, PageSize);
         Posts = postPagination.Posts;
+        QuotePosts = postPagination.QuotePosts;
+
         ConfigureDisplayPosts(Posts);
 
         Likes = await LikeService.GetLikesByHeadingId(HeadingId);
@@ -222,7 +226,20 @@ else
         {
             string postId = match.Groups[1].Value;
 
-            string newTag = $"<blockquote author-quote='Alıntı' post-id='{postId}' class='quote-box'>{{post.Content}}</blockquote>";
+            string quoteContent = "- Removed -";
+            PostVM? quotePost;
+
+            if(QuotePosts != null && QuotePosts.Count() > 0)
+            {
+                quotePost = QuotePosts.FirstOrDefault(x => x.Id == Convert.ToInt32(postId));
+
+                if(quotePost != null)
+                {
+                    quoteContent = DeleteQuoteTagsInQuote(quotePost.Content);
+                }
+            }
+
+            string newTag = $"<blockquote author-quote='Alıntı' post-id='{postId}' class='quote-box'>{quoteContent}</blockquote>";
 
             displayContent = displayContent.Replace(match.Value, newTag);
         }
@@ -249,6 +266,8 @@ else
     {
         PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId, 1, PageSize);
         Posts = postPagination.Posts;
+        QuotePosts = postPagination.QuotePosts;
+
         ConfigureDisplayPosts(Posts);
         await ScrollToEntry();
         TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
@@ -370,35 +389,17 @@ else
     {
         string newContent = content;
 
-        // Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=(\d+)\)\[\/Quote\]");
-        // Regex quoteRegex2 = new Regex(@"<blockquote\s+author-quote='([^']*)'\s+post-id='(\d+)'\s+class='quote-box'\s*>([\s\S]*?)<\/blockquote>");
-        // Regex quoteRegex3 = new Regex(@"<blockquote author-quote='([^']*)' post-id='(\d+)' class='quote-box'>(.*?)<\/blockquote>");
-        Regex quoteRegex4 = new Regex(@"<blockquote\s+author-quote=""([^""]*)""\s+post-id=""(\d+)""\s+class=""quote-box"">([\s\S]*?)<\/blockquote>");
-        // MatchCollection matches = quoteRegex.Matches(newContent);
-        // MatchCollection matches2 = quoteRegex2.Matches(newContent);
-        // MatchCollection matches3 = quoteRegex3.Matches(newContent);
+        Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=(\d+)\)\[\/Quote\]");
+        Regex quoteRegex4 = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
+        MatchCollection matches = quoteRegex.Matches(newContent);
         MatchCollection matches4 = quoteRegex4.Matches(newContent);
 
-        // foreach (Match match in matches)
-        // {
-        //     string postId = match.Groups[1].Value;
+        foreach (Match match in matches)
+        {
+            string postId = match.Groups[1].Value;
 
-        //     newContent = newContent.Replace(match.Value, string.Empty);
-        // }
-
-        // foreach (Match match in matches2)
-        // {
-        //     string postId = match.Groups[1].Value;
-
-        //     newContent = newContent.Replace(match.Value, string.Empty);
-        // }
-
-        // foreach (Match match in matches3)
-        // {
-        //     string postId = match.Groups[1].Value;
-
-        //     newContent = newContent.Replace(match.Value, string.Empty);
-        // }
+            newContent = newContent.Replace(match.Value, string.Empty);
+        }
 
         foreach (Match match in matches4)
         {

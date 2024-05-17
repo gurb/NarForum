@@ -3383,6 +3383,9 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
         public int HeadingId { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("quotePostIds")]
+        public System.Collections.Generic.ICollection<int> QuotePostIds { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -3523,6 +3526,9 @@ namespace BlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("posts")]
         public System.Collections.Generic.ICollection<PostDTO> Posts { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("quotePosts")]
+        public System.Collections.Generic.ICollection<PostDTO> QuotePosts { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("totalCount")]
         public int TotalCount { get; set; }

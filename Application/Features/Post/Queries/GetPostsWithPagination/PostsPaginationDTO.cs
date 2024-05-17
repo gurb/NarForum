@@ -10,6 +10,7 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
     public class PostsPaginationDTO
     {
         public List<PostDTO>? Posts { get; set; }
+        public List<PostDTO>? QuotePosts { get; set; }
         public int TotalCount { get; set; }
     }
 }
