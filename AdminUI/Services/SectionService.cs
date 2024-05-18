@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using BlazorUI.Contracts;
-using BlazorUI.Models.Section;
-using BlazorUI.Services.Base;
-using BlazorUI.Services.Common;
+using AdminUI.Contracts;
+using AdminUI.Models.Section;
+using AdminUI.Services.Base;
+using AdminUI.Services.Common;
 
-namespace BlazorUI.Services;
+namespace AdminUI.Services;
 
 public class SectionService : BaseHttpService, ISectionService
 {
