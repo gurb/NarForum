@@ -1,0 +1,10 @@
+﻿.dashboard-row {
+    margin-bottom: 20px;
+}
+
+.dashboard-row-title {
+    font-size: 1.2em;
+    border-bottom: 2px solid #eee;
+    background: #f9f9f9;
+    padding: 10px;
+}

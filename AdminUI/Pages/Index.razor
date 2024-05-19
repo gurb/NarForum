@@ -11,6 +11,9 @@
 <AuthorizeView>
     <Authorized>
         <button class="btn btn-danger" @onclick="Logout">Logout</button>
+
+        <Dashboard></Dashboard>
+
     </Authorized>
     <NotAuthorized>
         <button class="btn btn-success" @onclick="GoToLogin">Login</button>
@@ -18,3 +21,4 @@
         <button class="btn btn-primary" @onclick="GoToRegister">Register</button>
     </NotAuthorized>
 </AuthorizeView>
+
