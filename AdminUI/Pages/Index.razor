@@ -4,16 +4,9 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1 class="text-center">Forum</h1>
-<br />
-<br />
-
 <AuthorizeView>
     <Authorized>
-        <button class="btn btn-danger" @onclick="Logout">Logout</button>
-
         <Dashboard></Dashboard>
-
     </Authorized>
     <NotAuthorized>
         <button class="btn btn-success" @onclick="GoToLogin">Login</button>
