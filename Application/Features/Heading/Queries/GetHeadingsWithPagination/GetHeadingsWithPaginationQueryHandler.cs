@@ -49,7 +49,7 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
                 }
             }
 
-            if (request.UserName != null)
+            else if (request.UserName != null)
             {
 
                 headings = await _headingRepository.GetHeadingsByUserNameWithPagination(request.UserName, request.PageIndex!.Value, request.PageSize!.Value);
@@ -76,6 +76,35 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
                 };
                 return dto;
             }
+
+            else
+            {
+                headings = await _headingRepository.GetHeadingsWithPagination(request.PageIndex!.Value, request.PageSize!.Value);
+                List<int> categoryIds = headings.Select(x => x.CategoryId).ToList();
+
+
+                List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));
+
+                var data = _mapper.Map<List<HeadingDTO>>(headings);
+
+                foreach (var heading in data)
+                {
+                    var category = categories.FirstOrDefault(x => x.Id == heading.CategoryId);
+                    if (category != null)
+                    {
+                        heading.CategoryName = category.Name;
+                    }
+                }
+
+                HeadingsPaginationDTO dto = new HeadingsPaginationDTO
+                {
+                    Headings = data,
+                    TotalCount = _headingRepository.GetAllAsync(x => x.IsActive).Result.Count
+                };
+
+                return dto;
+            }
+
 
 
             return new HeadingsPaginationDTO();

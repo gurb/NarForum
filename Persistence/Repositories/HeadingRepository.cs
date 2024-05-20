@@ -59,6 +59,16 @@ namespace Persistence.Repositories
             return totalCount;
         }
 
+        public async Task<List<Heading>> GetHeadingsWithPagination(int pageIndex, int pageSize)
+        {
+            var productsPerPage = await _context.Headings.AsNoTracking()
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return productsPerPage;
+        }
+
         public async Task IncreasePostCounter(int HeadingId)
         {
             var heading = await _context.Headings.FirstOrDefaultAsync(x => x.Id == HeadingId);

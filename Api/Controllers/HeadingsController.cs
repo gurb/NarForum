@@ -69,6 +69,21 @@ namespace Api.Controllers
             return headings;
         }
 
+        [HttpGet("GetHeadingsWithPagination")]
+        public async Task<HeadingsPaginationDTO> GetHeadingsWithPagination(int pageIndex, int pageSize)
+        {
+            var query = new GetHeadingsWithPaginationQuery
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+
+            var posts = await _mediator.Send(query);
+
+            return posts;
+        }
+
+
         [HttpGet("GetHeadingsByCategoryNameWithPagination")]
         public async Task<HeadingsPaginationDTO> GetHeadingsByCategoryNameWithPagination(string CategoryName, int pageIndex, int pageSize)
         {

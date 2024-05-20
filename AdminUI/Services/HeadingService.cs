@@ -79,5 +79,14 @@ namespace AdminUI.Services
 
             return data;
         }
+
+        public async Task<HeadingsPaginationVM> GetHeadingsWithPagination(int pageIndex, int pageSize)
+        {
+            var headingsPagination = await _client.GetHeadingsWithPaginationAsync(pageIndex, pageSize);
+
+            var data = _mapper.Map<HeadingsPaginationVM>(headingsPagination);
+
+            return data;
+        }
     }
 }
