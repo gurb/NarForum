@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Persistence;
+using Application.Extensions.Core;
 using Application.Features.Post.Queries.GetPostsWithPagination;
 using AutoMapper;
 using MediatR;
@@ -7,8 +8,6 @@ using System.Collections;
 
 namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
 {
-
-
     public class GetHeadingsWithPaginationQueryHandler : IRequestHandler<GetHeadingsWithPaginationQuery, HeadingsPaginationDTO>
     {
         private readonly IMapper _mapper;
@@ -24,90 +23,47 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
 
         public async Task<HeadingsPaginationDTO> Handle(GetHeadingsWithPaginationQuery request, CancellationToken cancellationToken)
         {
-
             List<Domain.Heading> headings;
             // query the database
 
+            var predicate = PredicateBuilder.True<Domain.Heading>();
 
-            
-            if (request.CategoryName != null)
+            if(request.CategoryName != null)
             {
                 var category = await _categoryRepository.GetByName(request.CategoryName);
 
                 if (category != null)
                 {
-                    headings = await _headingRepository.GetHeadingsByCategoryIdWithPagination(category.Id, request.PageIndex!.Value, request.PageSize!.Value);
-
-                    var data = _mapper.Map<List<HeadingDTO>>(headings);
-
-                    HeadingsPaginationDTO dto = new HeadingsPaginationDTO
-                    {
-                        Headings = data,
-                        TotalCount = _headingRepository.GetHeadingsCountByCategoryId(category.Id)
-                    };
-                    return dto;
+                    predicate = predicate.And(x => x.CategoryId == category.Id);
                 }
-            }
 
-            else if (request.UserName != null)
+            }
+            if(request.UserName != null)
             {
-
-                headings = await _headingRepository.GetHeadingsByUserNameWithPagination(request.UserName, request.PageIndex!.Value, request.PageSize!.Value);
-
-                List<int> categoryIds = headings.Select(x => x.CategoryId).ToList();
-
-                List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));
-
-                var data = _mapper.Map<List<HeadingDTO>>(headings);
-
-                foreach (var heading in data)
-                {
-                    var category = categories.FirstOrDefault(x => x.Id == heading.CategoryId);
-                    if(category != null)
-                    {
-                        heading.CategoryName = category.Name;
-                    }
-                }
-
-                HeadingsPaginationDTO dto = new HeadingsPaginationDTO
-                {
-                    Headings = data,
-                    TotalCount = _headingRepository.GetHeadingsCountByUserName(request.UserName)
-                };
-                return dto;
+                predicate = predicate.And(x => x.UserName == request.UserName);
             }
 
-            else
+            headings = await _headingRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value);
+            var data = _mapper.Map<List<HeadingDTO>>(headings);
+
+            List<int> categoryIds = headings.Select(x => x.CategoryId).ToList();
+            List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));
+
+            foreach (var heading in data)
             {
-                headings = await _headingRepository.GetHeadingsWithPagination(request.PageIndex!.Value, request.PageSize!.Value);
-                List<int> categoryIds = headings.Select(x => x.CategoryId).ToList();
-
-
-                List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));
-
-                var data = _mapper.Map<List<HeadingDTO>>(headings);
-
-                foreach (var heading in data)
+                var category = categories.FirstOrDefault(x => x.Id == heading.CategoryId);
+                if (category != null)
                 {
-                    var category = categories.FirstOrDefault(x => x.Id == heading.CategoryId);
-                    if (category != null)
-                    {
-                        heading.CategoryName = category.Name;
-                    }
+                    heading.CategoryName = category.Name;
                 }
-
-                HeadingsPaginationDTO dto = new HeadingsPaginationDTO
-                {
-                    Headings = data,
-                    TotalCount = _headingRepository.GetAllAsync(x => x.IsActive).Result.Count
-                };
-
-                return dto;
             }
 
-
-
-            return new HeadingsPaginationDTO();
+            HeadingsPaginationDTO dto = new HeadingsPaginationDTO
+            {
+                Headings = data,
+                TotalCount = _headingRepository.GetHeadingsCountByUserName(request.UserName)
+            };
+            return dto;
         }
     }
 }

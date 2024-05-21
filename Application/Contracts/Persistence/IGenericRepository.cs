@@ -11,7 +11,8 @@ namespace Application.Contracts.Persistence
         Task UpdateAsync(T Entity);
         Task DeleteAsync(T Entity);
         Task CreateListAsync(List<T> Entities);
-
 		Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
+        int GetCount(Expression<Func<T, bool>> predicate);
+        Task<List<T>> GetWithPagination(Expression<Func<T, bool>> predicate, int pageIndex, int pageSize);
     }
 }

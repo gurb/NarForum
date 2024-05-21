@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Persistence;
+using Domain;
 using Domain.Base;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DatabaseContext;
@@ -58,6 +59,22 @@ namespace Persistence.Repositories
             _context.Update(entity);
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<T>> GetWithPagination(Expression<Func<T, bool>> predicate, int pageIndex, int pageSize)
+        {
+            var productsPerPage = await _context.Set<T>().AsNoTracking()
+                .Where(predicate)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return productsPerPage;
+        }
+
+        public int GetCount(Expression<Func<T, bool>> predicate)
+        {
+            return  _context.Set<T>().AsNoTracking().Where(predicate).Count();
         }
     }
 }

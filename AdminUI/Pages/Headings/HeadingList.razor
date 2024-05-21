@@ -54,8 +54,13 @@
         if (PageIndex == 0) PageIndex = 1;
         CurrentPage = PageIndex;
 
+        var query = new HeadingPaginationQueryVM
+        {
+            PageIndex = PageIndex,
+            PageSize = PageSize
+        };
 
-        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(PageIndex, PageSize);
+        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
         Headings = headingsPagination.Headings;
         TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 

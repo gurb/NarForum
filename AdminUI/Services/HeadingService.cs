@@ -80,9 +80,11 @@ namespace AdminUI.Services
             return data;
         }
 
-        public async Task<HeadingsPaginationVM> GetHeadingsWithPagination(int pageIndex, int pageSize)
+        public async Task<HeadingsPaginationVM> GetHeadingsWithPagination(HeadingPaginationQueryVM paramQuery)
         {
-            var headingsPagination = await _client.GetHeadingsWithPaginationAsync(pageIndex, pageSize);
+            GetHeadingsWithPaginationQuery query = _mapper.Map<GetHeadingsWithPaginationQuery>(paramQuery);
+
+            var headingsPagination = await _client.GetHeadingsWithPaginationAsync(query);
 
             var data = _mapper.Map<HeadingsPaginationVM>(headingsPagination);
 

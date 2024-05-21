@@ -16,10 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\Category\Component\" />
     <Folder Include="Pages\Headings\Component\" />
-    <Folder Include="Pages\Category\" />
-    <Folder Include="Pages\Sections\" />
-    <Folder Include="Pages\Users\" />
+    <Folder Include="Pages\Sections\Component\" />
+    <Folder Include="Pages\Users\Component\" />
   </ItemGroup>
 
 </Project>

@@ -10,7 +10,7 @@ namespace AdminUI.Contracts
         Task<List<HeadingVM>> GetHeadings();
         Task<List<HeadingVM>> GetHeadingsByCategoryName(string name);
         Task<List<HeadingVM>> GetHeadingsByCategoryId(int id);
-        Task<HeadingsPaginationVM> GetHeadingsWithPagination(int pageIndex, int pageSize);
+        Task<HeadingsPaginationVM> GetHeadingsWithPagination(HeadingPaginationQueryVM query);
         Task<HeadingsPaginationVM> GetHeadingsByCategoryNameWithPagination(string categoryName, int pageIndex, int pageSize);
         Task<HeadingsPaginationVM> GetHeadingsByUserNameWithPagination(string userName, int pageIndex, int pageSize);
 
