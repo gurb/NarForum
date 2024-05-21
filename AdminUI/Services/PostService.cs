@@ -65,4 +65,15 @@ public class PostService : BaseHttpService, IPostService
 
         return data;
     }
+
+    public async Task<PostsPaginationVM> GetPostsWithPagination(PostPaginationQueryVM paramQuery)
+    {
+        GetPostsWithPaginationQuery query = _mapper.Map<GetPostsWithPaginationQuery>(paramQuery);
+
+        var postsPagination = await _client.GetPostsWithPaginationAsync(query);
+
+        var data = _mapper.Map<PostsPaginationVM>(postsPagination);
+
+        return data;
+    }
 }

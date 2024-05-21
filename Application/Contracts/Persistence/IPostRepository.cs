@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using Application.Features.Post.Queries.GetPostsWithPagination;
+using Domain;
+using System.Linq.Expressions;
 
 namespace Application.Contracts.Persistence
 {
@@ -9,6 +11,9 @@ namespace Application.Contracts.Persistence
 
         int GetPostsCountByHeadingId(int headingId);
         int GetPostsCountByUserName(string userName);
+
+        int GetPostsCount(Expression<Func<Post, bool>> predicate);
+        Task<List<Post>> GetPostsWithPagination(Expression<Func<Post, bool>> predicate, int pageIndex, int pageSize);
 
         Task<List<Post>> GetPostsByHeadingIdWithPagination(int headingId, int pageIndex, int pageSize);
         Task<List<Post>> GetPostsByUserNameWithPagination(string userName, int pageIndex, int pageSize);

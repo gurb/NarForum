@@ -17,6 +17,7 @@ namespace AdminUI.MappingProfiles
             CreateMap<PostDTO, PostVM>().ReverseMap();
             CreateMap<PostsPaginationDTO, PostsPaginationVM>().ReverseMap();
             CreateMap<CreatePostCommand, PostVM>().ReverseMap();
+            CreateMap<GetPostsWithPaginationQuery, PostPaginationQueryVM>().ReverseMap();
 
             CreateMap<SectionDTO, SectionVM>().ReverseMap();
             CreateMap<CreateSectionCommand, SectionVM>().ReverseMap();

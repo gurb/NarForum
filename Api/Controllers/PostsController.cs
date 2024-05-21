@@ -40,6 +40,15 @@ namespace Api.Controllers
             return posts;
         }
 
+        [HttpPost("GetPostsWithPagination")]
+        public async Task<PostsPaginationDTO> GetPostsWithPagination(GetPostsWithPaginationQuery request)
+        {
+            var posts = await _mediator.Send(request);
+
+            return posts;
+        }
+
+
         [HttpGet("GetPostsByHeadingIdWithPagination")]
         public async Task<PostsPaginationDTO> GetPostsByHeadingIdWithPagination(int HeadingId, int pageIndex, int pageSize)
         {

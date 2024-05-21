@@ -17,6 +17,9 @@
 
   <ItemGroup>
     <Folder Include="Pages\Headings\Component\" />
+    <Folder Include="Pages\Category\" />
+    <Folder Include="Pages\Sections\" />
+    <Folder Include="Pages\Users\" />
   </ItemGroup>
 
 </Project>

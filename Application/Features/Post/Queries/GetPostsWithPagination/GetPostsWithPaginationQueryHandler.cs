@@ -1,4 +1,6 @@
 ﻿using Application.Contracts.Persistence;
+using Application.Extensions;
+using Application.Extensions.Core;
 using Application.Features.Post.Queries.GetAllPosts;
 using AutoMapper;
 using MediatR;
@@ -32,50 +34,49 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
         {
             // query the database
             List<Domain.Post> posts;
+            List<PostDTO>? quotePosts = new List<PostDTO>();
             PostsPaginationDTO? dto = new PostsPaginationDTO();
 
-            if (request.HeadingId != null)
+            var predicate = PredicateBuilder.True<Domain.Post>();
+
+            if(request.HeadingId != null)
             {
-                posts = await _postRepository.GetPostsByHeadingIdWithPagination(request.HeadingId!.Value, request.PageIndex!.Value, request.PageSize!.Value);
+                predicate = predicate.And(x => x.HeadingId == request.HeadingId);
+            }
+            if(request.UserName != null)
+            {
+                predicate = predicate.And(x => x.UserName == request.UserName);
+            }
 
-                // convert data objecs to DTOs
-                var data = _mapper.Map<List<PostDTO>>(posts);
+            posts = await _postRepository.GetPostsWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value);
 
+            var data = _mapper.Map<List<PostDTO>>(posts);
 
+            if(request.HeadingId != null)
+            {
                 // get quotes bounded with post
-                List<PostDTO> quotePosts = new List<PostDTO>();
+                quotePosts = new List<PostDTO>();
                 List<int> PostIds = posts.Select(x => x.Id).ToList();
                 List<Domain.Quote> quotes = await _quoteRepository.GetAllAsync(x => PostIds.Contains(x.PostId!.Value));
-                
-                if(quotes != null && quotes.Count > 0)
+
+                if (quotes != null && quotes.Count > 0)
                 {
                     List<int?> QuotePostIds = quotes.Select(x => x.QuotePostId).ToList();
                     var quotePostList = await _postRepository.GetAllAsync(x => QuotePostIds.Contains(x.Id));
                     quotePosts = _mapper.Map<List<PostDTO>>(quotePostList);
                 }
-
-
-                dto = new PostsPaginationDTO
-                {
-                    Posts = data,
-                    QuotePosts = quotePosts,
-                    TotalCount = _postRepository.GetPostsCountByHeadingId(request.HeadingId.Value)
-                };
             }
 
-            if(request.UserName != null)
-            {
-                posts = await _postRepository.GetPostsByUserNameWithPagination(request.UserName, request.PageIndex!.Value, request.PageSize!.Value);
 
+            if (request.UserName != null)
+            {
                 List<int?> headingIds = posts.Select(x => x.HeadingId).ToList();
                 List<Domain.Heading> headings = await _headingRepository.GetAllAsync(x => headingIds.Contains(x.Id));
 
                 List<int> categoryIds = headings.Select(x => x.CategoryId).ToList();
                 List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));
 
-                // convert data objecs to DTOs
-                var data = _mapper.Map<List<PostDTO>>(posts);
-
+                
                 foreach (var post in data)
                 {
                     var heading = headings.FirstOrDefault(x => x.Id == post.HeadingId);
@@ -84,7 +85,7 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
                         post.HeadingTitle = heading.Title;
 
                         var category = categories.FirstOrDefault(x => x.Id == heading.CategoryId);
-                        
+
                         if (category != null)
                         {
                             post.CategoryName = category.Name;
@@ -92,13 +93,14 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
                     }
                 }
 
-                dto = new PostsPaginationDTO
-                {
-                    Posts = data,
-                    TotalCount = _postRepository.GetPostsCountByUserName(request.UserName)
-                };
             }
 
+            dto = new PostsPaginationDTO
+            {
+                Posts = data,
+                QuotePosts = quotePosts,
+                TotalCount = _postRepository.GetPostsCount(predicate)
+            };
 
             // return list of DTOs
             return dto;

@@ -8,6 +8,9 @@ namespace AdminUI.Contracts
         // queries
         Task<List<PostVM>> GetPosts();
         Task<List<PostVM>> GetPostsByHeadingId(int id);
+
+        Task<PostsPaginationVM> GetPostsWithPagination(PostPaginationQueryVM query);
+
         Task<PostsPaginationVM> GetPostsByHeadingIdWithPagination(int id, int pageIndex, int pageSize);
         Task<PostsPaginationVM> GetPostsByUserNameWithPagination(string userName, int pageIndex, int pageSize);
 
