@@ -1,5 +1,68 @@
-﻿<h3>SectionList</h3>
+﻿@page "/section/list"
+
+<h3>Section List</h3>
+
+<table class="table caption-top">
+    <caption>List of users</caption>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!isLoaded)
+        {
+            <p>Loading Data...</p>
+        }
+        else
+        {
+            @foreach (var sec in Sections!)
+            {
+                <tr>
+                    <th scope="row">@sec.Id</th>
+                    <td>@sec.Name</td>
+                    <td>-</td>
+                </tr>
+            }
+
+        }
+
+    </tbody>
+</table>
 
 @code {
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
 
+    public List<SectionVM>? Sections { get; set; }
+
+    [Inject]
+    public ISectionService SectionService { get; set; }
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    private bool isLoaded { get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (PageIndex == 0) PageIndex = 1;
+        CurrentPage = PageIndex;
+
+        SectionPaginationQueryVM query = new SectionPaginationQueryVM
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize
+            };
+
+        SectionPaginationVM sectionPagination = await SectionService.GetSectionsWithPagination(query);
+        Sections = sectionPagination.Sections;
+        TotalPages = (int)Math.Ceiling((double)sectionPagination.TotalCount / PageSize);
+
+        isLoaded = true;
+    }
 }

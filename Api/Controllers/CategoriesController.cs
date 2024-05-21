@@ -1,5 +1,6 @@
 ﻿using Application.Features.Category.Commands.CreateCategory;
 using Application.Features.Category.Queries.GetCategories;
+using Application.Features.Category.Queries.GetCategoriesWithPagination;
 using Application.Features.Category.Queries.GetCategory;
 using Application.Features.Category.Queries.GetParentCategories;
 using MediatR;
@@ -51,6 +52,14 @@ namespace Api.Controllers
             var category = await _mediator.Send(query);
 
             return category;
+        }
+
+        [HttpPost("GetCategoriesWithPagination")]
+        public async Task<CategoriesPaginationDTO> GetCategoriesWithPagination(GetCategoriesWithPaginationQuery request)
+        {
+            var headings = await _mediator.Send(request);
+
+            return headings;
         }
 
         [HttpGet("GetCategoriesById")]

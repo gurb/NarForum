@@ -21,9 +21,13 @@ namespace AdminUI.MappingProfiles
 
             CreateMap<SectionDTO, SectionVM>().ReverseMap();
             CreateMap<CreateSectionCommand, SectionVM>().ReverseMap();
+            CreateMap<SectionsPaginationDTO, SectionPaginationVM>().ReverseMap();
+            CreateMap<GetSectionsWithPaginationQuery, SectionPaginationQueryVM>().ReverseMap();
 
             CreateMap<CategoryDTO, CategoryVM>().ReverseMap();
             CreateMap<CreateCategoryCommand, CategoryVM>().ReverseMap();
+            CreateMap<CategoriesPaginationDTO, CategoriesPaginationVM>().ReverseMap();
+            CreateMap<GetCategoriesWithPaginationQuery, CategoriesPaginationQueryVM>().ReverseMap();
 
             CreateMap<HeadingDTO, HeadingVM>().ReverseMap();
             CreateMap<HeadingsPaginationDTO, HeadingsPaginationVM>().ReverseMap();

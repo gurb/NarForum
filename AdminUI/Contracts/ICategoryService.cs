@@ -11,6 +11,7 @@ namespace AdminUI.Contracts
         Task<List<CategoryVM>> GetSectionCategories();
         Task<List<CategoryVM>> GetCategoriesByName(string CategoryName);
         Task<List<CategoryVM>> GetParentCategoriesByName(string CategoryName);
+        Task<CategoriesPaginationVM> GetCategoriesWithPagination(CategoriesPaginationQueryVM paramQuery);
 
         // commands
         Task<ApiResponse<Guid>> CreateCategory(CategoryVM post);

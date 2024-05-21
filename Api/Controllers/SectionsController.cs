@@ -1,10 +1,8 @@
-﻿using Application.Features.Post.Commands.CreatePost;
-using Application.Features.Post.Queries.GetAllPosts;
-using Application.Features.Section.Commands.CreateSection;
+﻿using Application.Features.Section.Commands.CreateSection;
 using Application.Features.Section.Queries.GetSections;
+using Application.Features.Section.Queries.GetSectionsWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -37,6 +35,14 @@ namespace Api.Controllers
         {
             var response = await _mediator.Send(command);
             return Ok(response);
+        }
+
+        [HttpPost("GetSectionsWithPagination")]
+        public async Task<SectionsPaginationDTO> GetSectionsWithPagination(GetSectionsWithPaginationQuery request)
+        {
+            var headings = await _mediator.Send(request);
+
+            return headings;
         }
     }
 }

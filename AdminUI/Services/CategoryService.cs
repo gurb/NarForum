@@ -72,5 +72,16 @@ namespace AdminUI.Services
 
             return data;
         }
+
+        public async Task<CategoriesPaginationVM> GetCategoriesWithPagination(CategoriesPaginationQueryVM paramQuery)
+        {
+            GetCategoriesWithPaginationQuery query = _mapper.Map<GetCategoriesWithPaginationQuery>(paramQuery);
+
+            var categoriesPagination = await _client.GetCategoriesWithPaginationAsync(query);
+
+            var data = _mapper.Map<CategoriesPaginationVM>(categoriesPagination);
+
+            return data;
+        }
     }
 }

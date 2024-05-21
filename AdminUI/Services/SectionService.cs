@@ -3,6 +3,7 @@ using AdminUI.Contracts;
 using AdminUI.Models.Section;
 using AdminUI.Services.Base;
 using AdminUI.Services.Common;
+using AdminUI.Models.Category;
 
 namespace AdminUI.Services;
 
@@ -36,6 +37,17 @@ public class SectionService : BaseHttpService, ISectionService
     {
         var sections = await _client.SectionsAllAsync();
         var data = _mapper.Map<List<SectionVM>>(sections);
+
+        return data;
+    }
+
+    public async Task<SectionPaginationVM> GetSectionsWithPagination(SectionPaginationQueryVM paramQuery)
+    {
+        GetSectionsWithPaginationQuery query = _mapper.Map<GetSectionsWithPaginationQuery>(paramQuery);
+
+        var sectionsPagination = await _client.GetSectionsWithPaginationAsync(query);
+
+        var data = _mapper.Map<SectionPaginationVM>(sectionsPagination);
 
         return data;
     }

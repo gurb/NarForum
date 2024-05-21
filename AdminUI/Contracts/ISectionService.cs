@@ -7,9 +7,11 @@ namespace AdminUI.Contracts
     {
         // queries
         Task<List<SectionVM>> GetSections();
+        Task<SectionPaginationVM> GetSectionsWithPagination(SectionPaginationQueryVM paramQuery);
 
         // commands
         Task<ApiResponse<Guid>> CreateSection(SectionVM post);
+
 
     }
 }
