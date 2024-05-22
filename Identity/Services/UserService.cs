@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Identity;
+using Application.Extensions.Core;
 using Application.Models.Identity.User;
 using Azure.Core;
 using Identity.DatabaseContext;
@@ -6,6 +7,7 @@ using Identity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Security.Claims;
 
 namespace Identity.Services
@@ -56,5 +58,40 @@ namespace Identity.Services
 
             return response;
         }
+
+        public async Task<UsersPaginationDTO> GetWithPagination(GetUsersWithPaginationQuery query)
+        {
+            UsersPaginationDTO dto = new UsersPaginationDTO();
+
+            var predicate = PredicateBuilder.True<ForumUser>();
+
+            if(query.UserName != null)
+            {
+                predicate = predicate.And(x => x.UserName == query.UserName);
+            }
+
+            var users = await _identityDbContext.Users.AsNoTracking()
+                .Where(predicate)
+                .Skip((query.PageIndex! - 1) * query.PageSize)
+                .Take(query.PageSize)
+                .Select(x => new UserInfoResponse
+                    {
+                        UserName = x.UserName,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        RegisterDate = x.RegisterDate,
+                        Description = x.Description,
+                        PostCounter = 100,
+                        HeadingCounter = 10
+                    }
+                ).ToListAsync();
+            
+            dto.Users = users;
+            dto.TotalCount = _identityDbContext.Users.AsNoTracking()
+                .Where(predicate).Count();
+
+            return dto;
+        }
+
     }
 }

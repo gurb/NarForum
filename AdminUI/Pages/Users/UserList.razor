@@ -1,5 +1,68 @@
-﻿<h3>UserList</h3>
+﻿@page "/user/list"
+
+<h3>User List</h3>
+
+<table class="table caption-top">
+    <caption>List of users</caption>
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Register Date</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!isLoaded)
+        {
+            <p>Loading Data...</p>
+        }
+        else
+        {
+            @foreach (var user in Users!)
+            {
+                <tr>
+                    <td scope="row">@user.UserName</td>
+                    <td scope="row">@user.RegisterDate</td>
+                    <td>-</td>
+                </tr>
+            }
+
+        }
+
+    </tbody>
+</table>
 
 @code {
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
 
+    public List<UserInfoVM>? Users { get; set; }
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    private bool isLoaded { get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (PageIndex == 0) PageIndex = 1;
+        CurrentPage = PageIndex;
+
+        UsersPaginationQueryVM query = new UsersPaginationQueryVM
+        {
+            PageIndex = PageIndex,
+            PageSize = PageSize
+        };
+
+        UsersPaginationVM usersPagination = await UserService.GetWithPagination(query);
+        Users = usersPagination.Users;
+        TotalPages = (int)Math.Ceiling((double)usersPagination.TotalCount / PageSize);
+
+        isLoaded = true;
+    }
 }
