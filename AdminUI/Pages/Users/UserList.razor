@@ -2,6 +2,8 @@
 
 <h3>User List</h3>
 
+<UserFilter QueryModel="query" Callback="RefreshListFilter"></UserFilter>
+
 <table class="table caption-top">
     <caption>List of users</caption>
     <thead>
@@ -26,11 +28,16 @@
                     <td>-</td>
                 </tr>
             }
-
         }
 
     </tbody>
 </table>
+
+
+@if (isLoaded)
+{
+    <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
+}
 
 @code {
     [Parameter]
@@ -40,6 +47,8 @@
 
     [Inject]
     public IUserService UserService { get; set; }
+
+    UsersPaginationQueryVM query = new UsersPaginationQueryVM();
 
     // Pagination variables
     private int PageSize = 10; // Number of items per page
@@ -53,7 +62,7 @@
         if (PageIndex == 0) PageIndex = 1;
         CurrentPage = PageIndex;
 
-        UsersPaginationQueryVM query = new UsersPaginationQueryVM
+        query = new UsersPaginationQueryVM
         {
             PageIndex = PageIndex,
             PageSize = PageSize
@@ -64,5 +73,30 @@
         TotalPages = (int)Math.Ceiling((double)usersPagination.TotalCount / PageSize);
 
         isLoaded = true;
+    }
+
+    protected async Task RefreshList()
+    {
+        UsersPaginationVM usersPagination = await UserService.GetWithPagination(query);
+        Users = usersPagination.Users;
+        TotalPages = (int)Math.Ceiling((double)usersPagination.TotalCount / PageSize);
+
+        isLoaded = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshListFilter()
+    {
+        query.PageIndex = 1;
+        CurrentPage = 1;
+
+        await RefreshList();
+    }
+
+    protected async Task PageChanged(int currentPage)
+    {
+        query.PageIndex = currentPage;
+        CurrentPage = currentPage;
+        await RefreshList();
     }
 }

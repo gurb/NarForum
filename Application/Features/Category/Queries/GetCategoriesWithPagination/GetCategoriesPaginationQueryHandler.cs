@@ -24,6 +24,11 @@ namespace Application.Features.Category.Queries.GetCategoriesWithPagination
 
             var predicate = PredicateBuilder.True<Domain.Category>();
 
+            if(!String.IsNullOrEmpty(request.Name))
+            {
+                predicate = predicate.And(x => x.Name.Contains(request.Name));
+            }
+
             categories = await _categoryRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value);
             var data = _mapper.Map<List<CategoryDTO>>(categories);
 

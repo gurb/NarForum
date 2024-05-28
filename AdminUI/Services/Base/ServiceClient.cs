@@ -3889,6 +3889,9 @@ namespace AdminUI.Services.Base
     public partial class GetCategoriesWithPaginationQuery
     {
 
+        [System.Text.Json.Serialization.JsonPropertyName("name")]
+        public string Name { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
 
@@ -3918,6 +3921,9 @@ namespace AdminUI.Services.Base
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetPostsWithPaginationQuery
     {
+
+        [System.Text.Json.Serialization.JsonPropertyName("postId")]
+        public int? PostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }

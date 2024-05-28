@@ -2,6 +2,8 @@
 
 <h3>Post</h3>
 
+<PostFilter QueryModel="query" Callback="RefreshListFilter"></PostFilter>
+
 <table class="table caption-top">
     <caption>List of users</caption>
     <thead>
@@ -33,6 +35,13 @@
     </tbody>
 </table>
 
+
+@if (isLoaded)
+{
+    <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
+}
+
+
 @code {
     [Parameter]
     public int PageIndex { get; set; } = 1;
@@ -41,6 +50,8 @@
 
     [Inject]
     public IPostService PostService { get; set; }
+
+    PostPaginationQueryVM query = new PostPaginationQueryVM();
 
     // Pagination variables
     private int PageSize = 10; // Number of items per page
@@ -54,16 +65,42 @@
         if (PageIndex == 0) PageIndex = 1;
         CurrentPage = PageIndex;
 
-        PostPaginationQueryVM query = new PostPaginationQueryVM
-            {
-                PageIndex = PageIndex,
-                PageSize = PageSize
-            };
+        query = new PostPaginationQueryVM
+        {
+            PageIndex = PageIndex,
+            PageSize = PageSize
+        };
 
         PostsPaginationVM postsPagination = await PostService.GetPostsWithPagination(query);
         Posts = postsPagination.Posts;
         TotalPages = (int)Math.Ceiling((double)postsPagination.TotalCount / PageSize);
 
         isLoaded = true;
+    }
+
+    protected async Task RefreshList()
+    {
+        PostsPaginationVM postsPagination = await PostService.GetPostsWithPagination(query);
+        Posts = postsPagination.Posts;
+        TotalPages = (int)Math.Ceiling((double)postsPagination.TotalCount / PageSize);
+
+        isLoaded = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshListFilter()
+    {
+        query.PageIndex = 1;
+        CurrentPage = 1;
+
+        await RefreshList();
+    }
+
+
+    protected async Task PageChanged(int currentPage)
+    {
+        query.PageIndex = currentPage;
+        CurrentPage = currentPage;
+        await RefreshList();
     }
 }

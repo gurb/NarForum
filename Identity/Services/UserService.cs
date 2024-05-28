@@ -65,7 +65,7 @@ namespace Identity.Services
 
             var predicate = PredicateBuilder.True<ForumUser>();
 
-            if(query.UserName != null)
+            if(!String.IsNullOrEmpty(query.UserName))
             {
                 predicate = predicate.And(x => x.UserName == query.UserName);
             }

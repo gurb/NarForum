@@ -39,11 +39,16 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
 
             var predicate = PredicateBuilder.True<Domain.Post>();
 
+            if(request.PostId != null)
+            {
+                predicate = predicate.And(x => x.Id == request.PostId);
+            }
+
             if(request.HeadingId != null)
             {
                 predicate = predicate.And(x => x.HeadingId == request.HeadingId);
             }
-            if(request.UserName != null)
+            if(!String.IsNullOrEmpty(request.UserName))
             {
                 predicate = predicate.And(x => x.UserName == request.UserName);
             }
@@ -67,8 +72,7 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
                 }
             }
 
-
-            if (request.UserName != null)
+            if (!String.IsNullOrEmpty(request.UserName))
             {
                 List<int?> headingIds = posts.Select(x => x.HeadingId).ToList();
                 List<Domain.Heading> headings = await _headingRepository.GetAllAsync(x => headingIds.Contains(x.Id));
@@ -92,14 +96,13 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
                         }
                     }
                 }
-
             }
 
             dto = new PostsPaginationDTO
             {
                 Posts = data,
                 QuotePosts = quotePosts,
-                TotalCount = _postRepository.GetPostsCount(predicate)
+                TotalCount = _postRepository.GetCount(predicate)
             };
 
             // return list of DTOs

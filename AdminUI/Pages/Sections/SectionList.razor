@@ -2,6 +2,8 @@
 
 <h3>Section List</h3>
 
+<SectionFilter QueryModel="query" Callback="RefreshListFilter"></SectionFilter>
+
 <table class="table caption-top">
     <caption>List of users</caption>
     <thead>
@@ -32,6 +34,12 @@
     </tbody>
 </table>
 
+
+@if (isLoaded)
+{
+    <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
+}
+
 @code {
     [Parameter]
     public int PageIndex { get; set; } = 1;
@@ -40,6 +48,8 @@
 
     [Inject]
     public ISectionService SectionService { get; set; }
+
+    SectionPaginationQueryVM query = new SectionPaginationQueryVM();
 
     // Pagination variables
     private int PageSize = 10; // Number of items per page
@@ -53,16 +63,42 @@
         if (PageIndex == 0) PageIndex = 1;
         CurrentPage = PageIndex;
 
-        SectionPaginationQueryVM query = new SectionPaginationQueryVM
-            {
-                PageIndex = PageIndex,
-                PageSize = PageSize
-            };
+        query = new SectionPaginationQueryVM
+        {
+            PageIndex = PageIndex,
+            PageSize = PageSize
+        };
 
         SectionPaginationVM sectionPagination = await SectionService.GetSectionsWithPagination(query);
         Sections = sectionPagination.Sections;
         TotalPages = (int)Math.Ceiling((double)sectionPagination.TotalCount / PageSize);
 
         isLoaded = true;
+    }
+
+    protected async Task RefreshList()
+    {
+        SectionPaginationVM sectionPagination = await SectionService.GetSectionsWithPagination(query);
+        Sections = sectionPagination.Sections;
+        TotalPages = (int)Math.Ceiling((double)sectionPagination.TotalCount / PageSize);
+
+        isLoaded = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshListFilter()
+    {
+        query.PageIndex = 1;
+        CurrentPage = 1;
+
+        await RefreshList();
+    }
+
+
+    protected async Task PageChanged(int currentPage)
+    {
+        query.PageIndex = currentPage;
+        CurrentPage = currentPage;
+        await RefreshList();
     }
 }

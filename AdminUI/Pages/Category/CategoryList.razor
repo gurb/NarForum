@@ -2,6 +2,8 @@
 
 <h3>Category List</h3>
 
+<CategoryFilter QueryModel="query" Callback="RefreshListFilter"></CategoryFilter>
+
 <table class="table caption-top">
     <caption>List of users</caption>
     <thead>
@@ -33,6 +35,12 @@
     </tbody>
 </table>
 
+@if (isLoaded)
+{
+    <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
+}
+
+
 @code {
     [Parameter]
     public int PageIndex { get; set; } = 1;
@@ -49,12 +57,14 @@
 
     private bool isLoaded { get; set; }
 
+    CategoriesPaginationQueryVM query = new CategoriesPaginationQueryVM();
+
     protected async override Task OnParametersSetAsync()
     {
         if (PageIndex == 0) PageIndex = 1;
         CurrentPage = PageIndex;
 
-        CategoriesPaginationQueryVM query = new CategoriesPaginationQueryVM
+        query = new CategoriesPaginationQueryVM
         {
             PageIndex = PageIndex,
             PageSize = PageSize
@@ -65,5 +75,31 @@
         TotalPages = (int)Math.Ceiling((double)categoriesPagination.TotalCount / PageSize);
 
         isLoaded = true;
+    }
+
+    protected async Task RefreshList()
+    {
+        CategoriesPaginationVM categoriesPagination = await CategoryService.GetCategoriesWithPagination(query);
+        Categories = categoriesPagination.Categories;
+        TotalPages = (int)Math.Ceiling((double)categoriesPagination.TotalCount / PageSize);
+
+        isLoaded = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshListFilter()
+    {
+        query.PageIndex = 1;
+        CurrentPage = 1;
+
+        await RefreshList();
+    }
+
+
+    protected async Task PageChanged(int currentPage)
+    {
+        query.PageIndex = currentPage;
+        CurrentPage = currentPage;
+        await RefreshList();
     }
 }
