@@ -23,9 +23,12 @@
             @foreach (var user in Users!)
             {
                 <tr>
-                    <td scope="row">@user.UserName</td>
-                    <td scope="row">@user.RegisterDate</td>
-                    <td>-</td>
+                    <td scope="row" class="align-middle">@user.UserName</td>
+                    <td scope="row" class="align-middle">@user.RegisterDate</td>
+                    <td class="text-end align-middle">
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailUser(user)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteUser(user)"><i class="bi bi-trash"></i></button>
+                    </td>
                 </tr>
             }
         }
@@ -98,5 +101,15 @@
         query.PageIndex = currentPage;
         CurrentPage = currentPage;
         await RefreshList();
+    }
+
+    protected async Task DetailUser(UserInfoVM user)
+    {
+
+    }
+
+    protected async Task DeleteUser(UserInfoVM heading)
+    {
+
     }
 }

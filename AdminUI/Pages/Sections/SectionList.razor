@@ -23,9 +23,12 @@
             @foreach (var sec in Sections!)
             {
                 <tr>
-                    <th scope="row">@sec.Id</th>
-                    <td>@sec.Name</td>
-                    <td>-</td>
+                    <th scope="row" class="align-middle">@sec.Id</th>
+                    <td class="align-middle">@sec.Name</td>
+                    <td class="text-end align-middle">
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailSection(sec)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteSection(sec)"><i class="bi bi-trash"></i></button>
+                    </td>
                 </tr>
             }
 
@@ -94,11 +97,20 @@
         await RefreshList();
     }
 
-
     protected async Task PageChanged(int currentPage)
     {
         query.PageIndex = currentPage;
         CurrentPage = currentPage;
         await RefreshList();
+    }
+
+    protected async Task DetailSection(SectionVM sec)
+    {
+
+    }
+
+    protected async Task DeleteSection(SectionVM sec)
+    {
+
     }
 }

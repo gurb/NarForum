@@ -1,13 +1,11 @@
 ﻿using Application.Contracts.Identity;
 using Application.Extensions.Core;
 using Application.Models.Identity.User;
-using Azure.Core;
 using Identity.DatabaseContext;
 using Identity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using System.Security.Claims;
 
 namespace Identity.Services

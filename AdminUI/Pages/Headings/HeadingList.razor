@@ -25,11 +25,14 @@
             @foreach (var heading in Headings)
             {
                 <tr>
-                    <th scope="row">1</th>
-                    <td>@heading.Title</td>
-                    <td>@heading.CategoryName</td>
-                    <td>@heading.UserName</td>
-                    <td>-</td>
+                    <th scope="row" class="align-middle">1</th>
+                    <td class="align-middle">@heading.Title</td>
+                    <td class="align-middle">@heading.CategoryName</td>
+                    <td class="align-middle">@heading.UserName</td>
+                    <td class="text-end align-middle">
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailHeading(heading)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteHeading(heading)"><i class="bi bi-trash"></i></button>
+                    </td>
                 </tr>
             }
         }
@@ -102,5 +105,15 @@
         query.PageIndex = currentPage;
         CurrentPage = currentPage;
         await RefreshList();
+    }
+
+    protected async Task DetailHeading(HeadingVM heading)
+    {
+
+    }
+
+    protected async Task DeleteHeading(HeadingVM heading)
+    {
+
     }
 }

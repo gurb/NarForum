@@ -24,10 +24,13 @@
             @foreach (var post in Posts)
             {
                 <tr>
-                    <th scope="row">@post.Id</th>
-                    <td>@post.Content</td>
-                    <td>@post.UserName</td>
-                    <td>-</td>
+                    <th scope="row" class="align-middle">@post.Id</th>
+                    <td class="align-middle">@post.Content</td>
+                    <td class="align-middle">@post.UserName</td>
+                    <td class="text-end align-middle">
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailPost(post)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeletePost(post)"><i class="bi bi-trash"></i></button>
+                    </td>
                 </tr>
             }
         }
@@ -102,5 +105,15 @@
         query.PageIndex = currentPage;
         CurrentPage = currentPage;
         await RefreshList();
+    }
+
+    protected async Task DetailPost(PostVM post)
+    {
+
+    }
+
+    protected async Task DeletePost(PostVM post)
+    {
+
     }
 }
