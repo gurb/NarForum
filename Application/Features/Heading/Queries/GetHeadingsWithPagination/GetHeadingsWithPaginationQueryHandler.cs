@@ -28,7 +28,7 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
 
             var predicate = PredicateBuilder.True<Domain.Heading>();
 
-            if(request.CategoryName != null)
+            if(!String.IsNullOrEmpty(request.CategoryName))
             {
                 var category = await _categoryRepository.GetByName(request.CategoryName);
 
@@ -38,7 +38,8 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
                 }
 
             }
-            if(request.UserName != null)
+
+            if(!String.IsNullOrEmpty(request.UserName))
             {
                 predicate = predicate.And(x => x.UserName == request.UserName);
             }
@@ -61,7 +62,7 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
             HeadingsPaginationDTO dto = new HeadingsPaginationDTO
             {
                 Headings = data,
-                TotalCount = _headingRepository.GetHeadingsCountByUserName(request.UserName)
+                TotalCount = _headingRepository.GetCount(predicate)
             };
             return dto;
         }

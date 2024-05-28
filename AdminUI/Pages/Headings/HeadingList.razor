@@ -2,12 +2,15 @@
 
 <h3>HeadingList</h3>
 
+<HeadingsFilter QueryModel="query" Callback="RefreshListFilter"></HeadingsFilter>
+
 <table class="table caption-top">
     <caption>List of users</caption>
     <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Title</th>
+            <th scope="col">Category</th>
             <th scope="col">Author</th>
             <th scope="col">Action</th>
         </tr>
@@ -24,6 +27,7 @@
                 <tr>
                     <th scope="row">1</th>
                     <td>@heading.Title</td>
+                    <td>@heading.CategoryName</td>
                     <td>@heading.UserName</td>
                     <td>-</td>
                 </tr>
@@ -32,6 +36,11 @@
         
     </tbody>
 </table>
+
+@if (isLoaded)
+{
+    <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
+}
 
 @code {
     [Parameter]
@@ -42,6 +51,8 @@
     [Inject]
     public IHeadingService HeadingService { get; set; }
 
+    HeadingPaginationQueryVM query = new HeadingPaginationQueryVM();
+
     // Pagination variables
     private int PageSize = 10; // Number of items per page
     private int TotalPages = 1;
@@ -49,12 +60,14 @@
 
     private bool isLoaded { get; set; }
 
+
+
     protected async override Task OnParametersSetAsync()
     {
         if (PageIndex == 0) PageIndex = 1;
         CurrentPage = PageIndex;
 
-        var query = new HeadingPaginationQueryVM
+        query = new HeadingPaginationQueryVM
         {
             PageIndex = PageIndex,
             PageSize = PageSize
@@ -65,5 +78,31 @@
         TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
         isLoaded = true;
+    }
+
+    protected async Task RefreshList()
+    {
+        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
+        Headings = headingsPagination.Headings;
+        TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+
+        isLoaded = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshListFilter()
+    {
+        query.PageIndex = 1;
+        CurrentPage = 1;
+        
+        await RefreshList();
+    }
+
+
+    protected async Task PageChanged(int currentPage)
+    {
+        query.PageIndex = currentPage;
+        CurrentPage = currentPage;
+        await RefreshList();
     }
 }

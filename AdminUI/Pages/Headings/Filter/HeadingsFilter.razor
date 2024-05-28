@@ -1,0 +1,83 @@
+﻿<h3 class="filter-header">HeadingsFilter</h3>
+
+@if(QueryModel != null)
+{
+    <EditForm Model="@QueryModel" OnValidSubmit="HandleQuery">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group form-margin">
+                    <label asp-for="Title" class="control-label">Select Category</label>
+                    <InputSelect class="form-select" aria-label="Default select example" @bind-Value="@QueryModel.CategoryName" @onchange="OnChangeCategory">
+                        @if (categories != null)
+                        {
+                            <option value="@string.Empty">All</option>
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.Name">@category.Name</option>
+                            }
+                        }
+                        else
+                        {
+                            <option disabled value="0">Loading...</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => QueryModel.CategoryName)" />
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="control-label">Username</label>
+                    <InputText id="userName" class="form-control" placeholder="type username..." @bind-Value="@QueryModel.UserName" autocomplete="off"></InputText>
+                    <ValidationMessage For="@(() => QueryModel.UserName)" />
+                </div>
+            </div>
+       
+        </div>
+        <div class="row" style="margin-top:10px;">
+            <div class="col-sm-9">
+      
+            </div>
+            <div class="col-sm-3 text-end">
+                <div class="form-group">
+                    <input type="submit" value="Filter" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+
+
+@code {
+    [Parameter]
+    public HeadingPaginationQueryVM? QueryModel { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    [Inject]
+    public ICategoryService? CategoryService { get; set; }
+
+    private List<CategoryVM>? categories;
+    private CategoryVM? SelectedCategory;
+
+    protected async override Task OnInitializedAsync()
+    {
+        categories = await CategoryService!.GetCategories();
+    }
+
+    private void OnChangeCategory()
+    {
+
+    }
+
+
+    protected async Task HandleQuery()
+    {
+        if(Callback.HasDelegate)
+        {
+            await Callback.InvokeAsync();
+        }
+    }
+}

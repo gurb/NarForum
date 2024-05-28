@@ -1,0 +1,57 @@
+﻿@if (TotalPages > 1)
+{
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            @if (!UseCallback)
+            {
+                @for (var j = 1; j <= TotalPages; j++)
+                {
+                    <li class="page-item @(j == CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@getUrl(j)">@j</a>
+                    </li>
+                }
+            }
+            else
+            {
+                @for (var z = 1; z <= TotalPages; z++)
+                {
+                    var pageNumber = z;
+                    <li class="page-item @(z == CurrentPage ? "active" : "")">
+                        <a class="page-link" @onclick="() => ChangePage(pageNumber)">@z</a>
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+}
+
+@code {
+    [Parameter]
+    public int TotalPages { get; set; }
+
+    [Parameter]
+    public int CurrentPage { get; set; }
+
+    [Parameter]
+    public string BaseUrl { get; set; }
+
+    [Parameter]
+    public bool UseCallback { get; set; }
+
+    private string getUrl(int index)
+    {
+        return $"{BaseUrl}{index}";
+    }
+
+    [Parameter]
+    public EventCallback<int> PageChanged { get; set; }
+
+    private async Task ChangePage(int page)
+    {
+        if (page != CurrentPage)
+        {
+            CurrentPage = page;
+            await PageChanged.InvokeAsync(CurrentPage);
+        }
+    }
+}
