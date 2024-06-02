@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Identity.Configurations;
 
@@ -15,9 +11,15 @@ public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
         builder.HasData(
             new IdentityRole
             {
-                Id = "cac43a6e-f7bb-4448-baaf-1add431ccbbf",
-                Name = "Employee",
-                NormalizedName = "EMPLOYEE"
+                Id = "dac42a6e-f7bb-4448-b3cf-1add431ccbbf",
+                Name = "Member",
+                NormalizedName = "MEMBER"
+            },
+            new IdentityRole
+            {
+                Id = "bac43a5e-f7bb-4448-b12f-1add431ccbbf",
+                Name = "Moderator",
+                NormalizedName = "MODERATOR"
             },
             new IdentityRole
             {
