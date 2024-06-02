@@ -51,4 +51,10 @@ public class SectionService : BaseHttpService, ISectionService
 
         return data;
     }
+
+    public async Task RemoveSection(RemoveSectionCommandVM section)
+    {
+        RemoveSectionCommand command = _mapper.Map<RemoveSectionCommand>(section);
+        await _client.RemoveSectionAsync(command);
+    }
 }

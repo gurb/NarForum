@@ -1,4 +1,5 @@
-﻿using AdminUI.Models.Post;
+﻿using AdminUI.Models.Heading;
+using AdminUI.Models.Post;
 using AdminUI.Services.Base;
 
 namespace AdminUI.Contracts
@@ -18,5 +19,7 @@ namespace AdminUI.Contracts
 
         // commands
         Task<ApiResponse<Guid>> CreatePost(PostVM post);
+        Task RemovePost(RemovePostCommandVM post);
+
     }
 }

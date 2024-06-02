@@ -1,4 +1,6 @@
-﻿using Application.Features.Post.Commands.CreatePost;
+﻿using Application.Features.Heading.Commands.RemoveHeading;
+using Application.Features.Post.Commands.CreatePost;
+using Application.Features.Post.Commands.RemovePost;
 using Application.Features.Post.Queries.GetAllPosts;
 using Application.Features.Post.Queries.GetPostsWithPagination;
 using MediatR;
@@ -84,6 +86,13 @@ namespace Api.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult> Create(CreatePostCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpPost("RemovePost")]
+        public async Task<ActionResult> RemovePost(RemovePostCommand command)
         {
             var response = await _mediator.Send(command);
             return Ok(response);

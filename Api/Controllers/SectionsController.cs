@@ -1,4 +1,6 @@
-﻿using Application.Features.Section.Commands.CreateSection;
+﻿using Application.Features.Heading.Commands.RemoveHeading;
+using Application.Features.Section.Commands.CreateSection;
+using Application.Features.Section.Commands.RemoveSection;
 using Application.Features.Section.Queries.GetSections;
 using Application.Features.Section.Queries.GetSectionsWithPagination;
 using MediatR;
@@ -43,6 +45,14 @@ namespace Api.Controllers
             var headings = await _mediator.Send(request);
 
             return headings;
+        }
+
+
+        [HttpPost("RemoveSection")]
+        public async Task<ActionResult> RemoveSection(RemoveSectionCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
     }
 }

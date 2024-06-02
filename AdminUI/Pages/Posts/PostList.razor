@@ -4,14 +4,14 @@
 
 <PostFilter QueryModel="query" Callback="RefreshListFilter"></PostFilter>
 
-<table class="table caption-top">
+<table class="table table-bordered table-hover caption-top">
     <caption>List of users</caption>
     <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Author</th>
-            <th scope="col">Action</th>
+            <th scope="col" style="width:70px;">#</th>
+            <th scope="col">Content</th>
+            <th scope="col" style="width:20%">Author</th>
+            <th scope="col" style="width:20%"></th>
         </tr>
     </thead>
     <tbody>
@@ -24,8 +24,8 @@
             @foreach (var post in Posts)
             {
                 <tr>
-                    <th scope="row" class="align-middle">@post.Id</th>
-                    <td class="align-middle">@post.Content</td>
+                    <th scope="row" class="text-end align-middle">@post.Id</th>
+                    <td class="align-middle">@((MarkupString)post.Content)</td>
                     <td class="align-middle">@post.UserName</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-primary" @onclick="() => DetailPost(post)"><i class="bi bi-card-text"></i></button>
@@ -34,7 +34,6 @@
                 </tr>
             }
         }
-
     </tbody>
 </table>
 
@@ -114,6 +113,11 @@
 
     protected async Task DeletePost(PostVM post)
     {
+        RemovePostCommandVM command = new RemovePostCommandVM
+        {
+            PostId = post.Id
+        };
 
+        await PostService.RemovePost(command);
     }
 }

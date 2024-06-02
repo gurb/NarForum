@@ -1,4 +1,5 @@
-﻿using AdminUI.Models.Section;
+﻿using AdminUI.Models.Heading;
+using AdminUI.Models.Section;
 using AdminUI.Services.Base;
 
 namespace AdminUI.Contracts
@@ -12,6 +13,7 @@ namespace AdminUI.Contracts
         // commands
         Task<ApiResponse<Guid>> CreateSection(SectionVM post);
 
+        Task RemoveSection(RemoveSectionCommandVM section);
 
     }
 }

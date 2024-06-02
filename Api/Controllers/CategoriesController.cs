@@ -1,4 +1,5 @@
 ﻿using Application.Features.Category.Commands.CreateCategory;
+using Application.Features.Category.Commands.RemoveCategory;
 using Application.Features.Category.Queries.GetCategories;
 using Application.Features.Category.Queries.GetCategoriesWithPagination;
 using Application.Features.Category.Queries.GetCategory;
@@ -105,6 +106,14 @@ namespace Api.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult> Create(CreateCategoryCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+
+        [HttpPost("RemoveCategory")]
+        public async Task<ActionResult> RemoveCategory(RemoveCategoryCommand command)
         {
             var response = await _mediator.Send(command);
             return Ok(response);

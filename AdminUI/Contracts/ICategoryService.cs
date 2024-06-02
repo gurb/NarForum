@@ -15,5 +15,6 @@ namespace AdminUI.Contracts
 
         // commands
         Task<ApiResponse<Guid>> CreateCategory(CategoryVM post);
+        Task RemoveCategory(RemoveCategoryCommandVM category);
     }
 }

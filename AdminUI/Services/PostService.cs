@@ -76,4 +76,10 @@ public class PostService : BaseHttpService, IPostService
 
         return data;
     }
+
+    public async Task RemovePost(RemovePostCommandVM post)
+    {
+        RemovePostCommand command = _mapper.Map<RemovePostCommand>(post);
+        await _client.RemovePostAsync(command);
+    }
 }

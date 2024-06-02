@@ -4,13 +4,13 @@
 
 <SectionFilter QueryModel="query" Callback="RefreshListFilter"></SectionFilter>
 
-<table class="table caption-top">
+<table class="table table-bordered table-hover caption-top">
     <caption>List of users</caption>
     <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col" style="width:70px;">#</th>
             <th scope="col">Title</th>
-            <th scope="col">Action</th>
+            <th scope="col" style="width:20%">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -23,7 +23,7 @@
             @foreach (var sec in Sections!)
             {
                 <tr>
-                    <th scope="row" class="align-middle">@sec.Id</th>
+                    <th scope="row" class="text-end align-middle">@sec.Id</th>
                     <td class="align-middle">@sec.Name</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-primary" @onclick="() => DetailSection(sec)"><i class="bi bi-card-text"></i></button>
@@ -111,6 +111,11 @@
 
     protected async Task DeleteSection(SectionVM sec)
     {
+        RemoveSectionCommandVM command = new RemoveSectionCommandVM
+        {
+            SectionId = sec.Id
+        };
 
+        await SectionService.RemoveSection(command);
     }
 }

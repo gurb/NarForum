@@ -17,22 +17,26 @@ namespace AdminUI.MappingProfiles
             CreateMap<PostDTO, PostVM>().ReverseMap();
             CreateMap<PostsPaginationDTO, PostsPaginationVM>().ReverseMap();
             CreateMap<CreatePostCommand, PostVM>().ReverseMap();
+            CreateMap<RemovePostCommand, RemovePostCommandVM>().ReverseMap();
             CreateMap<GetPostsWithPaginationQuery, PostPaginationQueryVM>().ReverseMap();
 
             CreateMap<SectionDTO, SectionVM>().ReverseMap();
             CreateMap<CreateSectionCommand, SectionVM>().ReverseMap();
             CreateMap<SectionsPaginationDTO, SectionPaginationVM>().ReverseMap();
+            CreateMap<RemoveSectionCommand, RemoveSectionCommandVM>().ReverseMap();
             CreateMap<GetSectionsWithPaginationQuery, SectionPaginationQueryVM>().ReverseMap();
 
             CreateMap<CategoryDTO, CategoryVM>().ReverseMap();
             CreateMap<CreateCategoryCommand, CategoryVM>().ReverseMap();
             CreateMap<CategoriesPaginationDTO, CategoriesPaginationVM>().ReverseMap();
             CreateMap<GetCategoriesWithPaginationQuery, CategoriesPaginationQueryVM>().ReverseMap();
+            CreateMap<RemoveCategoryCommand, RemoveCategoryCommandVM>().ReverseMap();
 
             CreateMap<HeadingDTO, HeadingVM>().ReverseMap();
             CreateMap<HeadingsPaginationDTO, HeadingsPaginationVM>().ReverseMap();
             CreateMap<CreateHeadingCommand, HeadingVM>().ReverseMap();
             CreateMap<GetHeadingsWithPaginationQuery, HeadingPaginationQueryVM>().ReverseMap();
+            CreateMap<RemoveHeadingCommand, RemoveHeadingCommandVM>().ReverseMap();
 
             CreateMap<UserInfoResponse, UserInfoVM>().ReverseMap();
             CreateMap<GetUsersWithPaginationQuery, UsersPaginationQueryVM>().ReverseMap();

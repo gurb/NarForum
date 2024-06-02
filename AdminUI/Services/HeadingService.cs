@@ -90,5 +90,11 @@ namespace AdminUI.Services
 
             return data;
         }
+
+        public async Task RemoveHeading(RemoveHeadingCommandVM heading)
+        {
+            RemoveHeadingCommand command = _mapper.Map<RemoveHeadingCommand>(heading);
+            await _client.RemoveHeadingAsync(command);
+        }
     }
 }

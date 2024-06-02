@@ -1,4 +1,5 @@
 ﻿using Application.Features.Heading.Commands.CreateHeading;
+using Application.Features.Heading.Commands.RemoveHeading;
 using Application.Features.Heading.Queries;
 using Application.Features.Heading.Queries.GetHeading;
 using Application.Features.Heading.Queries.GetHeadings;
@@ -112,6 +113,13 @@ namespace Api.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult> Create(CreateHeadingCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpPost("RemoveHeading")]
+        public async Task<ActionResult> RemoveHeading(RemoveHeadingCommand command)
         {
             var response = await _mediator.Send(command);
             return Ok(response);

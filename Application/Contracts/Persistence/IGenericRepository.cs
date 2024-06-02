@@ -7,6 +7,7 @@ namespace Application.Contracts.Persistence
     {
         Task<List<T>> GetAsync();
         Task<T> GetByIdAsync(int id);
+        Task<T?> GetByIdAsyncWithTrack(int id);
         Task CreateAsync(T Entity);
         Task UpdateAsync(T Entity);
         Task DeleteAsync(T Entity);

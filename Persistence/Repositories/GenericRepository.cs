@@ -76,5 +76,10 @@ namespace Persistence.Repositories
         {
             return  _context.Set<T>().AsNoTracking().Where(predicate).Count();
         }
+
+        public async Task<T?> GetByIdAsyncWithTrack(int id)
+        {
+            return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

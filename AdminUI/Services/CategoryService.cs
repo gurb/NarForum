@@ -83,5 +83,11 @@ namespace AdminUI.Services
 
             return data;
         }
+
+        public async Task RemoveCategory(RemoveCategoryCommandVM category)
+        {
+            RemoveCategoryCommand command = _mapper.Map<RemoveCategoryCommand>(category);
+            await _client.RemoveCategoryAsync(command);
+        }
     }
 }

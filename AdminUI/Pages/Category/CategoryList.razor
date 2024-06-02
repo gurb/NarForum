@@ -4,14 +4,14 @@
 
 <CategoryFilter QueryModel="query" Callback="RefreshListFilter"></CategoryFilter>
 
-<table class="table caption-top">
+<table class="table table-bordered table-hover caption-top">
     <caption>List of users</caption>
     <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col" style="width:70px;">Id</th>
             <th scope="col">Title</th>
-            <th scope="col">Post Counter</th>
-            <th scope="col">Action</th>
+            <th scope="col" style="width:20%">Post Counter</th>
+            <th scope="col" style="width:20%">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -24,7 +24,7 @@
             @foreach (var category in Categories)
             {
                 <tr>
-                    <th scope="row" class="align-middle">@category.Id</th>
+                    <th scope="row" class="text-end align-middle">@category.Id</th>
                     <td class="align-middle">@category.Name</td>
                     <td class="align-middle">@category.PostCounter</td>
                     <td class="text-end align-middle">
@@ -113,6 +113,11 @@
 
     protected async Task DeleteCategory(CategoryVM category)
     {
-        
+        RemoveCategoryCommandVM command = new RemoveCategoryCommandVM
+        {
+            CategoryId = category.Id
+        };
+
+        await CategoryService.RemoveCategory(command);
     }
 }
