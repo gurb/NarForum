@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,6 +9,7 @@ namespace Identity.Models
         [Key]
         public string? Id { get; set; }
         public string? Name { get; set; }
+        public string? DisplayName { get; set; }
         public bool IsGranted { get; set; }
 
 
@@ -21,5 +21,10 @@ namespace Identity.Models
         [ForeignKey("RoleId")]
         public IdentityRole? Role { get; set; }
         public string? RoleId { get; set; }
+
+
+        [ForeignKey("PermissionDefinitionId")]
+        public PermissionDefinition? PermissionDefinition { get; set; }
+        public string? PermissionDefinitionId { get; set; }
     }
 }

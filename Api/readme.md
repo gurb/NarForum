@@ -11,8 +11,7 @@
 > add-migration Forum13 -c ForumDbContext
 > update-database -Context ForumDbContext
 
-> add-migration Id06 -c ForumIdentityDbContext
+> add-migration Id08 -c ForumIdentityDbContext
 > update-database -Context ForumIdentityDbContext
-
 
 > remove-migration -c ForumIdentityDbContext

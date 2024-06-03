@@ -28,6 +28,7 @@ namespace Identity.Extensions
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IPermissionService, PermissionService>();
 
             services.AddAuthentication(options =>
             {

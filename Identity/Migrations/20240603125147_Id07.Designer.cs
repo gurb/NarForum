@@ -4,6 +4,7 @@ using Identity.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity.Migrations
 {
     [DbContext(typeof(ForumIdentityDbContext))]
-    partial class ForumIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240603125147_Id07")]
+    partial class Id07
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,7 +111,7 @@ namespace Identity.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fa43be6c-a9fb-4c3a-86a5-d002c02fce2b",
+                            ConcurrencyStamp = "5811ab05-fdc0-4a8b-a874-7bde17d85fe4",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -117,10 +120,10 @@ namespace Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHMREfHYkd2eGM7zsF8P5vPcEBHyttBas+RiCJvy3fBEAzUTBdn1AoKfWCr/PZ/1/A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKAS6fizFDoE/GXiqC8Qz4t10TBBNuH6mXSkuvWdnULbDXRoTkOQQCkYoUAQmWwRAw==",
                             PhoneNumberConfirmed = false,
                             RegisterDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "8b4bddbb-bfc8-4039-8e6f-a0146f99eb22",
+                            SecurityStamp = "b6d4aecd-bbe5-435e-9cf0-ff7e18b46212",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         },
@@ -128,7 +131,7 @@ namespace Identity.Migrations
                         {
                             Id = "9e224968-33e4-4652-b7b7-8574d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0161a9fc-f7e2-4ac3-a890-7df9a7644bcb",
+                            ConcurrencyStamp = "7a32d41c-f661-4e34-9e48-85c3dd060cf1",
                             Email = "user@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -137,10 +140,10 @@ namespace Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@LOCALHOST.COM",
                             NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI9EMb+JyTvF1U6MUNA6YaXBM2WNYaW0sghG0mhn6rRA6dRNZ2bqmuo6PxbLFXG5rg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBs6y3IBW4dNzcHl2ZvltCTuyOdC8ngKz/NFPU1gPyBRXX3mlaDKxHJThjjhgrbY1Q==",
                             PhoneNumberConfirmed = false,
                             RegisterDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "36902398-e0b3-4934-8d90-a7d6638b9102",
+                            SecurityStamp = "64c5f9c0-280c-46fa-bcc5-5987d060bda0",
                             TwoFactorEnabled = false,
                             UserName = "user@localhost.com"
                         });
@@ -163,17 +166,12 @@ namespace Identity.Migrations
                     b.Property<string>("ParentPermissionId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PermissionDefinitionId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParentPermissionId");
-
-                    b.HasIndex("PermissionDefinitionId");
 
                     b.HasIndex("RoleId");
 
@@ -703,17 +701,11 @@ namespace Identity.Migrations
                         .WithMany()
                         .HasForeignKey("ParentPermissionId");
 
-                    b.HasOne("Identity.Models.PermissionDefinition", "PermissionDefinition")
-                        .WithMany()
-                        .HasForeignKey("PermissionDefinitionId");
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId");
 
                     b.Navigation("Parent");
-
-                    b.Navigation("PermissionDefinition");
 
                     b.Navigation("Role");
                 });
