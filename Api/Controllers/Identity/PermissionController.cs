@@ -31,6 +31,12 @@ namespace Api.Controllers.Identity
             return await _permissionService.SetPermission(request);
         }
 
+        [HttpGet("GetPermissions")]
+        public async Task<GetPermissionsResponse> GetPermissions()
+        {
+            return await _permissionService.GetPermissions();
+        }
+
         [HttpPost("AddPermissionDefinition")]
         public async Task<ApiResponse> AddPermissionDefinition(AddPermissionDefinitionRequest request)
         {
@@ -50,7 +56,7 @@ namespace Api.Controllers.Identity
         }
 
         [HttpGet("GetPermissionDefinitions")]
-        public async Task<GetUserRolesResponse> GetPermissionDefinitions()
+        public async Task<GetPermissionDefinitionsResponse> GetPermissionDefinitions()
         {
             return await _permissionService.GetPermissionDefinitions();
         }

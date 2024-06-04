@@ -12,6 +12,7 @@ namespace Identity.Services
     {
         private readonly ForumIdentityDbContext _forumIdentityDbContext;
 
+
         public PermissionService(ForumIdentityDbContext forumIdentityDbContext)
         {
             _forumIdentityDbContext = forumIdentityDbContext;
@@ -35,6 +36,8 @@ namespace Identity.Services
                 await _forumIdentityDbContext.SaveChangesAsync();
 
                 response.Message = "Added permission definition";
+
+                await RefreshPermissions();
             }
             catch (Exception ex)
             {
@@ -57,7 +60,8 @@ namespace Identity.Services
                 {
                     _forumIdentityDbContext.PermissionDefinitions.Remove(permissionDefinition);
                     response.Message = "Removed permisson definition";
-                    response.IsSuccess = true;
+
+                    await RefreshPermissions();
                 }
                 else
                 {
@@ -104,6 +108,87 @@ namespace Identity.Services
                 PermissionDefinitionId = x.PermissionDefinitionId,
                 RoleId = x.RoleId,
             }).ToListAsync();
+
+            return response;
+        }
+
+        public async Task<ApiResponse> RefreshPermissions()
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                // create a backup
+                var copyThis = await _forumIdentityDbContext.Permissions.AsNoTracking().ToListAsync();
+                var oldPermissions = new List<Permission>(copyThis);
+
+                // remove permissions from database
+                var list = await _forumIdentityDbContext.Permissions.ToListAsync();
+                _forumIdentityDbContext.Permissions.RemoveRange(list);
+
+                var permissionDefinitions = await _forumIdentityDbContext.PermissionDefinitions.AsNoTracking().ToListAsync();
+                var roles = await _forumIdentityDbContext.Roles.AsNoTracking().ToListAsync();
+                List<Permission> newPermissions = new List<Permission>();
+
+                foreach (var role in roles)
+                {
+                    foreach (var permissionDefinition in permissionDefinitions)
+                    {
+                        var permission = new Permission();
+
+                        var oldPermission = oldPermissions.Where(x => x.PermissionDefinitionId == permission.PermissionDefinitionId && x.RoleId == role.Id).FirstOrDefault();
+
+                        if (oldPermission != null)
+                        {
+                            permission.Name = oldPermission.Name;
+                            permission.DisplayName = oldPermission.DisplayName;
+                            permission.IsGranted = oldPermission.IsGranted;
+                            permission.PermissionDefinitionId = oldPermission.PermissionDefinitionId;
+                            permission.ParentPermissionId = oldPermission.ParentPermissionId;
+                            permission.RoleId = oldPermission.RoleId;
+                        }
+                        else
+                        {
+                            permission.Name = permissionDefinition.Name;
+                            permission.DisplayName = permissionDefinition.DisplayName;
+                            permission.IsGranted = false;
+                            permission.PermissionDefinitionId = permissionDefinition.Id;
+                            permission.ParentPermissionId = null;
+                            permission.RoleId = role.Id;
+                        }
+
+                        newPermissions.Add(permission);
+                    }
+                }
+
+                // set parent Ids of permissions
+                foreach (var permission in newPermissions)
+                {
+                    var permissionDefinition = permissionDefinitions.FirstOrDefault(x => x.Id == permission.PermissionDefinitionId);
+
+                    if(permissionDefinition != null)
+                    {
+                        if(permissionDefinition.ParentPermissionDefinitionId != null)
+                        {
+                            var parentPermission = newPermissions.FirstOrDefault(x => x.PermissionDefinitionId == permissionDefinition.ParentPermissionDefinitionId && x.RoleId == permission.RoleId);
+
+                            if (parentPermission != null)
+                            {
+                                permission.ParentPermissionId = parentPermission.Id;
+                            }
+                        }
+                    }
+                }
+
+                _forumIdentityDbContext.Permissions.UpdateRange(newPermissions);
+                await _forumIdentityDbContext.SaveChangesAsync();
+                response.Message = "Refreshed permissions";
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.IsSuccess = false;
+            }
 
             return response;
         }
@@ -174,7 +259,8 @@ namespace Identity.Services
                     _forumIdentityDbContext.PermissionDefinitions.Update(permissionDefinition);
                     await _forumIdentityDbContext.SaveChangesAsync();
                     response.Message = "Updated permisson definition";
-                    response.IsSuccess = true;
+
+                    await RefreshPermissions();
                 }
                 else
                 {

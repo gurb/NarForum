@@ -6,6 +6,7 @@ namespace Application.Contracts.Identity
 {
     public interface IPermissionService
     {
+        Task<ApiResponse> RefreshPermissions();
         Task<ApiResponse> ResetPermissions();
         Task<ApiResponse> SetPermission(SetPermissionRequest request);
         Task<GetPermissionDefinitionsResponse> GetPermissionDefinitions();
