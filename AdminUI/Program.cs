@@ -30,6 +30,8 @@ builder.Services.AddScoped<ILikeService, LikeService>();
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IPermissionService, PermissionService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

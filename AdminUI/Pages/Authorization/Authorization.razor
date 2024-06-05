@@ -1,0 +1,85 @@
+﻿@page "/authorization"
+
+<div class="row">
+    <div class="col-3">
+        <!-- Tab navs -->
+        <div class="nav flex-column nav-pills text-center"
+             id="v-pills-tab"
+             role="tablist"
+             aria-orientation="vertical">
+            <a class="nav-link @roleActive"
+               id="v-pills-link1-tab"
+               data-mdb-pill-init
+               @onclick="() => ChangeTab(roleTab)"
+               role="tab"
+               aria-controls="v-pills-link1"
+               aria-selected="true">Link 1</a>
+            <a class="nav-link @permissionActive"
+               id="v-pills-link2-tab"
+               data-mdb-pill-init
+               @onclick="() => ChangeTab(permissionTab)"
+               role="tab"
+               aria-controls="v-pills-link2"
+               aria-selected="false">Link 2</a>
+            
+        </div>
+        <!-- Tab navs -->
+    </div>
+
+    <div class="col-9">
+        <!-- Tab content -->
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade @roleShow @roleActive"
+                    id="v-pills-link1"
+                    role="tabpanel"
+                    aria-labelledby="v-pills-link1-tab">
+                <Role></Role>
+            </div>
+
+            <div class="tab-pane fade @permissionShow @permissionActive"
+                    id="v-pills-link2"
+                    role="tabpanel"
+                    aria-labelledby="v-pills-link2-tab">
+                <Permission></Permission>
+            </div>
+
+            
+        </div>
+        <!-- Tab content -->
+    </div>
+</div>
+
+
+
+@code {
+    string roleActive = "active";
+    string permissionActive = "";
+
+    string roleShow = "show";
+    string permissionShow = "";
+
+    readonly string roleTab = "role";
+    readonly string permissionTab = "permissionTab";
+
+    protected async Task ChangeTab(string tab)
+    {
+        @if (roleTab == tab)
+        {
+            roleActive = "active";
+            permissionActive = "";
+
+            roleShow = "show";
+            permissionShow = "";
+        }
+        @if (permissionTab == tab)
+        {
+            permissionActive = "active";
+            roleActive = "";
+
+            permissionShow = "show";
+            roleShow = "";
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+}

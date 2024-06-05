@@ -7,6 +7,8 @@ using AdminUI.Models.Post;
 using AdminUI.Models.Section;
 using AdminUI.Models.User;
 using AdminUI.Services.Base;
+using AdminUI.Models.Authentication.Permission;
+using AdminUI.Models.Authentication.Role;
 
 namespace AdminUI.MappingProfiles
 {
@@ -47,6 +49,20 @@ namespace AdminUI.MappingProfiles
 
             CreateMap<FavoriteDTO, FavoriteVM>().ReverseMap();
             CreateMap<AddFavoriteCommand, FavoriteVM>().ReverseMap();
+
+            CreateMap<AddPermissionDefinitionRequest, AddPermissionDefinitionRequestVM>().ReverseMap();
+            CreateMap<DeletePermissionDefinitionRequest, DeletePermissionDefinitionRequestVM>().ReverseMap();
+            CreateMap<GetPermissionDefinitionsResponse, GetPermissionDefinitionsResponseVM>().ReverseMap();
+            CreateMap<GetPermissionsResponse, GetPermissionsResponseVM>().ReverseMap();
+            CreateMap<PermissionDefinitionDTO, PermissionDefinitionVM>().ReverseMap();
+            CreateMap<PermissionDTO, PermissionVM>().ReverseMap();
+            CreateMap<SetPermissionRequest, SetPermissionRequestVM>().ReverseMap();
+            CreateMap<UpdatePermissionDefinitionRequest, UpdatePermissionDefinitionRequestVM>().ReverseMap();
+
+            CreateMap<AddRoleRequest, AddRoleRequestVM>().ReverseMap();
+            CreateMap<GetUserRolesResponse, GetUserRolesResponseVM>().ReverseMap();
+            CreateMap<UpdateRoleRequest, UpdateRoleRequestVM>().ReverseMap();
+            CreateMap<UserRoleResponse, UserRoleResponseVM>().ReverseMap();
         }
     }
 }

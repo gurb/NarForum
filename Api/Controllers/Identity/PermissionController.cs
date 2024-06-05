@@ -25,6 +25,12 @@ namespace Api.Controllers.Identity
             return await _permissionService.ResetPermissions();
         }
 
+        [HttpPost("RefreshPermissions")]
+        public async Task<ApiResponse> RefreshPermissions()
+        {
+            return await _permissionService.RefreshPermissions();
+        }
+
         [HttpPost("SetPermission")]
         public async Task<ApiResponse> SetPermission(SetPermissionRequest request)
         {

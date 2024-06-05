@@ -6,6 +6,6 @@ namespace AdminUI.Contracts
     {
         Task<UserInfoVM> GetUserInfo(string userName);
 
-        public Task<UsersPaginationVM> GetWithPagination(UsersPaginationQueryVM paramQuery);
+        Task<UsersPaginationVM> GetWithPagination(UsersPaginationQueryVM paramQuery);
     }
 }
