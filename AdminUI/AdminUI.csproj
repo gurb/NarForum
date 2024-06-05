@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\Authorization\Component\" />
     <Folder Include="Pages\Category\Component\" />
     <Folder Include="Pages\Headings\Component\" />
     <Folder Include="Pages\Sections\Component\" />

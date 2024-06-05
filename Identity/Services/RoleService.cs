@@ -25,7 +25,7 @@ namespace Identity.Services
             {
                 IdentityRole newRole = new IdentityRole
                 {
-                    Id = request.Id,
+                    Id = Guid.NewGuid().ToString(),
                     Name = request.Name,
                     NormalizedName = request.NormalizedName,
                 };
@@ -37,7 +37,14 @@ namespace Identity.Services
             }
             catch (Exception ex) 
             {
-                response.Message = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    response.Message = ex.InnerException.Message;
+                }
+                else
+                {
+                    response.Message = ex.Message;
+                }
                 response.IsSuccess = false;
             }
 
@@ -66,7 +73,14 @@ namespace Identity.Services
             }
             catch (Exception ex)
             {
-                response.Message = ex.Message;
+                if(ex.InnerException != null)
+                {
+                    response.Message = ex.InnerException.Message;
+                }
+                else
+                {
+                    response.Message = ex.Message;
+                }
                 response.IsSuccess = false;
             }
 

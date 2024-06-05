@@ -1,0 +1,66 @@
+﻿@using AdminUI.Models.Authentication.Role
+<h3>AddRoleModal</h3>
+
+<Modal @ref="modal" ModalId="addRoleModal" ModalTitle="Add Role" Callback="@HandleRegister">
+    <EditForm Model="@Model" OnValidSubmit="HandleRegister">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Name (Ex:"Moderator")</label>
+            <InputText id="Name" class="form-control" @bind-Value="@Model.Name"></InputText>
+            <ValidationMessage For="@(() => Model.Name)" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Normalized Name (Ex:"MODERATOR")</label>
+            <InputText id="Name" class="form-control" @bind-Value="@Model.NormalizedName"></InputText>
+            <ValidationMessage For="@(() => Model.NormalizedName)" />
+        </div>
+    </EditForm>
+</Modal>
+
+
+@code {
+    Modal? modal;
+
+    public AddRoleRequestVM? Model{ get; set; }
+
+    [Inject]
+    private IRoleService? RoleService { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model = new AddRoleRequestVM();
+    }
+
+    public void ShowModal()
+    {
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        modal?.CloseModal();
+    }
+
+    protected async Task HandleRegister()
+    {
+        if (Model != null && RoleService != null)
+        {
+            if (String.IsNullOrEmpty(Model.Name) || String.IsNullOrEmpty(Model.NormalizedName))
+            {
+                return;    
+            }
+
+            var result = await RoleService.AddRole(Model);
+
+            // add toast message
+        }
+
+        await Callback.InvokeAsync();
+        CloseModal();
+    }
+}

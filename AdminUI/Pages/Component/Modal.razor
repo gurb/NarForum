@@ -1,0 +1,58 @@
+﻿@inject IJSRuntime JSRuntime;
+
+
+
+<div class="modal" id="@ModalId" tabindex="-1" aria-labelledby="biseyLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" @onclick="CloseModal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @ChildContent
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @onclick="CloseModal" data-bs-dismiss="modal">Close</button>
+                <button type="button" @onclick="callbackMethod" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string ModalId { get; set; } = string.Empty;
+
+    [Parameter]
+    public string ModalTitle { get; set; } = string.Empty;
+
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    private bool isOpen { get; set; }
+
+
+    public async void ShowModal()
+    {
+        isOpen = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async void CloseModal()
+    {
+        isOpen = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    protected async Task callbackMethod()
+    {
+        await Callback.InvokeAsync();
+    }
+}

@@ -1,4 +1,4 @@
-﻿namespace AdminUI.Models.Authentication.Permission
+﻿namespace AdminUI.Models.Authentication.Permission;
 
 public class DeletePermissionDefinitionRequestVM
 {

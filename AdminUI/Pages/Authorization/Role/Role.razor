@@ -1,0 +1,21 @@
+﻿<div class="row">
+    <div class="btn-group" role="group" aria-label="First group">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">Add Role</button>
+    </div>
+</div>
+
+<AddRoleModal @ref="addRoleModal" Callback="RefreshRoles"></AddRoleModal>
+
+@code {
+
+    AddRoleModal? addRoleModal;
+
+
+    private async Task RefreshRoles()
+    {
+
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+}
