@@ -1,6 +1,6 @@
 ﻿using AdminUI.Contracts;
 using AdminUI.Models;
-using AdminUI.Models.Authentication.Role;
+using AdminUI.Models.Authorization.Role;
 using AdminUI.Services.Base;
 using AdminUI.Services.Common;
 using AutoMapper;
@@ -28,6 +28,14 @@ namespace AdminUI.Services
             var response = await _client.GetUserRolesAsync();
 
             return _mapper.Map<GetUserRolesResponseVM>(response);
+        }
+
+        public async Task<ApiResponseVM> RemoveRole(RemoveRoleRequestVM request)
+        {
+            var removeRoleRequest = _mapper.Map<RemoveRoleRequest>(request);
+            var response = await _client.RemoveUserRoleAsync(removeRoleRequest);
+
+            return _mapper.Map<ApiResponseVM>(response);
         }
 
         public async Task<ApiResponseVM> UpdateRole(UpdateRoleRequestVM request)

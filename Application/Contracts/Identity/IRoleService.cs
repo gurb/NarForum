@@ -7,6 +7,7 @@ namespace Application.Contracts.Identity
     {
         public Task<ApiResponse> AddRole(AddRoleRequest request);
         public Task<ApiResponse> UpdateRole(UpdateRoleRequest request);
+        public Task<ApiResponse> RemoveRole(RemoveRoleRequest request);
         public Task<GetUserRolesResponse> GetRoles();
     }
 }

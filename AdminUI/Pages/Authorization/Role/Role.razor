@@ -1,4 +1,5 @@
 ﻿@using AdminUI.Models.Authorization.Role
+@inject AlertService AlertService
 <div class="row">
     <div class="col-sm-10">
     </div>
@@ -33,8 +34,8 @@
                     <td class="align-middle">@role.Name</td>
                     <td class="align-middle">@role.NormalizedName</td>
                     <td class="text-end align-middle">
-                        <button type="button" class="btn btn-primary" @onclick="() => DetailPost(role)"><i class="bi bi-card-text"></i></button>
-                        <button type="button" class="btn btn-danger" @onclick="() => DeletePost(role)"><i class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailRole(role)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteRoleModal(role)"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
             }
@@ -45,9 +46,15 @@
 
 <AddRoleModal @ref="addRoleModal" Callback="RefreshRoles"></AddRoleModal>
 
+<ConfirmModal @ref=deleteRoleModal Callback="DeleteRole" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this role?"></ConfirmModal>
+
 @code {
 
     AddRoleModal? addRoleModal;
+
+    ConfirmModal? deleteRoleModal;
+    RoleVM? deleteThisRole;
+
 
     public List<RoleVM>? Roles { get; set; }
 
@@ -89,15 +96,37 @@
     }
 
 
-    protected async Task DetailPost(RoleVM post)
+    protected async Task DetailRole(RoleVM role)
     {
 
     }
 
-    protected async Task DeletePost(RoleVM post)
-    {
-        
 
-        // await RoleService.
+    protected async Task DeleteRoleModal(RoleVM role)
+    {
+        deleteThisRole = role;
+        deleteRoleModal.ShowModal();
+    }
+
+    protected async Task DeleteRole()
+    {
+        RemoveRoleRequestVM request = new RemoveRoleRequestVM
+        {
+            Id = deleteThisRole.Id
+        };
+
+        var response = await RoleService.RemoveRole(request);
+
+        if (response.IsSuccess)
+        {
+            // throw toast
+            deleteThisRole = null;
+            await RefreshRoles();
+            deleteRoleModal.CloseModal();
+        }
+        else
+        {
+            AlertService.ShowAlert(response.Message);
+        }
     }
 }

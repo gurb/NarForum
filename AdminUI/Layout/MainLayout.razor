@@ -1,4 +1,7 @@
 ﻿@inherits LayoutComponentBase
+@inject AlertService AlertService
+
+<Alert Message="@alertMessage" OnClose="HideAlert" />
 
 
 <div class="page">
@@ -21,3 +24,31 @@
         </article>
     </main>
 </div>
+
+@code {
+    private string alertMessage;
+
+    protected override void OnInitialized()
+    {
+        AlertService.OnShow += ShowAlert;
+        AlertService.OnHide += HideAlert;
+    }
+
+    private void ShowAlert(string message)
+    {
+        alertMessage = message;
+        StateHasChanged();
+    }
+
+    private void HideAlert()
+    {
+        alertMessage = null;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        AlertService.OnShow -= ShowAlert;
+        AlertService.OnHide -= HideAlert;
+    }
+}

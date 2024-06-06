@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdminUI.Models.Authentication.Permission;
+namespace AdminUI.Models.Authorization.Permission;
 
 public class UpdatePermissionDefinitionRequestVM
 {

@@ -30,6 +30,12 @@ namespace Api.Controllers.Identity
             return await _roleService.UpdateRole(request);
         }
 
+        [HttpPost("RemoveUserRole")]
+        public async Task<ApiResponse> RemoveUserRole(RemoveRoleRequest request)
+        {
+            return await _roleService.RemoveRole(request);
+        }
+
         [HttpGet("GetUserRoles")]
         public async Task<GetUserRolesResponse> GetUserRoles()
         {

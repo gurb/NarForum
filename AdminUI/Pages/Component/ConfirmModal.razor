@@ -1,0 +1,75 @@
+﻿@inject IJSRuntime JSRuntime;
+
+<div class="modal fade @modalClass" id="@ModalId" tabindex="-1" aria-labelledby="biseyLabel" aria-hidden="true" style="display:@modalDisplay; overflow-y: auto;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@ModalTitle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" @onclick="CloseModal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @MessageContent
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @onclick="CloseModal" data-bs-dismiss="modal">@ButtonTxt1</button>
+                <button type="button" @onclick="callbackMethod" class="btn btn-danger">@ButtonTxt2</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (showBackdrop)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+
+@code {
+    [Parameter]
+    public string ModalId { get; set; } = string.Empty;
+
+    [Parameter]
+    public string ModalTitle { get; set; } = string.Empty;
+
+    [Parameter]
+    public string ButtonTxt1 { get; set; } = "No";
+
+    [Parameter]
+    public string ButtonTxt2 { get; set; } = "Yes";
+
+    [Parameter]
+    public string MessageContent { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    private bool isOpen { get; set; }
+
+    private string modalDisplay = "none;";
+    private string modalClass = string.Empty;
+    private bool showBackdrop = false;
+
+
+    public async void ShowModal()
+    {
+        modalClass = "show";
+        modalDisplay = "block";
+        showBackdrop = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async void CloseModal()
+    {
+        modalClass = string.Empty;
+        modalDisplay = "none";
+        showBackdrop = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    protected async Task callbackMethod()
+    {
+        await Callback.InvokeAsync();
+    }
+}

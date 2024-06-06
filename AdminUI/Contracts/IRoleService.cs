@@ -1,5 +1,5 @@
 ﻿using AdminUI.Models;
-using AdminUI.Models.Authentication.Role;
+using AdminUI.Models.Authorization.Role;
 
 namespace AdminUI.Contracts
 {
@@ -7,6 +7,7 @@ namespace AdminUI.Contracts
     {
         Task<ApiResponseVM> AddRole(AddRoleRequestVM request);
         Task<ApiResponseVM> UpdateRole(UpdateRoleRequestVM request);
+        Task<ApiResponseVM> RemoveRole(RemoveRoleRequestVM request);
         Task<GetUserRolesResponseVM> GetRoles();
     }
 }

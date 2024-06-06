@@ -1,6 +1,6 @@
 ﻿using AdminUI.Models.Authorization.Role;
 
-namespace AdminUI.Models.Authentication.Role;
+namespace AdminUI.Models.Authorization.Role;
 
 public class GetUserRolesResponseVM
 {

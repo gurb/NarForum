@@ -87,6 +87,38 @@ namespace Identity.Services
             return response;
         }
 
+        public async Task<ApiResponse> RemoveRole(RemoveRoleRequest request)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                var role = await _forumIdentityDbContext.Roles.FirstOrDefaultAsync(x => x.Id == request.Id);
+
+                if (role != null)
+                {
+                    _forumIdentityDbContext.Remove(role);
+                    await _forumIdentityDbContext.SaveChangesAsync();
+
+                    response.Message = "Role is removed";
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    response.Message = ex.InnerException.Message;
+                }
+                else
+                {
+                    response.Message = ex.Message;
+                }
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
 
         public async Task<GetUserRolesResponse> GetRoles()
         {
@@ -103,5 +135,7 @@ namespace Identity.Services
 
             return response;
         }
+
+        
     }
 }

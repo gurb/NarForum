@@ -1,4 +1,4 @@
-﻿namespace AdminUI.Models.Authentication.Permission;
+﻿namespace AdminUI.Models.Authorization.Permission;
 
 public class GetPermissionDefinitionsResponseVM
 {

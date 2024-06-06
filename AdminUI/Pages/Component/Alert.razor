@@ -1,0 +1,20 @@
+﻿@code {
+    [Parameter]
+    public string Message { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private void Close()
+    {
+        OnClose.InvokeAsync();
+    }
+}
+
+@if (!string.IsNullOrEmpty(Message))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        @Message
+        <button type="button" class="btn-close" aria-label="Close" @onclick="Close"></button>
+    </div>
+}

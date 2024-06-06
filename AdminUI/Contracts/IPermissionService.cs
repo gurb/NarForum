@@ -1,5 +1,5 @@
 ﻿using AdminUI.Models;
-using AdminUI.Models.Authentication.Permission;
+using AdminUI.Models.Authorization.Permission;
 using AdminUI.Services.Base;
 
 namespace AdminUI.Contracts
