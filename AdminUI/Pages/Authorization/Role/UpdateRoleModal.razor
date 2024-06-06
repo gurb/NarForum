@@ -23,7 +23,7 @@
 @code {
     Modal? modal;
 
-    public AddRoleRequestVM? Model{ get; set; }
+    public UpdateRoleRequestVM? Model { get; set; }
 
     [Inject]
     private IRoleService? RoleService { get; set; }
@@ -33,7 +33,7 @@
 
     protected override void OnInitialized()
     {
-        Model = new AddRoleRequestVM();
+        Model = new UpdateRoleRequestVM();
     }
 
     public void ShowModal()
@@ -52,10 +52,10 @@
         {
             if (String.IsNullOrEmpty(Model.Name) || String.IsNullOrEmpty(Model.NormalizedName))
             {
-                return;    
+                return;
             }
 
-            var result = await RoleService.AddRole(Model);
+            var result = await RoleService.UpdateRole(Model);
 
             // add toast message
         }

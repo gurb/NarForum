@@ -1,8 +1,47 @@
-﻿<div class="row">
-    <div class="btn-group" role="group" aria-label="First group">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">Add Role</button>
+﻿@using AdminUI.Models.Authorization.Role
+<div class="row">
+    <div class="col-sm-10">
+    </div>
+    <div class="col-sm-2">
+        <div class="btn-group" role="group" aria-label="First group">
+            <button type="button" class="btn btn-primary" @onclick="OpenAddRoleModal">Add Role</button>
+        </div>
     </div>
 </div>
+
+<table class="table table-bordered table-hover caption-top">
+    <caption>List of user roles</caption>
+    <thead>
+        <tr>
+            @* <th scope="col" style="width:70px;">#</th> *@
+            <th scope="col">Name</th>
+            <th scope="col" style="width:20%">Normalized Name</th>
+            <th scope="col" style="width:20%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!isLoaded)
+        {
+            <p>Loading Data...</p>
+        }
+        else
+        {
+            @foreach (var role in Roles)
+            {
+                <tr>
+                    @* <th scope="row" class="text-end align-middle">@role.Id</th> *@
+                    <td class="align-middle">@role.Name</td>
+                    <td class="align-middle">@role.NormalizedName</td>
+                    <td class="text-end align-middle">
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailPost(role)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeletePost(role)"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
 
 <AddRoleModal @ref="addRoleModal" Callback="RefreshRoles"></AddRoleModal>
 
@@ -10,12 +49,55 @@
 
     AddRoleModal? addRoleModal;
 
+    public List<RoleVM>? Roles { get; set; }
+
+    [Inject]
+    public IRoleService RoleService { get; set; }
+
+
+    private bool isLoaded { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var response = await RoleService.GetRoles();
+
+        if(response != null)
+        {
+            Roles = response.UserRoles;
+        }
+        isLoaded = true;
+    }
+
 
     private async Task RefreshRoles()
     {
 
+        var response = await RoleService.GetRoles();
 
+        if (response != null)
+        {
+            Roles = response.UserRoles;
+        }
+
+        isLoaded = true;
         await InvokeAsync(StateHasChanged);
     }
 
+    private void OpenAddRoleModal()
+    {
+        addRoleModal?.ShowModal();
+    }
+
+
+    protected async Task DetailPost(RoleVM post)
+    {
+
+    }
+
+    protected async Task DeletePost(RoleVM post)
+    {
+        
+
+        // await RoleService.
+    }
 }
