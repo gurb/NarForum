@@ -1,7 +1,7 @@
 ﻿@page "/authorization"
 
 <div class="row">
-    <div class="col-3">
+    <div class="col-3 auth-list">
         <!-- Tab navs -->
         <div class="nav flex-column nav-pills text-center"
              id="v-pills-tab"
@@ -13,14 +13,14 @@
                @onclick="() => ChangeTab(roleTab)"
                role="tab"
                aria-controls="v-pills-link1"
-               aria-selected="true">Link 1</a>
+               aria-selected="true">Roles</a>
             <a class="nav-link @permissionActive"
                id="v-pills-link2-tab"
                data-mdb-pill-init
                @onclick="() => ChangeTab(permissionTab)"
                role="tab"
                aria-controls="v-pills-link2"
-               aria-selected="false">Link 2</a>
+               aria-selected="false">Permissions</a>
             
         </div>
         <!-- Tab navs -->

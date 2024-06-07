@@ -1,6 +1,7 @@
 ﻿using Application.Contracts.Identity;
 using Application.Models;
 using Application.Models.Identity.Permission;
+using Azure.Core;
 using Identity.DatabaseContext;
 using Identity.Models;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,36 @@ namespace Identity.Services
                 response.Message = "Added permission definition";
 
                 await RefreshPermissions();
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
+        public async Task<ApiResponse> ChangePermissionStatus(string permissionId)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                var permission = await _forumIdentityDbContext.Permissions.FirstOrDefaultAsync(x => x.Id == permissionId);
+
+                if (permission != null)
+                {
+                    permission.IsGranted = !permission.IsGranted;
+                    _forumIdentityDbContext.Permissions.Update(permission);
+                    await _forumIdentityDbContext.SaveChangesAsync();
+                    response.Message = "Granted permission";
+                }
+                else
+                {
+                    response.Message = "Not found";
+                    response.IsSuccess = false;
+                }
             }
             catch (Exception ex)
             {
@@ -112,6 +143,24 @@ namespace Identity.Services
             return response;
         }
 
+        public async Task<GetPermissionsResponse> GetPermissions(string roleId)
+        {
+            GetPermissionsResponse response = new GetPermissionsResponse();
+
+            response.Permissions = await _forumIdentityDbContext.Permissions.Where(x => x.RoleId == roleId).Select(x => new PermissionDTO
+            {
+                Id = x.Id,
+                Name = x.Name,
+                DisplayName = x.DisplayName,
+                IsGranted = x.IsGranted,
+                ParentPermissionId = x.ParentPermissionId,
+                PermissionDefinitionId = x.PermissionDefinitionId,
+                RoleId = x.RoleId,
+            }).ToListAsync();
+
+            return response;
+        }
+
         public async Task<ApiResponse> RefreshPermissions()
         {
             ApiResponse response = new ApiResponse();
@@ -136,7 +185,7 @@ namespace Identity.Services
                     {
                         var permission = new Permission();
 
-                        var oldPermission = oldPermissions.Where(x => x.PermissionDefinitionId == permission.PermissionDefinitionId && x.RoleId == role.Id).FirstOrDefault();
+                        var oldPermission = oldPermissions.Where(x => x.Name == permission.Name && x.RoleId == role.Id).FirstOrDefault();
 
                         if (oldPermission != null)
                         {
@@ -180,7 +229,7 @@ namespace Identity.Services
                     }
                 }
 
-                _forumIdentityDbContext.Permissions.UpdateRange(newPermissions);
+                _forumIdentityDbContext.Permissions.AddRange(newPermissions);
                 await _forumIdentityDbContext.SaveChangesAsync();
                 response.Message = "Refreshed permissions";
             }

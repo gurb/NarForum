@@ -7,8 +7,8 @@ namespace Identity.Models
     public class Permission
     {
         [Key]
-        public string? Id { get; set; }
-        public string? Name { get; set; }
+        public string? Id { get; set; } = Guid.NewGuid().ToString();
+        public string? Name { get; set; } 
         public string? DisplayName { get; set; }
         public bool IsGranted { get; set; }
 

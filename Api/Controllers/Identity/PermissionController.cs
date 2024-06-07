@@ -43,10 +43,22 @@ namespace Api.Controllers.Identity
             return await _permissionService.GetPermissions();
         }
 
+        [HttpGet("GetPermissionsByRoleId")]
+        public async Task<GetPermissionsResponse> GetPermissions(string roleId)
+        {
+            return await _permissionService.GetPermissions(roleId);
+        }
+
         [HttpPost("AddPermissionDefinition")]
         public async Task<ApiResponse> AddPermissionDefinition(AddPermissionDefinitionRequest request)
         {
             return await _permissionService.AddPermissionDefinition(request);
+        }
+
+        [HttpPost("ChangePermissionStatus")]
+        public async Task<ApiResponse> ChangePermissionStatus(string permissionId)
+        {
+            return await _permissionService.ChangePermissionStatus(permissionId);
         }
 
         [HttpPost("DeletePermissionDefinition")]

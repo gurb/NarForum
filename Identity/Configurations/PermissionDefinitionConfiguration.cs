@@ -31,9 +31,9 @@ namespace Identity.Configurations
 
             // FORUM_POST children
             builder.HasData(
-                new PermissionDefinition { Id = "8c87ab42-975a-4016-92a8-ec8e34852fbf", Name = "FORUM_POST_CREATE", DisplayName = "Create Post", ParentPermissionDefinitionId = "95e10e0e-7e21-4a7c-849b-30a2e82a61b8" },
-                new PermissionDefinition { Id = "58b4d6c9-7db7-490b-b118-7fff4839fe69", Name = "FORUM_POST_UPDATE", DisplayName = "Update Post", ParentPermissionDefinitionId = "95e10e0e-7e21-4a7c-849b-30a2e82a61b8" },
-                new PermissionDefinition { Id = "edae4f5c-d414-4753-b20c-7f6d32b8ed23", Name = "FORUM_POST_DELETE", DisplayName = "Delete Post", ParentPermissionDefinitionId = "95e10e0e-7e21-4a7c-849b-30a2e82a61b8" }
+                new PermissionDefinition { Id = "8c87ab42-975a-4016-92a8-ec8e34852fbf", Name = "FORUM_POST_CREATE", DisplayName = "Create Post", ParentPermissionDefinitionId = "efd0da20-755d-4dcb-a10f-617d84bc52aa" },
+                new PermissionDefinition { Id = "58b4d6c9-7db7-490b-b118-7fff4839fe69", Name = "FORUM_POST_UPDATE", DisplayName = "Update Post", ParentPermissionDefinitionId = "efd0da20-755d-4dcb-a10f-617d84bc52aa" },
+                new PermissionDefinition { Id = "edae4f5c-d414-4753-b20c-7f6d32b8ed23", Name = "FORUM_POST_DELETE", DisplayName = "Delete Post", ParentPermissionDefinitionId = "efd0da20-755d-4dcb-a10f-617d84bc52aa" }
             );
 
             // FORUM_HEADING children

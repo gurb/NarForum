@@ -5,7 +5,6 @@ using Identity.DatabaseContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace Identity.Services
 {
     public class RoleService : IRoleService
@@ -119,7 +118,6 @@ namespace Identity.Services
             return response;
         }
 
-
         public async Task<GetUserRolesResponse> GetRoles()
         {
             GetUserRolesResponse response = new GetUserRolesResponse();
@@ -135,7 +133,5 @@ namespace Identity.Services
 
             return response;
         }
-
-        
     }
 }

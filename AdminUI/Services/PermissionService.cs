@@ -23,6 +23,13 @@ namespace AdminUI.Services
             return _mapper.Map<ApiResponseVM>(response);
         }
 
+        public async Task<ApiResponseVM> ChangePermissionStatus(string permissionId)
+        {
+            var response = await _client.ChangePermissionStatusAsync(permissionId);
+
+            return _mapper.Map<ApiResponseVM>(response);
+        }
+
         public async Task<ApiResponseVM> DeletePermissionDefinition(DeletePermissionDefinitionRequestVM request)
         {
             var deletePermissionDefinition = _mapper.Map<DeletePermissionDefinitionRequest>(request);
@@ -41,6 +48,13 @@ namespace AdminUI.Services
         public async Task<GetPermissionsResponseVM> GetPermissions()
         {
             var response = await _client.GetPermissionsAsync();
+
+            return _mapper.Map<GetPermissionsResponseVM>(response);
+        }
+
+        public async Task<GetPermissionsResponseVM> GetPermissions(string roleId)
+        {
+            var response = await _client.GetPermissionsByRoleIdAsync(roleId);
 
             return _mapper.Map<GetPermissionsResponseVM>(response);
         }
