@@ -39,6 +39,9 @@
     [Parameter]
     public EventCallback<int> Callback { get; set; }
 
+    [Parameter]
+    public EventCallback<int> CloseCallback { get; set; }
+
     private bool isOpen { get; set; }
 
     private string modalDisplay = "none;";
@@ -59,6 +62,7 @@
         modalClass = string.Empty;
         modalDisplay = "none";
         showBackdrop = false;
+        await CloseCallback.InvokeAsync();
         await InvokeAsync(StateHasChanged);
     }
 

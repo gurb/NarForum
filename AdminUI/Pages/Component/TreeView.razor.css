@@ -3,6 +3,11 @@
     user-select: none;
 }
 
+ul.tree-menu li {
+    display: block;
+    padding: 5px 10px;
+}
+
 .item-code-name {
     color: #bbb;
     padding: 10px;

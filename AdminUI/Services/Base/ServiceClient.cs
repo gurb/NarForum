@@ -5965,6 +5965,9 @@ namespace AdminUI.Services.Base
     public partial class UpdatePermissionDefinitionRequest
     {
 
+        [System.Text.Json.Serialization.JsonPropertyName("parentPermissionDefinitionId")]
+        public string ParentPermissionDefinitionId { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("permissionDefinitionId")]
         public string PermissionDefinitionId { get; set; }
 

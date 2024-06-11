@@ -21,7 +21,13 @@
                role="tab"
                aria-controls="v-pills-link2"
                aria-selected="false">Permissions</a>
-            
+            <a class="nav-link @permissionDefinitionActive"
+               id="v-pills-link3-tab"
+               data-mdb-pill-init
+               @onclick="() => ChangeTab(permissionDefinitionTab)"
+               role="tab"
+               aria-controls="v-pills-link3"
+               aria-selected="false">Permission Definitions</a>
         </div>
         <!-- Tab navs -->
     </div>
@@ -43,7 +49,12 @@
                 <Permission></Permission>
             </div>
 
-            
+            <div class="tab-pane fade @permissionDefinitionShow @permissionDefinitionActive"
+                 id="v-pills-link3"
+                 role="tabpanel"
+                 aria-labelledby="v-pills-link3-tab">
+                <PermissionDefinition></PermissionDefinition>
+            </div>
         </div>
         <!-- Tab content -->
     </div>
@@ -54,30 +65,47 @@
 @code {
     string roleActive = "active";
     string permissionActive = "";
+    string permissionDefinitionActive = "";
 
     string roleShow = "show";
     string permissionShow = "";
+    string permissionDefinitionShow = "";
 
     readonly string roleTab = "role";
     readonly string permissionTab = "permissionTab";
+    readonly string permissionDefinitionTab = "permissionDefinitionTab";
 
     protected async Task ChangeTab(string tab)
     {
-        @if (roleTab == tab)
+        if (roleTab == tab)
         {
             roleActive = "active";
             permissionActive = "";
+            permissionDefinitionActive = "";
 
             roleShow = "show";
             permissionShow = "";
+            permissionDefinitionShow = "";
         }
-        @if (permissionTab == tab)
+        if (permissionTab == tab)
         {
             permissionActive = "active";
             roleActive = "";
+            permissionDefinitionActive = "";
 
             permissionShow = "show";
             roleShow = "";
+            permissionDefinitionShow = "";
+        }
+        if (permissionDefinitionTab == tab)
+        {
+            permissionDefinitionActive = "active";
+            roleActive = "";
+            permissionActive = "";
+
+            permissionDefinitionShow = "show";
+            roleShow = "";
+            permissionShow = "";
         }
 
         await InvokeAsync(StateHasChanged);

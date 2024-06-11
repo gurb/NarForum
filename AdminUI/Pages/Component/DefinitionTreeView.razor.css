@@ -1,0 +1,48 @@
+﻿ul.tree-menu {
+    list-style-type: none;
+    user-select: none;
+}
+
+ul.tree-menu li {
+    display: block;
+    padding: 5px 10px;
+}
+
+.item-code-name {
+    color: #bbb;
+    padding: 10px;
+}
+
+.item-display-name {
+    color: #333;
+    padding:10px;
+}
+.item-button {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+.item-button:hover {
+    background: #ddd;
+}
+
+.item-button:hover i {
+    opacity: 1 !important;
+}
+
+.item-button-group {
+    display: none;
+}
+
+
+ul.tree-menu li:hover > .item-button-group {
+    display: inline;
+}
+
+.prefix-item {
+    margin-right: 10px;
+}

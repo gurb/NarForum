@@ -1,0 +1,185 @@
+﻿@using AdminUI.Models.Authorization.Permission
+
+
+<Modal @ref="modal" ModalId="addPermissionDefinitionModal" ModalTitle="Add Permission Definition" Callback="@HandleRegister" CloseCallback="@CloseModal">
+    <EditForm Model="@Model" OnValidSubmit="HandleRegister">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group form-margin">
+            @* <label asp-for="Title" class="control-label">Select Role</label> *@
+            <InputSelect class="form-select" aria-label="Default select example" TValue="string"
+                         Value="SelectedParentModel.Id" ValueExpression="@(() => SelectedParentModel.Id)">
+                @if (PermissionDefinitions != null)
+                {
+                    <option value="@NullModel.Id">@NullModel.Name</option>
+                    @foreach (var permissionDefinition in PermissionDefinitions)
+                    {
+                        <option value="@permissionDefinition.Id"><b>@permissionDefinition.DisplayName </b>- @permissionDefinition.Name</option>
+                    }
+                }
+                else
+                {
+                    <option disabled value="0">Loading...</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => SelectedParentModel.Name)" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Code Name</label>
+            <InputText id="Name" class="form-control" @bind-Value="@Model.Name" autocomplete="off" placeholder="Ex: FORUM_SAMPLE_PAGE"></InputText>
+            <ValidationMessage For="@(() => Model.Name)" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Display Name</label>
+            <InputText id="Name" class="form-control" @bind-Value="@Model.DisplayName" autocomplete="off" placeholder="Ex: Sample Page"></InputText>
+            <ValidationMessage For="@(() => Model.DisplayName)" />
+        </div>
+    </EditForm>
+</Modal>
+
+
+@code {
+    Modal? modal;
+
+    private PermissionDefinitionVM? SelectedParentModel;
+
+    private PermissionDefinitionVM? NullModel;
+
+    public AddPermissionDefinitionRequestVM? Model { get; set; }
+
+    [Inject]
+    private IPermissionService? PermissionService { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    [Parameter]
+    public string? SelectedParentModelId { get; set; }
+
+    [Parameter]
+    public UpdatePermissionDefinitionRequestVM? UpdateModel { get; set; }
+
+    public List<PermissionDefinitionVM> PermissionDefinitions { get; set; } = new List<PermissionDefinitionVM>();
+
+    private bool isUpdate = false;
+
+    protected override void OnInitialized()
+    {
+        Model = new AddPermissionDefinitionRequestVM();
+
+        NullModel = new PermissionDefinitionVM();
+        NullModel.Id = string.Empty;
+        NullModel.Name = "-- No Select --";
+
+
+
+        SelectedParentModel = NullModel;
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var response = await PermissionService!.GetPermissionDefinitions();
+
+        if(response != null)
+        {
+            if(response.PermissionDefinitions != null)
+            {
+                PermissionDefinitions = response.PermissionDefinitions;
+            }
+        } 
+    }
+
+    public void ShowModal()
+    {
+        if (SelectedParentModelId != null)
+        {
+            SelectedParentModel = PermissionDefinitions.FirstOrDefault(x => x.Id == SelectedParentModelId);
+        }
+        else
+        {
+            SelectedParentModel = NullModel;
+        }
+        if (UpdateModel != null)
+        {
+            isUpdate = true;
+
+            Model.Name = UpdateModel.Name;
+            Model.DisplayName = UpdateModel.DisplayName;
+            Model.ParentPermissionDefinitionId = UpdateModel.ParentPermissionDefinitionId;
+
+            if(Model.ParentPermissionDefinitionId != null)
+            {
+                SelectedParentModel = PermissionDefinitions.FirstOrDefault(x => x.Id == Model.ParentPermissionDefinitionId);
+            }
+            else
+            {
+                SelectedParentModel = NullModel;
+            }
+        }
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        isUpdate = false;
+        UpdateModel = null;
+        Model = new AddPermissionDefinitionRequestVM();
+        SelectedParentModelId = null;
+        SelectedParentModel = new PermissionDefinitionVM()
+        {
+            Id = String.Empty,
+            Name = "-- No Select --"
+        };
+        StateHasChanged();
+        
+    }
+
+    private async void OnChangeParentPermissionDefinition(string? modelId)
+    {
+        if(modelId == null)
+        {
+            SelectedParentModel = NullModel;
+        }
+
+        else if (PermissionDefinitions != null && PermissionDefinitions.Count > 0)
+        {
+            SelectedParentModel = PermissionDefinitions.FirstOrDefault(x => x.Id == modelId);
+        }
+    }
+
+    protected async Task HandleRegister()
+    {
+        if(isUpdate)
+        {
+            if (UpdateModel != null && PermissionService != null && SelectedParentModel != null)
+            {
+                UpdateModel.ParentPermissionDefinitionId = SelectedParentModel.Id;
+                UpdateModel.Name = Model.Name;
+                UpdateModel.DisplayName = Model.DisplayName;
+
+                var result = await PermissionService.UpdatePermissionDefinition(UpdateModel);
+            }
+
+            // this is important dont remove this line
+        }
+        else if (Model != null && PermissionService != null)
+        {
+            if (String.IsNullOrEmpty(Model.Name) || String.IsNullOrEmpty(Model.DisplayName))
+            {
+                return;
+            }
+
+            if(SelectedParentModel != null)
+            {
+                Model.ParentPermissionDefinitionId = SelectedParentModel.Id;
+            }
+
+            var result = await PermissionService.AddPermissionDefinition(Model);
+
+            // add toast message
+        }
+
+        await Callback.InvokeAsync();
+        modal?.CloseModal();
+    }
+}

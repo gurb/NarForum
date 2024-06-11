@@ -1,0 +1,76 @@
+﻿<!-- Components/TreeView.razor -->
+@using AdminUI.Models.Common
+
+<ul class="tree-menu">
+    @foreach (var item in Items)
+    {
+        <li>
+            <span @onclick="() => Toggle(item)">
+                @if (item.Children.Any())
+                {
+                    <i class="bi @(item.IsExpanded ? "bi-dash-square" : "bi-plus-square") prefix-item"></i>
+                }
+                else
+                {
+                    
+                }
+            </span>
+            @* <span><input class="form-check-input" type="checkbox" @bind="item.IsSelected" @oninput="()=>CheckboxChanged(item)"></span> *@
+            
+            <span @onclick="() => Toggle(item)" class="item-display-name">@item.DisplayName</span>
+            <span class="item-code-name">@item.Name</span>
+            <span class="item-button-group">
+                <span class="item-button" @onclick="() => AddPermissionDefinition(item)"><i style="color:darkgreen;opacity:0.5;" class="bi bi-file-plus-fill"></i></span>
+                <span class="item-button" @onclick="() => UpdatePermissionDefinition(item)"><i style="color:dodgerblue;opacity:0.5;" class="bi bi-pencil-fill"></i></span>
+                <span class="item-button"><i style="color:red;opacity:0.5;" class="bi bi-trash-fill"></i></span>
+            </span>
+            @if (item.IsExpanded && item.Children.Any())
+            {
+                <DefinitionTreeView Callback=Callback Items="item.Children" UpdateCallback="UpdateCallback" AddCallback="AddCallback" RemoveCallback="RemoveCallback"></DefinitionTreeView>
+            }
+        </li>
+    }
+</ul>
+
+@code {
+    [Parameter]
+    public List<TreeItem> Items { get; set; } = new List<TreeItem>();
+
+    [Parameter]
+    public EventCallback<string> Callback { get; set; }
+
+    [Parameter]
+    public EventCallback<string> AddCallback { get; set; }
+
+    [Parameter]
+    public EventCallback<string> UpdateCallback { get; set; }
+
+    [Parameter]
+    public EventCallback<string> RemoveCallback { get; set; }
+
+    private void Toggle(TreeItem item)
+    {
+        item.IsExpanded = !item.IsExpanded;
+    }
+
+    private async void CheckboxChanged(TreeItem item)
+    {
+        item.IsSelected = !item.IsSelected;
+        await Callback.InvokeAsync(item.Id);
+    }
+
+    private async void AddPermissionDefinition(TreeItem item)
+    {
+        await AddCallback.InvokeAsync(item.Id);
+    }
+
+    private async void UpdatePermissionDefinition(TreeItem item)
+    {
+        await UpdateCallback.InvokeAsync(item.Id);
+    }
+
+    private async void RemovePermissionDefinition(TreeItem item)
+    {
+        await UpdateCallback.InvokeAsync(item.Id);
+    }
+}

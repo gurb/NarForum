@@ -305,6 +305,10 @@ namespace Identity.Services
 
                 if (permissionDefinition != null)
                 {
+                    permissionDefinition.ParentPermissionDefinitionId = request.PermissionDefinitionId;
+                    permissionDefinition.Name = request.Name;
+                    permissionDefinition.DisplayName = request.DisplayName;
+
                     _forumIdentityDbContext.PermissionDefinitions.Update(permissionDefinition);
                     await _forumIdentityDbContext.SaveChangesAsync();
                     response.Message = "Updated permisson definition";

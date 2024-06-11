@@ -8,6 +8,7 @@ namespace Application.Models.Identity.Permission
 {
     public class UpdatePermissionDefinitionRequest
     {
+        public string? ParentPermissionDefinitionId { get; set; }
         public string? PermissionDefinitionId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string DisplayName { get; set; } = string.Empty;

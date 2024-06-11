@@ -42,9 +42,6 @@
     <TreeView Callback="SaveSelect" Items="Items"></TreeView>
 }
 
-
-
-
 @code {
     public RoleVM? Model { get; set; } = new RoleVM();
 
@@ -128,8 +125,6 @@
         }
     }
 
-
-
     private void WrapPermissionsToTreeItem()
     {
         Items.Clear();
@@ -145,7 +140,7 @@
                 Name = permission.Name,
                 IsSelected = permission.IsGranted,
                 DisplayName = permission.DisplayName,
-                IsExpanded = false,
+                IsExpanded = true,
             };
             TempList.Add(newItem);
         }
@@ -162,8 +157,6 @@
         }
 
         Items = TempList.Where(x => x.ParentId == null).ToList();
-
-        var test = Items;
     }
 
     private async Task SaveSelect(string permissionId)

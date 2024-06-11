@@ -8,6 +8,7 @@ namespace AdminUI.Models.Authorization.Permission;
 
 public class UpdatePermissionDefinitionRequestVM
 {
+    public string? ParentPermissionDefinitionId { get; set; }
     public string? PermissionDefinitionId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string DisplayName { get; set; } = string.Empty;
