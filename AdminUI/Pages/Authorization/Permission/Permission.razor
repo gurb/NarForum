@@ -9,13 +9,12 @@
         <h3>Permission Management</h3>
     </div>
     <div class="col-sm-4">
-        <div class="btn-group" role="group" aria-label="First group">
-            <button type="button" class="btn btn-primary" @onclick="RefreshPermissions">Add Role</button>
+        <div class="btn-group text-end" role="group" aria-label="First group">
+            <button type="button" class="btn btn-primary" @onclick="RefreshPermissions"><i class="bi bi-arrow-clockwise"></i> Refresh Permissions</button>
         </div>
     </div>
     <div class="col-sm-2">
         <div class="form-group form-margin">
-            @* <label asp-for="Title" class="control-label">Select Role</label> *@
             <EditForm Model="@Model">
                 <InputSelect class="form-select" aria-label="Default select example" TValue="string"
                              Value="Model.Id" ValueChanged="OnChangeRole"  ValueExpression="@(() => Model.Id)">
@@ -156,7 +155,12 @@
             }
         }
 
-        Items = TempList.Where(x => x.ParentId == null).ToList();
+        foreach(var item in TempList)
+        {
+            item.Children = item.Children.OrderBy(x => x.Name).ToList();
+        }
+
+        Items = TempList.Where(x => x.ParentId == null).OrderBy(x => x.Name).ToList();
     }
 
     private async Task SaveSelect(string permissionId)

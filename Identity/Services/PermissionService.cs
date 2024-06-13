@@ -305,7 +305,7 @@ namespace Identity.Services
 
                 if (permissionDefinition != null)
                 {
-                    permissionDefinition.ParentPermissionDefinitionId = request.PermissionDefinitionId;
+                    permissionDefinition.ParentPermissionDefinitionId = request.ParentPermissionDefinitionId;
                     permissionDefinition.Name = request.Name;
                     permissionDefinition.DisplayName = request.DisplayName;
 

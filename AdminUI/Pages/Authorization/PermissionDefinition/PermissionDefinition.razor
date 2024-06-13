@@ -27,11 +27,15 @@
 
 <AddPermissionDefinitionModal @ref=addPermissionDefinitionModal Callback="RefreshPermissionDefinitions"></AddPermissionDefinitionModal>
 
+<ConfirmModal @ref=deletePermissionDefinitionModal Callback="DeletePermissionDefinition" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this permission definition?"></ConfirmModal>
+
 @code {
     AddPermissionDefinitionModal? addPermissionDefinitionModal;
-
+    ConfirmModal? deletePermissionDefinitionModal;
 
     public RoleVM? Model { get; set; } = new RoleVM();
+
+
 
     public List<PermissionDefinitionVM>? PermissionDefinitions { get; set; } = new List<PermissionDefinitionVM>();
 
@@ -41,6 +45,8 @@
     List<TreeItem> Items { get; set; } = new List<TreeItem>();
 
     private bool isLoaded;
+
+    private string? deletePermissionDefinitionId;
 
     protected async override Task OnInitializedAsync()
     {
@@ -154,7 +160,8 @@
 
     private async Task RemovePermissionDefinition(string permissionDefinitionId)
     {
-
+        deletePermissionDefinitionId = permissionDefinitionId;
+        deletePermissionDefinitionModal.ShowModal();
     }
 
     private void Toggle(TreeItem item)
@@ -165,5 +172,30 @@
     private void OpenAddPermissionDefinitionModal ()
     {
         addPermissionDefinitionModal!.ShowModal();
+    }
+
+  
+
+    protected async Task DeletePermissionDefinition()
+    {
+        DeletePermissionDefinitionRequestVM request = new DeletePermissionDefinitionRequestVM
+        {
+            PermissionDefinitionId = deletePermissionDefinitionId,
+        };
+
+        var response = await PermissionService.DeletePermissionDefinition(request);
+
+        if (response.IsSuccess)
+        {
+            // throw toast
+            await RefreshPermissionDefinitions();
+            deletePermissionDefinitionModal.CloseModal();
+        }
+        else
+        {
+            AlertService.ShowAlert(response.Message);
+        }
+
+        deletePermissionDefinitionId = null;
     }
 }

@@ -10,6 +10,7 @@ using AdminUI.Services.Base;
 using AdminUI.Models.Authorization.Permission;
 using AdminUI.Models.Authorization.Role;
 using AdminUI.Models;
+using AdminUI.Models.Stat;
 
 
 namespace AdminUI.MappingProfiles
@@ -69,6 +70,11 @@ namespace AdminUI.MappingProfiles
             CreateMap<UserRoleResponse, RoleVM>().ReverseMap();
 
             CreateMap<ApiResponse, ApiResponseVM>().ReverseMap();
+
+            CreateMap<AllStatsResponse, AllStatsResponseVM>().ReverseMap();
+            CreateMap<StatsResponse, StatsResponseVM>().ReverseMap();
+            CreateMap<StatWithDateDTO, StatWithDateVM>().ReverseMap();
+            CreateMap<MonthStatDTO, MonthStatVM>().ReverseMap();
         }
     }
 }

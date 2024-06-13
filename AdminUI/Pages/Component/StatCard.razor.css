@@ -1,0 +1,18 @@
+﻿
+.card {
+    border: none;
+    margin:10px;
+}
+
+.card-title {
+    font-weight: 500;
+}
+
+.card-text-stat-number {
+    font-size:1.5em;
+    text-align:center;
+}
+
+.card-square {
+    min-height: 8rem; /* This creates a square aspect ratio */
+}

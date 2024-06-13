@@ -27,6 +27,8 @@ namespace Persistence.Extensions
             services.AddScoped<IReplyRepository, ReplyRepository>();
             services.AddScoped<IQuoteRepository, QuoteRepository>();
 
+            services.AddScoped<IForumStatService, ForumStatService>();
+
             return services;
         }
     }

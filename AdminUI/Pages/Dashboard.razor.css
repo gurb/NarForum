@@ -4,7 +4,11 @@
 
 .dashboard-row-title {
     font-size: 1.2em;
-    border-bottom: 2px solid #eee;
-    background: #f9f9f9;
+    border-radius: 5px;
+    background: #f1f1f1;
     padding: 10px;
+}
+
+.dashboard-row > .card-square:first-child {
+    margin-left: 0!important;
 }

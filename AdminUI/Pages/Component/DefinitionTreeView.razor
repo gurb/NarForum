@@ -22,7 +22,7 @@
             <span class="item-button-group">
                 <span class="item-button" @onclick="() => AddPermissionDefinition(item)"><i style="color:darkgreen;opacity:0.5;" class="bi bi-file-plus-fill"></i></span>
                 <span class="item-button" @onclick="() => UpdatePermissionDefinition(item)"><i style="color:dodgerblue;opacity:0.5;" class="bi bi-pencil-fill"></i></span>
-                <span class="item-button"><i style="color:red;opacity:0.5;" class="bi bi-trash-fill"></i></span>
+                <span class="item-button" @onclick="() => RemovePermissionDefinition(item)"><i style="color:red;opacity:0.5;" class="bi bi-trash-fill"></i></span>
             </span>
             @if (item.IsExpanded && item.Children.Any())
             {
@@ -71,6 +71,6 @@
 
     private async void RemovePermissionDefinition(TreeItem item)
     {
-        await UpdateCallback.InvokeAsync(item.Id);
+        await RemoveCallback.InvokeAsync(item.Id);
     }
 }

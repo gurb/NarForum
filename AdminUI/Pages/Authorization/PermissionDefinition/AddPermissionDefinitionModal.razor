@@ -131,7 +131,7 @@
             Name = "-- No Select --"
         };
         StateHasChanged();
-        
+
     }
 
     private async void OnChangeParentPermissionDefinition(string? modelId)
@@ -151,9 +151,12 @@
     {
         if(isUpdate)
         {
-            if (UpdateModel != null && PermissionService != null && SelectedParentModel != null)
+            if (UpdateModel != null && PermissionService != null)
             {
-                UpdateModel.ParentPermissionDefinitionId = SelectedParentModel.Id;
+                if (SelectedParentModel != null)
+                {
+                    UpdateModel.ParentPermissionDefinitionId = SelectedParentModel.Id;
+                }
                 UpdateModel.Name = Model.Name;
                 UpdateModel.DisplayName = Model.DisplayName;
 

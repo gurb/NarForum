@@ -1,6 +1,49 @@
-﻿
+﻿@using AdminUI.Models.Stat
+
 <div class="row">
-    <div class="col-sm-8">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8">
+        <div class="row dashboard-row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 p-0">
+                <StatCard Name="Posts" 
+                    BackgroundColor="#1a82dd" 
+                    TotalCounter="@allStats.PostStats.TotalCount" 
+                    DayCounter="@allStats.PostStats.TodayStat.Counter"></StatCard>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 p-0">
+                <StatCard Name="Headings" 
+                    BackgroundColor="#b698cf" 
+                    TotalCounter="@allStats.HeadingStats.TotalCount"
+                    DayCounter="@allStats.HeadingStats.TodayStat.Counter"></StatCard>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 p-0">
+                <StatCard Name="Categories" 
+                    BackgroundColor="#dac3cd" 
+                    FontColor="#333"
+                    TotalCounter="@allStats.CategoryStats.TotalCount"
+                    DayCounter="@allStats.CategoryStats.TodayStat.Counter"></StatCard>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 p-0">
+                <StatCard Name="Sections" 
+                    BackgroundColor="#ff9695" 
+                    FontColor="#333"
+                    TotalCounter="@allStats.SectionStats.TotalCount"
+                    DayCounter="@allStats.SectionStats.TodayStat.Counter"></StatCard>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 p-0">
+                <StatCard Name="Users"
+                    BackgroundColor="#ff886f"
+                    FontColor="#333"
+                    TotalCounter="@allStats.CategoryStats.TotalCount"
+                    DayCounter="0"></StatCard>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 p-0">
+                <StatCard Name="Online Users"
+                    BackgroundColor="#ff8400"
+                    FontColor="#333"
+                    TotalCounter="@allStats.CategoryStats.TotalCount"
+                    DayCounter="0"></StatCard>
+            </div>
+        </div>
         <div class="row dashboard-row">
             <h3 class="dashboard-row-title">Forum Data</h3>
         </div>
@@ -45,7 +88,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
         <div class="row">
             <!-- statistics ->
         </div>
@@ -53,6 +96,20 @@
 </div>
 
 
-@code {
+@code{
+    [Inject]
+    public IForumStatService forumStatService { get; set; }
 
+    AllStatsResponseVM? allStats { get; set; } = new AllStatsResponseVM();
+
+    bool isLoaded;
+
+    protected async override Task OnInitializedAsync()
+    {
+        allStats = await forumStatService.GetAllStats();
+
+        isLoaded = true;
+    }
+
+    
 }
