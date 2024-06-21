@@ -2,8 +2,11 @@ using Api.Middleware;
 using Application.Extensions;
 using Persistence.Extensions;
 using Identity.Extensions;
+using Microsoft.AspNetCore.Builder;
+using Identity.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSignalR();
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
@@ -27,6 +30,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
@@ -39,6 +43,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapHub<TrackHub>("track");
 
 app.UseCors("all");
 

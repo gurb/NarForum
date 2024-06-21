@@ -8,6 +8,7 @@ namespace Application.Contracts.Identity
     {
         public string UserId { get; }
 
+        public string GetUserId();
         public Task<UserInfoResponse> GetUserInfo(UserInfoRequest request);
 
         public Task<UserInfoResponse> GetCurrentUser();

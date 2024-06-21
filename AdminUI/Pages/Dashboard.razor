@@ -1,4 +1,10 @@
-﻿@using AdminUI.Models.Stat
+﻿@using AdminUI.Models.Hub
+@using AdminUI.Models.Stat
+@using Microsoft.AspNetCore.SignalR.Client
+@using System.Text.Json.Serialization
+@using System.Text.Json
+
+@implements IAsyncDisposable
 
 <div class="row">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8">
@@ -41,7 +47,7 @@
                     BackgroundColor="#ff8400"
                     FontColor="#333"
                     TotalCounter="@allStats.CategoryStats.TotalCount"
-                    DayCounter="0"></StatCard>
+                    DayCounter="@activeUserCounter"></StatCard>
             </div>
         </div>
         <div class="row dashboard-row">
@@ -90,26 +96,92 @@
     </div>
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
         <div class="row">
-            <!-- statistics ->
+            @if(activeUsers != null)
+            {
+                <ul>
+                    @foreach(var activeUser in activeUsers){
+                        <li>@activeUser.UserName - @activeUser.ConnectionId</li>
+                    }
+                </ul>
+            }
         </div>
     </div>
 </div>
 
 
 @code{
+    private HubConnection? hubConnection;
+    [Inject]
+    LocalStorageService localStorage { get; set; }
     [Inject]
     public IForumStatService forumStatService { get; set; }
 
     AllStatsResponseVM? allStats { get; set; } = new AllStatsResponseVM();
 
+    int activeUserCounter = 0;
+    private List<ActiveUserVM>? activeUsers;
+
     bool isLoaded;
+
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        string username = string.Empty;
+        if (user.Identity.IsAuthenticated)
+        {
+            username = user.Identity.Name;
+        }
+
         allStats = await forumStatService.GetAllStats();
+
+        string token = await localStorage.GetItem("token");
+
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(
+                "https://localhost:7147/track",
+                o => {
+                    o.AccessTokenProvider = () => Task.FromResult<string?>(token);
+                    o.Url = new Uri($"https://localhost:7147/track?username={username}");
+                }
+            )
+            .Build();
+
+        hubConnection.On<int>("ReceiveActiveUserCounter", async message =>
+        {
+            activeUserCounter = message;
+            await InvokeAsync(StateHasChanged);
+        });
+
+        hubConnection.On<string>("ReceiveActiveUsers", async message =>
+        {
+            if(message != null)
+            {
+                activeUsers = JsonSerializer.Deserialize<List<ActiveUserVM>>(message);
+            }
+            await InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+
+        hubConnection.Closed += async (exception) =>
+        {
+            await hubConnection.StopAsync();
+            await hubConnection.DisposeAsync();
+        };
 
         isLoaded = true;
     }
 
-    
+
+
+    public async ValueTask DisposeAsync()
+    {
+        if(hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
 }

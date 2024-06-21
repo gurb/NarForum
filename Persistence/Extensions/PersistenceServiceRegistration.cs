@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Persistence.DatabaseContext;
 using Persistence.Repositories;
 
+
 namespace Persistence.Extensions
 {
     public static class PersistenceServiceRegistration
@@ -28,6 +29,8 @@ namespace Persistence.Extensions
             services.AddScoped<IQuoteRepository, QuoteRepository>();
 
             services.AddScoped<IForumStatService, ForumStatService>();
+
+            
 
             return services;
         }

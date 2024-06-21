@@ -75,6 +75,7 @@ namespace AdminUI.MappingProfiles
             CreateMap<StatsResponse, StatsResponseVM>().ReverseMap();
             CreateMap<StatWithDateDTO, StatWithDateVM>().ReverseMap();
             CreateMap<MonthStatDTO, MonthStatVM>().ReverseMap();
+
         }
     }
 }

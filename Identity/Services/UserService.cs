@@ -23,6 +23,11 @@ namespace Identity.Services
             _identityDbContext = identityDbContext;
         }
 
+        public string GetUserId()
+        {
+            return UserId;
+        }
+
         public string UserId { get { return _contextAccessor.HttpContext?.User?.FindFirstValue("uid"); } }
 
         public async Task<UserInfoResponse> GetCurrentUser()

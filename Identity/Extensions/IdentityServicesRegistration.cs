@@ -2,7 +2,9 @@
 using Application.Models.Identity;
 using Identity.DatabaseContext;
 using Identity.Models;
+using Identity.Models.DTO;
 using Identity.Services;
+using Identity.Services.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,10 @@ namespace Identity.Extensions
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IPermissionService, PermissionService>();
 
+
+            services.Configure<GarnetConfiguration>(configuration.GetSection("Garnet"));
+            services.AddSingleton<IGarnetCacheService, GarnetCacheService>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,6 +54,9 @@ namespace Identity.Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]))
                 };
             });
+
+            services.AddHostedService<TrackBackgroundService>();
+
 
             return services;
         }
