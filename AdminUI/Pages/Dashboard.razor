@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @using System.Text.Json.Serialization
 @using System.Text.Json
-
+@inject AlertService alertService;
 @implements IAsyncDisposable
 
 <div class="row">
@@ -135,16 +135,20 @@
             username = user.Identity.Name;
         }
 
+        string group = "admin";
         allStats = await forumStatService.GetAllStats();
 
         string token = await localStorage.GetItem("token");
 
+
         hubConnection = new HubConnectionBuilder()
             .WithUrl(
-                "https://localhost:7147/track",
+                "https://localhost:44342/track",
                 o => {
                     o.AccessTokenProvider = () => Task.FromResult<string?>(token);
-                    o.Url = new Uri($"https://localhost:7147/track?username={username}");
+                    o.Url = new Uri($"https://localhost:44342/track?username={username}&group={group}");
+                    o.SkipNegotiation = true;
+                    o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
                 }
             )
             .Build();
@@ -164,7 +168,14 @@
             await InvokeAsync(StateHasChanged);
         });
 
-        await hubConnection.StartAsync();
+        try
+        {
+            await hubConnection.StartAsync();
+        }catch(Exception ex)
+        {
+            alertService.ShowAlert(ex.Message);
+        }
+
 
         hubConnection.Closed += async (exception) =>
         {
@@ -174,8 +185,6 @@
 
         isLoaded = true;
     }
-
-
 
     public async ValueTask DisposeAsync()
     {

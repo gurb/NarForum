@@ -1,12 +1,21 @@
-using Api.Middleware;
+﻿using Api.Middleware;
 using Application.Extensions;
 using Persistence.Extensions;
 using Identity.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Identity.Hubs;
+using Microsoft.AspNetCore.WebSockets;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using System.Net.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSignalR();
+
+
+builder.Services.AddSignalR(options =>
+{
+    options.KeepAliveInterval = TimeSpan.FromSeconds(10); 
+    options.ClientTimeoutInterval = TimeSpan.FromSeconds(20);
+});
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
@@ -15,12 +24,16 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 builder.Services.AddControllers();
 
+builder.Services.AddWebSockets(o => { o.AllowedOrigins.Add("https://localhost:7058");  });
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("all", builder => builder
-        .AllowAnyOrigin()
+        .WithOrigins("https://localhost:7058")
         .AllowAnyHeader()
         .AllowAnyMethod()
+        .AllowCredentials()  // Eğer credential (kimlik doğrulama) kullanılıyorsa ekleyin.
+        .SetIsOriginAllowed((host) => true) // CORS doğrulamasını özelleştirmek için gerekebilir.
     );
 });
 
@@ -41,12 +54,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
 
-app.MapHub<TrackHub>("track");
+
+app.MapHub<TrackHub>("track", o => { 
+    o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+});
 
 app.UseCors("all");
+app.UseWebSockets();
 
 app.UseAuthentication();
 app.UseAuthorization();

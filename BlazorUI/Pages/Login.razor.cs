@@ -1,8 +1,9 @@
-using BlazorUI.Contracts;
+﻿using BlazorUI.Contracts;
 using Microsoft.AspNetCore.Components;
 using BlazorUI.Models.Authentication;
 using Microsoft.AspNetCore.SignalR.Client;
 using BlazorUI.Services.Common;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorUI.Pages;
 
@@ -21,9 +22,10 @@ public partial class Login: IAsyncDisposable
     [Inject]
     LocalStorageService localStorage { get; set; }
 
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
     public Login()
     {
-
     }
 
     protected override void OnInitialized()
@@ -38,16 +40,42 @@ public partial class Login: IAsyncDisposable
             NavigationManager.NavigateTo("/");
 
             string token = await localStorage.GetItem("token");
+            
+            string groupName = "forum";
+
+            var authState = await authenticationStateTask;
+            var user = authState.User;
+            string username = string.Empty;
+            if (user.Identity.IsAuthenticated)
+            {
+                username = user.Identity.Name;
+            }
 
             hubConnection = new HubConnectionBuilder()
             .WithUrl(
-                "https://localhost:7147/track",
+                $"https://localhost:7147/track",
                 o => {
                     o.AccessTokenProvider = () => Task.FromResult<string?>(token);
-                    o.Url = new Uri($"https://localhost:7147/track?username={Model.Email}");
+                    o.Url = new Uri($"https://localhost:7147/track?username={username}&group={groupName}");
+                    o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
                 }
             )
             .Build();
+
+
+
+            hubConnection.Closed += async (error) =>
+            {
+                if(error != null)
+                {
+                    // hata meydana gelirse yeniden bağlamı işini burada yap
+                }
+                else
+                {
+                    // kapat
+                    await hubConnection.StopAsync();
+                }
+            };
 
             await hubConnection.StartAsync();
 
@@ -55,10 +83,12 @@ public partial class Login: IAsyncDisposable
         Message = "Username/password combination unknown";
     }
 
+    
     public async ValueTask DisposeAsync()
     {
-        if (hubConnection is not null)
+        if(hubConnection != null)
         {
+            await hubConnection.StopAsync();
             await hubConnection.DisposeAsync();
         }
     }

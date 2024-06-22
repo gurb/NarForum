@@ -6,6 +6,7 @@
         Task<bool> SetValueAsync(string key, string value);
         Task AppendListAsync(string key, string element);
         Task AddHashSet(string key, string field, string value);
+        Task RemoveFieldHashSet(string key, string field);
         Task<Dictionary<string, string>?> GetAllHashSet(string key);
         Task<bool> RemoveFromList(string key, string element);
         Task Clear(string key);

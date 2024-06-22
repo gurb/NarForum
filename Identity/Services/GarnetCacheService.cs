@@ -2,8 +2,6 @@
 using Garnet.client;
 using Identity.Models.DTO;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
@@ -96,26 +94,34 @@ namespace Identity.Services
             await db.ExecuteForStringResultAsync("HSET", new string[] { key, field, value });
         }
 
-public async Task<Dictionary<string, string>?> GetAllHashSet (string key)
-{
-    using var db = new GarnetClient(_g.Address, _g.Port, GetSslOpts());
-    await db.ConnectAsync();
 
-    string[] hashArray = await db.ExecuteForStringArrayResultAsync("HGETALL", new string[] { key });
-
-    if(hashArray.Length > 0)
-    {
-        Dictionary<string, string> hash = new Dictionary<string, string>();
-        for (int i = 0; i < hashArray.Length; i+=2)
+        public async Task RemoveFieldHashSet(string key, string field)
         {
-            hash.Add(hashArray[i], hashArray[(i + 1)]);
+            using var db = new GarnetClient(_g.Address, _g.Port, GetSslOpts());
+            await db.ConnectAsync();
+            await db.ExecuteForStringResultAsync("HDEL", new string[] { key, field });
         }
 
-        return hash;
-    }
+        public async Task<Dictionary<string, string>?> GetAllHashSet (string key)
+        {
+            using var db = new GarnetClient(_g.Address, _g.Port, GetSslOpts());
+            await db.ConnectAsync();
+
+            string[] hashArray = await db.ExecuteForStringArrayResultAsync("HGETALL", new string[] { key });
+
+            if(hashArray.Length > 0)
+            {
+                Dictionary<string, string> hash = new Dictionary<string, string>();
+                for (int i = 0; i < hashArray.Length; i+=2)
+                {
+                    hash.Add(hashArray[i], hashArray[(i + 1)]);
+                }
+
+                return hash;
+            }
             
-    return null;
-}
+            return null;
+        }
 
         private async Task<bool> Contains(GarnetClient db, string key)
         {

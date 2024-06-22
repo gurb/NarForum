@@ -28,11 +28,22 @@ namespace Identity.Services.Hubs
                 await timer.WaitForNextTickAsync(stoppingToken))
             {
                 List<ActiveUser> activeUsers = new List<ActiveUser>();
-                Dictionary<string, string>? activeUserHashSet = await _cache.GetAllHashSet("activeUsers");
+                Dictionary<string, string>? forumActiveUserHashSet = await _cache.GetAllHashSet("forumActiveUsers");
+                Dictionary<string, string>? adminActiveUserHashSet = await _cache.GetAllHashSet("adminActiveUsers");
 
-                if(activeUserHashSet != null)
+
+
+                if (forumActiveUserHashSet is not null)
                 {
-                    foreach (var activeUser in activeUserHashSet)
+                    foreach (var activeUser in forumActiveUserHashSet)
+                    {
+                        activeUsers.Add(new ActiveUser { ConnectionId = activeUser.Value, UserName = activeUser.Key });
+                    }
+                }
+
+                if (adminActiveUserHashSet is not null)
+                {
+                    foreach (var activeUser in adminActiveUserHashSet)
                     {
                         activeUsers.Add(new ActiveUser { ConnectionId = activeUser.Value, UserName = activeUser.Key });
                     }
