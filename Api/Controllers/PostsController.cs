@@ -29,6 +29,7 @@ namespace Api.Controllers
             return posts;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetPostsByHeadingId")]
         public async Task<List<PostDTO>> GetPostsByHeadingId(int HeadingId)
         {
@@ -42,6 +43,7 @@ namespace Api.Controllers
             return posts;
         }
 
+        [AllowAnonymous]
         [HttpPost("GetPostsWithPagination")]
         public async Task<PostsPaginationDTO> GetPostsWithPagination(GetPostsWithPaginationQuery request)
         {
@@ -50,7 +52,7 @@ namespace Api.Controllers
             return posts;
         }
 
-
+        [AllowAnonymous]
         [HttpGet("GetPostsByHeadingIdWithPagination")]
         public async Task<PostsPaginationDTO> GetPostsByHeadingIdWithPagination(int HeadingId, int pageIndex, int pageSize)
         {
@@ -66,6 +68,7 @@ namespace Api.Controllers
             return posts;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetPostsByUserNameWithPagination")]
         public async Task<PostsPaginationDTO> GetPostsByUserNameWithPagination(string UserName, int pageIndex, int pageSize)
         {

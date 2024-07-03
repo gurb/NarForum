@@ -4,15 +4,30 @@
 
 <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 
+
 <div class="row">
     <div class="col-6">
         <h1>@CategoryName</h1>
     </div>
     <div class="col-3 text-end">
-        <button @onclick="CreateHeading" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Create Heading</button>
+        <AuthorizeView>
+            <Authorized>
+                <button @onclick="CreateHeading" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Create Heading</button>
+            </Authorized>
+            <NotAuthorized>
+
+            </NotAuthorized>
+        </AuthorizeView>
     </div>
     <div class="col-3 text-end">
-        <button @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</button>
+        <AuthorizeView>
+            <Authorized>
+                <button @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</button>
+            </Authorized>
+            <NotAuthorized>
+
+            </NotAuthorized>
+        </AuthorizeView>
     </div>
 </div>
 

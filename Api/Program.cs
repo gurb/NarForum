@@ -2,11 +2,8 @@
 using Application.Extensions;
 using Persistence.Extensions;
 using Identity.Extensions;
-using Microsoft.AspNetCore.Builder;
 using Identity.Hubs;
 using Microsoft.AspNetCore.WebSockets;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using System.Net.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,12 +21,15 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 builder.Services.AddControllers();
 
-builder.Services.AddWebSockets(o => { o.AllowedOrigins.Add("https://localhost:7058");  });
+builder.Services.AddWebSockets(o => { 
+    o.AllowedOrigins.Add("https://localhost:7058");
+    o.AllowedOrigins.Add("https://localhost:7212");
+});
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("all", builder => builder
-        .WithOrigins("https://localhost:7058")
+        .WithOrigins("https://localhost:7058", "https://localhost:7212")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()  // Eğer credential (kimlik doğrulama) kullanılıyorsa ekleyin.

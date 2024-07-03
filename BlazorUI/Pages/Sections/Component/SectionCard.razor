@@ -2,11 +2,19 @@
 @using BlazorUI.Pages.Category.Modal;
 @using BlazorUI.Services.UI
 
+
+
+
 <div class="row">
-     <div class="col-12 text-end">
-        <a href="/" @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</a>
+    <div class="col-12 text-end">
+        <AuthorizeView>
+            <Authorized>
+                <a href="/" @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</a>
+            </Authorized>
+        </AuthorizeView>
     </div>
 </div>
+
 
 <div class="row section-card-body">
     <div class="col-sm-4">

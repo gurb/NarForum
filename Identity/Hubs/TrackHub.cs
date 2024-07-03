@@ -1,11 +1,9 @@
 ﻿using Application.Contracts.Hubs;
 using Application.Contracts.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Connections.Features;
 using Microsoft.AspNetCore.SignalR;
 using System.Diagnostics;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace Identity.Hubs
@@ -37,8 +35,6 @@ namespace Identity.Hubs
                     await _cache.AddHashSet($"{group}ActiveUsers", userName, connectionId);
                 }
             }
-
-
 
             await base.OnConnectedAsync();
         }

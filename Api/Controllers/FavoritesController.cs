@@ -25,7 +25,7 @@ namespace Api.Controllers
             return favorites;
         }
 
-
+        [AllowAnonymous]
         [HttpGet("GetFavoritesByHeadingId")]
         public async Task<List<FavoriteDTO>> GetFavoritesByHeadingId(int headingId)
         {
@@ -39,6 +39,7 @@ namespace Api.Controllers
             return favorites;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetFavoritesByUserName")]
         public async Task<List<FavoriteDTO>> GetFavoritesByUserName(string userName)
         {
@@ -52,6 +53,8 @@ namespace Api.Controllers
             return favorites;
         }
 
+
+        [AllowAnonymous]
         [HttpGet("GetFavoritesByHeadingIdAndUserName")]
         public async Task<List<FavoriteDTO>> GetFavoritesByHeadingIdAndUserName(int headingId, string userName)
         {

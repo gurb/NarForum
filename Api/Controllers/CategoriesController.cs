@@ -30,6 +30,7 @@ namespace Api.Controllers
             return categories;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetSectionCategories")]
         public async Task<List<CategoryDTO>> GetSectionCategories()
         {
@@ -43,6 +44,7 @@ namespace Api.Controllers
             return categories;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetCategoryByName")]
         public async Task<CategoryDTO> Get(string Name)
         {
@@ -55,6 +57,8 @@ namespace Api.Controllers
             return category;
         }
 
+
+        [AllowAnonymous]
         [HttpPost("GetCategoriesWithPagination")]
         public async Task<CategoriesPaginationDTO> GetCategoriesWithPagination(GetCategoriesWithPaginationQuery request)
         {
@@ -63,6 +67,7 @@ namespace Api.Controllers
             return headings;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetCategoriesById")]
         public async Task<List<CategoryDTO>> GetCategoriesById(int ParentCategoryId)
         {
@@ -76,6 +81,8 @@ namespace Api.Controllers
             return categories;
         }
 
+
+        [AllowAnonymous]
         [HttpGet("GetCategoriesByName")]
         public async Task<List<CategoryDTO>> GetCategoriesByName(string Name)
         {
@@ -89,6 +96,7 @@ namespace Api.Controllers
             return categories;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetParentCategoriesByName")]
         public async Task<List<CategoryDTO>> GetParentCategoriesByName(string Name)
         {

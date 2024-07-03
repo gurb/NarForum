@@ -41,7 +41,7 @@ public partial class Login: IAsyncDisposable
 
             string token = await localStorage.GetItem("token");
             
-            string groupName = "forum";
+            string group = "forum";
 
             var authState = await authenticationStateTask;
             var user = authState.User;
@@ -53,15 +53,15 @@ public partial class Login: IAsyncDisposable
 
             hubConnection = new HubConnectionBuilder()
             .WithUrl(
-                $"https://localhost:7147/track",
+                $"https://localhost:44342/track",
                 o => {
                     o.AccessTokenProvider = () => Task.FromResult<string?>(token);
-                    o.Url = new Uri($"https://localhost:7147/track?username={username}&group={groupName}");
-                    o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+                    o.Url = new Uri($"https://localhost:44342/track?username={username}&group={group}");
+                    o.SkipNegotiation = true;
+                    o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.LongPolling;
                 }
             )
             .Build();
-
 
 
             hubConnection.Closed += async (error) =>

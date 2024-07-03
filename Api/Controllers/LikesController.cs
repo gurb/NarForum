@@ -17,6 +17,8 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
+
+        [AllowAnonymous]
         [HttpGet("GetLikes")]
         public async Task<List<LikeDTO>> GetLikes()
         {
@@ -25,7 +27,7 @@ namespace Api.Controllers
             return likes;
         }
 
-
+        [AllowAnonymous]
         [HttpGet("GetLikesByHeadingId")]
         public async Task<List<LikeDTO>> GetLikesByHeadingId(int headingId)
         {
@@ -39,6 +41,8 @@ namespace Api.Controllers
             return likes;
         }
 
+
+        [AllowAnonymous]
         [HttpGet("GetLikesByUserName")]
         public async Task<List<LikeDTO>> GetLikesByUserName(string userName)
         {

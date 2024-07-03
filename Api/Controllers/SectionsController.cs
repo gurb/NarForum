@@ -22,6 +22,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<List<SectionDTO>> Get()
         {
             var sections = await _mediator.Send(new GetSectionsQuery());
@@ -39,6 +40,7 @@ namespace Api.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
         [HttpPost("GetSectionsWithPagination")]
         public async Task<SectionsPaginationDTO> GetSectionsWithPagination(GetSectionsWithPaginationQuery request)
         {

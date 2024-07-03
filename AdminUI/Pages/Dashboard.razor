@@ -190,6 +190,7 @@
     {
         if(hubConnection is not null)
         {
+            await hubConnection.StopAsync();
             await hubConnection.DisposeAsync();
         }
     }
