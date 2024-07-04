@@ -58,7 +58,7 @@ public partial class Login: IAsyncDisposable
                     o.AccessTokenProvider = () => Task.FromResult<string?>(token);
                     o.Url = new Uri($"https://localhost:44342/track?username={username}&group={group}");
                     o.SkipNegotiation = true;
-                    o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.LongPolling;
+                    o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
                 }
             )
             .Build();

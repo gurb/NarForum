@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace Application.Features.Section.Commands.CreateSection
+namespace Application.Features.Section.Commands.CreateSection;
+
+public class CreateSectionCommand: IRequest<int>
 {
-    public class CreateSectionCommand: IRequest<int>
-    {
-        public string Name { get; set; } = string.Empty;
-    }
+    public string Name { get; set; } = string.Empty;
 }

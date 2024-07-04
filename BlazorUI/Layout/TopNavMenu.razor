@@ -1,0 +1,86 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light top-nav-menu-wrapper">
+    <div class="container">
+        <a class="navbar-brand" href="#"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto top-nav-menu">
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <li class="nav-item">
+                            <button @onclick="GoToLogin" class="btn btn-success">Login</button>
+                        </li>
+                        <li class="nav-item">
+                            <button @onclick="GoToRegister" class="btn btn-primary">Register</button>
+                        </li>
+                    </NotAuthorized>
+                    <Authorized>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
+                                <img src="images/profile.png" alt="user" width="25" class="rounded-circle">
+                                <span>@UserName</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> User Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" @onclick="Logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+@code {
+    UserInfoVM? Model;
+
+    public string UserName { get; set; }
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Inject]
+    private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IAuthenticationService AuthenticationService { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            UserName = user.Identity.Name;
+        }
+
+        // Model = await UserService.GetUserInfo(UserName);
+    }
+
+    protected void GoToLogin()
+    {
+        NavigationManager.NavigateTo("login/");
+    }
+
+    protected void GoToRegister()
+    {
+        NavigationManager.NavigateTo("register/");
+    }
+
+    protected async void Logout()
+    {
+        NavigationManager.NavigateTo("login/", true);
+        await AuthenticationService.Logout();
+    }
+}
+

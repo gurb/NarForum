@@ -1,8 +1,10 @@
 ﻿using Application.Features.Heading.Commands.RemoveHeading;
 using Application.Features.Section.Commands.CreateSection;
 using Application.Features.Section.Commands.RemoveSection;
+using Application.Features.Section.Commands.UpdateSection;
 using Application.Features.Section.Queries.GetSections;
 using Application.Features.Section.Queries.GetSectionsWithPagination;
+using Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +49,13 @@ namespace Api.Controllers
             var headings = await _mediator.Send(request);
 
             return headings;
+        }
+
+        [HttpPost("UpdateSection")]
+        public async Task<ApiResponse> UpdateSection(UpdateSectionCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return response;
         }
 
 

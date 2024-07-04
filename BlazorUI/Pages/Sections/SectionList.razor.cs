@@ -1,6 +1,7 @@
 using BlazorUI.Contracts;
 using BlazorUI.Models.Category;
 using BlazorUI.Models.Section;
+using BlazorUI.Pages.Sections.Modal;
 using BlazorUI.Services.UI;
 using Microsoft.AspNetCore.Components;
 
@@ -20,7 +21,7 @@ namespace BlazorUI.Pages.Sections
         public List<SectionVM>? Sections { get; private set; }
         public List<CategoryVM>? Categories { get; private set; }
 
-
+        AddSectionModal? addSectionModal;
 
         public string Message { get; set; } = string.Empty;
 
@@ -37,6 +38,11 @@ namespace BlazorUI.Pages.Sections
             Sections = await SectionService.GetSections();
             Categories = await CategoryService.GetSectionCategories();
             await InvokeAsync(StateHasChanged);
+        }
+
+        private void OpenModal()
+        {
+            addSectionModal?.ShowModal();
         }
     }
 }

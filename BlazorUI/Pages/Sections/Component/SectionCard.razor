@@ -28,6 +28,13 @@
     </div>
     <div class="col-sm-4">
         Last Post
+        <AuthorizeView>
+            <Authorized>
+                <span style="float:right;" class="text-end">
+                    <i class="bi bi-pencil-fill" @onclick=UpdateSectionModal></i>
+                </span>
+            </Authorized>
+        </AuthorizeView>
     </div>
 
 </div>
@@ -51,6 +58,8 @@ else
 
 <AddCategoryModal @ref="addCategoryModal" SectionVM="@Model" Callback="Refresh"></AddCategoryModal>
 
+<UpdateSectionModal @ref=updateSectionModal Model="@Model" Callback="Refresh"></UpdateSectionModal>
+
 @code {
     [Parameter]
     public SectionVM Model { get; set; }
@@ -59,6 +68,7 @@ else
     public List<CategoryVM>? Categories { get; set; }
 
     AddCategoryModal? addCategoryModal;
+    UpdateSectionModal? updateSectionModal;
 
     [Parameter]
     public string Name { get; set; } = string.Empty;
@@ -72,10 +82,14 @@ else
         addCategoryModal?.ShowModal();
     }
 
+    private void UpdateSectionModal()
+    {
+        updateSectionModal?.ShowModal();
+    }
+
+
     private async Task Refresh()
     {
         RefreshStateService.RefreshSectionList();
     }
-
-    
 }

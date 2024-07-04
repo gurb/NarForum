@@ -22,6 +22,11 @@ namespace Persistence.DatabaseContext
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Reply> Replies { get; set; }
 
+        public DbSet<BlogCategory> BlogCategories { get; set; }
+        public DbSet<BlogPost> BlogPosts { get; set;}
+        public DbSet<BlogComment> BlogComments {get; set;}
+
+        public DbSet<StaticPage> StaticPages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

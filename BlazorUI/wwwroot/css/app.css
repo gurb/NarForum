@@ -21,7 +21,7 @@ a, .btn-link {
 }
 
 .custom-container {
-    max-width: 1600px;
+    /*max-width: 1600px;*/
     padding-top: 1.1rem;
 }
 
@@ -124,6 +124,31 @@ code {
     padding: 5px 10px;
     margin: -10px -5px 10px -5px;
     font-size: 0.9em;
+}
+
+.top-nav-menu-wrapper {
+    border-bottom: 1px solid #ccc;
+}
+
+.top-nav-menu li {
+    margin: 2px 5px;
+}
+
+.category-list-nav-menu li {
+    margin: 2px 5px;
+}
+
+.category-header .list-group-item {
+    border: none;
+    padding: .2rem .2rem;
+}
+
+.top-nav-menu li a {
+    cursor: pointer;
+}
+
+a {
+    cursor: pointer;
 }
 
 

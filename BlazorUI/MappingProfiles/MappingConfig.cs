@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BlazorUI.Models;
 using BlazorUI.Models.Category;
 using BlazorUI.Models.Favorite;
 using BlazorUI.Models.Heading;
@@ -20,6 +21,7 @@ namespace BlazorUI.MappingProfiles
 
             CreateMap<SectionDTO, SectionVM>().ReverseMap();
             CreateMap<CreateSectionCommand, SectionVM>().ReverseMap();
+            CreateMap<UpdateSectionCommand, SectionVM>().ReverseMap();
 
             CreateMap<CategoryDTO, CategoryVM>().ReverseMap();
             CreateMap<CreateCategoryCommand, CategoryVM>().ReverseMap();
@@ -35,6 +37,8 @@ namespace BlazorUI.MappingProfiles
 
             CreateMap<FavoriteDTO, FavoriteVM>().ReverseMap();
             CreateMap<AddFavoriteCommand, FavoriteVM>().ReverseMap();
+
+            CreateMap<ApiResponse, ApiResponseVM>().ReverseMap();
         }
     }
 }

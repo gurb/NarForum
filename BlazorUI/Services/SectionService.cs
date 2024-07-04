@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlazorUI.Contracts;
+using BlazorUI.Models;
 using BlazorUI.Models.Section;
 using BlazorUI.Services.Base;
 using BlazorUI.Services.Common;
@@ -38,5 +39,15 @@ public class SectionService : BaseHttpService, ISectionService
         var data = _mapper.Map<List<SectionVM>>(sections);
 
         return data;
+    }
+
+    public async Task<ApiResponseVM> UpdateSection(SectionVM section)
+    {
+        var updateSectionCommand = _mapper.Map<UpdateSectionCommand>(section);
+        var response = await _client.UpdateSectionAsync(updateSectionCommand);
+
+        var responseVM = _mapper.Map<ApiResponseVM>(response);
+
+        return responseVM;
     }
 }

@@ -5,29 +5,26 @@
 <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 
 
-<div class="row">
+<div class="row category-header">
     <div class="col-6">
         <h1>@CategoryName</h1>
     </div>
-    <div class="col-3 text-end">
-        <AuthorizeView>
-            <Authorized>
-                <button @onclick="CreateHeading" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Create Heading</button>
-            </Authorized>
-            <NotAuthorized>
+    <div class="col-6 d-flex justify-content-end p-0">
+        <ul class="list-group list-group-horizontal">
+            <AuthorizeView>
+                <Authorized>
+                    <li class="list-group-item">
+                            <button @onclick="CreateHeading" class="btn btn-primary"><i class="bi bi-file-earmark-plus"></i> Create Heading</button>
+                        </li>
+                    <li class="list-group-item">
+                            <button @onclick="OpenModal" class="btn btn-primary"><i class="bi bi-journal-plus"></i> Add Category</button>
+                        </li>
+                </Authorized>
+                <NotAuthorized>
 
-            </NotAuthorized>
-        </AuthorizeView>
-    </div>
-    <div class="col-3 text-end">
-        <AuthorizeView>
-            <Authorized>
-                <button @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</button>
-            </Authorized>
-            <NotAuthorized>
-
-            </NotAuthorized>
-        </AuthorizeView>
+                </NotAuthorized>
+            </AuthorizeView>
+        </ul>
     </div>
 </div>
 

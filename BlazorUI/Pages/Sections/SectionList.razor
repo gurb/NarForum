@@ -4,12 +4,23 @@
 }
 else
 {
+    <AuthorizeView>
+        <Authorized>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <a @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Section</a>
+                    </div>
+                </div>
+            </div>
+        </Authorized>
+    </AuthorizeView>
     <div class="container-fluid">
         @foreach (var sec in Sections)
         {
             <SectionCard Model="sec" Name='@sec.Name' Categories="Categories != null ? Categories?.Where(x => x.SectionId == sec.Id).ToList() : null"></SectionCard>
         }
     </div>
+
+    <AddSectionModal @ref="addSectionModal" Callback="Refresh"></AddSectionModal>
 }
-
-
