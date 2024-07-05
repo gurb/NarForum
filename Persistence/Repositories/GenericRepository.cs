@@ -39,9 +39,17 @@ namespace Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate, bool isTrack = false)
         {
-            return await _context.Set<T>().AsNoTracking().Where(predicate).ToListAsync();
+
+            if(isTrack)
+            {
+                return await _context.Set<T>().Where(predicate).ToListAsync();
+            }
+            else
+            {
+                return await _context.Set<T>().AsNoTracking().Where(predicate).ToListAsync();
+            }
         }
 
         public async Task<List<T>> GetAsync()
@@ -49,8 +57,12 @@ namespace Persistence.Repositories
             return await _context.Set<T>().AsNoTracking().ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int id, bool isTrack=false)
         {
+            if(isTrack)
+            {
+                return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+            }
             return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -80,6 +92,12 @@ namespace Persistence.Repositories
         public async Task<T?> GetByIdAsyncWithTrack(int id)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public void UpdateList(List<T> Entities)
+        {
+            _context.Set<T>().UpdateRange(Entities);
+            _context.SaveChanges();
         }
     }
 }

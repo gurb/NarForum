@@ -5,8 +5,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogsController : ControllerBase
+    public class BlogCommentsController : ControllerBase
     {
-
     }
 }

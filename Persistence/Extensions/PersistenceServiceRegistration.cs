@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Persistence.DatabaseContext;
 using Persistence.Repositories;
 
-
 namespace Persistence.Extensions
 {
     public static class PersistenceServiceRegistration
@@ -30,7 +29,10 @@ namespace Persistence.Extensions
 
             services.AddScoped<IForumStatService, ForumStatService>();
 
-            
+            services.AddScoped<IBlogPostRepository, BlogPostRepository>();
+            services.AddScoped<IBlogCommentRepository, BlogCommentRepository>();
+            services.AddScoped<IBlogCategoryRepository, BlogCatergoryRepository>();
+            services.AddScoped<IPageRepository, PageRepository>();
 
             return services;
         }
