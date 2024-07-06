@@ -1,12 +1,8 @@
 ﻿using Application.Contracts.Persistence;
 using Domain;
+using Microsoft.EntityFrameworkCore;
 using Persistence.DatabaseContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
@@ -20,29 +16,33 @@ namespace Persistence.Repositories
             _context = context;
         }
 
-        public Task AddAsync(BlogCategory Entity)
+        public async Task AddAsync(BlogCategory Entity)
         {
-            throw new NotImplementedException();
+            await _context.AddAsync(Entity);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(BlogCategory Entity)
+        public async Task DeleteAsync(BlogCategory Entity)
         {
-            throw new NotImplementedException();
+            _context.Remove(Entity);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<List<BlogCategory>> GetAllAsync(Expression<Func<BlogCategory, bool>> predicate)
+        public async Task<List<BlogCategory>> GetAllAsync(Expression<Func<BlogCategory, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _context.BlogCategories.AsNoTracking().Where(predicate).ToListAsync();
         }
 
-        public Task<BlogCategory> GetAsync(Expression<Func<BlogCategory, bool>> predicate)
+        public async Task<BlogCategory> GetAsync(Expression<Func<BlogCategory, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _context.BlogCategories.FirstOrDefaultAsync(predicate);
         }
 
-        public Task UpdateAsync(BlogCategory Entity)
+        public async Task UpdateAsync(BlogCategory Entity)
         {
-            throw new NotImplementedException();
+            _context.Update(Entity);
+            _context.Entry(Entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }

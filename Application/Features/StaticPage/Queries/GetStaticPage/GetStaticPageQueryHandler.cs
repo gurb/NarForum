@@ -2,17 +2,11 @@
 using Application.Features.StaticPage.Queries.GetStaticPages;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.StaticPage.Queries.GetStaticPage
 {
     public class GetStaticPageQueryHandler : IRequestHandler<GetStaticPageQuery, StaticPageDTO>
     {
-
         private readonly IMapper _mapper;
         private readonly IPageRepository _pageRepository;
 
