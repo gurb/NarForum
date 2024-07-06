@@ -22,6 +22,7 @@ public class CreateBlogPostCommandHandler : IRequestHandler<CreateBlogPostComman
         try
         {
             var blogPost = _mapper.Map<Domain.BlogPost>(request);
+            blogPost.IsDraft = true;
 
             await _blogPostRepository.CreateAsync(blogPost);
 

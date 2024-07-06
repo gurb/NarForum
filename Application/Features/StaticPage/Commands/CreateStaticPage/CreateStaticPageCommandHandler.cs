@@ -22,6 +22,7 @@ public class CreateStaticPageCommandHandler : IRequestHandler<CreateStaticPageCo
         try
         {
             var staticPage = _mapper.Map<Domain.StaticPage>(request);
+            staticPage.IsDraft = true;
 
             await _pageRepository.CreateAsync(staticPage);
 

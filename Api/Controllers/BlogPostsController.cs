@@ -1,4 +1,6 @@
 ﻿using Application.Features.BlogPost.Commands.CreateBlogPost;
+using Application.Features.BlogPost.Commands.DraftBlogPost;
+using Application.Features.BlogPost.Commands.PublishBlogPost;
 using Application.Features.BlogPost.Commands.RemoveBlogPost;
 using Application.Features.BlogPost.Commands.UpdateBlogPost;
 using Application.Features.BlogPost.Queries.GetBlogPost;
@@ -28,6 +30,8 @@ namespace Api.Controllers
             var blogPosts = await _mediator.Send(request);
             return blogPosts;
         }
+
+
 
         [AllowAnonymous]
         [HttpPost("GetBlogPost")]
@@ -65,6 +69,20 @@ namespace Api.Controllers
 
         [HttpPost("RemoveBlogPost")]
         public async Task<ApiResponse> RemoveBlogPost(RemoveBlogPostCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return response;
+        }
+
+        [HttpPost("PublishBlogPost")]
+        public async Task<ApiResponse> PublishBlogPost(PublishBlogPostCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return response;
+        }
+
+        [HttpPost("DraftBlogPost")]
+        public async Task<ApiResponse> DraftBlogPost(DraftBlogPostCommand command)
         {
             var response = await _mediator.Send(command);
             return response;

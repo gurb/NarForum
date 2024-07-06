@@ -1,4 +1,6 @@
 ﻿using Application.Features.StaticPage.Commands.CreateStaticPage;
+using Application.Features.StaticPage.Commands.DraftStaticPage;
+using Application.Features.StaticPage.Commands.PublishStaticPage;
 using Application.Features.StaticPage.Commands.RemoveStaticPage;
 using Application.Features.StaticPage.Commands.UpdateStaticPage;
 using Application.Features.StaticPage.Queries.GetStaticPage;
@@ -63,6 +65,20 @@ namespace Api.Controllers
 
         [HttpPost("RemoveStaticPage")]
         public async Task<ApiResponse> RemoveStaticPage(RemoveStaticPageCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return response;
+        }
+
+        [HttpPost("PublishStaticPage")]
+        public async Task<ApiResponse> PublishStaticPage(PublishStaticPageCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return response;
+        }
+
+        [HttpPost("DraftStaticPage")]
+        public async Task<ApiResponse> DraftStaticPage(DraftStaticPageCommand command)
         {
             var response = await _mediator.Send(command);
             return response;

@@ -11,4 +11,6 @@ public class BlogPost: BaseEntity
     public string Url { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
     public int ViewCounter { get; set; }
+    public bool IsDraft { get; set; }
+    public bool IsPublished { get; set; }
 }

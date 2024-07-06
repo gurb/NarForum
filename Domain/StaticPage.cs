@@ -9,5 +9,7 @@ public class StaticPage: BaseEntity
     public string Content { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
     public string Author { get; set; } = string.Empty;
+    public bool IsDraft { get; set; }
+    public bool IsPublished { get; set; }
 }
 
