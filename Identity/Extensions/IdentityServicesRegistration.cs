@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 using System.Text;
 
 namespace Identity.Extensions
@@ -19,6 +20,9 @@ namespace Identity.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
+            var assembly = Assembly.GetExecutingAssembly();
+            services.AddAutoMapper(assembly);
+
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
             services.AddDbContext<ForumIdentityDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ForumIdentityDatabaseConnectionString")));

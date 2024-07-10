@@ -1,6 +1,4 @@
-﻿using Application.Models.Identity.Hub;
-
-namespace Application.Contracts.Hubs
+﻿namespace Application.Contracts.Hubs
 {
     public interface ITrackHub
     {

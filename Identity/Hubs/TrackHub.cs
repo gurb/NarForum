@@ -1,7 +1,6 @@
 ﻿using Application.Contracts.Hubs;
 using Application.Contracts.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Connections.Features;
 using Microsoft.AspNetCore.SignalR;
 using System.Diagnostics;
 
@@ -20,9 +19,6 @@ namespace Identity.Hubs
 
         public override async Task OnConnectedAsync()
         {
-
-            var transportType = Context.Features.Get<IHttpTransportFeature>().TransportType;
-
             var httpContext = Context.GetHttpContext();
             if (httpContext != null)
             {

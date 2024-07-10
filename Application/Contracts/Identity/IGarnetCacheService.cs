@@ -4,6 +4,7 @@
     {
         Task<string> GetValueAsync(string key);
         Task<bool> SetValueAsync(string key, string value);
+        Task<List<string>> GetList(string key);
         Task AppendListAsync(string key, string element);
         Task AddHashSet(string key, string field, string value);
         Task RemoveFieldHashSet(string key, string field);

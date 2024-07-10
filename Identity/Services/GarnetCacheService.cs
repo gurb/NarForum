@@ -65,6 +65,17 @@ namespace Identity.Services
             return false;
         }
 
+        public async Task<List<string>> GetList(string key)
+        {
+            using var db = new GarnetClient(_g.Address, _g.Port, GetSslOpts());
+
+            await db.ConnectAsync();
+
+            var list = await db.ListRangeAsync(key, 0, -1);
+
+            return list.ToList();
+        }
+
         public async Task AppendListAsync(string key, string element)
         {
             using var db = new GarnetClient(_g.Address, _g.Port, GetSslOpts());
@@ -134,5 +145,7 @@ namespace Identity.Services
             TargetHost = "GarnetTest",
             RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true,
         } : null;
+
+        
     }
 }
