@@ -5,7 +5,11 @@ namespace Application.Contracts.Identity
 {
     public interface IMessageService
     {
+        Task<ApiResponse> CreateChat(CreateChatRequest request);
         Task<ApiResponse> AddMessage(AddMessageRequest request);
-        Task<GetMessageResponse> GetMessages(string userId);
+
+        Task<GetChatResponse> GetChats(string userId);
+
+        Task<GetMessageResponse> GetMessages(string chatId);
     }
 }

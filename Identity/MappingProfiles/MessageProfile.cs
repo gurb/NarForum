@@ -15,6 +15,7 @@ namespace Identity.MappingProfiles
         {
             CreateMap<Message, MessageDTO>().ReverseMap();
             CreateMap<ForumUser, UserDTO>().ReverseMap();
+            CreateMap<Chat, ChatDTO>().ReverseMap();
         }
     }
 }

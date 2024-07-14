@@ -13,9 +13,16 @@ namespace Api.Controllers.Identity
     {
 
         private readonly IMessageService _messageService;
+
         public MessageController(IMessageService messageService)
         {
             _messageService = messageService;
+        }
+
+        [HttpPost("CreateChat")]
+        public async Task<ApiResponse> CreateChat(CreateChatRequest request)
+        {
+            return await _messageService.CreateChat(request);
         }
 
         [HttpPost("AddMessage")]
@@ -25,9 +32,15 @@ namespace Api.Controllers.Identity
         }
 
         [HttpPost("GetPermissions")]
-        public async Task<GetMessageResponse> GetMessages(string userId)
+        public async Task<GetMessageResponse> GetMessages(string chatId)
         {
-            return await _messageService.GetMessages(userId);
+            return await _messageService.GetMessages(chatId);
+        }
+
+        [HttpPost("GetChats")]
+        public async Task<GetChatResponse> GetChats(string userId)
+        {
+            return await _messageService.GetChats(userId);
         }
     }
 }

@@ -17,6 +17,11 @@
                     </NotAuthorized>
                     <Authorized>
                         <li class="nav-item">
+                            <button @onclick=ShowChat type="button" class="btn btn-link nav-link">
+                                <i class="bi bi-chat"></i>
+                            </button>
+                        </li>
+                        <li class="nav-item">
                             <button type="button" class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
                                 <img src="images/profile.png" alt="user" width="25" class="rounded-circle">
                                 <span>@UserName</span>
@@ -33,6 +38,11 @@
         </div>
     </div>
 </nav>
+
+@if(showChat)
+{
+    <ChatBox></ChatBox>
+}
 
 
 @code {
@@ -53,6 +63,9 @@
 
     [Inject]
     public IAuthenticationService AuthenticationService { get; set; }
+
+
+    private bool showChat;
 
     protected async override Task OnInitializedAsync()
     {
@@ -77,10 +90,19 @@
         NavigationManager.NavigateTo("register/");
     }
 
+
+
     protected async void Logout()
     {
         NavigationManager.NavigateTo("login/", true);
         await AuthenticationService.Logout();
     }
+
+    private async void ShowChat()
+    {
+        showChat = !showChat;
+        await InvokeAsync(StateHasChanged);
+    }
+
 }
 

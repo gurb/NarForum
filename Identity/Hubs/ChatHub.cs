@@ -25,11 +25,11 @@ namespace Identity.Hubs
                 await _cache.SetValueAsync($"chat:connection:{userName}", connectionId);
 
                 var messageHistory = await _cache.GetList($"messages:{userName}");
-                if(messageHistory != null && messageHistory.Count > 0)
+                if(messageHistory != null && messageHistory.Count > 0 && userName is not null)
                 {
                     foreach (var message in messageHistory)
                     {
-                        //await Clients.Caller.ReceiveMessage();
+                        await Clients.Caller.ReceiveMessage(userName, message);
                     }
                 }
             }
@@ -49,15 +49,12 @@ namespace Identity.Hubs
 
                 var toUserConnectionId = await _cache.GetValueAsync($"chat:connection:{toUser}");
 
-                //await _cache.AppendListAsync($"messages:{toUser}", );
-
+                await _cache.AppendListAsync($"messages:{toUser}", message);
 
                 if (!string.IsNullOrEmpty(toUserConnectionId))
                 {
-                    //await Clients.Client(toUserConnectionId).ReceiveMessage();
+                    await Clients.Client(toUserConnectionId).ReceiveMessage(toUser, message);
                 }
-                
-                
             }
         }
 
