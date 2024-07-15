@@ -1,0 +1,42 @@
+﻿<div class="card">
+    <div class="form-group">
+        <input type="text" class="form-control" @bind="@searchText" @oninput="@searchLabel" placeholder="@Placeholder" />
+    </div>
+
+    <table class="table table-responsive">
+        <tbody>
+        @foreach(var label in Labels)
+        {
+            <tr>
+                <th scope="row"><input @bind-value=@label.IsSelect class="form-check-input" type="checkbox"></th>
+                <td>@label.Text</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+
+
+@code {
+    [Parameter] 
+    public bool Selected { get; set; }
+
+    [Parameter]
+    public string Placeholder { get; set; } = string.Empty;
+
+    [Parameter]
+    public List<SelectLabel> Labels { get; set; } = new List<SelectLabel>();
+
+    [Parameter]
+    public EventCallback<string> SearchLabelCallback { get; set; }
+
+    private string? searchText = string.Empty;
+
+    protected async Task searchLabel(ChangeEventArgs args)
+    {
+        searchText = args.Value.ToString();
+        await SearchLabelCallback.InvokeAsync(searchText);
+        await InvokeAsync(StateHasChanged);
+    }
+}

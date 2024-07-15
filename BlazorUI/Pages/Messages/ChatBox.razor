@@ -33,6 +33,7 @@
                 <span class="message-balloon owner-message">
                     @UserName
                 </span>
+                <SelectBox Labels=UserLabels Placeholder="Search username..." SearchLabelCallback="RefreshUserLabels"></SelectBox>
             }
             else
             {
@@ -95,4 +96,34 @@
 
     [Parameter]
     public string? UserName { get; set; }
+
+    private List<SelectLabel> UserLabels = new List<SelectLabel>();
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+
+    protected async Task RefreshUserLabels(string userName)
+    {
+        // UserLabels = service.getusers (username);
+
+        var userPaginationDto = await UserService.GetUsersByUsernameWithPagination(userName, 1, 10);
+
+        if (userPaginationDto != null && userPaginationDto.TotalCount > 0 && userPaginationDto.Users != null)
+        {
+            UserLabels = userPaginationDto.Users.Select(x => new SelectLabel
+            {
+                IsSelect = false,
+                Text = x.UserName
+            })
+            .ToList();
+        }
+        else
+        {
+            UserLabels.Clear();
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
 }

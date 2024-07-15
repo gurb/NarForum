@@ -70,7 +70,7 @@ namespace Identity.Services
 
             if(!String.IsNullOrEmpty(query.UserName))
             {
-                predicate = predicate.And(x => x.UserName == query.UserName);
+                predicate = predicate.And(x => x.UserName!.Contains(query.UserName));
             }
 
             var users = await _identityDbContext.Users.AsNoTracking()

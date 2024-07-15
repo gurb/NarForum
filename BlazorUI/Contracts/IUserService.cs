@@ -5,5 +5,6 @@ namespace BlazorUI.Contracts
     public interface IUserService
     {
         Task<UserInfoVM> GetUserInfo(string userName);
+        Task<UsersPaginationVM> GetUsersByUsernameWithPagination(string? userName, int pageIndex, int pageSize);
     }
 }

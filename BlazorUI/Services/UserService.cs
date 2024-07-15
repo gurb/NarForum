@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BlazorUI.Contracts;
-using BlazorUI.Models.Category;
 using BlazorUI.Models.User;
 using BlazorUI.Services.Base;
 using BlazorUI.Services.Common;
@@ -26,4 +25,22 @@ public class UserService : BaseHttpService, IUserService
 
         return data;
     }
+
+    public async Task<UsersPaginationVM> GetUsersByUsernameWithPagination(string? userName, int pageIndex, int pageSize)
+    {
+        GetUsersWithPaginationQuery query = new GetUsersWithPaginationQuery
+        {
+            UserName = userName,
+            PageIndex = pageIndex,
+            PageSize = pageSize
+        };
+
+        var usersPagination = await _client.GetUsersWithPaginationAsync(query);
+
+        var data = _mapper.Map<UsersPaginationVM>(usersPagination);
+
+        return data;
+    }
+
+    
 }

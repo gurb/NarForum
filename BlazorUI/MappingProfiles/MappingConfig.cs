@@ -31,6 +31,7 @@ namespace BlazorUI.MappingProfiles
             CreateMap<CreateHeadingCommand, HeadingVM>().ReverseMap();
 
             CreateMap<UserInfoResponse, UserInfoVM>().ReverseMap();
+            CreateMap<UsersPaginationDTO, UsersPaginationVM>().ReverseMap();
 
             CreateMap<LikeDTO, LikeVM>().ReverseMap();
             CreateMap<AddLikeCommand, LikeVM>().ReverseMap();
