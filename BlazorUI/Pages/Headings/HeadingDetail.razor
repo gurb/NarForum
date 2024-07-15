@@ -6,6 +6,7 @@
 @inject IJSRuntime JS
 @implements IAsyncDisposable
 
+@inject RefreshStateService refreshStateService;
 
 @if (Heading != null)
 {
@@ -27,6 +28,7 @@
             LikeCallback="(postId) => LikePost(postId)" 
             UnLikeCallback="(postId) => UnLikePost(postId)" 
             AddFavoriteCallback="(postId) => AddFavorite(postId)"
+            OpenChatCallback="(postId) => OpenChatBoxWithUsername(post.UserName)"
             ReplyCallback="(post) => AddReply(post)"></MiniPostCard>
     }
     <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
@@ -372,6 +374,14 @@ else
         await FavoriteService.AddFavorite(newFavorite);
     }
 
+    protected async Task OpenChatBoxWithUsername(string userName)
+    {
+        if (refreshStateService != null)
+        {
+            await refreshStateService.OpenChatBox!.Invoke(userName);
+        }
+    }
+
     protected async Task AddReply(PostVM post)
     {
         CreateModel.Content += $"\n[Quote](PostId={post.Id})[/Quote]";
@@ -410,4 +420,6 @@ else
 
         return newContent;
     }
+
+
 }

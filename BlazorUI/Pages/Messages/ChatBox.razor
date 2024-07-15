@@ -28,50 +28,59 @@
             </ul>
         </div>
         <div class="chat-area">
-            <ul class="list-group chat-history-list">
-                <li class="list-group-item">
-                    <div class="message-area">
-                        <span class="message-balloon receiver-message">
-                            Selam
-                        </span>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="message-area">
-                        <span class="message-balloon owner-message">
-                            Selam
-                        </span>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="message-area">
-                        <span class="message-balloon receiver-message">
-                            Nasılsın?
-                        </span>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="message-area">
-                        <span class="message-balloon owner-message">
-                            İyiyim, sen nasılsın?
-                        </span>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="message-area">
-                        <span class="message-balloon receiver-message">
-                            Ben de iyiyim. Almam gereken dosya var, yollar mısın?
-                        </span>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="message-area">
-                        <span class="message-balloon owner-message">
-                            Neden olmasın.
-                        </span>
-                    </div>
-                </li>
-            </ul>
+            @if( OpenCreateChatBox )
+            {
+                <span class="message-balloon owner-message">
+                    @UserName
+                </span>
+            }
+            else
+            {
+                <ul class="list-group chat-history-list">
+                    <li class="list-group-item">
+                        <div class="message-area">
+                            <span class="message-balloon receiver-message">
+                                Selam
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="message-area">
+                            <span class="message-balloon owner-message">
+                                Selam
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="message-area">
+                            <span class="message-balloon receiver-message">
+                                Nasılsın?
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="message-area">
+                            <span class="message-balloon owner-message">
+                                İyiyim, sen nasılsın?
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="message-area">
+                            <span class="message-balloon receiver-message">
+                                Ben de iyiyim. Almam gereken dosya var, yollar mısın?
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="message-area">
+                            <span class="message-balloon owner-message">
+                                Neden olmasın.
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            }
         </div>
     </div>
     <div class="chat-footer">
@@ -81,5 +90,9 @@
 </div>
 
 @code {
+    [Parameter]
+    public bool OpenCreateChatBox { get; set; }
 
+    [Parameter]
+    public string? UserName { get; set; }
 }

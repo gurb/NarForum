@@ -1,4 +1,5 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light bg-light top-nav-menu-wrapper">
+﻿@using BlazorUI.Services.UI
+<nav class="navbar navbar-expand-lg navbar-light bg-light top-nav-menu-wrapper">
     <div class="container">
         <a class="navbar-brand" href="#"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,17 +42,25 @@
 
 @if(showChat)
 {
-    <ChatBox></ChatBox>
+    <ChatBox OpenCreateChatBox=openCreateChat UserName=@createChatUserName></ChatBox>
 }
 
 
 @code {
     UserInfoVM? Model;
 
+    ChatBox? chatBox;
+    private string? createChatUserName;
+    private bool openCreateChat;
+
+
     public string UserName { get; set; }
 
     [Inject]
     public IUserService UserService { get; set; }
+
+    [Inject]
+    public RefreshStateService RefreshStateService { get; set; }
 
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
 
@@ -77,6 +86,8 @@
             UserName = user.Identity.Name;
         }
 
+        RefreshStateService.OpenChatBox += OpenChatBox;
+
         // Model = await UserService.GetUserInfo(UserName);
     }
 
@@ -101,6 +112,18 @@
     private async void ShowChat()
     {
         showChat = !showChat;
+
+        openCreateChat = false;
+        createChatUserName = null;
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task OpenChatBox(string userName) {
+        showChat = true;
+        openCreateChat = true;
+        createChatUserName = userName;
+
         await InvokeAsync(StateHasChanged);
     }
 
