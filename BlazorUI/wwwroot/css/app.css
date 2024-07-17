@@ -151,4 +151,15 @@ a {
     cursor: pointer;
 }
 
+.select-box-title {
+    font-size: 17px;
+}
+
+.selected-user-tag {
+    background: #ddd;
+    padding:5px;
+    font-size:15px;
+    border-radius: 3px;
+    margin-left:10px;
+}
 
