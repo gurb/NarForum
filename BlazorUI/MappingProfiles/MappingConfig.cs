@@ -4,6 +4,7 @@ using BlazorUI.Models.Category;
 using BlazorUI.Models.Favorite;
 using BlazorUI.Models.Heading;
 using BlazorUI.Models.Like;
+using BlazorUI.Models.Message;
 using BlazorUI.Models.Post;
 using BlazorUI.Models.Section;
 using BlazorUI.Models.User;
@@ -40,6 +41,15 @@ namespace BlazorUI.MappingProfiles
             CreateMap<AddFavoriteCommand, FavoriteVM>().ReverseMap();
 
             CreateMap<ApiResponse, ApiResponseVM>().ReverseMap();
+
+            CreateMap<AddMessageRequest, AddMessageRequestVM>().ReverseMap();
+            CreateMap<CreateChatRequest, CreateChatRequestVM>().ReverseMap();
+            CreateMap<ChangeChatStatusRequest, ChangeChatStatusRequestVM>().ReverseMap();
+            CreateMap<ChatDTO, ChatVM>().ReverseMap();
+            CreateMap<MessageDTO, MessageVM>().ReverseMap();
+            CreateMap<GetMessageResponse, GetMessageResponseVM>().ReverseMap();
+            CreateMap<GetChatResponse, GetChatResponseVM>().ReverseMap();
+            CreateMap<UserDTO, UserVM>().ReverseMap();
         }
     }
 }

@@ -1,4 +1,9 @@
-﻿@using BlazorUI.Services.UI
+﻿@using BlazorUI.Services.Common
+@using BlazorUI.Services.UI
+@using Microsoft.AspNetCore.SignalR.Client;
+
+@implements IAsyncDisposable;
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light top-nav-menu-wrapper">
     <div class="container">
         <a class="navbar-brand" href="#"></a>
@@ -42,7 +47,7 @@
 
 @if(showChat)
 {
-    <ChatBox OpenCreateChatBox=openCreateChat UserName=@createChatUserName></ChatBox>
+    <ChatBox OpenCreateChatBox=openCreateChat UserName=@createChatUserName HubConnection=@hubConnection></ChatBox>
 }
 
 
@@ -73,8 +78,17 @@
     [Inject]
     public IAuthenticationService AuthenticationService { get; set; }
 
+    [Inject]
+    LocalStorageService localStorage { get; set; }
 
     private bool showChat;
+
+
+    // hub ---------------------------------------------------------------
+
+    private HubConnection? hubConnection;
+
+
 
     protected async override Task OnInitializedAsync()
     {
@@ -84,9 +98,11 @@
         if (user.Identity.IsAuthenticated)
         {
             UserName = user.Identity.Name;
+            await ConnectChatHubWhenLogin();
         }
 
         RefreshStateService.OpenChatBox += OpenChatBox;
+        RefreshStateService.ConnectChatHubWhenLogin = ConnectChatHubWhenLogin;
 
         // Model = await UserService.GetUserInfo(UserName);
     }
@@ -125,6 +141,66 @@
         createChatUserName = userName;
 
         await InvokeAsync(StateHasChanged);
+    }
+
+
+    private async Task ConnectChatHubWhenLogin()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            UserName = user.Identity.Name;
+
+            string token = await localStorage.GetItem("token");
+
+            hubConnection = new HubConnectionBuilder()
+            .WithUrl(
+                $"https://localhost:44342/chat",
+                o =>
+                {
+                    o.AccessTokenProvider = () => Task.FromResult<string?>(token);
+                    o.Url = new Uri($"https://localhost:44342/chat?username={UserName}");
+                    o.SkipNegotiation = true;
+                    o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+                }
+            ).Build();
+
+            hubConnection.Closed += async (error) =>
+            {
+                if (error != null)
+                {
+                    // hata meydana gelirse yeniden bağlamı işini burada yap
+                }
+                else
+                {
+                    // kapat
+                    await hubConnection.StopAsync();
+                }
+            };
+
+            hubConnection.On<string, string>("ReceiveChatRequest", async (fromUser, message) =>
+            {
+                if (message != null)
+                {
+
+                }
+                await InvokeAsync(StateHasChanged);
+            });
+
+            await hubConnection.StartAsync();
+        }
+    }
+
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection != null)
+        {
+            await hubConnection.StopAsync();
+            await hubConnection.DisposeAsync();
+        }
     }
 
 }

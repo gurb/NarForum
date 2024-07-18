@@ -24,6 +24,15 @@ namespace Identity.Hubs
 
                 await _cache.SetValueAsync($"chat:connection:{userName}", connectionId);
 
+                var chatRequestHistory = await _cache.GetList($"chat-requests:{userName}");
+                if (chatRequestHistory != null && chatRequestHistory.Count > 0 && userName is not null)
+                {
+                    foreach (var chatRequest in chatRequestHistory)
+                    {
+                        await Clients.Caller.ReceiveChatRequest(userName, chatRequest);
+                    }
+                }
+
                 var messageHistory = await _cache.GetList($"messages:{userName}");
                 if(messageHistory != null && messageHistory.Count > 0 && userName is not null)
                 {
@@ -38,7 +47,25 @@ namespace Identity.Hubs
         }
 
 
-        public async Task SendMessage(string fromUser, string toUser, string message)
+        public async Task SendChatRequest(string toUser, string message)
+        {
+            var httpContext = Context.GetHttpContext();
+            if (httpContext != null)
+            {
+                string? userName = httpContext.Request.Query["username"];
+
+                var toUserConnectionId = await _cache.GetValueAsync($"chat:connection:{toUser}");
+
+                await _cache.AppendListAsync($"chat-requests:{toUser}", message);
+
+                if (!string.IsNullOrEmpty(toUserConnectionId) && userName is not null)
+                {
+                    await Clients.Client(toUserConnectionId).ReceiveChatRequest(userName, message);
+                }
+            }
+        }
+
+        public async Task SendMessage(string toUser, string message)
         {
             var httpContext = Context.GetHttpContext();
             if (httpContext != null)

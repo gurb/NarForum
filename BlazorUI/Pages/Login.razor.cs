@@ -4,6 +4,7 @@ using BlazorUI.Models.Authentication;
 using Microsoft.AspNetCore.SignalR.Client;
 using BlazorUI.Services.Common;
 using Microsoft.AspNetCore.Components.Authorization;
+using BlazorUI.Services.UI;
 
 namespace BlazorUI.Pages;
 
@@ -23,6 +24,9 @@ public partial class Login: IAsyncDisposable
     LocalStorageService localStorage { get; set; }
 
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Inject]
+    public RefreshStateService RefreshStateService { get; set; }
 
     public Login()
     {
@@ -79,6 +83,10 @@ public partial class Login: IAsyncDisposable
 
             await hubConnection.StartAsync();
 
+            if(RefreshStateService.ConnectChatHubWhenLogin != null)
+            {
+                await RefreshStateService.ConnectChatHubWhenLogin.Invoke();
+            }
         }
         Message = "Username/password combination unknown";
     }

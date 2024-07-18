@@ -9,6 +9,9 @@ namespace BlazorUI.Services.UI
         public delegate Task OpenChatBoxDelegate(string userName);
         public OpenChatBoxDelegate? OpenChatBox;
 
+        public delegate Task ConnectChatHubWhenLoginDelegate();
+        public ConnectChatHubWhenLoginDelegate ConnectChatHubWhenLogin;
+
         public RefreshStateService()
         {
             

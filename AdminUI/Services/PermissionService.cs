@@ -47,7 +47,7 @@ namespace AdminUI.Services
 
         public async Task<GetPermissionsResponseVM> GetPermissions()
         {
-            var response = await _client.GetPermissionsAsync();
+            var response = await _client.GetPermissionsGETAsync();
 
             return _mapper.Map<GetPermissionsResponseVM>(response);
         }

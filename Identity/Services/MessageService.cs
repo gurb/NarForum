@@ -55,6 +55,44 @@ namespace Identity.Services
             return response;
         }
 
+        public async Task<ApiResponse> ChangeChatStatus(ChangeChatStatusRequest request)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                Chat? chat = await _forumIdentityDbContext.Chats.FirstOrDefaultAsync(x => x.Id == request.ChatId);
+
+                if(chat != null)
+                {
+                    chat.Status = (Models.Enums.ChatStatus)request.Status;
+                    
+                    _forumIdentityDbContext.Chats.Update(chat);
+                    await _forumIdentityDbContext.SaveChangesAsync();
+                    response.Message = "Chat staus is changed";
+                }
+                else
+                {
+                    response.Message = "Chat is not found";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    response.Message = ex.InnerException.Message;
+                }
+                else
+                {
+                    response.Message = ex.Message;
+                }
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
         public async Task<ApiResponse> AddMessage(AddMessageRequest request)
         {
             ApiResponse response = new ApiResponse();

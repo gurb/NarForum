@@ -1,4 +1,6 @@
-﻿<div class="chat-box">
+﻿@using BlazorUI.Models.Message
+@using Microsoft.AspNetCore.SignalR.Client
+<div class="chat-box">
     <div class="chat-header">
         <div class="row">
             <div class="col-sm-3">
@@ -15,16 +17,10 @@
     <div class="chat-body">
         <div class="chat-list">
             <ul class="list-group">
-                <li class="list-group-item">An item</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-                <li class="list-group-item">A fourth item</li>
-                <li class="list-group-item">And a fifth one</li>
-                <li class="list-group-item">An item</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-                <li class="list-group-item">A fourth item</li>
-                <li class="list-group-item">And a fifth one</li>
+                @foreach(var chat in Chats)
+                {
+                    <li class="list-group-item">@chat.Subject</li>
+                }
             </ul>
         </div>
         <div class="chat-area">
@@ -40,7 +36,7 @@
                 <SelectBox @ref=@selectBox Heading="Select User" SearchText="@searchSelectBox" Labels=UserLabels Placeholder="Search username..." SearchLabelCallback="RefreshUserLabels" SelectCallback="UserSelected"></SelectBox>
                 <div class="card p-2 m-2">
                     <div class="form-group mb-2">
-                        <textarea class="form-control" rows="3" placeholder="Type message..."></textarea>
+                        <textarea class="form-control" rows="3" @bind="@chatRequestMessage" placeholder="Type message..."></textarea>
                     </div>
                     <div class="form-group mb-2">
                         <button type="button" class="btn btn-primary w-100 text-center" @onclick="SendChatRequest"><i class="bi bi-send-exclamation-fill"></i> Send a request</button>
@@ -110,9 +106,14 @@
     public bool OpenCreateChatBox { get; set; }
 
     [Parameter]
+    public HubConnection? HubConnection { get; set; }
+
+    [Parameter]
     public string? UserName { get; set; }
 
     private List<SelectLabel> UserLabels = new List<SelectLabel>();
+
+    private List<ChatVM> Chats = new List<ChatVM>();
 
     [Inject]
     public IUserService UserService { get; set; }
@@ -127,6 +128,10 @@
 
     private bool showUserEmpty;
     private string? SelfUsername;
+
+    private string chatRequestMessage = string.Empty;
+
+    private bool IsHubConnectionSetted = false;
 
     protected async override Task OnInitializedAsync()
     {
@@ -151,6 +156,25 @@
         {
             selectedUserLabel.IsSelect = true;
             showUserEmpty = false;
+        }
+
+        if(HubConnection is not null && !IsHubConnectionSetted)
+        {
+            IsHubConnectionSetted = true;
+
+            HubConnection.On<string, string>("ReceiveChatRequest", async (fromUser, message) =>
+            {
+                if (message != null)
+                {
+                    Chats.Add(new ChatVM
+                    {
+                        Subject = "Mesaj Alındı",
+                        Text = message,
+                        Owner = new UserVM { UserName = fromUser }
+                    });
+                }
+                await InvokeAsync(StateHasChanged);
+            });
         }
 
         await InvokeAsync(StateHasChanged);
@@ -203,6 +227,14 @@
             else
             {
                 showUserEmpty = false;
+
+                // send
+
+                if (HubConnection is not null)
+                {
+                    await HubConnection.SendAsync("SendChatRequest", selectBox.SelectedLabelText, chatRequestMessage);
+                }
+
             }
 
             searchSelectBox = selectBox.SearchText;

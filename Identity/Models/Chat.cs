@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Identity.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,11 +22,13 @@ namespace Identity.Models
         public string? Message { get; set; }
 
         public DateTime DateTime { get; set; }
+        public ChatStatus Status { get; set; } = ChatStatus.Pending;
 
         [ForeignKey("ReceiverId")]
         public ForumUser? Receiver { get; set; }
         public string? ReceiverId { get; set; }
 
-        public bool IsAccept { get; set; }
+        public bool IsVisibleForCreator { get; set; } = true;
+        public bool IsVisibleForReceiver { get; set; } = true;
     }
 }

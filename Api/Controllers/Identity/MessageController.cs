@@ -25,13 +25,19 @@ namespace Api.Controllers.Identity
             return await _messageService.CreateChat(request);
         }
 
+        [HttpPost("ChangeChatStatus")]
+        public async Task<ApiResponse> ChangeChatStatus(ChangeChatStatusRequest request)
+        {
+            return await _messageService.ChangeChatStatus(request);
+        }
+
         [HttpPost("AddMessage")]
         public async Task<ApiResponse> AddMessage(AddMessageRequest request)
         {
             return await _messageService.AddMessage(request);
         }
 
-        [HttpPost("GetPermissions")]
+        [HttpPost("GetMessages")]
         public async Task<GetMessageResponse> GetMessages(string chatId)
         {
             return await _messageService.GetMessages(chatId);
