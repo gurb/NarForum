@@ -41,6 +41,10 @@
     overflow-y: auto;
 }
 
+.chat-list li:hover {
+    background: aliceblue;
+    cursor:pointer;
+}
 
 .chat-area {
     grid-column: 2;
