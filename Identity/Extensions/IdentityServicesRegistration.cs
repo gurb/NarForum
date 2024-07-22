@@ -35,6 +35,7 @@ namespace Identity.Extensions
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IPermissionService, PermissionService>();
+            services.AddScoped<IMessageService, MessageService>();
 
 
             services.Configure<GarnetConfiguration>(configuration.GetSection("Garnet"));
@@ -80,6 +81,7 @@ namespace Identity.Extensions
             });
 
             services.AddHostedService<TrackBackgroundService>();
+            services.AddHostedService<ChatBackgroundService>();
 
 
             return services;

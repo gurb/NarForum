@@ -31,8 +31,6 @@ namespace Identity.Services.Hubs
                 Dictionary<string, string>? forumActiveUserHashSet = await _cache.GetAllHashSet("forumActiveUsers");
                 Dictionary<string, string>? adminActiveUserHashSet = await _cache.GetAllHashSet("adminActiveUsers");
 
-
-
                 if (forumActiveUserHashSet is not null)
                 {
                     foreach (var activeUser in forumActiveUserHashSet)

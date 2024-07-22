@@ -152,5 +152,63 @@ namespace Identity.Services
 
             return response;
         }
+
+        public async Task<ApiResponse> AddChatList(List<ChatDTO> chats)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                List<Chat> newChats = _mapper.Map<List<Chat>>(chats);
+
+                await _forumIdentityDbContext.Chats.AddRangeAsync(newChats);
+                await _forumIdentityDbContext.SaveChangesAsync();
+
+                response.Message = "Chats are added";
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    response.Message = ex.InnerException.Message;
+                }
+                else
+                {
+                    response.Message = ex.Message;
+                }
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
+        public async Task<ApiResponse> AddMessageList(List<MessageDTO> messages)
+        {
+            ApiResponse response = new ApiResponse();
+            try
+            {
+                List<Message> newMessages = _mapper.Map<List<Message>>(messages);
+
+
+                await _forumIdentityDbContext.Messages.AddRangeAsync(newMessages);
+                await _forumIdentityDbContext.SaveChangesAsync();
+
+                response.Message = "Messages are added";
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    response.Message = ex.InnerException.Message;
+                }
+                else
+                {
+                    response.Message = ex.Message;
+                }
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
     }
 }
