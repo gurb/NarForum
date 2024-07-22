@@ -2,6 +2,8 @@
 using Garnet.client;
 using Identity.Models.DTO;
 using Microsoft.Extensions.Options;
+using StackExchange.Redis;
+using System;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
@@ -11,9 +13,22 @@ namespace Identity.Services
     {
         private readonly GarnetConfiguration _g;
 
+        private readonly ConfigurationOptions co;
+
         public GarnetCacheService(IOptions<GarnetConfiguration> garnetConfiguration)
         {
+
             _g = garnetConfiguration.Value;
+
+            co = new ConfigurationOptions()
+            {
+                SyncTimeout = 500000,
+                EndPoints =
+                {
+                    {_g.Address, _g.Port }
+                },
+                AbortOnConnectFail = false 
+            };
         }
 
         public async Task Clear(string key)
@@ -105,6 +120,17 @@ namespace Identity.Services
             await db.ExecuteForStringResultAsync("HSET", new string[] { key, field, value });
         }
 
+        public async Task<string> GetHashSet(string key, string field)
+        {
+            using var db = new GarnetClient(_g.Address, _g.Port, GetSslOpts());
+
+            await db.ConnectAsync();
+
+            string value = await db.ExecuteForStringResultAsync("HGET", new string[] { key, field });
+
+            return value;
+        }
+
 
         public async Task RemoveFieldHashSet(string key, string field)
         {
@@ -132,6 +158,56 @@ namespace Identity.Services
             }
             
             return null;
+        }
+
+        public async Task<HashScanResult> HashScan(string key, string[] matchPatterns, int count)
+        {
+            using var redis = ConnectionMultiplexer.Connect(co);
+            var db = redis.GetDatabase(0);
+
+            HashScanResult hsResult = new HashScanResult
+            {
+                Length = 0,
+                Hash = new Dictionary<string, string>(),
+                IsSuccess = false,
+            };
+
+            foreach (var pattern in matchPatterns)
+            {
+                var result = await db.ExecuteAsync("HSCAN", key, "0", "MATCH", pattern, "COUNT", count.ToString());
+                
+                if (!result.IsNull && result.Length > 0)
+                {
+                    hsResult.Length += result.Length;
+
+                    string?[]? hashArray = ((string?[]?)result[1]);
+
+                    if (hashArray is not null && hashArray.Length > 0 && hashArray.Length % 2 == 0)
+                    {
+                        for (int i = 0; i < hashArray.Length; i += 2)
+                        {
+                            hsResult.Hash.Add(hashArray[i]!, hashArray[(i + 1)]!);
+                        }
+
+                        hsResult.IsSuccess = true;
+                    }
+                }
+
+            }
+
+            return hsResult;
+
+        }
+
+        public async Task Scan(string matchPattern, int count)
+        {
+            using var db = new GarnetClient(_g.Address, _g.Port, GetSslOpts());
+            await db.ConnectAsync();
+
+
+            string[] hashArray =  await db.ExecuteForStringArrayResultAsync("SSCAN", new string[] { 0.ToString(), "MATCH", matchPattern, "COUNT", count.ToString()});
+
+            var test2 = 0;
         }
 
         private async Task<bool> Contains(GarnetClient db, string key)

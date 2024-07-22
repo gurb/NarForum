@@ -1,6 +1,7 @@
 ﻿using Application.Contracts.Hubs;
 using Application.Contracts.Identity;
 using Application.Models.Identity.Message;
+using Identity.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
@@ -25,27 +26,46 @@ namespace Identity.Hubs
                 string? userName = httpContext.Request.Query["username"];
 
                 await _cache.SetValueAsync($"chat:connection:{userName}", connectionId);
-
-                var chatRequestHistory = await _cache.GetList($"chat-requests:{userName}");
-                if (chatRequestHistory != null && chatRequestHistory.Count > 0 && userName is not null)
-                {
-                    foreach (var chatRequest in chatRequestHistory)
-                    {
-                        await Clients.Caller.ReceiveChatRequest(userName, chatRequest);
-                    }
-                }
-
-                var messageHistory = await _cache.GetList($"messages:{userName}");
-                if(messageHistory != null && messageHistory.Count > 0 && userName is not null)
-                {
-                    foreach (var message in messageHistory)
-                    {
-                        await Clients.Caller.ReceiveMessage(userName, message);
-                    }
-                }
             }
 
             await base.OnConnectedAsync();
+        }
+
+        public async Task GetChatHistory()
+        {
+            var httpContext = Context.GetHttpContext();
+            if (httpContext != null)
+            {
+                string? userName = httpContext.Request.Query["username"];
+                var toUserConnectionId = await _cache.GetValueAsync($"chat:connection:{userName}");
+
+                HashScanResult chatHistory = await _cache.HashScan("chat-requests", 
+                    new string[] {
+                        $"chat-requests:{userName}:*",
+                        $"chat-requests:*:{userName}:*"
+                    }, 
+                    100);
+               
+
+                if (!string.IsNullOrEmpty(toUserConnectionId) && userName is not null && chatHistory.IsSuccess && chatHistory.Length > 0)
+                {
+                    var chatHistoryString = JsonConvert.SerializeObject(chatHistory);
+                    await Clients.Client(toUserConnectionId).ReceiveChatHistory(userName, chatHistoryString);
+                }
+
+                HashScanResult messageHistory = await _cache.HashScan("messages",
+                    new string[] {
+                        $"messages:{userName}:*",
+                        $"messages:*:{userName}:*"
+                    },
+                    100);
+
+                if (!string.IsNullOrEmpty(toUserConnectionId) && userName is not null && messageHistory.IsSuccess && messageHistory.Length > 0)
+                {
+                    var messageHistoryString = JsonConvert.SerializeObject(messageHistory);
+                    await Clients.Client(toUserConnectionId).ReceiveMessageHistory(userName, messageHistoryString);
+                }
+            }
         }
 
         public async Task SendChatRequest(string chatId, string toUser, string subject, string message)
@@ -70,7 +90,7 @@ namespace Identity.Hubs
 
                 var chatRequestString = JsonConvert.SerializeObject(chatDto);
 
-                await _cache.SetValueAsync($"chat-requests:{toUser}:{chatDto.Id}", chatRequestString);
+                await _cache.AddHashSet("chat-requests", $"chat-requests:{toUser}:{userName}:{chatDto.Id}", chatRequestString);
 
                 if (!string.IsNullOrEmpty(toUserConnectionId) && userName is not null)
                 {
@@ -99,7 +119,7 @@ namespace Identity.Hubs
 
                 var messageString = JsonConvert.SerializeObject(messageDto);
 
-                await _cache.SetValueAsync($"messages:{toUser}:{chatId}:{messageId}", messageString);
+                await _cache.AddHashSet("messages", $"messages:{toUser}:{userName}:{chatId}:{messageId}", messageString);
 
                 if (!string.IsNullOrEmpty(toUserConnectionId) && userName is not null)
                 {
@@ -118,7 +138,13 @@ namespace Identity.Hubs
 
                 var toUserConnectionId = await _cache.GetValueAsync($"chat:connection:{toUser}");
 
-                string chatRequestString = await _cache.GetValueAsync($"chat-requests:{userName}:{chatId}");
+                string chatRequestString = await _cache.GetHashSet("chat-requests", $"chat-requests:{userName}:{toUser}:{chatId}");
+
+                if(chatRequestString is null)
+                {
+                    return;
+                }
+
                 var chatDto = JsonConvert.DeserializeObject<ChatDTO>(chatRequestString);
 
                 if(chatDto is not null)
@@ -133,7 +159,8 @@ namespace Identity.Hubs
                     }
 
                     chatRequestString = JsonConvert.SerializeObject(chatDto);
-                    await _cache.SetValueAsync($"chat-requests:{userName}:{chatDto.Id}", chatRequestString);
+                    //await _cache.SetValueAsync($"chat-requests:{userName}:{chatDto.Id}", chatRequestString);
+                    await _cache.AddHashSet("chat-requests", $"chat-requests:{userName}:{toUser}:{chatDto.Id}", chatRequestString);
                 }
 
                 if (!string.IsNullOrEmpty(toUserConnectionId) && userName is not null)
@@ -142,9 +169,6 @@ namespace Identity.Hubs
                 }
             }
         }
-
-        
-
 
         public override Task OnDisconnectedAsync(Exception? exception)
         {

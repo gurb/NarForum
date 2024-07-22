@@ -1,4 +1,5 @@
-﻿@using BlazorUI.Models.Message
+﻿@using BlazorUI.Models.Garnet
+@using BlazorUI.Models.Message
 @using Microsoft.AspNetCore.SignalR.Client
 @using System.Text.Json
 <div class="chat-box">
@@ -247,6 +248,89 @@
                 await InvokeAsync(StateHasChanged);
             });
 
+            HubConnection.On<string, string>("ReceiveChatHistory", async (fromUser, chatHistoryResponse) =>
+            {
+                if (chatHistoryResponse != null)
+                {
+                    HashScanResultVM? chatHistoryVM = JsonSerializer.Deserialize<HashScanResultVM>(chatHistoryResponse);
+
+                    if (chatHistoryVM != null && chatHistoryVM.Hash is not null)
+                    {
+                        foreach(var value in chatHistoryVM.Hash)
+                        {
+                            ChatVM? chatResponseVM = JsonSerializer.Deserialize<ChatVM>(value.Value);
+
+                            if(chatResponseVM != null)
+                            {
+                                bool isExist = Chats.Any(x => x.Id == chatResponseVM.Id);
+                                if (isExist)
+                                {
+                                    var chat = Chats.FirstOrDefault(x => x.Id == chatResponseVM.Id);
+
+                                    if (chat is not null)
+                                    {
+                                        chat.Status = chatResponseVM.Status;
+                                    }
+                                }
+                                else
+                                {
+                                    Chats.Add(chatResponseVM);
+                                }
+                            }
+                        }
+                    }
+                }
+                await InvokeAsync(StateHasChanged);
+            });
+
+            HubConnection.On<string, string>("ReceiveMessageHistory", async (fromUser, messageHistoryResponse) =>
+            {
+                if (messageHistoryResponse != null)
+                {
+                    HashScanResultVM? messageHistoryVM = JsonSerializer.Deserialize<HashScanResultVM>(messageHistoryResponse);
+
+                    if (messageHistoryVM != null && messageHistoryVM.Hash is not null)
+                    {
+                        foreach (var value in messageHistoryVM.Hash)
+                        {
+                            MessageVM? messageResponseVM = JsonSerializer.Deserialize<MessageVM>(value.Value);
+
+                            if (messageResponseVM == null) return;
+
+                            if (!ChatDict.ContainsKey(messageResponseVM.ChatId))
+                            {
+                                ChatDict.Add(messageResponseVM.ChatId, new List<MessageVM>());
+                            }
+
+                            if (messageResponseVM != null)
+                            {
+
+                                bool isExist = ChatDict[messageResponseVM.ChatId].Any(x => x.Id == messageResponseVM.Id);
+
+                                if (isExist)
+                                {
+                                    var message = ChatDict[messageResponseVM.ChatId].FirstOrDefault(x => x.Id == messageResponseVM.Id);
+
+                                    if (message is not null)
+                                    {
+                                        // message.Status = chatResponseVM.Status;
+                                    }
+                                }
+                                else
+                                {
+                                    ChatDict[messageResponseVM.ChatId].Add(messageResponseVM);
+                                }
+                            }
+                        }
+                        foreach (var chat in ChatDict)
+                        {
+                            ChatDict[chat.Key] = ChatDict[chat.Key].OrderBy(x => x.DateTime).ToList();
+                        }
+                    }
+                }
+                await InvokeAsync(StateHasChanged);
+            });
+
             HubConnection.On<string, string>("ReceiveChatResponse", async (fromUser, chatResponse) =>
             {
                 if (chatResponse != null)
@@ -288,7 +372,6 @@
                         ChatDict.Add(messageResponseVM.ChatId, new List<MessageVM>());
                     }
 
-
                     if (messageResponseVM != null)
                     {
 
@@ -311,6 +394,8 @@
                 }
                 await InvokeAsync(StateHasChanged);
             });
+
+            await HubConnection.SendAsync("GetChatHistory");
         }
 
         await InvokeAsync(StateHasChanged);
