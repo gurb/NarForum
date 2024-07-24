@@ -43,6 +43,12 @@ namespace Api.Controllers.Identity
             return await _messageService.GetMessages(chatId);
         }
 
+        [HttpPost("GetMessagesByChatIds")]
+        public async Task<GetMessageResponse> GetMessagesByChatIds(string[] chatIds)
+        {
+            return await _messageService.GetMessages(chatIds);
+        }
+
         [HttpPost("GetChats")]
         public async Task<GetChatResponse> GetChats(string userId)
         {

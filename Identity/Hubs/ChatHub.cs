@@ -68,12 +68,13 @@ namespace Identity.Hubs
             }
         }
 
-        public async Task SendChatRequest(string chatId, string toUser, string subject, string message)
+        public async Task SendChatRequest(string chatId, string toUser, string receiverId, string subject, string message)
         {
             var httpContext = Context.GetHttpContext();
             if (httpContext != null)
             {
                 string? userName = httpContext.Request.Query["username"];
+                string? userId = httpContext.Request.Query["userId"];
 
                 var toUserConnectionId = await _cache.GetValueAsync($"chat:connection:{toUser}");
 
@@ -81,9 +82,11 @@ namespace Identity.Hubs
                 {
                     Id = chatId,
                     Subject = subject,
-                    Text = message,
-                    Owner = new UserDTO { UserName = userName },
+                    Message = message,
+                    Creator = new UserDTO { UserName = userName },
+                    CreatorId = userId,
                     Receiver = new UserDTO { UserName = toUser },
+                    ReceiverId = receiverId,
                     Status = Application.Models.Enums.ChatStatus.Pending,
                     DateTime = DateTime.UtcNow,
                 };
@@ -105,6 +108,7 @@ namespace Identity.Hubs
             if (httpContext != null)
             {
                 string? userName = httpContext.Request.Query["username"];
+                string? userId = httpContext.Request.Query["userId"];
                 var toUserConnectionId = await _cache.GetValueAsync($"chat:connection:{toUser}");
 
                 MessageDTO messageDto = new MessageDTO
@@ -112,7 +116,8 @@ namespace Identity.Hubs
                     Id = messageId,
                     ChatId = chatId,
                     DateTime = DateTime.UtcNow,
-                    Owner = new UserDTO { UserName = userName },
+                    Owner = new UserDTO { UserName = userName, },
+                    OwnerId = userId,
                     IsRead = false,
                     Text = message,
                 };
@@ -129,7 +134,7 @@ namespace Identity.Hubs
         }
 
 
-        public async Task AcceptChatRequest(string chatId, string toUser, bool isAccept)
+        public async Task AcceptChatRequest(string chatId, string toUser, bool isAccept, string chatRequestStringDB)
         {
             var httpContext = Context.GetHttpContext();
             if (httpContext != null)
@@ -140,12 +145,39 @@ namespace Identity.Hubs
 
                 string chatRequestString = await _cache.GetHashSet("chat-requests", $"chat-requests:{userName}:{toUser}:{chatId}");
 
-                if(chatRequestString is null)
+                ChatDTO? chatDto;
+
+                if (chatRequestString is null)
                 {
+                    string acceptValue = "0";
+
+                    chatDto = JsonConvert.DeserializeObject<ChatDTO>(chatRequestStringDB);
+
+                    if (isAccept)
+                    {
+                        acceptValue = "1";
+                        chatDto!.Status = Application.Models.Enums.ChatStatus.Approved;
+                        await _cache.AddHashSet("chat-requests-db", chatId, acceptValue);
+                    }
+                    else
+                    {
+                        acceptValue = "2";
+                        chatDto!.Status = Application.Models.Enums.ChatStatus.Rejected;
+                        await _cache.AddHashSet("chat-requests-db", chatId, acceptValue);
+                    }
+
+                    string newChatRequestStringDB = JsonConvert.SerializeObject(chatDto);
+
+                    await _cache.AddHashSet("chat-requests", $"chat-requests:{userName}:{toUser}:{chatDto.Id}", newChatRequestStringDB);
+
+                    if (!string.IsNullOrEmpty(toUserConnectionId) && userName is not null)
+                    {
+                        await Clients.Client(toUserConnectionId).ReceiveChatResponse(userName, newChatRequestStringDB);
+                    }
                     return;
                 }
 
-                var chatDto = JsonConvert.DeserializeObject<ChatDTO>(chatRequestString);
+                chatDto = JsonConvert.DeserializeObject<ChatDTO>(chatRequestString);
 
                 if(chatDto is not null)
                 {

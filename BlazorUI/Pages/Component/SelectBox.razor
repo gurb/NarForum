@@ -64,9 +64,11 @@
 
     public string? SelectedLabelText;
 
+    public SelectLabel? SelectedLabel { get { return selectedLabel; } }
+
 
     protected async override Task OnParametersSetAsync()
-   {
+    {
         var selectedLabel = Labels.FirstOrDefault(x => x.IsSelect);
 
         var test = SearchText;
@@ -95,6 +97,8 @@
 
     protected async Task selectLabel(SelectLabel selectedLabel)
     {
+        this.selectedLabel = selectedLabel;
+
         bool isSelect = !selectedLabel.IsSelect;
 
         foreach(var label in Labels)

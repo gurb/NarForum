@@ -62,5 +62,13 @@ namespace BlazorUI.Services
 
             return data;
         }
+
+        public async Task<GetMessageResponseVM> GetMessages(string[] chatIds)
+        {
+            var messages = await _client.GetMessagesByChatIdsAsync(chatIds);
+            var data = _mapper.Map<GetMessageResponseVM>(messages);
+
+            return data;
+        }
     }
 }

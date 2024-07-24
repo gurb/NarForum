@@ -8,6 +8,7 @@ namespace Application.Models.Identity.User
 {
     public class UserInfoResponse
     {
+        public string? Id { get; set; }
         public string UserName { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DateTime RegisterDate { get; set; }

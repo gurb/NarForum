@@ -458,6 +458,15 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<GetMessageResponse> GetMessagesByChatIdsAsync(System.Collections.Generic.IEnumerable<string> body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<GetMessageResponse> GetMessagesByChatIdsAsync(System.Collections.Generic.IEnumerable<string> body, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetChatResponse> GetChatsAsync(string userId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -4863,6 +4872,88 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<GetMessageResponse> GetMessagesByChatIdsAsync(System.Collections.Generic.IEnumerable<string> body)
+        {
+            return GetMessagesByChatIdsAsync(body, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<GetMessageResponse> GetMessagesByChatIdsAsync(System.Collections.Generic.IEnumerable<string> body, System.Threading.CancellationToken cancellationToken)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, _settings.Value);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                
+                    // Operation Path: "api/Message/GetMessagesByChatIds"
+                    urlBuilder_.Append("api/Message/GetMessagesByChatIds");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<GetMessageResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<GetChatResponse> GetChatsAsync(string userId)
         {
             return GetChatsAsync(userId, System.Threading.CancellationToken.None);
@@ -8707,23 +8798,32 @@ namespace AdminUI.Services.Base
     public partial class ChatDTO
     {
 
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public string Id { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("subject")]
         public string Subject { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("text")]
-        public string Text { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("message")]
+        public string Message { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("ownerId")]
-        public string OwnerId { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("creatorId")]
+        public string CreatorId { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("owner")]
-        public UserDTO Owner { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("creator")]
+        public UserDTO Creator { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("receiverId")]
         public string ReceiverId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("receiver")]
         public UserDTO Receiver { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("status")]
+        public ChatStatus Status { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
+        public System.DateTime DateTime { get; set; }
 
     }
 
@@ -8797,8 +8897,8 @@ namespace AdminUI.Services.Base
     public partial class CreateChatRequest
     {
 
-        [System.Text.Json.Serialization.JsonPropertyName("ownerId")]
-        public string OwnerId { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("creatorId")]
+        public string CreatorId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("receiverId")]
         public string ReceiverId { get; set; }
@@ -9213,6 +9313,9 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("ownerId")]
         public string OwnerId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("owner")]
+        public UserDTO Owner { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("text")]
         public string Text { get; set; }
@@ -9692,6 +9795,9 @@ namespace AdminUI.Services.Base
     public partial class UserDTO
     {
 
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public string Id { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
 
@@ -9709,6 +9815,9 @@ namespace AdminUI.Services.Base
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class UserInfoResponse
     {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }

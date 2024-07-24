@@ -7,6 +7,7 @@ namespace Application.Contracts.Identity
     {
         Task<ApiResponse> CreateChat(CreateChatRequest request);
         Task<ApiResponse> AddChatList(List<ChatDTO> chats);
+        Task<ApiResponse> UpdateChatList(List<ChatDTO> chats);
 
         Task<ApiResponse> AddMessageList(List<MessageDTO> messages);
 
@@ -16,5 +17,7 @@ namespace Application.Contracts.Identity
         Task<GetChatResponse> GetChats(string userId);
 
         Task<GetMessageResponse> GetMessages(string chatId);
+        Task<GetMessageResponse> GetMessages(string[] chatIds);
+
     }
 }

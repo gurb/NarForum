@@ -12,7 +12,7 @@ namespace Identity.Services.Hubs
 {
     public class ChatBackgroundService : BackgroundService
     {
-        private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(20);
+        private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(60);
         private readonly IHubContext<ChatHub, IChatHub> _context;
         private readonly IGarnetCacheService _cache;
         private readonly IServiceProvider _serviceProvider;
@@ -43,7 +43,9 @@ namespace Identity.Services.Hubs
 
                 // store chat
                 Dictionary<string, string>? chatHistory = await _cache.GetAllHashSet("chat-requests");
+                Dictionary<string, string>? chatRequestsDb = await _cache.GetAllHashSet("chat-requests-db");
 
+                List<ChatDTO> updateChats = new List<ChatDTO>();
                 List<ChatDTO> chats = new List<ChatDTO>();
 
                 if (chatHistory is not null)
@@ -51,8 +53,18 @@ namespace Identity.Services.Hubs
                     foreach (var chatElem in chatHistory)
                     {
                         ChatDTO? chatDto = JsonSerializer.Deserialize<ChatDTO>(chatElem.Value);
+
                         if (chatDto != null)
                         {
+                            chatDto.Creator = null;
+                            chatDto.Receiver = null;
+
+                            if(chatRequestsDb is not null && chatRequestsDb.Count > 0 && chatRequestsDb.ContainsKey(chatDto.Id))
+                            {
+                                updateChats.Add(chatDto);
+                                continue;
+                            }
+
                             bool isExist = chats.Any(x => x.Id == chatDto.Id);
                             if (!isExist)
                             {
@@ -67,6 +79,17 @@ namespace Identity.Services.Hubs
 
                         if (response.IsSuccess)
                         {
+                            await _cache.Clear("chat-requests");
+                        }
+                    }
+
+                    if (updateChats.Count > 0)
+                    {
+                        var response = await _messageService.UpdateChatList(updateChats);
+
+                        if (response.IsSuccess)
+                        {
+                            await _cache.Clear("chat-requests-db");
                             await _cache.Clear("chat-requests");
                         }
                     }
@@ -85,6 +108,8 @@ namespace Identity.Services.Hubs
                         MessageDTO? messageDto = JsonSerializer.Deserialize<MessageDTO>(messageElem.Value);
                         if (messageDto != null)
                         {
+                            messageDto.Owner = null;
+
                             bool isExist = messages.Any(x => x.Id == messageDto.Id);
                             if (!isExist)
                             {

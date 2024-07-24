@@ -9,6 +9,8 @@ namespace BlazorUI.Contracts
         Task<ApiResponseVM> ChangeChatStatus(ChangeChatStatusRequestVM request);
         Task<ApiResponseVM> AddMessage(AddMessageRequestVM request);
         Task<GetMessageResponseVM> GetMessages(string chatId);
+        Task<GetMessageResponseVM> GetMessages(string[] chatIds);
         Task<GetChatResponseVM> GetChats(string userId);
+
     }
 }

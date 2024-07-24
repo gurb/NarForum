@@ -48,16 +48,26 @@ namespace Identity.Services
         {
             var user = await _identityDbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserName == request.UserName);
 
-            UserInfoResponse response = new UserInfoResponse
+            UserInfoResponse response;
+
+            if (user is not null)
             {
-                UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                RegisterDate = user.RegisterDate,
-                Description = user.Description,
-                PostCounter = 100,
-                HeadingCounter = 10,
-            };
+                response = new UserInfoResponse
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    RegisterDate = user.RegisterDate,
+                    Description = user.Description,
+                    PostCounter = 100,
+                    HeadingCounter = 10,
+                };
+            }
+            else
+            {
+                response = new UserInfoResponse();
+            }
 
             return response;
         }
@@ -79,6 +89,7 @@ namespace Identity.Services
                 .Take(query.PageSize)
                 .Select(x => new UserInfoResponse
                     {
+                        Id = x.Id,
                         UserName = x.UserName,
                         FirstName = x.FirstName,
                         LastName = x.LastName,

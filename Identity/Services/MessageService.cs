@@ -29,7 +29,7 @@ namespace Identity.Services
                 {
                     Subject = request.Subject,
                     Message = request.Text,
-                    CreatorId = request.OwnerId,
+                    CreatorId = request.CreatorId,
                     ReceiverId = request.ReceiverId,
                 };
 
@@ -145,7 +145,7 @@ namespace Identity.Services
         {
             GetChatResponse response = new GetChatResponse();
 
-            var data = await _forumIdentityDbContext.Chats.AsNoTracking()
+            var data = await _forumIdentityDbContext.Chats.Include(x => x.Creator).Include(x => x.Receiver).AsNoTracking()
                 .Where(x => x.CreatorId == userId || x.ReceiverId == userId).ToListAsync();
 
             response.Chats = _mapper.Map<List<ChatDTO>>(data);
@@ -182,13 +182,41 @@ namespace Identity.Services
             return response;
         }
 
+        public async Task<ApiResponse> UpdateChatList(List<ChatDTO> chats)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                List<Chat> newChats = _mapper.Map<List<Chat>>(chats);
+
+                _forumIdentityDbContext.Chats.UpdateRange(newChats);
+                await _forumIdentityDbContext.SaveChangesAsync();
+
+                response.Message = "Chats are added";
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    response.Message = ex.InnerException.Message;
+                }
+                else
+                {
+                    response.Message = ex.Message;
+                }
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
         public async Task<ApiResponse> AddMessageList(List<MessageDTO> messages)
         {
             ApiResponse response = new ApiResponse();
             try
             {
                 List<Message> newMessages = _mapper.Map<List<Message>>(messages);
-
 
                 await _forumIdentityDbContext.Messages.AddRangeAsync(newMessages);
                 await _forumIdentityDbContext.SaveChangesAsync();
@@ -206,6 +234,21 @@ namespace Identity.Services
                     response.Message = ex.Message;
                 }
                 response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
+        public async Task<GetMessageResponse> GetMessages(string[] chatIds)
+        {
+            GetMessageResponse response = new GetMessageResponse();
+
+            if(chatIds is not null && chatIds.Length > 0)
+            {
+                var data = await _forumIdentityDbContext.Messages.AsNoTracking()
+                .Where(x => chatIds.Contains(x.ChatId)).ToListAsync();
+
+                response.Messages = _mapper.Map<List<MessageDTO>>(data);
             }
 
             return response;

@@ -153,6 +153,11 @@
         {
             UserName = user.Identity.Name;
 
+            var selfUser = await UserService.GetUserInfo(UserName!);
+
+            
+
+
             string token = await localStorage.GetItem("token");
 
             hubConnection = new HubConnectionBuilder()
@@ -161,7 +166,7 @@
                 o =>
                 {
                     o.AccessTokenProvider = () => Task.FromResult<string?>(token);
-                    o.Url = new Uri($"https://localhost:44342/chat?username={UserName}");
+                    o.Url = new Uri($"https://localhost:44342/chat?username={UserName}&userId={selfUser.Id}");
                     o.SkipNegotiation = true;
                     o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
                 }

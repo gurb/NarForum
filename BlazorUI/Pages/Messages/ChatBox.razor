@@ -31,7 +31,7 @@
             </ul>
         </div>
         <div class="chat-area">
-            @if( OpenCreateChatBox )
+            @if( OpenCreateChatBox && SelfUserId is not null)
             {
                 @if (showUserEmpty)
                 {
@@ -75,7 +75,7 @@
                     </div>
                     <div class="form-group mb-2">
                         <span class="message-balloon receiver-message w-100">
-                            @selectedChatVM.Text
+                            @selectedChatVM.Message
                         </span>
                     </div>
                     @if (selectedChatVM.Receiver is not null && SelfUsername == selectedChatVM.Receiver.UserName)
@@ -110,7 +110,7 @@
                     <ul class="list-group chat-history-list">
                         @foreach(var message in ChatDict[selectedChatVM.Id!])
                         {
-                            @if (message.Owner is not null && message.Owner.UserName == SelfUsername)
+                            @if (message.OwnerId == SelfUserId)
                             {
                                 <li class="list-group-item">
                                     <div class="message-area">
@@ -175,6 +175,9 @@
     [Inject]
     public IUserService UserService { get; set; }
 
+    [Inject]
+    public IMessageService MessageService { get; set; }
+
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     [Inject]
@@ -189,6 +192,7 @@
     private bool showMessageEmpty;
 
     private string? SelfUsername;
+    private string? SelfUserId;
 
     private string chatRequestSubject = string.Empty;
 
@@ -213,7 +217,14 @@
         if (user.Identity is not null && user.Identity.IsAuthenticated)
         {
             SelfUsername = user.Identity.Name;
+            var selfUser = await UserService.GetUserInfo(SelfUsername!);
+
+            if(selfUser is not null)
+            {
+                SelfUserId = selfUser.Id;
+            }
         }
+
     }
 
     protected async override Task OnParametersSetAsync()
@@ -228,6 +239,59 @@
         {
             selectedUserLabel.IsSelect = true;
             showUserEmpty = false;
+        }
+
+        if(SelfUserId is not null)
+        {
+            GetChatResponseVM chatResponseFromApi = await MessageService.GetChats(SelfUserId);
+
+            Chats = chatResponseFromApi.Chats;
+
+            string?[]? chatIds = Chats.Select(x => x.Id).ToArray();
+
+            if(chatIds is not null && chatIds.Length > 0)
+            {
+                GetMessageResponseVM messageResponseFromApi = await MessageService.GetMessages(chatIds!);
+
+                if(messageResponseFromApi.Messages is not null && messageResponseFromApi.Messages.Count > 0)
+                {
+
+                    foreach (var msg in messageResponseFromApi.Messages)
+                    {
+                        if (!ChatDict.ContainsKey(msg.ChatId))
+                        {
+                            ChatDict.Add(msg.ChatId, new List<MessageVM>());
+                        }
+
+                        if (msg != null)
+                        {
+                            bool isExist = ChatDict[msg.ChatId].Any(x => x.Id == msg.Id);
+
+                            if (isExist)
+                            {
+                                var message = ChatDict[msg.ChatId].FirstOrDefault(x => x.Id == msg.Id);
+
+                                if (message is not null)
+                                {
+                                    // message.Status = chatResponseVM.Status;
+                                }
+                            }
+                            else
+                            {
+                                ChatDict[msg.ChatId].Add(msg);
+                            }
+                        }
+                    }
+
+                    foreach (var chat in ChatDict)
+                    {
+                        ChatDict[chat.Key] = ChatDict[chat.Key].OrderBy(x => x.DateTime).ToList();
+                    }
+
+                }
+
+
+            }
         }
 
         if(HubConnection is not null && !IsHubConnectionSetted)
@@ -335,6 +399,12 @@
             {
                 if (chatResponse != null)
                 {
+                    if(chatResponse.Length == 1)
+                    {
+                        
+                    }
+
+
                     ChatVM? chatResponseVM = JsonSerializer.Deserialize<ChatVM>(chatResponse);
 
                     if(chatResponseVM != null)
@@ -394,7 +464,10 @@
                 }
                 await InvokeAsync(StateHasChanged);
             });
+        }
 
+        if(HubConnection is not null)
+        {
             await HubConnection.SendAsync("GetChatHistory");
         }
 
@@ -411,7 +484,8 @@
             UserLabels = userPaginationDto.Users.Where(x => x.UserName != SelfUsername).Select(x => new SelectLabel
             {
                 IsSelect = false,
-                Text = x.UserName
+                Text = x.UserName,
+                Id = x.Id,
             })
             .ToList();
         }
@@ -473,21 +547,23 @@
 
                 // send
 
-                if (HubConnection is not null)
+                if (HubConnection is not null && selectBox.SelectedLabel is not null)
                 {
                     ChatVM chatRequest = new ChatVM
                     {
                         Id = Guid.NewGuid().ToString(),
                         Subject = chatRequestSubject,
-                        Text = chatRequestMessage,
+                        Message = chatRequestMessage,
                         Status = Models.Enums.ChatStatusVM.Pending,
-                        Receiver = new UserVM { UserName = selectBox.SelectedLabelText, },
-                        Owner = new UserVM { UserName = SelfUsername, }
+                        Receiver = new UserVM { UserName = selectBox.SelectedLabelText, Id = selectBox.SelectedLabel.Id },
+                        ReceiverId = selectBox.SelectedLabel.Id,
+                        Creator = new UserVM { UserName = SelfUsername, Id = SelfUserId },
+                        CreatorId = SelfUserId,
                     };
 
                     Chats.Add(chatRequest);
 
-                    await HubConnection.SendAsync("SendChatRequest", chatRequest.Id, selectBox.SelectedLabelText, chatRequestSubject, chatRequestMessage);
+                    await HubConnection.SendAsync("SendChatRequest", chatRequest.Id, selectBox.SelectedLabelText, chatRequest.ReceiverId, chatRequestSubject, chatRequestMessage);
                 }
 
             }
@@ -516,7 +592,8 @@
             {
                 Id = Guid.NewGuid().ToString(),
                 Text = messageText,
-                Owner = new UserVM { UserName = SelfUsername },
+                Owner = new UserVM { UserName = SelfUsername, Id = SelfUserId },
+                OwnerId = SelfUserId,
                 DateTime = DateTime.UtcNow,
                 ChatId = selectedChatVM.Id
             };
@@ -531,11 +608,11 @@
                 ChatDict[selectedChatVM.Id].Add(messageVM);
             }
 
-            if (selectedChatVM.Receiver is not null && selectedChatVM.Owner is not null)
+            if (selectedChatVM.Receiver is not null && selectedChatVM.Creator is not null)
             {
                 if(selectedChatVM.Receiver.UserName == SelfUsername)
                 {
-                    await HubConnection.SendAsync("SendMessage", selectedChatVM.Id, messageVM.Id, selectedChatVM.Owner.UserName, messageVM.Text);
+                    await HubConnection.SendAsync("SendMessage", selectedChatVM.Id, messageVM.Id, selectedChatVM.Creator.UserName, messageVM.Text);
                 }
                 else
                 {
@@ -580,9 +657,11 @@
             UserName = null;
             UserLabels.Clear();
 
-            if (HubConnection is not null && selectedChatVM.Owner is not null)
+            if (HubConnection is not null && selectedChatVM.Creator is not null)
             {
-                await HubConnection.SendAsync("AcceptChatRequest", selectedChatVM.Id, selectedChatVM.Owner.UserName, isAccept);
+                var chatRequestString = JsonSerializer.Serialize(selectedChatVM);
+
+                await HubConnection.SendAsync("AcceptChatRequest", selectedChatVM.Id, selectedChatVM.Creator.UserName, isAccept, chatRequestString);
             }
 
             await InvokeAsync(StateHasChanged);
