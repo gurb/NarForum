@@ -40,7 +40,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("GetStaticPagesWithPagination")]
-        public async Task<StaticPagesPaginationDTO> GetBlogCommentsWithPagination(GetStaticPagesWithPaginationQuery request)
+        public async Task<StaticPagesPaginationDTO> GetStaticPagesWithPagination(GetStaticPagesWithPaginationQuery request)
         {
             var dto = await _mediator.Send(request);
 

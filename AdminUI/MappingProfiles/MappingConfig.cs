@@ -11,6 +11,10 @@ using AdminUI.Models.Authorization.Permission;
 using AdminUI.Models.Authorization.Role;
 using AdminUI.Models;
 using AdminUI.Models.Stat;
+using AdminUI.Models.BlogCategory;
+using AdminUI.Models.BlogComment;
+using AdminUI.Models.BlogPost;
+using AdminUI.Models.StaticPage;
 
 
 namespace AdminUI.MappingProfiles
@@ -76,6 +80,42 @@ namespace AdminUI.MappingProfiles
             CreateMap<StatWithDateDTO, StatWithDateVM>().ReverseMap();
             CreateMap<MonthStatDTO, MonthStatVM>().ReverseMap();
 
+            CreateMap<BlogCategoryVM, BlogCategoryDTO>().ReverseMap();
+            CreateMap<CreateBlogCategoryCommandVM, CreateBlogCategoryCommand>().ReverseMap();
+            CreateMap<GetBlogCategoriesQueryVM, GetBlogCategoriesQuery>().ReverseMap();
+            CreateMap<GetBlogCategoryQueryVM, GetBlogCategoryQuery>().ReverseMap();
+            CreateMap<RemoveBlogCategoryCommandVM, RemoveBlogCategoryCommand>().ReverseMap();
+            CreateMap<UpdateBlogCategoryCommandVM, UpdateBlogCategoryCommand>().ReverseMap();
+
+            CreateMap<BlogCommentVM, BlogCommentDTO>().ReverseMap();
+            CreateMap<BlogCommentsPaginationVM, BlogCommentsPaginationDTO>().ReverseMap();
+            CreateMap<CreateBlogCommentCommandVM, CreateBlogCommentCommand>().ReverseMap();
+            CreateMap<UpdateBlogCommentCommandVM, UpdateBlogCommentCommand>().ReverseMap();
+            CreateMap<RemoveBlogCommentCommandVM, RemoveBlogCommentCommand>().ReverseMap();
+            CreateMap<GetBlogCommentsQueryVM, GetBlogCommentsQuery>().ReverseMap();
+            CreateMap<GetBlogCommentsWithPaginationQueryVM, GetBlogCommentsWithPaginationQuery>().ReverseMap();
+
+            CreateMap<BlogPostVM, BlogPostDTO>().ReverseMap();
+            CreateMap<BlogPostsPaginationVM, BlogPostsPaginationDTO>().ReverseMap();
+            CreateMap<CreateBlogPostCommandVM, CreateBlogPostCommand>().ReverseMap();
+            CreateMap<UpdateBlogPostCommandVM, UpdateBlogPostCommand>().ReverseMap();
+            CreateMap<RemoveBlogPostCommandVM, RemoveBlogPostCommand>().ReverseMap();
+            CreateMap<PublishBlogPostCommandVM, PublishBlogPostCommand>().ReverseMap();
+            CreateMap<DraftBlogPostCommandVM, DraftBlogPostCommand>().ReverseMap();
+            CreateMap<GetBlogPostQueryVM, GetBlogPostQuery>().ReverseMap();
+            CreateMap<GetBlogPostsQueryVM, GetBlogPostsQuery>().ReverseMap();
+            CreateMap<GetBlogPostsWithPaginationQueryVM, GetBlogPostsWithPaginationQuery>().ReverseMap();
+
+            CreateMap<StaticPageVM, StaticPageDTO>().ReverseMap();
+            CreateMap<StaticPagesPaginationVM, StaticPagesPaginationDTO>().ReverseMap();
+            CreateMap<CreateStaticPageCommandVM, CreateStaticPageCommand>().ReverseMap();
+            CreateMap<UpdateStaticPageCommandVM, UpdateStaticPageCommand>().ReverseMap();
+            CreateMap<PublishStaticPageCommandVM, PublishStaticPageCommand>().ReverseMap();
+            CreateMap<DraftStaticPageCommandVM, DraftStaticPageCommand>().ReverseMap();
+            CreateMap<RemoveStaticPageCommandVM, RemoveStaticPageCommand>().ReverseMap();
+            CreateMap<GetStaticPageQueryVM, GetStaticPageQuery>().ReverseMap();
+            CreateMap<GetStaticPagesQueryVM, GetStaticPagesQuery>().ReverseMap();
+            CreateMap<GetStaticPagesWithPaginationQueryVM, GetStaticPagesWithPaginationQuery>().ReverseMap();
         }
     }
 }

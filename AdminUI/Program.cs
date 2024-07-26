@@ -34,6 +34,11 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IForumStatService, ForumStatService>();
 
+builder.Services.AddScoped<IBlogCategoryService, BlogCategoryService>();
+builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
+builder.Services.AddScoped<IBlogPostService, BlogPostService>();
+builder.Services.AddScoped<IPageService, PageService>();
+
 builder.Services.AddSingleton<AlertService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());

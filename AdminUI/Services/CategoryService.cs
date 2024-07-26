@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using AdminUI.Contracts;
 using AdminUI.Models.Category;
-using AdminUI.Models.Heading;
 using AdminUI.Services.Base;
 using AdminUI.Services.Common;
 
