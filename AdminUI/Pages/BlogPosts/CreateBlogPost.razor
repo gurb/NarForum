@@ -1,0 +1,262 @@
+﻿@page "/blog/create/post"
+@page "/blog/update/post/{FriendlyUrl}-{BlogPostId:int}"
+
+@using AdminUI.Models.Component
+
+@if(isUpdate)
+{
+    <h3>Update Blog Post</h3>
+}
+else
+{
+    <h3>Create Blog Post</h3>
+}
+
+<div class="row">
+    <div class="col-sm-9">
+        <div class="form-group mb-3 mt-3">
+            <input type="text" class="form-control" id="blogPostTitle" @bind=@blogPostTitle placeholder="Title Blog Post">
+        </div>
+        <div class="form-group mb-3">
+            <CreateBlogPostForm @ref=blogPostForm Model="CreateModel" Callback="RefreshPosts"></CreateBlogPostForm>
+        </div>
+    </div>
+    <div class="col-sm-3 create-blog-post-sidebar">
+        @if (isUpdate)
+        {
+            <div class="form-group mb-2 mt-3">
+                <button type="button" class="btn btn-primary w-100 text-center" @onclick=UpdateBlogPost>Update</button>
+            </div>
+        }
+        else
+        {
+            <div class="form-group mb-2 mt-3">
+                <button type="button" class="btn btn-primary w-100 text-center" @onclick=CreateNewBlogPost>Create</button>
+            </div>
+        }
+        <div class="form-group mb-3">
+            <button type="button" class="btn btn-success w-100 text-center" @onclick=PublishBlogPost>Publish</button>
+        </div>
+        <div class="form-group mb-3">
+            <button type="button" class="btn btn-warning w-100 text-center" @onclick=DraftBlogPost>Draft</button>
+        </div>
+        <div class="form-group mb-3">
+            <SelectBox @ref=@selectBox Heading="Select Category" SearchText="@searchSelectBox" Labels=CategoryLabels Placeholder="Search username..." SearchLabelCallback="RefreshCategoryLabels" SelectCallback="BlogCategorySelected"></SelectBox>
+        </div>
+        <div class="form-group mb-3">
+            <label for="exampleInputEmail1">Define Url</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Define url">
+        </div>
+    </div>
+</div>
+
+
+@code {
+    CreateBlogPostForm? blogPostForm;
+
+    BlogPostVM CreateModel = new BlogPostVM();
+
+    [Parameter]
+    public int? BlogPostId { get; set; }
+
+    [Parameter]
+    public string FriendlyUrl { get; set; }
+
+    [Inject]
+    public IBlogPostService? BlogPostService { get; set; }
+    [Inject]
+    public IBlogCategoryService? BlogCategoryService { get; set; }
+    [Inject]
+    public NavigationManager? NavigationManager { get; set; }
+
+    private string blogPostTitle = string.Empty;
+
+    private string blogPostUrl = string.Empty;
+
+    private List<BlogCategoryVM>? AllCategories;
+    private List<SelectLabel> CategoryLabels = new List<SelectLabel>();
+    private SelectBox? selectBox;
+    private string? searchSelectBox;
+
+
+    private bool isUpdate { get; set; } = false;
+
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (BlogPostId is not null)
+        {
+            isUpdate = true;
+
+            var request = new GetBlogPostQueryVM
+            {
+                Id = BlogPostId
+            };
+
+            CreateModel = await BlogPostService!.GetBlogPost(request);
+        }
+        else
+        {
+            isUpdate = false;
+        }
+
+    }
+
+    protected async Task RefreshPosts()
+    {
+
+    }
+
+    protected async Task CreateNewBlogPost()
+    {
+        if (BlogPostService != null)
+        {
+            CreateBlogPostCommandVM blogPost = new CreateBlogPostCommandVM
+            {
+                Title = blogPostTitle,
+                Content = CreateModel.Content,
+                /* logCategoryId = CreateModel.BlogCategoryId, */
+                Url = blogPostUrl
+            };
+
+            ApiResponseVM response = await BlogPostService.CreateBlogPost(blogPost);
+
+            if (response.IsSuccess)
+            {
+                RedirestToList();
+            }
+            else
+            {
+
+                return;
+            }
+        }
+    }
+
+    protected void RedirestToList()
+    {
+        NavigationManager!.NavigateTo("/blog/posts");
+    }
+
+    protected async Task UpdateBlogPost()
+    {
+        if (BlogPostService != null)
+        {
+            UpdateBlogPostCommandVM updateCommand = new UpdateBlogPostCommandVM
+            {
+                Id = CreateModel.Id,
+                BlogCategoryId = CreateModel.BlogCategoryId,
+                Title = CreateModel.Title,
+                Content = CreateModel.Content,
+                Url = CreateModel.Url
+            };
+
+            ApiResponseVM response = await BlogPostService.UpdateBlogPost(updateCommand);
+
+            if(response.IsSuccess)
+            {
+                RedirestToList();
+            }
+            else
+            {
+
+
+                return;
+            }
+        }
+    }
+
+    protected async Task RefreshCategoryLabels(string? userName)
+    {
+        GetBlogCategoriesQueryVM request = new GetBlogCategoriesQueryVM();
+
+        if(AllCategories is null)
+        {
+            AllCategories = await BlogCategoryService!.GetBlogCategories(request);
+        }
+
+        if (AllCategories != null && AllCategories.Count > 0 && String.IsNullOrEmpty(searchSelectBox))
+        {
+            CategoryLabels = AllCategories.Select(x => new SelectLabel
+                {
+                    IsSelect = false,
+                    Text = x.Name,
+                    IntId = x.Id,
+                })
+            .ToList();
+        }
+        else if(AllCategories != null && AllCategories.Count > 0 && !String.IsNullOrEmpty(searchSelectBox))
+        {
+            CategoryLabels = AllCategories.Where(x => x.Name.Contains(searchSelectBox)).Select(x => new SelectLabel
+                {
+                    IsSelect = false,
+                    Text = x.Name,
+                    IntId = x.Id,
+                })
+            .ToList();
+        }
+        
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task BlogCategorySelected()
+    {
+        if (selectBox is not null)
+        {
+            if (selectBox.SelectedLabelText is not null)
+            {
+                SelectLabel selectLabel = selectBox.SelectedLabel!;
+
+                CreateModel.BlogCategoryId = selectLabel.IntId;
+            }
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task DraftBlogPost()
+    {
+        if (BlogPostService != null)
+        {
+            DraftBlogPostCommandVM draftCommand = new DraftBlogPostCommandVM
+            {
+                Id = CreateModel.Id,
+            };
+
+            ApiResponseVM response = await BlogPostService.DraftBlogPost(draftCommand);
+
+            if (response.IsSuccess)
+            {
+                RedirestToList();
+            }
+            else
+            {
+
+                return;
+            }
+        }
+    }
+
+    protected async Task PublishBlogPost()
+    {
+        if (BlogPostService != null)
+        {
+            PublishBlogPostCommandVM publishCommand = new PublishBlogPostCommandVM
+            {
+                Id = CreateModel.Id,
+            };
+
+            ApiResponseVM response = await BlogPostService.PublishBlogPost(publishCommand);
+
+            if (response.IsSuccess)
+            {
+                RedirestToList();
+            }
+            else
+            {
+
+                return;
+            }
+        }
+    }
+
+}

@@ -21,7 +21,7 @@ namespace Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("GetBlogCategories")]
+        [HttpPost("GetBlogCategories")]
         public async Task<List<BlogCategoryDTO>> GetBlogCategories(GetBlogCategoriesQuery query)
         {
             var blogCategories = await _mediator.Send(query);
@@ -31,7 +31,7 @@ namespace Api.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("GetBlogCategory")]
+        [HttpPost("GetBlogCategory")]
         public async Task<BlogCategoryDTO> GetBlogCategory(GetBlogCategoryQuery query)
         {
             var blogCategory = await _mediator.Send(query);
@@ -41,8 +41,6 @@ namespace Api.Controllers
 
 
         [HttpPost("AddBlogCategory")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
         public async Task<ApiResponse> AddBlogCategory(CreateBlogCategoryCommand command)
         {
             var response = await _mediator.Send(command);
@@ -50,8 +48,6 @@ namespace Api.Controllers
         }
 
         [HttpPost("UpdateBlogCategory")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
         public async Task<ApiResponse> UpdateBlogCategory(UpdateBlogCategoryCommand command)
         {
             var response = await _mediator.Send(command);
@@ -59,8 +55,6 @@ namespace Api.Controllers
         }
 
         [HttpPost("RemoveBlogCategory")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
         public async Task<ApiResponse> RemoveBlogCategory(RemoveBlogCategoryCommand command)
         {
             var response = await _mediator.Send(command);

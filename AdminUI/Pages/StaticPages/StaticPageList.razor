@@ -1,6 +1,14 @@
 ﻿@page "/pages"
 
-<h3>Static Pages</h3>
+
+<div class="row">
+    <div class="col-sm-6">
+        <h3>Static Pages</h3>
+    </div>
+    <div class="col-sm-6 text-end">
+        <button type="button" class="btn btn-primary" @onclick=DirectCreateStaticPage><i class="bi bi-file-earmark-plus-fill"></i> Create Static Page</button>
+    </div>
+</div>
 
 <StaticPageFilter QueryModel="query" Callback="RefreshListFilter"></StaticPageFilter>
 
@@ -53,6 +61,9 @@
 
     [Inject]
     public IPageService PageService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
 
     // Pagination variables
     private int PageSize = 10; // Number of items per page
@@ -120,5 +131,10 @@
         };
 
         await PageService.RemoveStaticPage(command);
+    }
+
+    protected void DirectCreateStaticPage()
+    {
+        NavigationManager.NavigateTo("pages/create/page");
     }
 }

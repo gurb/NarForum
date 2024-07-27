@@ -1,6 +1,13 @@
 ﻿@page "/blog/posts"
 @using AdminUI.Models.BlogPost
-<h3>Blog Posts</h3>
+<div class="row">
+    <div class="col-sm-6">
+        <h3>Blog Posts</h3>
+    </div>
+    <div class="col-sm-6 text-end">
+        <button type="button" class="btn btn-primary" @onclick=DirectCreateBlogPost><i class="bi bi-file-plus-fill"></i> Create Blog Post</button>
+    </div>
+</div>
 
 <BlogPostFilter QueryModel="query" Callback="RefreshListFilter"></BlogPostFilter>
 
@@ -25,7 +32,7 @@
             {
                 <tr>
                     <th scope="row" class="text-end align-middle">@blogPost.Url</th>
-                    <td class="align-middle">@blogPost.ToString</td>
+                    <td class="align-middle">@blogPost.Title</td>
                     <td class="align-middle">category</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-primary" @onclick="() => DetailBlogPost(blogPost)"><i class="bi bi-card-text"></i></button>
@@ -53,6 +60,9 @@
 
     [Inject]
     public IBlogPostService BlogPostService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
 
     // Pagination variables
     private int PageSize = 10; // Number of items per page
@@ -120,5 +130,10 @@
         };
 
         await BlogPostService.RemoveBlogPost(command);
+    }
+
+    protected void DirectCreateBlogPost()
+    {
+        NavigationManager.NavigateTo("blog/create/post");
     }
 }

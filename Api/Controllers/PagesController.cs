@@ -48,8 +48,6 @@ namespace Api.Controllers
         }
 
         [HttpPost("CreateStaticPage")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
         public async Task<ApiResponse> CreateStaticPage(CreateStaticPageCommand command)
         {
             var response = await _mediator.Send(command);

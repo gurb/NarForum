@@ -52,8 +52,6 @@ namespace Api.Controllers
         }
 
         [HttpPost("CreateBlogPost")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
         public async Task<ApiResponse> CreateBlogPost(CreateBlogPostCommand command)
         {
             var response = await _mediator.Send(command);
