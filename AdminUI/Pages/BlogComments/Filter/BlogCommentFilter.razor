@@ -1,0 +1,50 @@
+﻿<h3 class="filter-header">Filter</h3>
+
+@if (QueryModel != null)
+{
+    <EditForm Model="@QueryModel" OnValidSubmit="HandleQuery">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="control-label">Search in comment</label>
+                    <InputText id="title" class="form-control" placeholder="search in comment..." @bind-Value="@QueryModel.Content" autocomplete="off"></InputText>
+                    <ValidationMessage For="@(() => QueryModel.Content)" />
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+            <div class="col-sm-9">
+            </div>
+            <div class="col-sm-3 text-end">
+                <div class="form-group">
+                    <input type="submit" value="Filter" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+
+
+@code {
+    [Parameter]
+    public GetBlogCommentsWithPaginationQueryVM? QueryModel { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    private void OnChangeCategory()
+    {
+
+    }
+
+    protected async Task HandleQuery()
+    {
+        if (Callback.HasDelegate)
+        {
+            await Callback.InvokeAsync();
+        }
+    }
+}
+

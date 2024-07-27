@@ -2,6 +2,123 @@
 
 <h3>Static Pages</h3>
 
-@code {
+<StaticPageFilter QueryModel="query" Callback="RefreshListFilter"></StaticPageFilter>
 
+<table class="table table-bordered table-hover caption-top">
+    <caption>List of Blog Posts</caption>
+    <thead>
+        <tr>
+            <th scope="col" style="width:70px;">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col" style="width:20%">Category</th>
+            <th scope="col" style="width:20%">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!isLoaded)
+        {
+            <p>Loading Data...</p>
+        }
+        else
+        {
+            @foreach (var staticPage in StaticPages)
+            {
+                <tr>
+                    <th scope="row" class="text-end align-middle">@staticPage.Url</th>
+                    <td class="align-middle">@staticPage.ToString</td>
+                    <td class="align-middle">category</td>
+                    <td class="text-end align-middle">
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailBlogPost(staticPage)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DetailBlogPost(staticPage)"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+@if (isLoaded)
+{
+    <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
+}
+
+
+@code {
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
+
+
+    public List<StaticPageVM>? StaticPages { get; set; }
+
+    [Inject]
+    public IPageService PageService { get; set; }
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    private bool isLoaded { get; set; }
+
+    GetStaticPagesWithPaginationQueryVM query = new GetStaticPagesWithPaginationQueryVM();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (PageIndex == 0) PageIndex = 1;
+        CurrentPage = PageIndex;
+
+        query = new GetStaticPagesWithPaginationQueryVM
+        {
+            PageIndex = PageIndex,
+            PageSize = PageSize
+        };
+
+        StaticPagesPaginationVM staticPagesPaginationVM = await PageService.GetStaticPagesWithPagination(query);
+        StaticPages = staticPagesPaginationVM.StaticPages;
+        TotalPages = (int)Math.Ceiling((double)staticPagesPaginationVM.TotalCount / PageSize);
+
+        isLoaded = true;
+    }
+
+    protected async Task RefreshList()
+    {
+        StaticPagesPaginationVM staticPagesPaginationVM = await PageService.GetStaticPagesWithPagination(query);
+        StaticPages = staticPagesPaginationVM.StaticPages;
+        TotalPages = (int)Math.Ceiling((double)staticPagesPaginationVM.TotalCount / PageSize);
+
+        isLoaded = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshListFilter()
+    {
+        query.PageIndex = 1;
+        CurrentPage = 1;
+
+        await RefreshList();
+    }
+
+
+    protected async Task PageChanged(int currentPage)
+    {
+        query.PageIndex = currentPage;
+        CurrentPage = currentPage;
+        await RefreshList();
+    }
+
+    protected async Task DetailBlogPost(StaticPageVM staticPage)
+    {
+
+    }
+
+    protected async Task DeleteCategory(StaticPageVM staticPage)
+    {
+        RemoveStaticPageCommandVM command = new RemoveStaticPageCommandVM
+        {
+            Id = staticPage.Id
+        };
+
+        await PageService.RemoveStaticPage(command);
+    }
 }

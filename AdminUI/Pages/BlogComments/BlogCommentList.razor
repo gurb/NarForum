@@ -1,0 +1,124 @@
+﻿@page "/blog/comments"
+@using AdminUI.Models.BlogComment
+<h3>Blog Comments</h3>
+
+<BlogCommentFilter QueryModel="query" Callback="RefreshListFilter"></BlogCommentFilter>
+
+<table class="table table-bordered table-hover caption-top">
+    <caption>List of Blog Posts</caption>
+    <thead>
+        <tr>
+            <th scope="col" style="width:70px;">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col" style="width:20%">Category</th>
+            <th scope="col" style="width:20%">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!isLoaded)
+        {
+            <p>Loading Data...</p>
+        }
+        else
+        {
+            @foreach (var blogComment in BlogComments)
+            {
+                <tr>
+                    <th scope="row" class="text-end align-middle">@blogComment.Id</th>
+                    <td class="align-middle">@blogComment.Content</td>
+                    <td class="align-middle">category</td>
+                    <td class="text-end align-middle">
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailBlogComment(blogComment)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DetailBlogComment(blogComment)"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+@if (isLoaded)
+{
+    <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
+}
+
+
+@code {
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
+
+
+    public List<BlogCommentVM>? BlogComments { get; set; }
+
+    [Inject]
+    public IBlogCommentService BlogCommentService { get; set; }
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    private bool isLoaded { get; set; }
+
+    GetBlogCommentsWithPaginationQueryVM query = new GetBlogCommentsWithPaginationQueryVM();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (PageIndex == 0) PageIndex = 1;
+        CurrentPage = PageIndex;
+
+        query = new GetBlogCommentsWithPaginationQueryVM
+            {
+                PageIndex = PageIndex,
+                PageSize = PageSize
+            };
+
+        BlogCommentsPaginationVM blogCommentsPaginationVM = await BlogCommentService.GetBlogCommentsWithPagination(query);
+        BlogComments = blogCommentsPaginationVM.BlogComments;
+        TotalPages = (int)Math.Ceiling((double)blogCommentsPaginationVM.TotalCount / PageSize);
+
+        isLoaded = true;
+    }
+
+    protected async Task RefreshList()
+    {
+        BlogCommentsPaginationVM blogCommentsPaginationVM = await BlogCommentService.GetBlogCommentsWithPagination(query);
+        BlogComments = blogCommentsPaginationVM.BlogComments;
+        TotalPages = (int)Math.Ceiling((double)blogCommentsPaginationVM.TotalCount / PageSize);
+
+        isLoaded = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshListFilter()
+    {
+        query.PageIndex = 1;
+        CurrentPage = 1;
+
+        await RefreshList();
+    }
+
+
+    protected async Task PageChanged(int currentPage)
+    {
+        query.PageIndex = currentPage;
+        CurrentPage = currentPage;
+        await RefreshList();
+    }
+
+    protected async Task DetailBlogComment(BlogCommentVM blog)
+    {
+
+    }
+
+    protected async Task DeleteBlogComment(BlogCommentVM blogComment)
+    {
+        RemoveBlogCommentCommandVM command = new RemoveBlogCommentCommandVM
+            {
+                Id = blogComment.Id
+            };
+
+        await BlogCommentService.RemoveBlogComment(command);
+    }
+}

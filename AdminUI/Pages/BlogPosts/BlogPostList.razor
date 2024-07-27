@@ -2,6 +2,8 @@
 @using AdminUI.Models.BlogPost
 <h3>Blog Posts</h3>
 
+<BlogPostFilter QueryModel="query" Callback="RefreshListFilter"></BlogPostFilter>
+
 <table class="table table-bordered table-hover caption-top">
     <caption>List of Blog Posts</caption>
     <thead>
