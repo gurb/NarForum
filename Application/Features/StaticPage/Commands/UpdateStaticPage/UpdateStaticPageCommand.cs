@@ -5,7 +5,7 @@ namespace Application.Features.StaticPage.Commands.UpdateStaticPage;
 
 public class UpdateStaticPageCommand : IRequest<ApiResponse>
 {
-    public int Id { get; set; }
+    public string? Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;

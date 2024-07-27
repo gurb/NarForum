@@ -5,7 +5,7 @@ using MediatR;
 namespace Application.Features.Category.Commands.RemoveCategory
 {
     
-    public class RemoveCategoryCommandHandler : IRequestHandler<RemoveCategoryCommand, int>
+    public class RemoveCategoryCommandHandler : IRequestHandler<RemoveCategoryCommand, string>
     {
         private readonly IMapper _mapper;
         private readonly ICategoryRepository _categoryRepository;
@@ -16,7 +16,7 @@ namespace Application.Features.Category.Commands.RemoveCategory
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<int> Handle(RemoveCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(RemoveCategoryCommand request, CancellationToken cancellationToken)
         {
             if(request.CategoryId == null)
             {
@@ -25,7 +25,7 @@ namespace Application.Features.Category.Commands.RemoveCategory
 
             try
             {
-                var category = await _categoryRepository.GetByIdAsyncWithTrack(request.CategoryId!.Value);
+                var category = await _categoryRepository.GetByIdAsyncWithTrack(request.CategoryId!);
 
                 if(category != null)
                 {
@@ -38,7 +38,7 @@ namespace Application.Features.Category.Commands.RemoveCategory
             {
                 var message = ex.Message;
             }
-            return 0;
+            return string.Empty;
 
             // return record id
         }

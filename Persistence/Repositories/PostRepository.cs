@@ -13,17 +13,17 @@ namespace Persistence.Repositories
             
         }
 
-        public async Task<Post?> GetLastPost(int? headingId)
+        public async Task<Post?> GetLastPost(string? headingId)
         {
             return await _context.Posts.AsNoTracking().Where(x => x.HeadingId == headingId).OrderBy(x => x.Id).LastOrDefaultAsync();
         }
 
-        public async Task<List<Post>> GetPostsByHeadingId(int headingId)
+        public async Task<List<Post>> GetPostsByHeadingId(string headingId)
         {
             return await _context.Posts.AsNoTracking().Where(x => x.HeadingId == headingId).ToListAsync();
         }
 
-        public async Task<List<Post>> GetPostsByHeadingIdWithPagination(int headingId, int pageIndex, int pageSize)
+        public async Task<List<Post>> GetPostsByHeadingIdWithPagination(string headingId, int pageIndex, int pageSize)
         {
             var totalCount = _context.Posts.AsNoTracking().Count();
 
@@ -58,7 +58,7 @@ namespace Persistence.Repositories
             return _context.Posts.AsNoTracking().Where(predicate).Count();
         }
 
-        public int GetPostsCountByHeadingId(int headingId)
+        public int GetPostsCountByHeadingId(string headingId)
         {
             return  _context.Posts.AsNoTracking().Where(x => x.HeadingId == headingId).Count();
         }

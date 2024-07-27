@@ -1,14 +1,9 @@
 ﻿using Application.Contracts.Persistence;
-using Domain;
 using Domain.Base;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DatabaseContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Persistence.Repositories
 {
@@ -57,7 +52,7 @@ namespace Persistence.Repositories
             return await _context.Set<T>().AsNoTracking().ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id, bool isTrack=false)
+        public async Task<T> GetByIdAsync(string id, bool isTrack=false)
         {
             if(isTrack)
             {
@@ -89,7 +84,7 @@ namespace Persistence.Repositories
             return  _context.Set<T>().AsNoTracking().Where(predicate).Count();
         }
 
-        public async Task<T?> GetByIdAsyncWithTrack(int id)
+        public async Task<T?> GetByIdAsyncWithTrack(string id)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }

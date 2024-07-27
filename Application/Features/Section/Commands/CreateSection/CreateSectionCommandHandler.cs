@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.Features.Section.Commands.CreateSection;
 
-public class CreateSectionCommandHandler : IRequestHandler<CreateSectionCommand, int>
+public class CreateSectionCommandHandler : IRequestHandler<CreateSectionCommand, string>
 {
     private readonly IMapper _mapper;
     private readonly ISectionRepository _sectionRepository;
@@ -17,7 +17,7 @@ public class CreateSectionCommandHandler : IRequestHandler<CreateSectionCommand,
         _sectionRepository = sectionRepository;
     }
 
-    public async Task<int> Handle(CreateSectionCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateSectionCommand request, CancellationToken cancellationToken)
     {
         // validate incoming data
         //var validator = new CreatePostCommandValidator();

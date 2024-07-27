@@ -6,8 +6,8 @@ namespace Application.Contracts.Persistence
     public interface IGenericRepository<T> where T : BaseEntity
     {
         Task<List<T>> GetAsync();
-        Task<T> GetByIdAsync(int id, bool isTrack = false);
-        Task<T?> GetByIdAsyncWithTrack(int id);
+        Task<T> GetByIdAsync(string id, bool isTrack = false);
+        Task<T?> GetByIdAsyncWithTrack(string id);
         Task CreateAsync(T Entity);
         Task UpdateAsync(T Entity);
         Task DeleteAsync(T Entity);

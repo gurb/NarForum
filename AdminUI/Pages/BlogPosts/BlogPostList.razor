@@ -32,7 +32,9 @@
             {
                 <tr>
                     <th scope="row" class="text-end align-middle">@blogPost.Url</th>
-                    <td class="align-middle">@blogPost.Title</td>
+                    <td class="align-middle">
+                        <a @onclick="() =>DetailBlogPost(blogPost)">@blogPost.Title</a>
+                    </td>
                     <td class="align-middle">category</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-primary" @onclick="() => DetailBlogPost(blogPost)"><i class="bi bi-card-text"></i></button>
@@ -117,9 +119,9 @@
         await RefreshList();
     }
 
-    protected async Task DetailBlogPost(BlogPostVM blog)
+    protected void DetailBlogPost(BlogPostVM blog)
     {
-
+        NavigationManager.NavigateTo($"blog/update/post/{blog.Title.ToFriendlyUrl()}-{blog.Id}");
     }
 
     protected async Task DeleteCategory(BlogPostVM blogPost)

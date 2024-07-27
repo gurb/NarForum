@@ -61,12 +61,12 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
             {
                 // get quotes bounded with post
                 quotePosts = new List<PostDTO>();
-                List<int> PostIds = posts.Select(x => x.Id).ToList();
-                List<Domain.Quote> quotes = await _quoteRepository.GetAllAsync(x => PostIds.Contains(x.PostId!.Value));
+                List<string?> PostIds = posts.Select(x => x.Id).ToList();
+                List<Domain.Quote> quotes = await _quoteRepository.GetAllAsync(x => PostIds.Contains(x.PostId!));
 
                 if (quotes != null && quotes.Count > 0)
                 {
-                    List<int?> QuotePostIds = quotes.Select(x => x.QuotePostId).ToList();
+                    List<string?> QuotePostIds = quotes.Select(x => x.QuotePostId).ToList();
                     var quotePostList = await _postRepository.GetAllAsync(x => QuotePostIds.Contains(x.Id));
                     quotePosts = _mapper.Map<List<PostDTO>>(quotePostList);
                 }
@@ -74,10 +74,10 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
 
             if (!String.IsNullOrEmpty(request.UserName))
             {
-                List<int?> headingIds = posts.Select(x => x.HeadingId).ToList();
+                List<string?> headingIds = posts.Select(x => x.HeadingId).ToList();
                 List<Domain.Heading> headings = await _headingRepository.GetAllAsync(x => headingIds.Contains(x.Id));
 
-                List<int> categoryIds = headings.Select(x => x.CategoryId).ToList();
+                List<string?> categoryIds = headings.Select(x => x.CategoryId).ToList();
                 List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));
 
                 

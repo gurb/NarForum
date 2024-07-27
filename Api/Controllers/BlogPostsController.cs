@@ -31,8 +31,6 @@ namespace Api.Controllers
             return blogPosts;
         }
 
-
-
         [AllowAnonymous]
         [HttpPost("GetBlogPost")]
         public async Task<BlogPostDTO> GetBlogPost(GetBlogPostQuery request)

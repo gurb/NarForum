@@ -69,7 +69,7 @@ namespace Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetCategoriesById")]
-        public async Task<List<CategoryDTO>> GetCategoriesById(int ParentCategoryId)
+        public async Task<List<CategoryDTO>> GetCategoriesById(string ParentCategoryId)
         {
             var query = new GetCategoriesQuery
             {

@@ -32,7 +32,7 @@ namespace Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetHeadingById")]
-        public async Task<HeadingDTO> GetHeadingById(int HeadingId)
+        public async Task<HeadingDTO> GetHeadingById(string HeadingId)
         {
             var query = new GetHeadingQuery
             {
@@ -46,7 +46,7 @@ namespace Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetHeadingsByCategoryId")]
-        public async Task<List<HeadingDTO>> GetHeadingsByCategoryId(int CategoryId)
+        public async Task<List<HeadingDTO>> GetHeadingsByCategoryId(string CategoryId)
         {
             var query = new GetHeadingsQuery
             {

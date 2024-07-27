@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.Features.Post.Commands.CreatePost
 {
-    public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, int>
+    public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, string>
     {
         private readonly IMapper _mapper;
         private readonly IPostRepository _postRepository;
@@ -31,7 +31,7 @@ namespace Application.Features.Post.Commands.CreatePost
             _quoteRepository = quoteRepository;
         }
 
-        public async Task<int> Handle(CreatePostCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
             // validate incoming data
             var validator = new CreatePostCommandValidator();
@@ -58,15 +58,15 @@ namespace Application.Features.Post.Commands.CreatePost
             // add to database
             await _postRepository.CreateAsync(post);
 
-            var heading = await _headingRepository.GetByIdAsync(post.HeadingId!.Value);
+            var heading = await _headingRepository.GetByIdAsync(post.HeadingId!);
 
 
             if (heading != null)
             {
                 await _headingRepository.UpdateHeadingWhenCreatePost(heading.Id, post.UserName, post.Id);
                 await _categoryRepository.UpdateCategoryWhenCreatePost(heading.CategoryId, post.UserName, heading.Id, post.Id);
-                await _headingRepository.IncreasePostCounter(post.HeadingId!.Value);
-                await _categoryRepository.IncreasePostCounter(post.HeadingId!.Value);
+                await _headingRepository.IncreasePostCounter(post.HeadingId!);
+                await _categoryRepository.IncreasePostCounter(post.HeadingId);
 
                 // add quotes
                 if(request.QuotePostIds != null)

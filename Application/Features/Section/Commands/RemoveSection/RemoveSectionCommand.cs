@@ -2,8 +2,8 @@
 
 namespace Application.Features.Section.Commands.RemoveSection
 {
-    public class RemoveSectionCommand : IRequest<int>
+    public class RemoveSectionCommand : IRequest<string>
     {
-        public int? SectionId { get; set; }
+        public string? SectionId { get; set; }
     }
 }

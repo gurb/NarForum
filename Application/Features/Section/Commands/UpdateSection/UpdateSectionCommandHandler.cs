@@ -28,7 +28,7 @@ public class UpdateSectionCommandHandler : IRequestHandler<UpdateSectionCommand,
 
         ApiResponse response = new ApiResponse();
 
-        var section = await _sectionRepository.GetByIdAsync(request.Id);
+        var section = await _sectionRepository.GetByIdAsync(request.Id!);
 
         if(section is not null)
         {

@@ -5,5 +5,5 @@ namespace Application.Features.BlogCategory.Commands.RemoveBlogCategory;
 
 public class RemoveBlogCategoryCommand: IRequest<ApiResponse>
 {
-    public int Id { get; set; }
+    public string? Id { get; set; }
 }

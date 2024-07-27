@@ -31,7 +31,7 @@ namespace Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetPostsByHeadingId")]
-        public async Task<List<PostDTO>> GetPostsByHeadingId(int HeadingId)
+        public async Task<List<PostDTO>> GetPostsByHeadingId(string HeadingId)
         {
             var query = new GetPostsQuery
             {
@@ -54,7 +54,7 @@ namespace Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetPostsByHeadingIdWithPagination")]
-        public async Task<PostsPaginationDTO> GetPostsByHeadingIdWithPagination(int HeadingId, int pageIndex, int pageSize)
+        public async Task<PostsPaginationDTO> GetPostsByHeadingIdWithPagination(string HeadingId, int pageIndex, int pageSize)
         {
             var query = new GetPostsWithPaginationQuery
             {

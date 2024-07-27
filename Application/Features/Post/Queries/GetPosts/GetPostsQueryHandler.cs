@@ -24,7 +24,7 @@ namespace Application.Features.Post.Queries.GetPosts
 
             if(request.HeadingId != null)
             {
-                posts = await _postRepository.GetPostsByHeadingId(request.HeadingId.Value);
+                posts = await _postRepository.GetPostsByHeadingId(request.HeadingId);
             }
             else
             {

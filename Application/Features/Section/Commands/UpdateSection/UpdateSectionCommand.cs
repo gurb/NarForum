@@ -10,6 +10,6 @@ namespace Application.Features.Section.Commands.UpdateSection;
 
 public class UpdateSectionCommand : IRequest<ApiResponse>
 {
-    public int Id { get; set; }
+    public string? Id { get; set; }
     public string Name { get; set; } = string.Empty;
 }

@@ -27,7 +27,7 @@ public class RemoveBlogCommentCommandHandler : IRequestHandler<RemoveBlogComment
 
         try
         {
-            var blogComment = await _blogCommentRepository.GetByIdAsync(request.Id.Value, true);
+            var blogComment = await _blogCommentRepository.GetByIdAsync(request.Id, true);
 
             if(blogComment != null)
             {

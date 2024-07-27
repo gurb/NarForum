@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Category.Commands.RemoveCategory
 {
-    public class RemoveCategoryCommand : IRequest<int>
+    public class RemoveCategoryCommand : IRequest<string>
     {
-        public int? CategoryId { get; set; }
+        public string? CategoryId { get; set; }
     }
 }

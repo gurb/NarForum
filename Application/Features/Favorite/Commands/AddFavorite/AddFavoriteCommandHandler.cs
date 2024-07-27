@@ -6,7 +6,7 @@ using MediatR;
 namespace Application.Features.Favorite.Commands.AddFavorite
 {
     
-    public class AddFavoriteCommandHandler : IRequestHandler<AddFavoriteCommand, int>
+    public class AddFavoriteCommandHandler : IRequestHandler<AddFavoriteCommand, string>
     {
         private readonly IMapper _mapper;
         private readonly IFavoriteRepository _favoriteRepository;
@@ -19,7 +19,7 @@ namespace Application.Features.Favorite.Commands.AddFavorite
             _userService = userService;
         }
 
-        public async Task<int> Handle(AddFavoriteCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(AddFavoriteCommand request, CancellationToken cancellationToken)
         {
             var user = await _userService.GetCurrentUser();
             request.UserName = user.UserName;
@@ -45,7 +45,7 @@ namespace Application.Features.Favorite.Commands.AddFavorite
             {
                 var message = ex.Message;
             }
-            return 0;
+            return string.Empty;
         }
     }
 }

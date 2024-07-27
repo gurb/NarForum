@@ -2,10 +2,10 @@
 
 namespace Application.Features.Post.Commands.CreatePost
 {
-    public class CreatePostCommand: IRequest<int>
+    public class CreatePostCommand: IRequest<string>
     {
         public string Content { get; set; } = string.Empty;
-        public int HeadingId { get; set; }
-        public List<int?>? QuotePostIds { get; set; }
+        public string? HeadingId { get; set; }
+        public List<string?>? QuotePostIds { get; set; }
     }
 }

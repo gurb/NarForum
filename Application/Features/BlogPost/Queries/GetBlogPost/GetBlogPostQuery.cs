@@ -5,5 +5,5 @@ namespace Application.Features.BlogPost.Queries.GetBlogPost;
 
 public class GetBlogPostQuery: IRequest<BlogPostDTO>
 {
-    public int Id { get; set; }
+    public string? Id { get; set; }
 }

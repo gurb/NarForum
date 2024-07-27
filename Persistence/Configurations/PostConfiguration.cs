@@ -16,7 +16,7 @@ namespace Persistence.Configurations
             builder.HasData(
                 new Post
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid().ToString(),
                     Content = "Post Content",
                     DateCreate = DateTime.UtcNow,
                     DateUpdate = DateTime.UtcNow,

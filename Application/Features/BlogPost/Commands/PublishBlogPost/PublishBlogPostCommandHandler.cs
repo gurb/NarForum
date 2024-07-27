@@ -22,7 +22,7 @@ namespace Application.Features.BlogPost.Commands.PublishBlogPost
 
             try
             {
-                var blogPost = await _blogPostRepository.GetByIdAsync(request.Id);
+                var blogPost = await _blogPostRepository.GetByIdAsync(request.Id!);
 
                 if (blogPost != null)
                 {

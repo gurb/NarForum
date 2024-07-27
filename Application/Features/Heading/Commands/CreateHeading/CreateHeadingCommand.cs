@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Heading.Commands.CreateHeading
 {
-    public class CreateHeadingCommand : IRequest<int>
+    public class CreateHeadingCommand : IRequest<string>
     {
         public string? Title { get; set; }
-        public int? CategoryId { get; set; }
+        public string? CategoryId { get; set; }
         public string? Content { get; set; }
     }
 }

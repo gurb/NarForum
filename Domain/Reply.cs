@@ -7,10 +7,10 @@ namespace Domain
     {
         [ForeignKey("PostId")]
         public Post? Post { get; set; }
-        public int? PostId { get; set; }
+        public string? PostId { get; set; }
 
         [ForeignKey("ReplyPostId")]
         public Post? ReplyPost { get; set; }
-        public int? ReplyPostId { get; set; }
+        public string? ReplyPostId { get; set; }
     }
 }

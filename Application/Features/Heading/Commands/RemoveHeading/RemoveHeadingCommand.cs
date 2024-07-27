@@ -3,8 +3,8 @@
 namespace Application.Features.Heading.Commands.RemoveHeading
 {
 
-    public class RemoveHeadingCommand : IRequest<int>
+    public class RemoveHeadingCommand : IRequest<string>
     {
-        public int? HeadingId { get; set; }
+        public string? HeadingId { get; set; }
     }
 }
