@@ -8,7 +8,7 @@
 
 
 # example
-> add-migration Forum15 -c ForumDbContext
+> add-migration Forum16 -c ForumDbContext
 > update-database -Context ForumDbContext
 
 > add-migration Id11 -c ForumIdentityDbContext

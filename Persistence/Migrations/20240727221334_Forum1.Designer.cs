@@ -12,8 +12,8 @@ using Persistence.DatabaseContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    [Migration("20240706220115_Forum15")]
-    partial class Forum15
+    [Migration("20240727221334_Forum1")]
+    partial class Forum1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.BlogCategory", b =>
                 {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -44,14 +41,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.BlogComment", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("BlogPostId")
-                        .HasColumnType("int");
+                    b.Property<string>("BlogPostId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -66,10 +60,6 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("SGuid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -83,14 +73,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.BlogPost", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("BlogCategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("BlogCategoryId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -110,10 +97,6 @@ namespace Persistence.Migrations
 
                     b.Property<bool>("IsPublished")
                         .HasColumnType("bit");
-
-                    b.Property<string>("SGuid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -139,11 +122,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Category", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("ActiveDate")
                         .HasColumnType("datetime2");
@@ -164,11 +144,11 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LastHeadingId")
-                        .HasColumnType("int");
+                    b.Property<string>("LastHeadingId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LastPostId")
-                        .HasColumnType("int");
+                    b.Property<string>("LastPostId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastUserName")
                         .HasColumnType("nvarchar(max)");
@@ -177,18 +157,14 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ParentCategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("ParentCategoryId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("PostCounter")
                         .HasColumnType("int");
 
-                    b.Property<string>("SGuid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SectionId")
-                        .HasColumnType("int");
+                    b.Property<string>("SectionId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -201,20 +177,17 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Favorite", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("HeadingId")
-                        .HasColumnType("int");
+                    b.Property<string>("HeadingId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
+                    b.Property<string>("PostId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -227,17 +200,14 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Heading", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("ActiveDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("DateCreate")
                         .HasColumnType("datetime2");
@@ -251,21 +221,17 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsLock")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LastPostId")
-                        .HasColumnType("int");
+                    b.Property<string>("LastPostId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastUserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MainPostId")
-                        .HasColumnType("int");
+                    b.Property<string>("MainPostId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PostCounter")
                         .HasColumnType("int");
-
-                    b.Property<string>("SGuid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -282,23 +248,20 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Like", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("HeadingId")
-                        .HasColumnType("int");
+                    b.Property<string>("HeadingId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsLike")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
+                    b.Property<string>("PostId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -311,15 +274,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Post", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(10000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DateCreate")
@@ -328,18 +287,14 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("DateUpdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("HeadingId")
-                        .HasColumnType("int");
+                    b.Property<string>("HeadingId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("HeadingIndex")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<string>("SGuid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
@@ -349,27 +304,12 @@ namespace Persistence.Migrations
                     b.HasIndex("HeadingId");
 
                     b.ToTable("Posts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "Post Content",
-                            DateCreate = new DateTime(2024, 7, 6, 22, 1, 14, 644, DateTimeKind.Utc).AddTicks(4780),
-                            DateUpdate = new DateTime(2024, 7, 6, 22, 1, 14, 644, DateTimeKind.Utc).AddTicks(4785),
-                            HeadingIndex = 0,
-                            IsActive = true,
-                            SGuid = "eda33f44-2b5a-4137-893c-9c79bd8821f1"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Quote", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("DateCreate")
                         .HasColumnType("datetime2");
@@ -380,15 +320,11 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
+                    b.Property<string>("PostId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("QuotePostId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SGuid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("QuotePostId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -401,11 +337,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Reply", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("DateCreate")
                         .HasColumnType("datetime2");
@@ -416,15 +349,11 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
+                    b.Property<string>("PostId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("ReplyPostId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SGuid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ReplyPostId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -437,11 +366,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Section", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("DateCreate")
                         .HasColumnType("datetime2");
@@ -456,10 +382,6 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SGuid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Sections");
@@ -467,11 +389,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.StaticPage", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -495,10 +414,6 @@ namespace Persistence.Migrations
 
                     b.Property<bool>("IsPublished")
                         .HasColumnType("bit");
-
-                    b.Property<string>("SGuid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -550,9 +465,7 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
