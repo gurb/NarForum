@@ -2,8 +2,8 @@
 
 namespace Application.Features.Post.Commands.RemovePost
 {
-    public class RemovePostCommand : IRequest<string>
+    public class RemovePostCommand : IRequest<Guid>
     {
-        public string? PostId { get; set; }
+        public Guid PostId { get; set; }
     }
 }

@@ -5,6 +5,6 @@ namespace Application.Features.BlogPost.Commands.DraftBlogPost
 {
     public class DraftBlogPostCommand: IRequest<ApiResponse>
     {
-        public string? Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

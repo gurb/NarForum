@@ -2,7 +2,7 @@
 
 namespace Application.Features.Section.Commands.CreateSection;
 
-public class CreateSectionCommand: IRequest<string>
+public class CreateSectionCommand: IRequest<Guid>
 {
     public string Name { get; set; } = string.Empty;
 }

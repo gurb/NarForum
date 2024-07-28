@@ -22,7 +22,7 @@ namespace Application.Features.Post.Queries.GetPosts
             // query the database
             List<Domain.Post> posts;
 
-            if(request.HeadingId != null)
+            if(request.HeadingId != Guid.Empty)
             {
                 posts = await _postRepository.GetPostsByHeadingId(request.HeadingId);
             }

@@ -40,7 +40,7 @@ namespace AdminUI.Services
             return data;
         }
 
-        public async Task<List<FavoriteVM>> GetFavoritesByHeadingId(int headingId)
+        public async Task<List<FavoriteVM>> GetFavoritesByHeadingId(string headingId)
         {
             var likes = await _client.GetFavoritesByHeadingIdAsync(headingId);
             var data = _mapper.Map<List<FavoriteVM>>(likes);
@@ -48,7 +48,7 @@ namespace AdminUI.Services
             return data;
         }
 
-        public async Task<List<FavoriteVM>> GetFavoritesByHeadingIdAndUserName(int headingId, string username)
+        public async Task<List<FavoriteVM>> GetFavoritesByHeadingIdAndUserName(string headingId, string username)
         {
             var likes = await _client.GetFavoritesByHeadingIdAndUserNameAsync(headingId, username);
             var data = _mapper.Map<List<FavoriteVM>>(likes);

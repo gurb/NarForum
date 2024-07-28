@@ -2,9 +2,9 @@
 {
     public class FavoriteVM
     {
-        public int Id { get; set; }
-        public int? HeadingId { get; set; }
-        public int? PostId { get; set; }
+        public string? Id { get; set; }
+        public string? HeadingId { get; set; }
+        public string? PostId { get; set; }
         public string UserName { get; set; } = string.Empty;
         public DateTime? DateTime { get; set; }
     }

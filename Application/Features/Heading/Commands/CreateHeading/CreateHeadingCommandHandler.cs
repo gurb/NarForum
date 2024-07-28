@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Heading.Commands.CreateHeading
 {
-    public class CreateHeadingCommandHandler : IRequestHandler<CreateHeadingCommand, string>
+    public class CreateHeadingCommandHandler : IRequestHandler<CreateHeadingCommand, Guid>
     {
         private readonly IMapper _mapper;
         private readonly IHeadingRepository _HeadingRepository;
@@ -30,7 +30,7 @@ namespace Application.Features.Heading.Commands.CreateHeading
             _CategoryRepository = categoryRepository;
         }
 
-        public async Task<string> Handle(CreateHeadingCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateHeadingCommand request, CancellationToken cancellationToken)
         {
             // validate incoming data
             //var validator = new CreatePostCommandValidator();
@@ -67,6 +67,7 @@ namespace Application.Features.Heading.Commands.CreateHeading
                 await _PostRepository.CreateAsync(headingPost);
 
                 Heading.MainPostId = headingPost.Id;
+                Heading.LastPostId = headingPost.Id;
 
                 await _HeadingRepository.UpdateAsync(Heading);
 

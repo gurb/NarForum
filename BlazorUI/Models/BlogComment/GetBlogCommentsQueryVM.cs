@@ -2,5 +2,5 @@
 
 public class GetBlogCommentsQueryVM
 {
-    public int? BlogPostId { get; set; }
+    public string? BlogPostId { get; set; }
 }

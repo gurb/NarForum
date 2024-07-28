@@ -5,6 +5,6 @@ namespace Application.Features.StaticPage.Commands.PublishStaticPage
 {
     public class PublishStaticPageCommand: IRequest<ApiResponse>
     {
-        public string? Id { get; set; }
-    }
+        public Guid Id { get; set; } = Guid.Empty;
+	}
 }

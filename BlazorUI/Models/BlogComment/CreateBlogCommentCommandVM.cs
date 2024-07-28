@@ -2,6 +2,6 @@
 
 public class CreateBlogCommentCommandVM
 {
-    public int? BlogPostId { get; set; }
+    public string? BlogPostId { get; set; }
     public string Content { get; set; } = string.Empty;
 }

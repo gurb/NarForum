@@ -5,6 +5,6 @@ namespace Application.Features.BlogPost.Commands.PublishBlogPost
 {
     public class PublishBlogPostCommand: IRequest<ApiResponse>
     {
-        public string? Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

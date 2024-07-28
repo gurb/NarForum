@@ -2,6 +2,6 @@
 
 public class UpdateBlogCommentCommandVM
 {
-    public int Id { get; set; }
+    public string? Id { get; set; }
     public string Content { get; set; } = string.Empty;
 }

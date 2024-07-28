@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Identity.Migrations
 {
     [DbContext(typeof(ForumIdentityDbContext))]
-    [Migration("20240728095950_Id1")]
+    [Migration("20240728165019_Id1")]
     partial class Id1
     {
         /// <inheritdoc />
@@ -146,7 +146,7 @@ namespace Identity.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "591050f8-5d39-40f5-bfc5-0e3210688d7c",
+                            ConcurrencyStamp = "f3324c11-9b66-4ea5-ac62-e96cfe1ba114",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -155,10 +155,10 @@ namespace Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI5cCKNXHFA0Ll4fbNUEP2cv6uHg33zvb2BwkjglRh3CI6zD4O8ILOf2iVnKyqM+2Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEELqpa23vG6Vw3Veb7etxwu+hp9+0IgfHVvYOM9ATo/v9Z82PfmNgCdp8xJquZGy6A==",
                             PhoneNumberConfirmed = false,
                             RegisterDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "4210ca72-0062-476e-bbd9-deaa088a2e07",
+                            SecurityStamp = "d8d56364-130a-45fe-9e0e-4fd0aac0d944",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         },
@@ -166,7 +166,7 @@ namespace Identity.Migrations
                         {
                             Id = "9e224968-33e4-4652-b7b7-8574d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "739e6e0b-8386-4bac-bf6a-99e129661f23",
+                            ConcurrencyStamp = "be70577c-f1bc-4818-98c4-c0ad663da84f",
                             Email = "user@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -175,10 +175,10 @@ namespace Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@LOCALHOST.COM",
                             NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPstMwmW7yn2NkU/PJrgzPtpQFvmAKuDHj8TPIiPyIgoRXpJ4l/a8WibcPfo30KCvg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJeefBlBcfFoVll7eN7zgfXVv12dINZs3/+xAhdJKY8/C3UgV2dObSymltX06iOqgg==",
                             PhoneNumberConfirmed = false,
                             RegisterDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "7ef4fa29-2168-4243-875a-ddb8da0580e9",
+                            SecurityStamp = "b2ed598b-a9d0-45ad-a455-81bd2bf5c973",
                             TwoFactorEnabled = false,
                             UserName = "user@localhost.com"
                         },
@@ -186,7 +186,7 @@ namespace Identity.Migrations
                         {
                             Id = "076f24af-8934-4bf2-8d4e-03a5b48db4f4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "62e93bc7-8723-417d-ab1f-69266d367842",
+                            ConcurrencyStamp = "2e543714-3c99-4cc5-a960-bace1e3ccaa4",
                             Email = "moderator@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -195,10 +195,10 @@ namespace Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MODERATOR@LOCALHOST.COM",
                             NormalizedUserName = "MODERATOR@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE32M+tklT2JMmOsgJYDv+UELVgFmwtRkxDh19k4Zmxk5iZTZT6cbFG23I9/bpmu7g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPUd/P7QX/F9DWBHOuBA1kLH8MSnWIGtpxfua6aAK8DlcXr6RgdhsaxtUMiihZmrlw==",
                             PhoneNumberConfirmed = false,
                             RegisterDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "5b9c4aee-274b-4155-9f3e-a0dd69e4b6fe",
+                            SecurityStamp = "8e4b52f6-e014-4786-8c26-617dd50b5374",
                             TwoFactorEnabled = false,
                             UserName = "moderator@localhost.com"
                         });

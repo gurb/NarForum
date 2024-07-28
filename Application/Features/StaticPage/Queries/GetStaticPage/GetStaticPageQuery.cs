@@ -5,5 +5,5 @@ namespace Application.Features.StaticPage.Queries.GetStaticPage;
 
 public class GetStaticPageQuery: IRequest<StaticPageDTO>
 {
-    public string? Id { get; set; }
+    public Guid Id { get; set; } = Guid.Empty;
 }

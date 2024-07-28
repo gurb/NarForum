@@ -251,12 +251,12 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(int? parentCategoryId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(string parentCategoryId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(int? parentCategoryId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(string parentCategoryId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -296,12 +296,12 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(int? headingId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(string headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(int? headingId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -314,12 +314,12 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(int? headingId, string userName);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(string headingId, string userName);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(int? headingId, string userName, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(string headingId, string userName, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -350,21 +350,21 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(int? headingId);
+        System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(string headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(int? headingId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(string headingId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(int? categoryId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(string categoryId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(int? categoryId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(string categoryId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -422,12 +422,12 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(int? headingId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(string headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(int? headingId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -528,12 +528,12 @@ namespace AdminUI.Services.Base
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StaticPagesPaginationDTO> GetStaticPagesWithPaginationAsync(GetStaticPagesWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Created</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateStaticPageAsync(CreateStaticPageCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Created</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateStaticPageAsync(CreateStaticPageCommand body, System.Threading.CancellationToken cancellationToken);
 
@@ -683,12 +683,12 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(int? headingId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(string headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(int? headingId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -701,12 +701,12 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(int? headingId, int? pageIndex, int? pageSize);
+        System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(string headingId, int? pageIndex, int? pageSize);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(int? headingId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(string headingId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -2950,7 +2950,7 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(int? parentCategoryId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(string parentCategoryId)
         {
             return GetCategoriesByIdAsync(parentCategoryId, System.Threading.CancellationToken.None);
         }
@@ -2958,7 +2958,7 @@ namespace AdminUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(int? parentCategoryId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(string parentCategoryId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3356,7 +3356,7 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(int? headingId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(string headingId)
         {
             return GetFavoritesByHeadingIdAsync(headingId, System.Threading.CancellationToken.None);
         }
@@ -3364,7 +3364,7 @@ namespace AdminUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(int? headingId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3524,7 +3524,7 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(int? headingId, string userName)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(string headingId, string userName)
         {
             return GetFavoritesByHeadingIdAndUserNameAsync(headingId, userName, System.Threading.CancellationToken.None);
         }
@@ -3532,7 +3532,7 @@ namespace AdminUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(int? headingId, string userName, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(string headingId, string userName, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3862,7 +3862,7 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(int? headingId)
+        public virtual System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(string headingId)
         {
             return GetHeadingByIdAsync(headingId, System.Threading.CancellationToken.None);
         }
@@ -3870,7 +3870,7 @@ namespace AdminUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(int? headingId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(string headingId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3946,7 +3946,7 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(int? categoryId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(string categoryId)
         {
             return GetHeadingsByCategoryIdAsync(categoryId, System.Threading.CancellationToken.None);
         }
@@ -3954,7 +3954,7 @@ namespace AdminUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(int? categoryId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(string categoryId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -4534,7 +4534,7 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(int? headingId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(string headingId)
         {
             return GetLikesByHeadingIdAsync(headingId, System.Threading.CancellationToken.None);
         }
@@ -4542,7 +4542,7 @@ namespace AdminUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(int? headingId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -5530,7 +5530,7 @@ namespace AdminUI.Services.Base
             }
         }
 
-        /// <returns>Created</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> CreateStaticPageAsync(CreateStaticPageCommand body)
         {
@@ -5538,7 +5538,7 @@ namespace AdminUI.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Created</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> CreateStaticPageAsync(CreateStaticPageCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -5583,7 +5583,7 @@ namespace AdminUI.Services.Base
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 201)
+                        if (status_ == 200)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<ApiResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
@@ -5591,16 +5591,6 @@ namespace AdminUI.Services.Base
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
                             return objectResponse_.Object;
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         {
@@ -6927,7 +6917,7 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(int? headingId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(string headingId)
         {
             return GetPostsByHeadingIdAsync(headingId, System.Threading.CancellationToken.None);
         }
@@ -6935,7 +6925,7 @@ namespace AdminUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(int? headingId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -7093,7 +7083,7 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(int? headingId, int? pageIndex, int? pageSize)
+        public virtual System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(string headingId, int? pageIndex, int? pageSize)
         {
             return GetPostsByHeadingIdWithPaginationAsync(headingId, pageIndex, pageSize, System.Threading.CancellationToken.None);
         }
@@ -7101,7 +7091,7 @@ namespace AdminUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(int? headingId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(string headingId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -8752,10 +8742,10 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public int? HeadingId { get; set; }
+        public string HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public int? PostId { get; set; }
+        public string PostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
@@ -8773,10 +8763,10 @@ namespace AdminUI.Services.Base
         public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public int? PostId { get; set; }
+        public string PostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public int? HeadingId { get; set; }
+        public string HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
         public System.DateTime DateTime { get; set; }
@@ -8902,7 +8892,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int? Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
@@ -8917,7 +8907,7 @@ namespace AdminUI.Services.Base
         public BlogPostDTO BlogPost { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("blogPostId")]
-        public int? BlogPostId { get; set; }
+        public string BlogPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
@@ -8947,7 +8937,7 @@ namespace AdminUI.Services.Base
         public BlogCategoryDTO BlogCategory { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
-        public int? BlogCategoryId { get; set; }
+        public string BlogCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
@@ -8995,16 +8985,16 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("sectionId")]
-        public int? SectionId { get; set; }
+        public string SectionId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("parentCategoryId")]
-        public int? ParentCategoryId { get; set; }
+        public string ParentCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingCounter")]
         public int HeadingCounter { get; set; }
@@ -9013,10 +9003,10 @@ namespace AdminUI.Services.Base
         public int PostCounter { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("lastHeadingId")]
-        public int? LastHeadingId { get; set; }
+        public string LastHeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("lastPostId")]
-        public int? LastPostId { get; set; }
+        public string LastPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("lastHeadingTitle")]
         public string LastHeadingTitle { get; set; }
@@ -9100,7 +9090,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogPostId")]
-        public int? BlogPostId { get; set; }
+        public string BlogPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
@@ -9112,7 +9102,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
-        public int? BlogCategoryId { get; set; }
+        public string BlogCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
@@ -9133,10 +9123,10 @@ namespace AdminUI.Services.Base
         public string Name { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("sectionId")]
-        public int? SectionId { get; set; }
+        public string SectionId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("parentCategoryId")]
-        public int? ParentCategoryId { get; set; }
+        public string ParentCategoryId { get; set; }
 
     }
 
@@ -9166,7 +9156,7 @@ namespace AdminUI.Services.Base
         public string Title { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("categoryId")]
-        public int? CategoryId { get; set; }
+        public string CategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
@@ -9181,10 +9171,10 @@ namespace AdminUI.Services.Base
         public string Content { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public int HeadingId { get; set; }
+        public string HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("quotePostIds")]
-        public System.Collections.Generic.ICollection<int> QuotePostIds { get; set; }
+        public System.Collections.Generic.ICollection<string> QuotePostIds { get; set; }
 
     }
 
@@ -9229,7 +9219,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
     }
 
@@ -9238,7 +9228,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
     }
 
@@ -9247,13 +9237,13 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public int? HeadingId { get; set; }
+        public string HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public int? PostId { get; set; }
+        public string PostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
@@ -9277,7 +9267,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int? Id { get; set; }
+        public string Id { get; set; }
 
     }
 
@@ -9286,7 +9276,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogPostId")]
-        public int? BlogPostId { get; set; }
+        public string BlogPostId { get; set; }
 
     }
 
@@ -9295,7 +9285,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogPostId")]
-        public int? BlogPostId { get; set; }
+        public string BlogPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
@@ -9310,7 +9300,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
     }
 
@@ -9319,7 +9309,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
-        public int? BlogCategoryId { get; set; }
+        public string BlogCategoryId { get; set; }
 
     }
 
@@ -9328,7 +9318,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
-        public int? BlogCategoryId { get; set; }
+        public string BlogCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
@@ -9412,13 +9402,13 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public int? PostId { get; set; }
+        public string PostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public int? HeadingId { get; set; }
+        public string HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
@@ -9445,7 +9435,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
     }
 
@@ -9502,7 +9492,7 @@ namespace AdminUI.Services.Base
         public string Title { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("categoryId")]
-        public int? CategoryId { get; set; }
+        public string CategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("categoryName")]
         public string CategoryName { get; set; }
@@ -9514,13 +9504,13 @@ namespace AdminUI.Services.Base
         public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("mainPostId")]
-        public int MainPostId { get; set; }
+        public string MainPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postCounter")]
         public int PostCounter { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("lastPostId")]
-        public int? LastPostId { get; set; }
+        public string LastPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("lastUserName")]
         public string LastUserName { get; set; }
@@ -9547,16 +9537,16 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public int? HeadingId { get; set; }
+        public string HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public int? PostId { get; set; }
+        public string PostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
         public System.DateTime DateTime { get; set; }
@@ -9661,13 +9651,13 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public int? HeadingId { get; set; }
+        public string HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
@@ -9733,7 +9723,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
     }
 
@@ -9742,7 +9732,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
     }
 
@@ -9791,7 +9781,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
     }
 
@@ -9800,7 +9790,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int? Id { get; set; }
+        public string Id { get; set; }
 
     }
 
@@ -9809,7 +9799,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
     }
 
@@ -9818,7 +9808,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("categoryId")]
-        public int? CategoryId { get; set; }
+        public string CategoryId { get; set; }
 
     }
 
@@ -9827,7 +9817,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public int? HeadingId { get; set; }
+        public string HeadingId { get; set; }
 
     }
 
@@ -9836,7 +9826,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public int? PostId { get; set; }
+        public string PostId { get; set; }
 
     }
 
@@ -9854,7 +9844,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("sectionId")]
-        public int? SectionId { get; set; }
+        public string SectionId { get; set; }
 
     }
 
@@ -9863,7 +9853,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
     }
 
@@ -9872,7 +9862,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
@@ -9920,7 +9910,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
@@ -9971,7 +9961,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
@@ -9983,7 +9973,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
@@ -9995,10 +9985,10 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
-        public int? BlogCategoryId { get; set; }
+        public string BlogCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
@@ -10049,7 +10039,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
@@ -10061,7 +10051,7 @@ namespace AdminUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }

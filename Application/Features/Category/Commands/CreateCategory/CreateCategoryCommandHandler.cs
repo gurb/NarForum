@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Category.Commands.CreateCategory
 {
-    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, string>
+    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Guid>
     {
         private readonly IMapper _mapper;
         private readonly ICategoryRepository _categoryRepository;
@@ -20,7 +20,7 @@ namespace Application.Features.Category.Commands.CreateCategory
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<string> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
             // validate incoming data
             //var validator = new CreatePostCommandValidator();
@@ -46,7 +46,7 @@ namespace Application.Features.Category.Commands.CreateCategory
             {
                 var message = ex.Message;
             }
-            return string.Empty;
+            return Guid.Empty;
 
             // return record id
         }

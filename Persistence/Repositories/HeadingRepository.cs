@@ -12,12 +12,12 @@ namespace Persistence.Repositories
 
         }
 
-        public async Task<Heading?> GetHeadingById(string HeadingId)
+        public async Task<Heading?> GetHeadingById(Guid HeadingId)
         {
             return await _context.Headings.AsNoTracking().FirstOrDefaultAsync(x => x.Id == HeadingId);
         }
 
-        public async Task<List<Heading>> GetHeadingsByCategoryIdWithPagination(string categoryId, int pageIndex, int pageSize)
+        public async Task<List<Heading>> GetHeadingsByCategoryIdWithPagination(Guid categoryId, int pageIndex, int pageSize)
         {
             var totalCount = _context.Headings.AsNoTracking().Count();
 
@@ -47,7 +47,7 @@ namespace Persistence.Repositories
             return productsPerPage; ;
         }
 
-        public int GetHeadingsCountByCategoryId(string categoryId)
+        public int GetHeadingsCountByCategoryId(Guid categoryId)
         {
             var totalCount = _context.Headings.AsNoTracking().Where(x => x.CategoryId == categoryId).Count();
             return totalCount;
@@ -69,7 +69,7 @@ namespace Persistence.Repositories
             return productsPerPage;
         }
 
-        public async Task IncreasePostCounter(string HeadingId)
+        public async Task IncreasePostCounter(Guid HeadingId)
         {
             var heading = await _context.Headings.FirstOrDefaultAsync(x => x.Id == HeadingId);
 
@@ -83,7 +83,7 @@ namespace Persistence.Repositories
             }
         }
 
-        public async Task UpdateHeadingWhenCreatePost(string headingId, string lastUserName, string lastPostId)
+        public async Task UpdateHeadingWhenCreatePost(Guid headingId, string lastUserName, Guid lastPostId)
         {
             var heading = await _context.Headings.FirstOrDefaultAsync(x => x.Id == headingId);
 

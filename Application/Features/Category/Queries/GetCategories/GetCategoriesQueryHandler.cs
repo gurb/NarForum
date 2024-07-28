@@ -44,7 +44,7 @@ namespace Application.Features.Category.Queries.GetCategories
 
             if(request.IsOnlySection != null && request.IsOnlySection == true)
             {
-                categories = categories.Where(x => x.ParentCategoryId == null).ToList();
+                categories = categories.Where(x => x.ParentCategoryId == Guid.Empty).ToList();
             }
 
             // convert data objecs to DTOs

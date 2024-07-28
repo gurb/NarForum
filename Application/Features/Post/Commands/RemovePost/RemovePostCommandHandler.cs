@@ -6,7 +6,7 @@ using MediatR;
 namespace Application.Features.Category.Commands.RemoveCategory
 {
 
-    public class RemovePostCommandHandler : IRequestHandler<RemovePostCommand, string>
+    public class RemovePostCommandHandler : IRequestHandler<RemovePostCommand, Guid>
     {
         private readonly IMapper _mapper;
         private readonly IPostRepository _postRepository;
@@ -17,9 +17,9 @@ namespace Application.Features.Category.Commands.RemoveCategory
             _postRepository = postRepository;
         }
 
-        public async Task<string> Handle(RemovePostCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(RemovePostCommand request, CancellationToken cancellationToken)
         {
-            if (request.PostId == null)
+            if (request.PostId == Guid.Empty)
             {
                 throw new NullReferenceException();
             }
@@ -39,7 +39,7 @@ namespace Application.Features.Category.Commands.RemoveCategory
             {
                 var message = ex.Message;
             }
-            return string.Empty;
+            return Guid.Empty;
 
             // return record id
         }

@@ -2,6 +2,6 @@
 {
     public class RemovePostCommandVM
     {
-        public int? PostId { get; set; }
+        public Guid PostId { get; set; }
     }
 }

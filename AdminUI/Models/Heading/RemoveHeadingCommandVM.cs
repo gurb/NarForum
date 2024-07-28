@@ -2,6 +2,6 @@
 {
     public class RemoveHeadingCommandVM
     {
-        public int? HeadingId { get; set; }
+        public Guid HeadingId { get; set; }
     }
 }

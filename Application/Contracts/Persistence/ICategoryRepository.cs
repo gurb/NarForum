@@ -5,8 +5,8 @@ namespace Application.Contracts.Persistence
     public interface ICategoryRepository : IGenericRepository<Category>
     {
         Task<Category> GetByName(string name);
-        Task IncreaseHeadingCounter(string categoryId);
-        Task IncreasePostCounter(string HeadingId);
-        Task UpdateCategoryWhenCreatePost(string categoryId, string lastUserName, string lastHeadingId, string lastPostId);
+        Task IncreaseHeadingCounter(Guid categoryId);
+        Task IncreasePostCounter(Guid HeadingId);
+        Task UpdateCategoryWhenCreatePost(Guid categoryId, string lastUserName, Guid lastHeadingId, Guid lastPostId);
     }
 }

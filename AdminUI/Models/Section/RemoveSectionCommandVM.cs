@@ -2,6 +2,6 @@
 {
     public class RemoveSectionCommandVM
     {
-        public int? SectionId { get; set; }
+        public Guid SectionId { get; set; }
     }
 }

@@ -5,5 +5,5 @@ namespace Application.Features.StaticPage.Commands.RemoveStaticPage;
 
 public class RemoveStaticPageCommand: IRequest<ApiResponse>
 {
-    public string? Id { get; set; }
+    public Guid Id { get; set; } = Guid.Empty;
 }

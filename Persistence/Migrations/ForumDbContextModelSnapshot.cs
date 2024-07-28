@@ -24,8 +24,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.BlogCategory", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -38,11 +39,12 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.BlogComment", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("BlogPostId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("BlogPostId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -70,11 +72,12 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.BlogPost", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("BlogCategoryId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("BlogCategoryId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -119,8 +122,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Category", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ActiveDate")
                         .HasColumnType("timestamp with time zone");
@@ -141,11 +145,11 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("LastHeadingId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("LastHeadingId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("LastPostId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("LastPostId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("LastUserName")
                         .HasColumnType("text");
@@ -154,14 +158,14 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ParentCategoryId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("ParentCategoryId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("PostCounter")
                         .HasColumnType("integer");
 
-                    b.Property<string>("SectionId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -174,17 +178,18 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Favorite", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DateTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("HeadingId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("HeadingId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("PostId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -197,14 +202,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Heading", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ActiveDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CategoryId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DateCreate")
                         .HasColumnType("timestamp with time zone");
@@ -218,14 +224,14 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsLock")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("LastPostId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("LastPostId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("LastUserName")
                         .HasColumnType("text");
 
-                    b.Property<string>("MainPostId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("MainPostId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("PostCounter")
                         .HasColumnType("integer");
@@ -245,20 +251,21 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Like", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("HeadingId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("HeadingId")
+                        .HasColumnType("uuid");
 
                     b.Property<bool?>("IsLike")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PostId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -271,8 +278,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Post", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -284,8 +292,8 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("DateUpdate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("HeadingId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("HeadingId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("HeadingIndex")
                         .HasColumnType("integer");
@@ -305,8 +313,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Quote", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DateCreate")
                         .HasColumnType("timestamp with time zone");
@@ -317,11 +326,11 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PostId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("QuotePostId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("QuotePostId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -334,8 +343,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Reply", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DateCreate")
                         .HasColumnType("timestamp with time zone");
@@ -346,11 +356,11 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("PostId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("ReplyPostId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("ReplyPostId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -363,8 +373,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Section", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DateCreate")
                         .HasColumnType("timestamp with time zone");
@@ -386,8 +397,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.StaticPage", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -429,7 +441,9 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.BlogPost", "BlogPost")
                         .WithMany()
-                        .HasForeignKey("BlogPostId");
+                        .HasForeignKey("BlogPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("BlogPost");
                 });
@@ -438,7 +452,9 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.BlogCategory", "BlogCategory")
                         .WithMany()
-                        .HasForeignKey("BlogCategoryId");
+                        .HasForeignKey("BlogCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("BlogCategory");
                 });
@@ -447,11 +463,15 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Category", "ParentCategory")
                         .WithMany()
-                        .HasForeignKey("ParentCategoryId");
+                        .HasForeignKey("ParentCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Section", "Section")
                         .WithMany()
-                        .HasForeignKey("SectionId");
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ParentCategory");
 
@@ -462,7 +482,9 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
                 });
@@ -471,7 +493,9 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Heading", "Heading")
                         .WithMany()
-                        .HasForeignKey("HeadingId");
+                        .HasForeignKey("HeadingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Heading");
                 });
@@ -480,11 +504,15 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Post", "QuotePost")
                         .WithMany()
-                        .HasForeignKey("QuotePostId");
+                        .HasForeignKey("QuotePostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Post");
 
@@ -495,11 +523,15 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Post", "ReplyPost")
                         .WithMany()
-                        .HasForeignKey("ReplyPostId");
+                        .HasForeignKey("ReplyPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Post");
 

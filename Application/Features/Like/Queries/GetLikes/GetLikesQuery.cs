@@ -4,8 +4,8 @@ namespace Application.Features.Like.Queries.GetLikes
 {
     public class GetLikesQuery : IRequest<List<LikeDTO>>
     {
-        public string? PostId { get; set; }
-        public string? HeadingId { get; set; }
+        public Guid PostId { get; set; }
+        public Guid HeadingId { get; set; }
         public string? UserName { get; set; }
     }
 }

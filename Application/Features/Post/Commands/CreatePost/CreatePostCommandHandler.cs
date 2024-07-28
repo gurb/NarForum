@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.Features.Post.Commands.CreatePost
 {
-    public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, string>
+    public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Guid>
     {
         private readonly IMapper _mapper;
         private readonly IPostRepository _postRepository;
@@ -31,7 +31,7 @@ namespace Application.Features.Post.Commands.CreatePost
             _quoteRepository = quoteRepository;
         }
 
-        public async Task<string> Handle(CreatePostCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
             // validate incoming data
             var validator = new CreatePostCommandValidator();

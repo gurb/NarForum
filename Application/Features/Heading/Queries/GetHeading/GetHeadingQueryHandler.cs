@@ -1,12 +1,7 @@
 ﻿using Application.Contracts.Persistence;
-using Application.Features.Heading.Queries.GetHeadings;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Application.Features.Heading.Queries.GetHeading
 {

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Category.Commands.CreateCategory
 {
-    public class CreateCategoryCommand : IRequest<string>
+    public class CreateCategoryCommand : IRequest<Guid>
     {
         public string Name { get; set; } = string.Empty;
-        public string? SectionId { get; set; }
-        public string? ParentCategoryId { get; set; }
+        public Guid SectionId { get; set; }
+        public Guid ParentCategoryId { get; set; }
     }
 }

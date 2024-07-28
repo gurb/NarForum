@@ -37,7 +37,7 @@ public class RemoveBlogCategoryCommandHandler : IRequestHandler<RemoveBlogCatego
 
                 foreach (var blogPost in blogPosts)
                 {
-                    blogPost.BlogCategoryId = null;
+                    blogPost.BlogCategoryId = Guid.Empty;
                 }
 
                 _blogPostRepository.UpdateList(blogPosts);

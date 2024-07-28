@@ -29,7 +29,7 @@ namespace Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetLikesByHeadingId")]
-        public async Task<List<LikeDTO>> GetLikesByHeadingId(string headingId)
+        public async Task<List<LikeDTO>> GetLikesByHeadingId(Guid headingId)
         {
             var likes = await _mediator.Send(
                 new GetLikesQuery

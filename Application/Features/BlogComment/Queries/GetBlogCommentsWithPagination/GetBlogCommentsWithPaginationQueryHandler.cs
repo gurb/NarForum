@@ -23,7 +23,7 @@ public class GetBlogCommentsWithPaginationQueryHandler : IRequestHandler<GetBlog
     {
         var predicate = PredicateBuilder.True<Domain.BlogComment>();
 
-        if (request.BlogPostId != null)
+        if (request.BlogPostId != Guid.Empty)
         {
             predicate = predicate.And(x => x.BlogPostId == request.BlogPostId);
         }

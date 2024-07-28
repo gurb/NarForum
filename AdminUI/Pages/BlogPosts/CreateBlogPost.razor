@@ -1,5 +1,5 @@
 ﻿@page "/blog/create/post"
-@page "/blog/update/post/{FriendlyUrl}-{BlogPostId:int}"
+@page "/blog/update/post/{FriendlyUrl}-{BlogPostId:guid}"
 
 @using AdminUI.Models.Component
 
@@ -57,7 +57,7 @@ else
     BlogPostVM CreateModel = new BlogPostVM();
 
     [Parameter]
-    public int? BlogPostId { get; set; }
+    public Guid? BlogPostId { get; set; }
 
     [Parameter]
     public string FriendlyUrl { get; set; }
@@ -90,7 +90,7 @@ else
 
             var request = new GetBlogPostQueryVM
             {
-                Id = BlogPostId
+                Id = BlogPostId.Value
             };
 
             CreateModel = await BlogPostService!.GetBlogPost(request);

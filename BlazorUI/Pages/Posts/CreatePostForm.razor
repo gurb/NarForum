@@ -74,7 +74,7 @@
 	public PostVM Model { get; set; }
 
 	[Parameter]
-	public int HeadingId { get; set; }
+	public string? HeadingId { get; set; }
 
 	[Inject]
 	public IPostService? PostService { get; set; }
@@ -200,10 +200,10 @@
 		return content;
 	}
 
-	private List<int?> GetQuotePostIds(string displayContent)
+	private List<string?> GetQuotePostIds(string displayContent)
 	{
 		string content = displayContent;
-		List<int?> ids = new List<int?>();
+		List<string?> ids = new List<string?>();
 
 		Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
 		MatchCollection matches = quoteRegex.Matches(content);
@@ -216,7 +216,7 @@
 
 			if(!string.IsNullOrEmpty(postId))
 			{
-				int? qId = Convert.ToInt32(postId);
+				string? qId = postId;
 
 				ids.Add(qId);
 			}

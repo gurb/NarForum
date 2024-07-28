@@ -9,6 +9,6 @@ namespace Application.Features.Post.Queries.GetAllPosts
 {
     public class GetPostsQuery: IRequest<List<PostDTO>>
     {
-        public string? HeadingId { get; set; }
+        public Guid HeadingId { get; set; }
     }
 }

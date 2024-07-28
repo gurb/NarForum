@@ -1,6 +1,8 @@
-﻿namespace AdminUI.Models.BlogPost;
+﻿using System;
+
+namespace AdminUI.Models.BlogPost;
 
 public class GetBlogPostQueryVM
 {
-    public int? Id { get; set; }
+    public Guid Id { get; set; }
 }

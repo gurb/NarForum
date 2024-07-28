@@ -7,5 +7,5 @@ namespace Application.Features.BlogPost.Commands.RemoveBlogPost;
 
 public class RemoveBlogPostCommand: IRequest<ApiResponse>
 {
-    public string? Id { get; set; } 
+    public Guid Id { get; set; } 
 }

@@ -8,7 +8,7 @@ namespace Application.Features.BlogCategory.Queries.GetBlogCategories
 {
     public class BlogCategoryDTO
     {
-        public string? Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public Guid Id { get; set; } = Guid.Empty;
+		public string Name { get; set; } = string.Empty;
     }
 }

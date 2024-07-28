@@ -6,5 +6,5 @@ namespace Application.Features.BlogComment.Commands.RemoveBlogComment;
 
 public class RemoveBlogCommentCommand: IRequest<ApiResponse>
 {
-    public string? Id { get; set; }
+    public Guid Id { get; set; }
 }

@@ -15,7 +15,7 @@ namespace Persistence.Migrations
                 name: "BlogCategories",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -27,9 +27,9 @@ namespace Persistence.Migrations
                 name: "Favorites",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    HeadingId = table.Column<string>(type: "text", nullable: true),
-                    PostId = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    HeadingId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserName = table.Column<string>(type: "text", nullable: false),
                     DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
@@ -42,10 +42,10 @@ namespace Persistence.Migrations
                 name: "Likes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserName = table.Column<string>(type: "text", nullable: false),
-                    PostId = table.Column<string>(type: "text", nullable: true),
-                    HeadingId = table.Column<string>(type: "text", nullable: true),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
+                    HeadingId = table.Column<Guid>(type: "uuid", nullable: false),
                     DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsLike = table.Column<bool>(type: "boolean", nullable: true)
                 },
@@ -58,7 +58,7 @@ namespace Persistence.Migrations
                 name: "Sections",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -73,7 +73,7 @@ namespace Persistence.Migrations
                 name: "StaticPages",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     Url = table.Column<string>(type: "text", nullable: false),
@@ -93,8 +93,8 @@ namespace Persistence.Migrations
                 name: "BlogPosts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    BlogCategoryId = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    BlogCategoryId = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     Url = table.Column<string>(type: "text", nullable: false),
@@ -113,22 +113,23 @@ namespace Persistence.Migrations
                         name: "FK_BlogPosts_BlogCategories_BlogCategoryId",
                         column: x => x.BlogCategoryId,
                         principalTable: "BlogCategories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    ParentCategoryId = table.Column<string>(type: "text", nullable: true),
-                    SectionId = table.Column<string>(type: "text", nullable: true),
+                    ParentCategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SectionId = table.Column<Guid>(type: "uuid", nullable: false),
                     HeadingCounter = table.Column<int>(type: "integer", nullable: false),
                     PostCounter = table.Column<int>(type: "integer", nullable: false),
-                    LastHeadingId = table.Column<string>(type: "text", nullable: true),
-                    LastPostId = table.Column<string>(type: "text", nullable: true),
+                    LastHeadingId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LastPostId = table.Column<Guid>(type: "uuid", nullable: false),
                     LastUserName = table.Column<string>(type: "text", nullable: true),
                     ActiveDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -142,20 +143,22 @@ namespace Persistence.Migrations
                         name: "FK_Categories_Categories_ParentCategoryId",
                         column: x => x.ParentCategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Categories_Sections_SectionId",
                         column: x => x.SectionId,
                         principalTable: "Sections",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "BlogComments",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    BlogPostId = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    BlogPostId = table.Column<Guid>(type: "uuid", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     UserName = table.Column<string>(type: "text", nullable: false),
                     DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -169,22 +172,23 @@ namespace Persistence.Migrations
                         name: "FK_BlogComments_BlogPosts_BlogPostId",
                         column: x => x.BlogPostId,
                         principalTable: "BlogPosts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Headings",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: true),
-                    CategoryId = table.Column<string>(type: "text", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserName = table.Column<string>(type: "text", nullable: true),
-                    MainPostId = table.Column<string>(type: "text", nullable: true),
+                    MainPostId = table.Column<Guid>(type: "uuid", nullable: false),
                     IsLock = table.Column<bool>(type: "boolean", nullable: false),
                     PostCounter = table.Column<int>(type: "integer", nullable: false),
                     LastUserName = table.Column<string>(type: "text", nullable: true),
-                    LastPostId = table.Column<string>(type: "text", nullable: true),
+                    LastPostId = table.Column<Guid>(type: "uuid", nullable: false),
                     ActiveDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -197,15 +201,16 @@ namespace Persistence.Migrations
                         name: "FK_Headings_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    HeadingId = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    HeadingId = table.Column<Guid>(type: "uuid", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     UserName = table.Column<string>(type: "text", nullable: true),
                     HeadingIndex = table.Column<int>(type: "integer", nullable: false),
@@ -220,16 +225,17 @@ namespace Persistence.Migrations
                         name: "FK_Posts_Headings_HeadingId",
                         column: x => x.HeadingId,
                         principalTable: "Headings",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Quotes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    PostId = table.Column<string>(type: "text", nullable: true),
-                    QuotePostId = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
+                    QuotePostId = table.Column<Guid>(type: "uuid", nullable: false),
                     DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false)
@@ -241,21 +247,23 @@ namespace Persistence.Migrations
                         name: "FK_Quotes_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Quotes_Posts_QuotePostId",
                         column: x => x.QuotePostId,
                         principalTable: "Posts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Replies",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    PostId = table.Column<string>(type: "text", nullable: true),
-                    ReplyPostId = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ReplyPostId = table.Column<Guid>(type: "uuid", nullable: false),
                     DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false)
@@ -267,12 +275,14 @@ namespace Persistence.Migrations
                         name: "FK_Replies_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Replies_Posts_ReplyPostId",
                         column: x => x.ReplyPostId,
                         principalTable: "Posts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

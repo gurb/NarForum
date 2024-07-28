@@ -27,7 +27,7 @@ namespace Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetFavoritesByHeadingId")]
-        public async Task<List<FavoriteDTO>> GetFavoritesByHeadingId(string headingId)
+        public async Task<List<FavoriteDTO>> GetFavoritesByHeadingId(Guid headingId)
         {
             var favorites = await _mediator.Send(
                 new GetFavoritesQuery
@@ -56,7 +56,7 @@ namespace Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetFavoritesByHeadingIdAndUserName")]
-        public async Task<List<FavoriteDTO>> GetFavoritesByHeadingIdAndUserName(string headingId, string userName)
+        public async Task<List<FavoriteDTO>> GetFavoritesByHeadingIdAndUserName(Guid headingId, string userName)
         {
             var favorites = await _mediator.Send(
                 new GetFavoritesQuery

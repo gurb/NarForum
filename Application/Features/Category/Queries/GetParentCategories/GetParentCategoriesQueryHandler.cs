@@ -50,7 +50,7 @@ namespace Application.Features.Category.Queries.GetParentCategories
 
         private List<Domain.Category> GetParentsOfCategory(Domain.Category child, List<Domain.Category> list, List<Domain.Category> response)
         {
-            if (child.ParentCategoryId == null)
+            if (child.ParentCategoryId == Guid.Empty)
             {
                 return response;
             }

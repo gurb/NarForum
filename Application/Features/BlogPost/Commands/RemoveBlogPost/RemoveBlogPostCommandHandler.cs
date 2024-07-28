@@ -23,7 +23,7 @@ public class RemoveBlogPostCommandHandler : IRequestHandler<RemoveBlogPostComman
 
         try
         {
-            var blogPost = await _blogPostRepository.GetByIdAsync(request.Id!, true);
+            var blogPost = await _blogPostRepository.GetByIdAsync(request.Id, true);
 
             if(blogPost != null)
             {

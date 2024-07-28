@@ -52,7 +52,7 @@ namespace Persistence.Repositories
             return await _context.Set<T>().AsNoTracking().ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(string id, bool isTrack=false)
+        public async Task<T> GetByIdAsync(Guid id, bool isTrack=false)
         {
             if(isTrack)
             {
@@ -84,7 +84,7 @@ namespace Persistence.Repositories
             return  _context.Set<T>().AsNoTracking().Where(predicate).Count();
         }
 
-        public async Task<T?> GetByIdAsyncWithTrack(string id)
+        public async Task<T?> GetByIdAsyncWithTrack(Guid id)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }

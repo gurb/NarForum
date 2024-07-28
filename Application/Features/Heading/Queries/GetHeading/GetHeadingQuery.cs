@@ -9,6 +9,6 @@ namespace Application.Features.Heading.Queries.GetHeading
 {
     public class GetHeadingQuery : IRequest<HeadingDTO>
     {
-        public string? HeadingId { get; set; }
+        public Guid HeadingId { get; set; }
     }
 }

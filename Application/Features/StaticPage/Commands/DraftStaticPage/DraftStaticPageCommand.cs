@@ -5,7 +5,7 @@ namespace Application.Features.StaticPage.Commands.DraftStaticPage
 {
     public class DraftStaticPageCommand: IRequest<ApiResponse>
     {
-        public string? Id { get; set; }
+        public Guid Id { get; set; } = Guid.Empty;
     }
 
 }

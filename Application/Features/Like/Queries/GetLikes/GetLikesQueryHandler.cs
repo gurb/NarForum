@@ -21,11 +21,11 @@ namespace Application.Features.Like.Queries.GetLikes
             List<Domain.Like> likes = new List<Domain.Like>();
 
 
-            if(request.HeadingId != null)
+            if(request.HeadingId != Guid.Empty)
             {
                 likes = await _likeRepository.GetAllAsync(x => x.HeadingId == request.HeadingId);
             }
-            else if(request.PostId != null)
+            else if(request.PostId != Guid.Empty)
             {
                 likes = await _likeRepository.GetAllAsync(x => x.PostId == request.PostId);
             }

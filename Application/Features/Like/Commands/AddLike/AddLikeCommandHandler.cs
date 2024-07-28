@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Features.Like.Commands.AddLike
 {
-    public class AddLikeCommandHandler : IRequestHandler<AddLikeCommand, string>
+    public class AddLikeCommandHandler : IRequestHandler<AddLikeCommand, Guid>
     {
         private readonly IMapper _mapper;
         private readonly ILikeRepository _likeRepository;
@@ -18,7 +18,7 @@ namespace Application.Features.Like.Commands.AddLike
             _userService = userService;
         }
 
-        public async Task<string> Handle(AddLikeCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(AddLikeCommand request, CancellationToken cancellationToken)
         {
             // validate incoming data
             //var validator = new CreatePostCommandValidator();
@@ -65,7 +65,7 @@ namespace Application.Features.Like.Commands.AddLike
             {
                 var message = ex.Message;
             }
-            return string.Empty;
+            return Guid.Empty;
 
             // return record id
         }

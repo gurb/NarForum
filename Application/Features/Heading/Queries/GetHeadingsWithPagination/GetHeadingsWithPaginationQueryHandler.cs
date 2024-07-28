@@ -47,7 +47,7 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
             headings = await _headingRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value);
             var data = _mapper.Map<List<HeadingDTO>>(headings);
 
-            List<string?> categoryIds = headings.Select(x => x.CategoryId).ToList();
+            List<Guid> categoryIds = headings.Select(x => x.CategoryId).ToList();
             List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));
 
             foreach (var heading in data)

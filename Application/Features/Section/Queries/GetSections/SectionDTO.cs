@@ -2,6 +2,6 @@
 
 public class SectionDTO
 {
-    public string Id { get; set; }
-    public string Name { get; set; } = string.Empty;
+    public Guid Id { get; set; } = Guid.Empty;
+	public string Name { get; set; } = string.Empty;
 }

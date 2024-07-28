@@ -30,7 +30,7 @@ namespace BlazorUI.Services
                 return ConvertApiExceptions<Guid>(ex);
             }
         }
-        public async Task<HeadingVM> GetHeadingById(int id)
+        public async Task<HeadingVM> GetHeadingById(string id)
         {
             var heading = await _client.GetHeadingByIdAsync(id);
             var data = _mapper.Map<HeadingVM>(heading);
@@ -46,7 +46,7 @@ namespace BlazorUI.Services
             return data;
         }
 
-        public async Task<List<HeadingVM>> GetHeadingsByCategoryId(int id)
+        public async Task<List<HeadingVM>> GetHeadingsByCategoryId(string id)
         {
             var headings = await _client.GetHeadingsByCategoryIdAsync(id);
             var data = _mapper.Map<List<HeadingVM>>(headings);

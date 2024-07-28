@@ -40,7 +40,7 @@ namespace BlazorUI.Services
             return data;
         }
 
-        public async Task<List<PostVM>> GetPostsByHeadingId(int id)
+        public async Task<List<PostVM>> GetPostsByHeadingId(string id)
         {
             var posts = await _client.GetPostsByHeadingIdAsync(id);
             var data = _mapper.Map<List<PostVM>>(posts);
@@ -48,7 +48,7 @@ namespace BlazorUI.Services
             return data;
         }
 
-        public async Task<PostsPaginationVM> GetPostsByHeadingIdWithPagination(int id, int pageIndex, int pageSize)
+        public async Task<PostsPaginationVM> GetPostsByHeadingIdWithPagination(string id, int pageIndex, int pageSize)
         {
             var postsPagination = await _client.GetPostsByHeadingIdWithPaginationAsync(id, pageIndex, pageSize);
 

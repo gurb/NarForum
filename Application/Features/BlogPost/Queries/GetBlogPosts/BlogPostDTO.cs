@@ -6,8 +6,8 @@ public class BlogPostDTO
 {
 
     public BlogCategoryDTO? BlogCategory { get; set; }
-    public string? BlogCategoryId { get; set; }
-    public string Title { get; set; } = string.Empty;
+    public Guid BlogCategoryId { get; set; } = Guid.Empty;
+	public string Title { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;

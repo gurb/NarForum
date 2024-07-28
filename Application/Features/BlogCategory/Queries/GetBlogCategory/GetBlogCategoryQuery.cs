@@ -5,6 +5,6 @@ namespace Application.Features.BlogCategory.Queries.GetBlogCategory
 {
     public class GetBlogCategoryQuery : IRequest<BlogCategoryDTO>
     {
-        public string? Id { get; set; }
+        public Guid? Id { get; set; }
     }
 }

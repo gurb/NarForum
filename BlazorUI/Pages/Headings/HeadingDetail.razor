@@ -1,6 +1,6 @@
-﻿@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:int}"
-@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:int}/{PageIndex:int}"
-@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:int}/{PageIndex:int}/{PostId:int}"
+﻿@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:guid}"
+@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:guid}/{PageIndex:int}"
+@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:guid}/{PageIndex:int}/{PostId}"
 @using System.Text.RegularExpressions
 
 @inject IJSRuntime JS
@@ -32,7 +32,7 @@
             ReplyCallback="(post) => AddReply(post)"></MiniPostCard>
     }
     <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
-    <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingId" Callback="RefreshPosts"></CreatePostForm>
+    <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingId.Value.ToString()" Callback="RefreshPosts"></CreatePostForm>
 }
 else
 {
@@ -46,13 +46,13 @@ else
     public string CategoryName { get; set; }
 
     [Parameter]
-    public string FriendlyUrl { get; set; }
+    public string? FriendlyUrl { get; set; }
 
     [Parameter]
-    public int HeadingId { get; set; }
+    public Guid? HeadingId { get; set; }
 
     [Parameter]
-    public int PostId { get; set; }
+    public string? PostId { get; set; }
 
     [Parameter]
     public int PageIndex { get; set; } = 1;
@@ -181,18 +181,18 @@ else
         }
 
         CurrentPage = PageIndex;
-        Heading = await HeadingService.GetHeadingById(HeadingId);
-        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId, PageIndex, PageSize);
+        Heading = await HeadingService.GetHeadingById(HeadingId!.ToString());
+        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId!.ToString(), PageIndex, PageSize);
         Posts = postPagination.Posts;
         QuotePosts = postPagination.QuotePosts;
 
         ConfigureDisplayPosts(Posts);
 
-        Likes = await LikeService.GetLikesByHeadingId(HeadingId);
+        Likes = await LikeService.GetLikesByHeadingId(HeadingId!.ToString());
 
         if(CurrentUsername != null)
         {
-            Favorites = await FavoriteService.GetFavoritesByHeadingIdAndUserName(HeadingId, CurrentUsername);
+            Favorites = await FavoriteService.GetFavoritesByHeadingIdAndUserName(HeadingId.ToString(), CurrentUsername);
         }
 
         SetLikes();
@@ -233,7 +233,7 @@ else
 
             if(QuotePosts != null && QuotePosts.Count() > 0)
             {
-                quotePost = QuotePosts.FirstOrDefault(x => x.Id == Convert.ToInt32(postId));
+                quotePost = QuotePosts.FirstOrDefault(x => x.Id == postId);
 
                 if(quotePost != null)
                 {
@@ -257,16 +257,16 @@ else
 
     protected async Task JSRun()
     {
-        if (PostId != 0)
+        if (!string.IsNullOrEmpty(PostId))
         {
             module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Headings/HeadingDetail.razor.js");
-            await module.InvokeAsync<string>("BlazorScrollToId", PostId.ToString());
+            await module.InvokeAsync<string>("BlazorScrollToId", PostId);
         }
     }
 
     protected async Task RefreshPosts()
     {
-        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId, 1, PageSize);
+        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId.ToString(), 1, PageSize);
         Posts = postPagination.Posts;
         QuotePosts = postPagination.QuotePosts;
 
@@ -284,7 +284,7 @@ else
         }
     }
 
-    protected async Task LikePost(int PostId)
+    protected async Task LikePost(string PostId)
     {
         LikeVM newLike = new LikeVM
         {
@@ -320,7 +320,7 @@ else
         await LikeService.AddLike(newLike);
     }
 
-    protected async Task UnLikePost(int PostId)
+    protected async Task UnLikePost(string PostId)
     {
         LikeVM newLike = new LikeVM
         {
@@ -355,7 +355,7 @@ else
         await LikeService.AddLike(newLike);
     }
 
-    protected async Task AddFavorite(int PostId)
+    protected async Task AddFavorite(string PostId)
     {
         FavoriteVM newFavorite = new FavoriteVM
         {
