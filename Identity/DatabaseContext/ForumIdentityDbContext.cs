@@ -4,6 +4,7 @@ using Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Identity.DatabaseContext
 {
@@ -33,6 +34,11 @@ namespace Identity.DatabaseContext
 
 
             builder.ApplyConfigurationsFromAssembly(typeof(ForumIdentityDbContext).Assembly);
+            //builder.ApplyConfiguration(new RoleConfiguration());
+            //builder.ApplyConfiguration(new UserConfiguration());
+            //builder.ApplyConfiguration(new UserRoleConfiguration());
+            //builder.ApplyConfiguration(new PermissionDefinitionConfiguration());
+            //builder.ApplyConfiguration(new PermissionConfiguration());
         }
     }
 }

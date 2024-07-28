@@ -39,6 +39,18 @@ public class UserConfiguration : IEntityTypeConfiguration<ForumUser>
                  NormalizedUserName = "USER@LOCALHOST.COM",
                  PasswordHash = hasher.HashPassword(null, "P@ssword1"),
                  EmailConfirmed = true
+             },
+             new ForumUser
+             {
+                 Id = "076f24af-8934-4bf2-8d4e-03a5b48db4f4",
+                 Email = "moderator@localhost.com",
+                 NormalizedEmail = "MODERATOR@LOCALHOST.COM",
+                 FirstName = "System",
+                 LastName = "Moderator",
+                 UserName = "moderator@localhost.com",
+                 NormalizedUserName = "MODERATOR@LOCALHOST.COM",
+                 PasswordHash = hasher.HashPassword(null, "P@ssword1"),
+                 EmailConfirmed = true
              }
         );
     }

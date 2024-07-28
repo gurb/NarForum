@@ -21,9 +21,15 @@ namespace Identity.Configurations
                     },
                     new IdentityUserRole<string>
                     {
-                        RoleId = "cac43a6e-f7bb-4448-baaf-1add431ccbbf",
+                        RoleId = "dac42a6e-f7bb-4448-b3cf-1add431ccbbf",
                         UserId = "9e224968-33e4-4652-b7b7-8574d048cdb9"
+                    },
+                    new IdentityUserRole<string>
+                    {
+                        RoleId = "bac43a5e-f7bb-4448-b12f-1add431ccbbf",
+                        UserId = "076f24af-8934-4bf2-8d4e-03a5b48db4f4"
                     }
+                    
                 );
         }
     }

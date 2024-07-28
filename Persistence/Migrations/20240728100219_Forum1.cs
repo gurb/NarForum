@@ -15,8 +15,8 @@ namespace Persistence.Migrations
                 name: "BlogCategories",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,11 +27,11 @@ namespace Persistence.Migrations
                 name: "Favorites",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    HeadingId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    HeadingId = table.Column<string>(type: "text", nullable: true),
+                    PostId = table.Column<string>(type: "text", nullable: true),
+                    UserName = table.Column<string>(type: "text", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -42,12 +42,12 @@ namespace Persistence.Migrations
                 name: "Likes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HeadingId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsLike = table.Column<bool>(type: "bit", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    UserName = table.Column<string>(type: "text", nullable: false),
+                    PostId = table.Column<string>(type: "text", nullable: true),
+                    HeadingId = table.Column<string>(type: "text", nullable: true),
+                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsLike = table.Column<bool>(type: "boolean", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,11 +58,11 @@ namespace Persistence.Migrations
                 name: "Sections",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,16 +73,16 @@ namespace Persistence.Migrations
                 name: "StaticPages",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDraft = table.Column<bool>(type: "bit", nullable: false),
-                    IsPublished = table.Column<bool>(type: "bit", nullable: false),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    Author = table.Column<string>(type: "text", nullable: false),
+                    IsDraft = table.Column<bool>(type: "boolean", nullable: false),
+                    IsPublished = table.Column<bool>(type: "boolean", nullable: false),
+                    DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,18 +93,18 @@ namespace Persistence.Migrations
                 name: "BlogPosts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BlogCategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ViewCounter = table.Column<int>(type: "int", nullable: false),
-                    IsDraft = table.Column<bool>(type: "bit", nullable: false),
-                    IsPublished = table.Column<bool>(type: "bit", nullable: false),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    BlogCategoryId = table.Column<string>(type: "text", nullable: true),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    UserName = table.Column<string>(type: "text", nullable: false),
+                    ViewCounter = table.Column<int>(type: "integer", nullable: false),
+                    IsDraft = table.Column<bool>(type: "boolean", nullable: false),
+                    IsPublished = table.Column<bool>(type: "boolean", nullable: false),
+                    DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -120,20 +120,20 @@ namespace Persistence.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentCategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SectionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    HeadingCounter = table.Column<int>(type: "int", nullable: false),
-                    PostCounter = table.Column<int>(type: "int", nullable: false),
-                    LastHeadingId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastPostId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ActiveDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    ParentCategoryId = table.Column<string>(type: "text", nullable: true),
+                    SectionId = table.Column<string>(type: "text", nullable: true),
+                    HeadingCounter = table.Column<int>(type: "integer", nullable: false),
+                    PostCounter = table.Column<int>(type: "integer", nullable: false),
+                    LastHeadingId = table.Column<string>(type: "text", nullable: true),
+                    LastPostId = table.Column<string>(type: "text", nullable: true),
+                    LastUserName = table.Column<string>(type: "text", nullable: true),
+                    ActiveDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -154,13 +154,13 @@ namespace Persistence.Migrations
                 name: "BlogComments",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BlogPostId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    BlogPostId = table.Column<string>(type: "text", nullable: true),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    UserName = table.Column<string>(type: "text", nullable: false),
+                    DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -176,19 +176,19 @@ namespace Persistence.Migrations
                 name: "Headings",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MainPostId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsLock = table.Column<bool>(type: "bit", nullable: false),
-                    PostCounter = table.Column<int>(type: "int", nullable: false),
-                    LastUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastPostId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ActiveDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    CategoryId = table.Column<string>(type: "text", nullable: true),
+                    UserName = table.Column<string>(type: "text", nullable: true),
+                    MainPostId = table.Column<string>(type: "text", nullable: true),
+                    IsLock = table.Column<bool>(type: "boolean", nullable: false),
+                    PostCounter = table.Column<int>(type: "integer", nullable: false),
+                    LastUserName = table.Column<string>(type: "text", nullable: true),
+                    LastPostId = table.Column<string>(type: "text", nullable: true),
+                    ActiveDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -204,14 +204,14 @@ namespace Persistence.Migrations
                 name: "Posts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    HeadingId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HeadingIndex = table.Column<int>(type: "int", nullable: false),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    HeadingId = table.Column<string>(type: "text", nullable: true),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    UserName = table.Column<string>(type: "text", nullable: true),
+                    HeadingIndex = table.Column<int>(type: "integer", nullable: false),
+                    DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -227,12 +227,12 @@ namespace Persistence.Migrations
                 name: "Quotes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PostId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    QuotePostId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    PostId = table.Column<string>(type: "text", nullable: true),
+                    QuotePostId = table.Column<string>(type: "text", nullable: true),
+                    DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -253,12 +253,12 @@ namespace Persistence.Migrations
                 name: "Replies",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PostId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ReplyPostId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DateCreate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    PostId = table.Column<string>(type: "text", nullable: true),
+                    ReplyPostId = table.Column<string>(type: "text", nullable: true),
+                    DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DateUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
