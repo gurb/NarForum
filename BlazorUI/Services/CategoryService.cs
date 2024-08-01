@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlazorUI.Contracts;
+using BlazorUI.Models;
 using BlazorUI.Models.Category;
 using BlazorUI.Models.Heading;
 using BlazorUI.Services.Base;
@@ -15,21 +16,12 @@ namespace BlazorUI.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<Guid>> CreateCategory(CategoryVM post)
+        public async Task<ApiResponseVM> CreateCategory(CategoryVM post)
         {
-            try
-            {
-                var createCategoryCommand = _mapper.Map<CreateCategoryCommand>(post);
-                await _client.CategoriesAsync(createCategoryCommand);
-                return new ApiResponse<Guid>
-                {
-                    Success = true
-                };
-            }
-            catch (ApiException ex)
-            {
-                return ConvertApiExceptions<Guid>(ex);
-            }
+            var createCategoryCommand = _mapper.Map<CreateCategoryCommand>(post);
+            var data = await _client.CategoriesAsync(createCategoryCommand);
+
+            return _mapper.Map<ApiResponseVM>(data);
         }
 
         public async Task<List<CategoryVM>> GetCategories()

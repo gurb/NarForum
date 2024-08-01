@@ -30,7 +30,7 @@ namespace AdminUI.Services
                 return ConvertApiExceptions<Guid>(ex);
             }
         }
-        public async Task<HeadingVM> GetHeadingById(string id)
+        public async Task<HeadingVM> GetHeadingById(Guid id)
         {
             var heading = await _client.GetHeadingByIdAsync(id);
             var data = _mapper.Map<HeadingVM>(heading);
@@ -46,9 +46,9 @@ namespace AdminUI.Services
             return data;
         }
 
-        public async Task<List<HeadingVM>> GetHeadingsByCategoryId(string id)
+        public async Task<List<HeadingVM>> GetHeadingsByCategoryId(Guid categoryId)
         {
-            var headings = await _client.GetHeadingsByCategoryIdAsync(id);
+            var headings = await _client.GetHeadingsByCategoryIdAsync(categoryId);
             var data = _mapper.Map<List<HeadingVM>>(headings);
 
             return data;
@@ -62,9 +62,9 @@ namespace AdminUI.Services
             return data;
         }
 
-        public async Task<HeadingsPaginationVM> GetHeadingsByCategoryNameWithPagination(string categoryName, int pageIndex, int pageSize)
+        public async Task<HeadingsPaginationVM> GetHeadingsByCategoryIdWithPagination(Guid categoryId, int pageIndex, int pageSize)
         {
-            var headingsPagination = await _client.GetHeadingsByCategoryNameWithPaginationAsync(categoryName, pageIndex, pageSize);
+            var headingsPagination = await _client.GetHeadingsByCategoryIdWithPaginationAsync(categoryId, pageIndex, pageSize);
 
             var data = _mapper.Map<HeadingsPaginationVM>(headingsPagination);
 

@@ -2,10 +2,10 @@
 {
     public class LikeVM
     {
-        public string? Id { get; set; }
+        public Guid Id { get; set; }
         public string? UserName { get; set; }
-        public string? HeadingId { get; set; }
-        public string? PostId { get; set; }
+        public Guid HeadingId { get; set; }
+        public Guid PostId { get; set; }
         public DateTime DateTime { get; set; }
         public bool? IsLike { get; set; }
     }

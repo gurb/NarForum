@@ -1,16 +1,12 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Models;
+using MediatR;
 
 namespace Application.Features.Category.Commands.CreateCategory
 {
-    public class CreateCategoryCommand : IRequest<Guid>
+    public class CreateCategoryCommand : IRequest<ApiResponse>
     {
         public string Name { get; set; } = string.Empty;
         public Guid SectionId { get; set; }
-        public Guid ParentCategoryId { get; set; }
+        public Guid? ParentCategoryId { get; set; }
     }
 }

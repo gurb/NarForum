@@ -33,7 +33,7 @@ namespace Persistence.Repositories
             }
         }
 
-        private async Task IterateCategoryPostCounter(Guid categoryId, List<Domain.Category> list, List<Domain.Category> allCategories)
+        private async Task IterateCategoryPostCounter(Guid? categoryId, List<Domain.Category> list, List<Domain.Category> allCategories)
         {
             var category = allCategories.FirstOrDefault(x => x.Id == categoryId);
 
@@ -55,7 +55,7 @@ namespace Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private async Task IterateCategoryHeadingCounter(Guid categoryId, List<Domain.Category> list, List<Domain.Category> allCategories)
+        private async Task IterateCategoryHeadingCounter(Guid? categoryId, List<Domain.Category> list, List<Domain.Category> allCategories)
         {
             var category = allCategories.FirstOrDefault(x => x.Id == categoryId);
 
@@ -78,7 +78,7 @@ namespace Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private async Task IterateUpdateCategoryWhenCreatePost(Guid categoryId, string lastUserName, Guid lastHeadingId, Guid lastPostId, List<Domain.Category> list, List<Domain.Category> allCategories)
+        private async Task IterateUpdateCategoryWhenCreatePost(Guid? categoryId, string lastUserName, Guid lastHeadingId, Guid lastPostId, List<Domain.Category> list, List<Domain.Category> allCategories)
         {
             var category =  allCategories.FirstOrDefault(x => x.Id == categoryId);
 
@@ -91,7 +91,7 @@ namespace Persistence.Repositories
 
                 list.Add(category);
 
-                if(category.ParentCategoryId != Guid.Empty)
+                if(category.ParentCategoryId != null)
                 {
                     await IterateUpdateCategoryWhenCreatePost(category.ParentCategoryId, lastUserName, lastHeadingId, lastPostId, list, allCategories);
                 }

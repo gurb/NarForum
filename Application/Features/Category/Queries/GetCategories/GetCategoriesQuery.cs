@@ -9,7 +9,7 @@ namespace Application.Features.Category.Queries.GetCategories
 {
     public class GetCategoriesQuery : IRequest<List<CategoryDTO>>
     {
-        public Guid ParentCategoryId { get; set; }
+        public Guid? ParentCategoryId { get; set; }
 
         public string? CategoryName { get; set; }
 

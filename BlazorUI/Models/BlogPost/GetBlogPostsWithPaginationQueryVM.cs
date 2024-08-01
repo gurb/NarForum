@@ -2,7 +2,7 @@
 
 public class GetBlogPostsWithPaginationQueryVM
 {
-    public string? BlogCategoryId { get; set; }
+    public Guid BlogCategoryId { get; set; }
     public int? PageIndex { get; set; }
     public int? PageSize { get; set; }
 }

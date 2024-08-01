@@ -82,12 +82,12 @@ namespace Api.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("GetHeadingsByCategoryNameWithPagination")]
-        public async Task<HeadingsPaginationDTO> GetHeadingsByCategoryNameWithPagination(string CategoryName, int pageIndex, int pageSize)
+        [HttpGet("GetHeadingsByCategoryIdWithPagination")]
+        public async Task<HeadingsPaginationDTO> GetHeadingsByCategoryIdWithPagination(Guid CategoryId, int pageIndex, int pageSize)
         {
             var query = new GetHeadingsWithPaginationQuery
             {
-                CategoryName = CategoryName,
+                CategoryId = CategoryId,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };

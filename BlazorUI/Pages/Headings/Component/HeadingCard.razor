@@ -23,7 +23,13 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
-    string url { get { return $"/category/{CategoryName}/{Model.Title.ToFriendlyUrl()}-{Model.Id}"; } }
+    string url 
+    { 
+        get 
+        { 
+            return $"/category/{CategoryName}/{Model.Id.EncodeGuidToBase64Url()}/{Model.Title.ToFriendlyUrl()}";
+        } 
+    }
 
     string userUrl
     {

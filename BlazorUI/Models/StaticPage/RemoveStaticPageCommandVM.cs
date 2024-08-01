@@ -2,6 +2,6 @@
 {
     public class RemoveStaticPageCommandVM
     {
-        public string? Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

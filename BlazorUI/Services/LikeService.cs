@@ -40,7 +40,7 @@ namespace BlazorUI.Services
             return data;
         }
 
-        public async Task<List<LikeVM>> GetLikesByHeadingId(string headingId)
+        public async Task<List<LikeVM>> GetLikesByHeadingId(Guid headingId)
         {
             var likes = await _client.GetLikesByHeadingIdAsync(headingId);
             var data = _mapper.Map<List<LikeVM>>(likes);

@@ -4,6 +4,7 @@ using Application.Features.Category.Queries.GetCategories;
 using Application.Features.Category.Queries.GetCategoriesWithPagination;
 using Application.Features.Category.Queries.GetCategory;
 using Application.Features.Category.Queries.GetParentCategories;
+using Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -111,12 +112,10 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public async Task<ActionResult> Create(CreateCategoryCommand command)
+        public async Task<ApiResponse> Create(CreateCategoryCommand command)
         {
             var response = await _mediator.Send(command);
-            return Ok(response);
+            return response;
         }
 
 

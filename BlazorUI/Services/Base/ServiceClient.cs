@@ -213,14 +213,14 @@ namespace BlazorUI.Services.Base
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> CategoriesAllAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Created</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task CategoriesAsync(CreateCategoryCommand body);
+        System.Threading.Tasks.Task<ApiResponse> CategoriesAsync(CreateCategoryCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Created</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task CategoriesAsync(CreateCategoryCommand body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ApiResponse> CategoriesAsync(CreateCategoryCommand body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -251,12 +251,12 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(string parentCategoryId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(System.Guid? parentCategoryId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(string parentCategoryId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(System.Guid? parentCategoryId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -296,12 +296,12 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(string headingId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(System.Guid? headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -314,12 +314,12 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(string headingId, string userName);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(System.Guid? headingId, string userName);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(string headingId, string userName, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(System.Guid? headingId, string userName, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -350,21 +350,21 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(string headingId);
+        System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(System.Guid? headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(string headingId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(string categoryId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(System.Guid? categoryId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(string categoryId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(System.Guid? categoryId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -386,12 +386,12 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryNameWithPaginationAsync(string categoryName, int? pageIndex, int? pageSize);
+        System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryIdWithPaginationAsync(System.Guid? categoryId, int? pageIndex, int? pageSize);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryNameWithPaginationAsync(string categoryName, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryIdWithPaginationAsync(System.Guid? categoryId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -422,12 +422,12 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(string headingId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(System.Guid? headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -683,12 +683,12 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(string headingId);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(System.Guid? headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -701,12 +701,12 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(string headingId, int? pageIndex, int? pageSize);
+        System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(System.Guid? headingId, int? pageIndex, int? pageSize);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(string headingId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(System.Guid? headingId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -2618,17 +2618,17 @@ namespace BlazorUI.Services.Base
             }
         }
 
-        /// <returns>Created</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task CategoriesAsync(CreateCategoryCommand body)
+        public virtual System.Threading.Tasks.Task<ApiResponse> CategoriesAsync(CreateCategoryCommand body)
         {
             return CategoriesAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Created</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task CategoriesAsync(CreateCategoryCommand body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ApiResponse> CategoriesAsync(CreateCategoryCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -2641,6 +2641,7 @@ namespace BlazorUI.Services.Base
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
@@ -2670,19 +2671,14 @@ namespace BlazorUI.Services.Base
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 201)
+                        if (status_ == 200)
                         {
-                            return;
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -2950,7 +2946,7 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(string parentCategoryId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(System.Guid? parentCategoryId)
         {
             return GetCategoriesByIdAsync(parentCategoryId, System.Threading.CancellationToken.None);
         }
@@ -2958,7 +2954,7 @@ namespace BlazorUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(string parentCategoryId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(System.Guid? parentCategoryId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3356,7 +3352,7 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(string headingId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(System.Guid? headingId)
         {
             return GetFavoritesByHeadingIdAsync(headingId, System.Threading.CancellationToken.None);
         }
@@ -3364,7 +3360,7 @@ namespace BlazorUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3524,7 +3520,7 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(string headingId, string userName)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(System.Guid? headingId, string userName)
         {
             return GetFavoritesByHeadingIdAndUserNameAsync(headingId, userName, System.Threading.CancellationToken.None);
         }
@@ -3532,7 +3528,7 @@ namespace BlazorUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(string headingId, string userName, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(System.Guid? headingId, string userName, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3862,7 +3858,7 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(string headingId)
+        public virtual System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(System.Guid? headingId)
         {
             return GetHeadingByIdAsync(headingId, System.Threading.CancellationToken.None);
         }
@@ -3870,7 +3866,7 @@ namespace BlazorUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(string headingId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3946,7 +3942,7 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(string categoryId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(System.Guid? categoryId)
         {
             return GetHeadingsByCategoryIdAsync(categoryId, System.Threading.CancellationToken.None);
         }
@@ -3954,7 +3950,7 @@ namespace BlazorUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(string categoryId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(System.Guid? categoryId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -4196,15 +4192,15 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryNameWithPaginationAsync(string categoryName, int? pageIndex, int? pageSize)
+        public virtual System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryIdWithPaginationAsync(System.Guid? categoryId, int? pageIndex, int? pageSize)
         {
-            return GetHeadingsByCategoryNameWithPaginationAsync(categoryName, pageIndex, pageSize, System.Threading.CancellationToken.None);
+            return GetHeadingsByCategoryIdWithPaginationAsync(categoryId, pageIndex, pageSize, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryNameWithPaginationAsync(string categoryName, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryIdWithPaginationAsync(System.Guid? categoryId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -4217,12 +4213,12 @@ namespace BlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Headings/GetHeadingsByCategoryNameWithPagination"
-                    urlBuilder_.Append("api/Headings/GetHeadingsByCategoryNameWithPagination");
+                    // Operation Path: "api/Headings/GetHeadingsByCategoryIdWithPagination"
+                    urlBuilder_.Append("api/Headings/GetHeadingsByCategoryIdWithPagination");
                     urlBuilder_.Append('?');
-                    if (categoryName != null)
+                    if (categoryId != null)
                     {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("CategoryName")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(categoryName, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        urlBuilder_.Append(System.Uri.EscapeDataString("CategoryId")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(categoryId, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     if (pageIndex != null)
                     {
@@ -4534,7 +4530,7 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(string headingId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(System.Guid? headingId)
         {
             return GetLikesByHeadingIdAsync(headingId, System.Threading.CancellationToken.None);
         }
@@ -4542,7 +4538,7 @@ namespace BlazorUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -6917,7 +6913,7 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(string headingId)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(System.Guid? headingId)
         {
             return GetPostsByHeadingIdAsync(headingId, System.Threading.CancellationToken.None);
         }
@@ -6925,7 +6921,7 @@ namespace BlazorUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(string headingId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -7083,7 +7079,7 @@ namespace BlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(string headingId, int? pageIndex, int? pageSize)
+        public virtual System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(System.Guid? headingId, int? pageIndex, int? pageSize)
         {
             return GetPostsByHeadingIdWithPaginationAsync(headingId, pageIndex, pageSize, System.Threading.CancellationToken.None);
         }
@@ -7091,7 +7087,7 @@ namespace BlazorUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(string headingId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(System.Guid? headingId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -8742,10 +8738,10 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public string HeadingId { get; set; }
+        public System.Guid HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public string PostId { get; set; }
+        public System.Guid PostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
@@ -8763,10 +8759,10 @@ namespace BlazorUI.Services.Base
         public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public string PostId { get; set; }
+        public System.Guid PostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public string HeadingId { get; set; }
+        public System.Guid HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
         public System.DateTime DateTime { get; set; }
@@ -8892,7 +8888,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
@@ -8907,7 +8903,7 @@ namespace BlazorUI.Services.Base
         public BlogPostDTO BlogPost { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("blogPostId")]
-        public string BlogPostId { get; set; }
+        public System.Guid BlogPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
@@ -8937,7 +8933,7 @@ namespace BlazorUI.Services.Base
         public BlogCategoryDTO BlogCategory { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
-        public string BlogCategoryId { get; set; }
+        public System.Guid BlogCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
@@ -8985,16 +8981,22 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("urlName")]
+        public string UrlName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("urlIndex")]
+        public int UrlIndex { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("sectionId")]
-        public string SectionId { get; set; }
+        public System.Guid? SectionId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("parentCategoryId")]
-        public string ParentCategoryId { get; set; }
+        public System.Guid? ParentCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingCounter")]
         public int HeadingCounter { get; set; }
@@ -9003,10 +9005,10 @@ namespace BlazorUI.Services.Base
         public int PostCounter { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("lastHeadingId")]
-        public string LastHeadingId { get; set; }
+        public System.Guid? LastHeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("lastPostId")]
-        public string LastPostId { get; set; }
+        public System.Guid? LastPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("lastHeadingTitle")]
         public string LastHeadingTitle { get; set; }
@@ -9090,7 +9092,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogPostId")]
-        public string BlogPostId { get; set; }
+        public System.Guid BlogPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
@@ -9102,7 +9104,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
-        public string BlogCategoryId { get; set; }
+        public System.Guid? BlogCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
@@ -9123,10 +9125,10 @@ namespace BlazorUI.Services.Base
         public string Name { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("sectionId")]
-        public string SectionId { get; set; }
+        public System.Guid SectionId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("parentCategoryId")]
-        public string ParentCategoryId { get; set; }
+        public System.Guid? ParentCategoryId { get; set; }
 
     }
 
@@ -9156,7 +9158,7 @@ namespace BlazorUI.Services.Base
         public string Title { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("categoryId")]
-        public string CategoryId { get; set; }
+        public System.Guid CategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
@@ -9171,10 +9173,10 @@ namespace BlazorUI.Services.Base
         public string Content { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public string HeadingId { get; set; }
+        public System.Guid HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("quotePostIds")]
-        public System.Collections.Generic.ICollection<string> QuotePostIds { get; set; }
+        public System.Collections.Generic.ICollection<System.Guid> QuotePostIds { get; set; }
 
     }
 
@@ -9219,7 +9221,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
     }
 
@@ -9228,7 +9230,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
     }
 
@@ -9237,13 +9239,13 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public string HeadingId { get; set; }
+        public System.Guid HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public string PostId { get; set; }
+        public System.Guid PostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
@@ -9267,7 +9269,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid? Id { get; set; }
 
     }
 
@@ -9276,7 +9278,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogPostId")]
-        public string BlogPostId { get; set; }
+        public System.Guid BlogPostId { get; set; }
 
     }
 
@@ -9285,7 +9287,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogPostId")]
-        public string BlogPostId { get; set; }
+        public System.Guid BlogPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
@@ -9300,7 +9302,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
     }
 
@@ -9309,7 +9311,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
-        public string BlogCategoryId { get; set; }
+        public System.Guid? BlogCategoryId { get; set; }
 
     }
 
@@ -9318,7 +9320,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
-        public string BlogCategoryId { get; set; }
+        public System.Guid? BlogCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
@@ -9362,6 +9364,9 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("categoryName")]
         public string CategoryName { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("categoryId")]
+        public System.Guid? CategoryId { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
 
@@ -9402,13 +9407,13 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public string PostId { get; set; }
+        public System.Guid? PostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public string HeadingId { get; set; }
+        public System.Guid? HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
@@ -9435,7 +9440,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
     }
 
@@ -9486,13 +9491,13 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public int Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("categoryId")]
-        public string CategoryId { get; set; }
+        public System.Guid CategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("categoryName")]
         public string CategoryName { get; set; }
@@ -9504,13 +9509,13 @@ namespace BlazorUI.Services.Base
         public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("mainPostId")]
-        public string MainPostId { get; set; }
+        public System.Guid MainPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postCounter")]
         public int PostCounter { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("lastPostId")]
-        public string LastPostId { get; set; }
+        public System.Guid LastPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("lastUserName")]
         public string LastUserName { get; set; }
@@ -9537,16 +9542,16 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public string HeadingId { get; set; }
+        public System.Guid HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public string PostId { get; set; }
+        public System.Guid PostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
         public System.DateTime DateTime { get; set; }
@@ -9651,13 +9656,13 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public string HeadingId { get; set; }
+        public System.Guid HeadingId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
@@ -9723,7 +9728,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
     }
 
@@ -9732,7 +9737,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
     }
 
@@ -9781,7 +9786,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid? Id { get; set; }
 
     }
 
@@ -9790,7 +9795,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
     }
 
@@ -9799,7 +9804,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
     }
 
@@ -9808,7 +9813,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("categoryId")]
-        public string CategoryId { get; set; }
+        public System.Guid CategoryId { get; set; }
 
     }
 
@@ -9817,7 +9822,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
-        public string HeadingId { get; set; }
+        public System.Guid HeadingId { get; set; }
 
     }
 
@@ -9826,7 +9831,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
-        public string PostId { get; set; }
+        public System.Guid PostId { get; set; }
 
     }
 
@@ -9844,7 +9849,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("sectionId")]
-        public string SectionId { get; set; }
+        public System.Guid SectionId { get; set; }
 
     }
 
@@ -9853,7 +9858,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
     }
 
@@ -9862,7 +9867,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
@@ -9910,7 +9915,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
@@ -9961,7 +9966,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid? Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
@@ -9973,7 +9978,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("content")]
         public string Content { get; set; }
@@ -9985,10 +9990,10 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
-        public string BlogCategoryId { get; set; }
+        public System.Guid BlogCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
@@ -10039,7 +10044,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
@@ -10051,7 +10056,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }

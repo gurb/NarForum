@@ -7,7 +7,7 @@ namespace BlazorUI.Contracts
     public interface ILikeService
     {
         Task<List<LikeVM>> GetLikes();
-        Task<List<LikeVM>> GetLikesByHeadingId(string headingId);
+        Task<List<LikeVM>> GetLikesByHeadingId(Guid headingId);
         Task<List<LikeVM>> GetLikesByUserName(string username);
 
         Task<ApiResponse<Guid>> AddLike(LikeVM like);

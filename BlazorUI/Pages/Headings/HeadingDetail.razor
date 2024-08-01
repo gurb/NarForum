@@ -1,6 +1,6 @@
-﻿@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:guid}"
-@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:guid}/{PageIndex:int}"
-@page "/category/{CategoryName}/{FriendlyUrl}-{HeadingId:guid}/{PageIndex:int}/{PostId}"
+﻿@page "/category/{CategoryName}/{HeadingId}/{FriendlyUrl}/"
+@page "/category/{CategoryName}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}"
+@page "/category/{CategoryName}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}/{PostId:guid}"
 @using System.Text.RegularExpressions
 
 @inject IJSRuntime JS
@@ -20,19 +20,19 @@
     {
         @* <PostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></PostCard> *@
         <MiniPostCard Post="post" 
-            Id="@post.Id.ToString()" 
+            Id="@post.Id" 
             PostId="@post.Id" 
             Content="@post.Content" 
             Username="@post.UserName" 
             IsOP='Heading!.UserName == post.UserName' 
-            LikeCallback="(postId) => LikePost(postId)" 
-            UnLikeCallback="(postId) => UnLikePost(postId)" 
+            LikeCallback="(postId) => LikePost(postId)"
+            UnLikeCallback="(postId) => UnLikePost(postId)"
             AddFavoriteCallback="(postId) => AddFavorite(postId)"
             OpenChatCallback="(postId) => OpenChatBoxWithUsername(post.UserName)"
             ReplyCallback="(post) => AddReply(post)"></MiniPostCard>
     }
     <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
-    <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingId.Value.ToString()" Callback="RefreshPosts"></CreatePostForm>
+    <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingGuid" Callback="RefreshPosts"></CreatePostForm>
 }
 else
 {
@@ -49,10 +49,12 @@ else
     public string? FriendlyUrl { get; set; }
 
     [Parameter]
-    public Guid? HeadingId { get; set; }
+    public string? HeadingId { get; set; }
+
+    private Guid HeadingGuid { get; set; }
 
     [Parameter]
-    public string? PostId { get; set; }
+    public Guid PostId { get; set; }
 
     [Parameter]
     public int PageIndex { get; set; } = 1;
@@ -97,7 +99,7 @@ else
 
     private string getBaseUrl()
     {
-        return $"category/{CategoryName}/{FriendlyUrl}-{HeadingId}/";
+        return $"category/{CategoryName}/{HeadingId}/{FriendlyUrl}/";
     }
 
     // Pagination variables
@@ -181,18 +183,21 @@ else
         }
 
         CurrentPage = PageIndex;
-        Heading = await HeadingService.GetHeadingById(HeadingId!.ToString());
-        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId!.ToString(), PageIndex, PageSize);
+
+        HeadingGuid = HeadingId.DecodeBase64UrlToGuid();
+
+        Heading = await HeadingService.GetHeadingById(HeadingGuid);
+        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingGuid, PageIndex, PageSize);
         Posts = postPagination.Posts;
         QuotePosts = postPagination.QuotePosts;
 
         ConfigureDisplayPosts(Posts);
 
-        Likes = await LikeService.GetLikesByHeadingId(HeadingId!.ToString());
+        Likes = await LikeService.GetLikesByHeadingId(HeadingGuid);
 
         if(CurrentUsername != null)
         {
-            Favorites = await FavoriteService.GetFavoritesByHeadingIdAndUserName(HeadingId.ToString(), CurrentUsername);
+            Favorites = await FavoriteService.GetFavoritesByHeadingIdAndUserName(HeadingGuid, CurrentUsername);
         }
 
         SetLikes();
@@ -221,12 +226,13 @@ else
     {
         string displayContent = content;
 
-        Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=(\d+)\)\[\/Quote\]");
+        // Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=(\d+)\)\[\/Quote\]");
+        Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=([0-9a-fA-F-]{36})\)\[\/Quote\]");
         MatchCollection matches = quoteRegex.Matches(displayContent);
 
         foreach (Match match in matches)
         {
-            string postId = match.Groups[1].Value;
+            Guid postId = new Guid(match.Groups[1].Value);
 
             string quoteContent = "- Removed -";
             PostVM? quotePost;
@@ -257,7 +263,7 @@ else
 
     protected async Task JSRun()
     {
-        if (!string.IsNullOrEmpty(PostId))
+        if (!string.IsNullOrEmpty(PostId.ToString()))
         {
             module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Headings/HeadingDetail.razor.js");
             await module.InvokeAsync<string>("BlazorScrollToId", PostId);
@@ -266,7 +272,7 @@ else
 
     protected async Task RefreshPosts()
     {
-        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingId.ToString(), 1, PageSize);
+        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingGuid, 1, PageSize);
         Posts = postPagination.Posts;
         QuotePosts = postPagination.QuotePosts;
 
@@ -284,7 +290,7 @@ else
         }
     }
 
-    protected async Task LikePost(string PostId)
+    protected async Task LikePost(Guid PostId)
     {
         LikeVM newLike = new LikeVM
         {
@@ -320,7 +326,7 @@ else
         await LikeService.AddLike(newLike);
     }
 
-    protected async Task UnLikePost(string PostId)
+    protected async Task UnLikePost(Guid PostId)
     {
         LikeVM newLike = new LikeVM
         {
@@ -355,7 +361,7 @@ else
         await LikeService.AddLike(newLike);
     }
 
-    protected async Task AddFavorite(string PostId)
+    protected async Task AddFavorite(Guid PostId)
     {
         FavoriteVM newFavorite = new FavoriteVM
         {
@@ -399,8 +405,10 @@ else
     {
         string newContent = content;
 
-        Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=(\d+)\)\[\/Quote\]");
-        Regex quoteRegex4 = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
+        // Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=(\d+)\)\[\/Quote\]");
+        Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=([0-9a-fA-F-]{36})\)\[\/Quote\]");
+        Regex quoteRegex4 = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""]([0-9a-fA-F-]{36})['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
+        // Regex quoteRegex4 = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
         MatchCollection matches = quoteRegex.Matches(newContent);
         MatchCollection matches4 = quoteRegex4.Matches(newContent);
 

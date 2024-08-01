@@ -10,14 +10,16 @@ namespace Application.Features.Category.Queries.GetCategories
     {
         public Guid Id { get; set; } = Guid.Empty;
 		public string Name { get; set; } = string.Empty;
-        public Guid SectionId { get; set; } = Guid.Empty;
-		public Guid ParentCategoryId { get; set; } = Guid.Empty;
+        public string UrlName { get; set; } = string.Empty;
+        public int UrlIndex { get; set; }
+        public Guid? SectionId { get; set; }
+		public Guid? ParentCategoryId { get; set; }
 
 		public int HeadingCounter { get; set; }
         public int PostCounter { get; set; }
 
-        public Guid LastHeadingId { get; set; } = Guid.Empty;
-		public Guid LastPostId { get; set; } = Guid.Empty;
+        public Guid? LastHeadingId { get; set; }
+		public Guid? LastPostId { get; set; }
 		public string? LastHeadingTitle { get; set; }
         public string? LastUserName { get; set; }
         public DateTime? ActiveDate { get; set; }

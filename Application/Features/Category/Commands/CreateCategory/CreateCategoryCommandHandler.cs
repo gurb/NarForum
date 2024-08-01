@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Persistence;
+using Application.Models;
 using AutoMapper;
 using MediatR;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Category.Commands.CreateCategory
 {
-    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Guid>
+    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, ApiResponse>
     {
         private readonly IMapper _mapper;
         private readonly ICategoryRepository _categoryRepository;
@@ -20,8 +21,10 @@ namespace Application.Features.Category.Commands.CreateCategory
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<Guid> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponse> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
+
+            ApiResponse response = new();
             // validate incoming data
             //var validator = new CreatePostCommandValidator();
             //var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -36,17 +39,28 @@ namespace Application.Features.Category.Commands.CreateCategory
             {
                 var category = _mapper.Map<Domain.Category>(request);
 
+                var categoryExist = await _categoryRepository.GetByName(category.Name);
+
+                if (categoryExist is not null)
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Category name is already exist";
+                    return response;
+				}
+
                 // add to database
                 await _categoryRepository.CreateAsync(category);
+                response.Message = "Category is added";
 
-                return category.Id;
+                return response;
 
             }
             catch (Exception ex)
             {
-                var message = ex.Message;
+                response.Message = ex.Message;
+                response.IsSuccess = false;
             }
-            return Guid.Empty;
+            return response;
 
             // return record id
         }

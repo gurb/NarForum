@@ -77,7 +77,7 @@ else
         if(CategoryName != null)
         {
             parentCategory = categories.FirstOrDefault(x => x.Name == CategoryName);
-            Model.CategoryId = parentCategory != null ? parentCategory.Id : null;
+            Model.CategoryId = parentCategory != null ? parentCategory.Id : Guid.Empty;
         }
         else
         {

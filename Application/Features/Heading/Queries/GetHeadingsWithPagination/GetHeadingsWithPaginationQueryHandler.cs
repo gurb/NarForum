@@ -2,6 +2,7 @@
 using Application.Extensions.Core;
 using Application.Features.Post.Queries.GetPostsWithPagination;
 using AutoMapper;
+using Domain;
 using MediatR;
 using System.Collections;
 
@@ -27,6 +28,11 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
             // query the database
 
             var predicate = PredicateBuilder.True<Domain.Heading>();
+
+            if(request.CategoryId is not null)
+            {
+				predicate = predicate.And(x => x.CategoryId == request.CategoryId);
+			}
 
             if(!String.IsNullOrEmpty(request.CategoryName))
             {

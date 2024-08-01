@@ -1,5 +1,5 @@
-﻿using BlazorUI.Models.Category;
-using BlazorUI.Services.Base;
+﻿using BlazorUI.Models;
+using BlazorUI.Models.Category;
 
 namespace BlazorUI.Contracts
 {
@@ -13,6 +13,6 @@ namespace BlazorUI.Contracts
         Task<List<CategoryVM>> GetParentCategoriesByName(string CategoryName);
 
         // commands
-        Task<ApiResponse<Guid>> CreateCategory(CategoryVM post);
+        Task<ApiResponseVM> CreateCategory(CategoryVM post);
     }
 }

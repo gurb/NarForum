@@ -2,5 +2,5 @@
 
 public class GetBlogPostQueryVM
 {
-    public string? Id { get; set; }
+    public Guid Id { get; set; }
 }

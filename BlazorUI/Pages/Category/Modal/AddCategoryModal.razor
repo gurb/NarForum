@@ -74,6 +74,15 @@
 
         var result = await CategoryService.CreateCategory(category);
 
+        if(result.IsSuccess)
+        {
+            // 
+        }
+        else
+        {
+            // error
+        }
+
 
         await Callback.InvokeAsync();
         

@@ -2,5 +2,5 @@
 
 public class RemoveBlogCategoryCommandVM
 {
-    public string? Id { get; set; }
+    public Guid Id { get; set; }
 }

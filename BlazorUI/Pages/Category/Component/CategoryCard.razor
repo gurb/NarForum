@@ -46,9 +46,9 @@
     {
         get
         {
-            if(Model.LastHeadingTitle != null)
+            if (Model.LastHeadingTitle != null && Model.LastHeadingId != null)
             {
-                return $"/category/{Model.Name}/{Model.LastHeadingTitle.ToFriendlyUrl()}-{Model.LastHeadingId}/";
+                return $"/category/{Model.Name}/{Model.LastHeadingId.Value.EncodeGuidToBase64Url()}/{Model.LastHeadingTitle.ToFriendlyUrl()}";
             }
             return null;
         }

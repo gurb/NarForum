@@ -66,10 +66,10 @@
     public bool IsOP { get; set; }
 
     [Parameter]
-    public string? PostId { get; set; }
+    public Guid PostId { get; set; }
 
     [Parameter]
-    public string Id { get; set; } = string.Empty;
+    public Guid Id { get; set; } = Guid.Empty;
 
     [Parameter]
     public string Username { get; set; } = "User";
@@ -78,13 +78,13 @@
     public string Content { get; set; } = string.Empty;
 
     [Parameter]
-    public EventCallback<string?> LikeCallback { get; set; }
+    public EventCallback<Guid> LikeCallback { get; set; }
 
     [Parameter]
-    public EventCallback<string?> UnLikeCallback { get; set; }
+    public EventCallback<Guid> UnLikeCallback { get; set; }
 
     [Parameter]
-    public EventCallback<string?> AddFavoriteCallback { get; set; }
+    public EventCallback<Guid> AddFavoriteCallback { get; set; }
 
     [Parameter]
     public EventCallback<PostVM> ReplyCallback { get; set; }

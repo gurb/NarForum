@@ -128,7 +128,7 @@ else
         BreadcrumbItems.Add(new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" });
         foreach (var parent in parentCategories)
         {
-            BreadcrumbItems.Add(new BreadcrumbItem { Text = parent.Name, HrefLink = $"/category/{parent.Name}/" });
+            BreadcrumbItems.Add(new BreadcrumbItem { Text = parent.Name, HrefLink = $"/category/{parent.Name.ToFriendlyUrl()}/" });
         }
         BreadcrumbItems.Last().IsCurrentPage = true;
     }
@@ -141,7 +141,7 @@ else
         Categories = await CategoryService.GetCategoriesByName(CategoryName);
 
         CurrentPage = PageIndex;
-        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsByCategoryNameWithPagination(CategoryName, PageIndex, PageSize);
+        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsByCategoryIdWithPagination(Model.Id, PageIndex, PageSize);
         Headings = headingsPagination.Headings;
         TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
