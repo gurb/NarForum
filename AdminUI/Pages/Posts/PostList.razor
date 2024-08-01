@@ -8,7 +8,7 @@
     <caption>List of users</caption>
     <thead>
         <tr>
-            <th scope="col" style="width:70px;">#</th>
+            <th scope="col" style="width:20%">Heading</th>
             <th scope="col">Content</th>
             <th scope="col" style="width:20%">Author</th>
             <th scope="col" style="width:20%"></th>
@@ -24,7 +24,16 @@
             @foreach (var post in Posts)
             {
                 <tr>
-                    <th scope="row" class="text-end align-middle">@post.Id</th>
+                    <th scope="row" class="p-0">
+                        <div class="cell-content">
+                            <div class="flex-fill text-center">
+                                @post.Id
+                            </div>
+                            <div class="text-center align-middle">
+                                @post.HeadingTitle
+                            </div>
+                        </div>
+                        </th>
                     <td class="align-middle">@((MarkupString)post.Content)</td>
                     <td class="align-middle">@post.UserName</td>
                     <td class="text-end align-middle">
@@ -69,6 +78,7 @@
 
         query = new PostPaginationQueryVM
         {
+            IsWithHeading = true,
             PageIndex = PageIndex,
             PageSize = PageSize
         };

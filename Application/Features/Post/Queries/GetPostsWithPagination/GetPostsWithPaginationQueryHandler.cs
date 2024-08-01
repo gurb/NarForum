@@ -1,10 +1,8 @@
 ﻿using Application.Contracts.Persistence;
-using Application.Extensions;
 using Application.Extensions.Core;
 using Application.Features.Post.Queries.GetAllPosts;
 using AutoMapper;
 using MediatR;
-using System.Linq;
 
 namespace Application.Features.Post.Queries.GetPostsWithPagination
 {
@@ -72,7 +70,7 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
                 }
             }
 
-            if (!String.IsNullOrEmpty(request.UserName))
+            if (!String.IsNullOrEmpty(request.UserName) || request.IsWithHeading)
             {
                 List<Guid> headingIds = posts.Select(x => x.HeadingId).ToList();
                 List<Domain.Heading> headings = await _headingRepository.GetAllAsync(x => headingIds.Contains(x.Id));

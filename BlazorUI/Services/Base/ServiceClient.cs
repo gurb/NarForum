@@ -9412,6 +9412,9 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("isWithHeading")]
+        public bool IsWithHeading { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
         public System.Guid? HeadingId { get; set; }
 
