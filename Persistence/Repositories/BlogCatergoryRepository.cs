@@ -22,6 +22,11 @@ namespace Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> AnyAsync(Expression<Func<BlogCategory, bool>> predicate)
+        {
+            return await _context.BlogCategories.AsNoTracking().Where(predicate).AnyAsync();
+        }
+
         public async Task DeleteAsync(BlogCategory Entity)
         {
             _context.Remove(Entity);

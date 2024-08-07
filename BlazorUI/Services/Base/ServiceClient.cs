@@ -8929,11 +8929,14 @@ namespace BlazorUI.Services.Base
     public partial class BlogPostDTO
     {
 
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public System.Guid? Id { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("blogCategory")]
         public BlogCategoryDTO BlogCategory { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
-        public System.Guid BlogCategoryId { get; set; }
+        public System.Guid? BlogCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }

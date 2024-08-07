@@ -1,0 +1,22 @@
+﻿.sub-text-span {
+    float: right;
+    font-size: 12px;
+    color: #bbbbbb;
+}
+
+.sub-text-span a {
+    cursor: pointer!important;
+}
+
+.select-box-heading {
+    padding: 5px;
+    font-size: 13px;
+}
+
+.selected-user-tag {
+    background: #ddd;
+    padding: 5px;
+    font-size: 13px;
+    border-radius: 3px;
+    margin-left: 10px;
+}

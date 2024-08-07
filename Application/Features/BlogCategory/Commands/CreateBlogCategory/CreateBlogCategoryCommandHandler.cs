@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Persistence;
+using Application.Extensions.Core;
 using Application.Models;
 using AutoMapper;
 using MediatR;
@@ -22,6 +23,20 @@ public class CreateBlogCategoryCommandHandler : IRequestHandler<CreateBlogCatego
 
         try
         {
+            var predicate = PredicateBuilder.True<Domain.BlogCategory>();
+
+            predicate = predicate.And(x => x.Name == request.Name);
+
+            var exist = await _blogCategoryRepository.AnyAsync(predicate);
+
+            if(exist)
+            {
+                response.IsSuccess = false;
+                response.Message = "Already exist";
+
+                return response;
+            }
+
             var blogCategory = _mapper.Map<Domain.BlogCategory>(request);
 
             await _blogCategoryRepository.AddAsync(blogCategory);

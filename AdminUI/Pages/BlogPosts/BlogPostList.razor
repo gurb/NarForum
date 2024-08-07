@@ -121,14 +121,14 @@
 
     protected void DetailBlogPost(BlogPostVM blog)
     {
-        NavigationManager.NavigateTo($"blog/update/post/{blog.Title.ToFriendlyUrl()}-{blog.Id}");
+        NavigationManager.NavigateTo($"blog/update/post/{blog.Title.ToFriendlyUrl()}/{blog.Id}");
     }
 
     protected async Task DeleteCategory(BlogPostVM blogPost)
     {
         RemoveBlogPostCommandVM command = new RemoveBlogPostCommandVM
         {
-            Id = blogPost.Id
+            Id = blogPost.Id.Value
         };
 
         await BlogPostService.RemoveBlogPost(command);

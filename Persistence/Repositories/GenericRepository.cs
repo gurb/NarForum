@@ -94,5 +94,10 @@ namespace Persistence.Repositories
             _context.Set<T>().UpdateRange(Entities);
             _context.SaveChanges();
         }
+
+        public Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+        {
+            return _context.Set<T>().AsNoTracking().Where(predicate).AnyAsync();
+        }
     }
 }

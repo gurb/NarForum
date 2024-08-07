@@ -4,7 +4,7 @@ namespace AdminUI.Models.BlogPost;
 
 public class BlogPostVM
 {
-    public Guid Id { get; set; }
+    public Guid? Id { get; set; }
     public BlogCategoryVM? BlogCategory { get; set; }
     public Guid? BlogCategoryId { get; set; }
     public string Title { get; set; } = string.Empty;

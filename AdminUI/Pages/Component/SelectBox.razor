@@ -2,14 +2,27 @@
     @if(Heading is not null)
     {
         <label>
-            <span>@Heading</span>
+            <span class="select-box-heading">@Heading</span>
             @if (SelectedLabelText is not null)
             {
-                <span class="selected-user-tag">
+                <span class="selected-user-tag w-100">
                     @SelectedLabelText
                 </span>
             }
+            <span></span>
         </label>
+        @if (SubText is not null && SubCallback.HasDelegate)
+        {
+            <span class="sub-text-span">
+                <a @onclick=@subCallback>@SubText</a>
+            </span>
+        }
+        else if (SubText is not null)
+        {
+            <span class="sub-text-span">
+                @SubText
+            </span>
+        }
     }
 </div>
 <div class="form-group">
@@ -28,7 +41,6 @@
         </tbody>
     </table>
 </div>
-    
 
 
 
@@ -36,6 +48,8 @@
     [Parameter]
     public string? Heading { get; set; }
 
+    [Parameter]
+    public string? SubText { get; set; }
 
     [Parameter] 
     public bool Selected { get; set; }
@@ -53,6 +67,9 @@
 
     [Parameter]
     public EventCallback<int> SelectCallback { get; set; }
+
+    [Parameter]
+    public EventCallback<int> SubCallback { get; set; }
 
 
     [Parameter]
@@ -84,7 +101,6 @@
         await InvokeAsync(StateHasChanged);
     }
 
-
     protected async Task searchLabel(ChangeEventArgs args)
     {
         selectedLabel = null;
@@ -92,6 +108,15 @@
         await SearchLabelCallback.InvokeAsync(SearchText);
         SelectedLabelText = null;
         await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task subCallback()
+    {
+        if(SubCallback.HasDelegate)
+        {
+            await SubCallback.InvokeAsync();
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     protected async Task selectLabel(SelectLabel selectedLabel)

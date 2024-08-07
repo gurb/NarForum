@@ -1,7 +1,8 @@
 ﻿@page "/blog/create/post"
-@page "/blog/update/post/{FriendlyUrl}-{BlogPostId:guid}"
+@page "/blog/update/post/{FriendlyUrl}/{BlogPostId:guid}"
 
 @using AdminUI.Models.Component
+@using AdminUI.Pages.BlogCategories
 
 @if(isUpdate)
 {
@@ -15,7 +16,7 @@ else
 <div class="row">
     <div class="col-sm-9">
         <div class="form-group mb-3 mt-3">
-            <input type="text" class="form-control" id="blogPostTitle" @bind=@blogPostTitle placeholder="Title Blog Post">
+            <input type="text" class="form-control" id="blogPostTitle" @bind=@CreateModel.Title placeholder="Title Blog Post">
         </div>
         <div class="form-group mb-3">
             <CreateBlogPostForm @ref=blogPostForm Model="CreateModel" Callback="RefreshPosts"></CreateBlogPostForm>
@@ -41,7 +42,15 @@ else
             <button type="button" class="btn btn-warning w-100 text-center" @onclick=DraftBlogPost>Draft</button>
         </div>
         <div class="form-group mb-3">
-            <SelectBox @ref=@selectBox Heading="Select Category" SearchText="@searchSelectBox" Labels=CategoryLabels Placeholder="Search username..." SearchLabelCallback="RefreshCategoryLabels" SelectCallback="BlogCategorySelected"></SelectBox>
+            <SelectBox @ref=@selectBox 
+                Heading="Select Blog Category" 
+                SubText="Add Category" 
+                SearchText="@searchSelectBox" 
+                Labels=CategoryLabels 
+                Placeholder="Search Blog Category" 
+                SearchLabelCallback="RefreshCategoryLabels" 
+                SelectCallback="BlogCategorySelected" 
+                SubCallback="OpenAddBlogCategory"></SelectBox>
         </div>
         <div class="form-group mb-3">
             <label for="exampleInputEmail1">Define Url</label>
@@ -51,7 +60,12 @@ else
 </div>
 
 
+<AddBlogCategoryModal @ref=addBlogCategoryModal></AddBlogCategoryModal>
+
+
 @code {
+    AddBlogCategoryModal? addBlogCategoryModal;
+
     CreateBlogPostForm? blogPostForm;
 
     BlogPostVM CreateModel = new BlogPostVM();
@@ -168,32 +182,26 @@ else
     {
         GetBlogCategoriesQueryVM request = new GetBlogCategoriesQueryVM();
 
-        if(AllCategories is null)
-        {
-            AllCategories = await BlogCategoryService!.GetBlogCategories(request);
-        }
+        request.SearchText = selectBox!.SearchText;
 
-        if (AllCategories != null && AllCategories.Count > 0 && String.IsNullOrEmpty(searchSelectBox))
+        AllCategories = await BlogCategoryService!.GetBlogCategories(request);
+
+
+        if(string.IsNullOrEmpty(request.SearchText))
+        {
+            CategoryLabels = new List<SelectLabel>();
+        }
+        else
         {
             CategoryLabels = AllCategories.Select(x => new SelectLabel
-                {
-                    IsSelect = false,
-                    Text = x.Name,
-                    IntId = x.Id,
-                })
+            {
+                IsSelect = false,
+                Text = x.Name,
+                IntId = x.Id,
+            })
             .ToList();
         }
-        else if(AllCategories != null && AllCategories.Count > 0 && !String.IsNullOrEmpty(searchSelectBox))
-        {
-            CategoryLabels = AllCategories.Where(x => x.Name.Contains(searchSelectBox)).Select(x => new SelectLabel
-                {
-                    IsSelect = false,
-                    Text = x.Name,
-                    IntId = x.Id,
-                })
-            .ToList();
-        }
-        
+
         await InvokeAsync(StateHasChanged);
     }
 
@@ -211,13 +219,21 @@ else
         await InvokeAsync(StateHasChanged);
     }
 
+    protected void OpenAddBlogCategory()
+    {
+        if(addBlogCategoryModal is not null)
+        {
+            addBlogCategoryModal.ShowModal();
+        }
+    }
+
     protected async Task DraftBlogPost()
     {
         if (BlogPostService != null)
         {
             DraftBlogPostCommandVM draftCommand = new DraftBlogPostCommandVM
             {
-                Id = CreateModel.Id,
+                Id = CreateModel.Id.Value,
             };
 
             ApiResponseVM response = await BlogPostService.DraftBlogPost(draftCommand);
@@ -240,7 +256,7 @@ else
         {
             PublishBlogPostCommandVM publishCommand = new PublishBlogPostCommandVM
             {
-                Id = CreateModel.Id,
+                Id = CreateModel.Id.Value,
             };
 
             ApiResponseVM response = await BlogPostService.PublishBlogPost(publishCommand);

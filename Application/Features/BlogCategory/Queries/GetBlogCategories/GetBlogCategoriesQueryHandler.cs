@@ -23,7 +23,7 @@ public class GetBlogCategoriesQueryHandler : IRequestHandler<GetBlogCategoriesQu
 
         if (!String.IsNullOrEmpty(request.SearchText))
         {
-            predicate = predicate.And(x => x.Name.Contains(request.SearchText));
+            predicate = predicate.And(x => x.Name.ToLower().Contains(request.SearchText.ToLower()));
         }
 
         var blogCategories = await _blogCategoryRepository.GetAllAsync(predicate);

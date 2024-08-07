@@ -8,6 +8,7 @@ namespace Application.Contracts.Persistence
         Task<List<T>> GetAsync();
         Task<T> GetByIdAsync(Guid id, bool isTrack = false);
         Task<T?> GetByIdAsyncWithTrack(Guid id);
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
         Task CreateAsync(T Entity);
         Task UpdateAsync(T Entity);
         Task DeleteAsync(T Entity);

@@ -1,0 +1,70 @@
+﻿<Modal @ref="modal" ModalId="addPermissionDefinitionModal" ModalTitle="Add Blog Category" Callback="@HandleRegister" CloseCallback="@CloseModal">
+    <EditForm Model="@Model" OnValidSubmit="HandleRegister">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Blog Category Name</label>
+            <InputText id="Name" class="form-control" @bind-Value="@Model.Name" autocomplete="off" placeholder="Blog Category Name"></InputText>
+            <ValidationMessage For="@(() => Model.Name)" />
+        </div>
+    </EditForm>
+</Modal>
+
+
+@code {
+    Modal? modal;
+
+    public CreateBlogCategoryCommandVM? Model { get; set; }
+
+    [Inject]
+    private IBlogCategoryService? BlogCategoryService { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    [Parameter]
+    public UpdateBlogCategoryCommandVM? UpdateModel { get; set; }
+
+
+    private bool isUpdate = false;
+
+    protected override void OnInitialized()
+    {
+        Model = new CreateBlogCategoryCommandVM();
+    }
+
+    public void ShowModal()
+    {
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        isUpdate = false;
+        UpdateModel = null;
+        Model = new CreateBlogCategoryCommandVM();
+        StateHasChanged();
+    }
+
+
+    protected async Task HandleRegister()
+    {
+
+        if(BlogCategoryService is not null && Model is not null)
+        {
+            ApiResponseVM response = await BlogCategoryService.AddBlogCategory(Model);
+
+            if(response.IsSuccess)
+            {
+                await Callback.InvokeAsync();
+                modal?.CloseModal();
+            }
+            else
+            {
+                // send error
+            }
+        }
+        
+    }
+}
+
