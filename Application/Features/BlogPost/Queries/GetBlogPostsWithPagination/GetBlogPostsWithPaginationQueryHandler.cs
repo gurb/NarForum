@@ -3,11 +3,6 @@ using Application.Extensions.Core;
 using Application.Features.BlogPost.Queries.GetBlogPosts;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.BlogPost.Queries.GetBlogPostsWithPagination;
 
@@ -30,7 +25,16 @@ public class GetBlogPostsWithPaginationQueryHandler : IRequestHandler<GetBlogPos
             predicate = predicate.And(x => x.BlogCategoryId == request.BlogCategoryId);
         }
 
-        var blogPosts = await _blogPostRepository.GetWithPagination(predicate, request.PageIndex.Value, request.PageSize.Value);
+        List<Domain.BlogPost> blogPosts;
+
+        if(request.IsInclude)
+        {
+            blogPosts = await _blogPostRepository.GetBlogPostsWithPaginationIncludeBlogCategory(predicate, request.PageIndex.Value, request.PageSize.Value);
+        }
+        else
+        {
+            blogPosts = await _blogPostRepository.GetWithPagination(predicate, request.PageIndex.Value, request.PageSize.Value);
+        }
 
         var data = _mapper.Map<List<BlogPostDTO>>(blogPosts);
 

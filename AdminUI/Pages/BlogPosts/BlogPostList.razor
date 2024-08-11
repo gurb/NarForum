@@ -35,7 +35,14 @@
                     <td class="align-middle">
                         <a @onclick="() =>DetailBlogPost(blogPost)">@blogPost.Title</a>
                     </td>
-                    <td class="align-middle">category</td>
+                    @if(blogPost.BlogCategory is not null)
+                    {
+                        <td class="align-middle">@blogPost.BlogCategory.Name</td>
+                    }
+                    else
+                    {
+                        <td class="align-middle">-</td>
+                    }
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-primary" @onclick="() => DetailBlogPost(blogPost)"><i class="bi bi-card-text"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DetailBlogPost(blogPost)"><i class="bi bi-trash"></i></button>
@@ -83,7 +90,8 @@
         query = new GetBlogPostsWithPaginationQueryVM
         {
             PageIndex = PageIndex,
-            PageSize = PageSize
+            PageSize = PageSize,
+            IsInclude = true
         };
 
         BlogPostsPaginationVM blogPostsPaginationVM = await BlogPostService.GetBlogPostsWithPagination(query);

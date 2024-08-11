@@ -8888,7 +8888,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public System.Guid Id { get; set; }
+        public System.Guid? Id { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
@@ -9324,6 +9324,9 @@ namespace BlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("blogCategoryId")]
         public System.Guid? BlogCategoryId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("isInclude")]
+        public bool IsInclude { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
