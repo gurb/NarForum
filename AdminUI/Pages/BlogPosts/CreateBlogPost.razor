@@ -59,9 +59,7 @@ else
     </div>
 </div>
 
-
 <AddBlogCategoryModal @ref=addBlogCategoryModal></AddBlogCategoryModal>
-
 
 @code {
     AddBlogCategoryModal? addBlogCategoryModal;
@@ -92,9 +90,7 @@ else
     private SelectBox? selectBox;
     private string? searchSelectBox;
 
-
     private bool isUpdate { get; set; } = false;
-
 
     protected async override Task OnParametersSetAsync()
     {
@@ -108,12 +104,29 @@ else
             };
 
             CreateModel = await BlogPostService!.GetBlogPost(request);
+
+            await InvokeAsync(StateHasChanged);
+
+
+            if (selectBox is not null && CreateModel.BlogCategory is not null)
+            {
+                selectBox.SelectedLabelText = CreateModel.BlogCategory.Name;
+
+                SelectLabel selectedLabel = new SelectLabel
+                    {
+                        Text = CreateModel.BlogCategory.Name,
+                        Id = CreateModel.BlogCategory.Id
+                    };
+
+                CategoryLabels.Add(selectedLabel);
+
+                await selectBox.SetSelectedLabel(selectedLabel);
+            }
         }
         else
         {
             isUpdate = false;
         }
-
     }
 
     protected async Task RefreshPosts()
@@ -128,8 +141,8 @@ else
             CreateBlogPostCommandVM blogPost = new CreateBlogPostCommandVM
             {
                 Title = blogPostTitle,
-                Content = CreateModel.Content,
-                /* logCategoryId = CreateModel.BlogCategoryId, */
+                Content = blogPostForm!.ModelData.Content,
+                BlogCategoryId = CreateModel.BlogCategoryId,
                 Url = blogPostUrl
             };
 
@@ -161,7 +174,7 @@ else
                 Id = CreateModel.Id,
                 BlogCategoryId = CreateModel.BlogCategoryId,
                 Title = CreateModel.Title,
-                Content = CreateModel.Content,
+                Content = blogPostForm!.ModelData.Content,
                 Url = CreateModel.Url
             };
 
@@ -186,7 +199,6 @@ else
 
         AllCategories = await BlogCategoryService!.GetBlogCategories(request);
 
-
         if(string.IsNullOrEmpty(request.SearchText))
         {
             CategoryLabels = new List<SelectLabel>();
@@ -198,6 +210,7 @@ else
                 IsSelect = false,
                 Text = x.Name,
                 IntId = x.Id,
+                Id = x.Id,
             })
             .ToList();
         }
@@ -213,7 +226,7 @@ else
             {
                 SelectLabel selectLabel = selectBox.SelectedLabel!;
 
-                CreateModel.BlogCategoryId = selectLabel.IntId;
+                CreateModel.BlogCategoryId = selectLabel.Id;
             }
         }
         await InvokeAsync(StateHasChanged);
@@ -257,6 +270,7 @@ else
             PublishBlogPostCommandVM publishCommand = new PublishBlogPostCommandVM
             {
                 Id = CreateModel.Id.Value,
+                
             };
 
             ApiResponseVM response = await BlogPostService.PublishBlogPost(publishCommand);
@@ -267,7 +281,6 @@ else
             }
             else
             {
-
                 return;
             }
         }

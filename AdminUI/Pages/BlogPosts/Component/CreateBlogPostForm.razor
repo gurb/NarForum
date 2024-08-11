@@ -64,16 +64,14 @@
         <InputTextArea id="Post" class="form-control" @bind-Value="@Model.Content"></InputTextArea>
     </div> *@
 
-    <div class="form-group text-end">
+   @*  <div class="form-group text-end">
         <input type="submit" value="Create" class="btn btn-primary" />
-    </div>
+    </div> *@
 </EditForm>
 
 @code {
 	[Parameter]
 	public BlogPostVM Model { get; set; }
-
-	
 
 	[Inject]
 	public IBlogPostService? BlogPostService { get; set; }
@@ -83,6 +81,16 @@
 
 	[Parameter]
 	public EventCallback<int> AddData { get; set; }
+
+
+	public BlogPostVM ModelData
+	{
+		get 
+		{ 
+			Model.Content = GenerateContentFromDisplayContent(Model.DisplayContent);
+			return Model;  
+		}
+	}
 
 	const string formatBlock = "formatBlock";
 	const string undo = "undo";
@@ -144,12 +152,20 @@
 		}
 	}
 
+	protected async override Task OnParametersSetAsync()
+	{
+		if(module is not null)
+		{
+			await module.InvokeAsync<string>("setData", Model.Content);
+		}
+		await base.OnParametersSetAsync();
+	}
+
 	protected async Task ContentKeyDown(KeyboardEventArgs e)
 	{
 		if (e.Code == "Enter" || e.Code == "NumpadEnter") {
 			await module.InvokeAsync<string>("checkEnterCursorInQuote");
 		}
-
 	}
 
 	protected async Task ContentKeyUp(KeyboardEventArgs e)

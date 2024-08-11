@@ -11,7 +11,7 @@ namespace Application.Features.BlogPost.Queries.GetBlogPost
         private readonly IMapper _mapper;
         private readonly IBlogPostRepository _blogPostRepository;
 
-        public GetBlogPostQueryHandler(IMapper mapper, IBlogPostRepository blogPostRepository)
+		public GetBlogPostQueryHandler(IMapper mapper, IBlogPostRepository blogPostRepository)
         {
             _mapper = mapper;
             _blogPostRepository = blogPostRepository;
@@ -19,7 +19,7 @@ namespace Application.Features.BlogPost.Queries.GetBlogPost
 
         public async Task<BlogPostDTO> Handle(GetBlogPostQuery request, CancellationToken cancellationToken)
         {
-            var blogPost = await _blogPostRepository.GetByIdAsync(request.Id);
+            var blogPost = await _blogPostRepository.GetByIdWithBlogCategoryAsync(request.Id);
 
             var data = _mapper.Map<BlogPostDTO>(blogPost);
 

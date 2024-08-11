@@ -144,4 +144,9 @@
 
         await InvokeAsync(StateHasChanged);
     }
+
+    public async Task SetSelectedLabel(SelectLabel? selectedLabel)
+    {
+        await selectLabel(selectedLabel!);
+    }
 }
