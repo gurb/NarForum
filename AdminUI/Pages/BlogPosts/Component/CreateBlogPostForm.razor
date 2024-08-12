@@ -185,6 +185,7 @@
 	{
 		// Model.Content = await module.InvokeAsync<string>("getData");
 		Model.DisplayContent = await module.InvokeAsync<string>("getData");
+		Model.Content = GenerateContentFromDisplayContent(Model.DisplayContent);
 	}
 
 	public async Task SetContenteditable()
