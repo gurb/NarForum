@@ -3,11 +3,6 @@ using Application.Extensions.Core;
 using Application.Features.StaticPage.Queries.GetStaticPages;
 using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.StaticPage.Queries.GetStaticPagesWithPagination;
 

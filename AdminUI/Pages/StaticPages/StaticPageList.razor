@@ -13,12 +13,10 @@
 <StaticPageFilter QueryModel="query" Callback="RefreshListFilter"></StaticPageFilter>
 
 <table class="table table-bordered table-hover caption-top">
-    <caption>List of Blog Posts</caption>
+    <caption>List of Static Pages</caption>
     <thead>
         <tr>
-            <th scope="col" style="width:70px;">Id</th>
             <th scope="col">Title</th>
-            <th scope="col" style="width:20%">Category</th>
             <th scope="col" style="width:20%">Action</th>
         </tr>
     </thead>
@@ -32,12 +30,10 @@
             @foreach (var staticPage in StaticPages)
             {
                 <tr>
-                    <th scope="row" class="text-end align-middle">@staticPage.Url</th>
-                    <td class="align-middle">@staticPage.ToString</td>
-                    <td class="align-middle">category</td>
+                    <td class="align-middle">@staticPage.Title</td>
                     <td class="text-end align-middle">
-                        <button type="button" class="btn btn-primary" @onclick="() => DetailBlogPost(staticPage)"><i class="bi bi-card-text"></i></button>
-                        <button type="button" class="btn btn-danger" @onclick="() => DetailBlogPost(staticPage)"><i class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailStaticPage(staticPage)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DetailStaticPage(staticPage)"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
             }
@@ -118,9 +114,9 @@
         await RefreshList();
     }
 
-    protected async Task DetailBlogPost(StaticPageVM staticPage)
+    protected async Task DetailStaticPage(StaticPageVM staticPage)
     {
-
+        NavigationManager.NavigateTo($"pages/update/staticpage/{staticPage.Title.ToFriendlyUrl()}/{staticPage.Id}");
     }
 
     protected async Task DeleteCategory(StaticPageVM staticPage)
@@ -135,6 +131,6 @@
 
     protected void DirectCreateStaticPage()
     {
-        NavigationManager.NavigateTo("pages/create/page");
+        NavigationManager.NavigateTo("pages/create/staticpage");
     }
 }

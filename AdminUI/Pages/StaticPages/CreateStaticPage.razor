@@ -1,7 +1,201 @@
-﻿@page "/pages/create/page"
+﻿@page "/pages/create/staticpage"
+@page "/pages/update/staticpage/{FriendlyUrl}/{StaticPageId:guid}"
 
-<h3>Create Static Page</h3>
+@using AdminUI.Models.Component
+
+@if (isUpdate)
+{
+    <h3>Update Static Page</h3>
+}
+else
+{
+    <h3>Create Static Page</h3>
+}
+
+<div class="row">
+    <div class="col-sm-9">
+        <div class="form-group mb-3 mt-3">
+            <input type="text" class="form-control" id="staticPageTitle" @bind=@CreateModel.Title placeholder="Title Static Page">
+        </div>
+        <div class="form-group mb-3">
+            <CreateStaticPageForm @ref=staticPageForm Model="CreateModel" Callback="RefreshPosts"></CreateStaticPageForm>
+        </div>
+    </div>
+    <div class="col-sm-3 create-static-page-sidebar">
+        @if (isUpdate)
+        {
+            <div class="form-group mb-2 mt-3">
+                <button type="button" class="btn btn-primary w-100 text-center" @onclick=UpdateStaticPage>Update</button>
+            </div>
+        }
+        else
+        {
+            <div class="form-group mb-2 mt-3">
+                <button type="button" class="btn btn-primary w-100 text-center" @onclick=CreateNewStaticPage>Create</button>
+            </div>
+        }
+        <div class="form-group mb-3">
+            <button type="button" class="btn btn-success w-100 text-center" @onclick=PublishStaticPage>Publish</button>
+        </div>
+        <div class="form-group mb-3">
+            <button type="button" class="btn btn-warning w-100 text-center" @onclick=DraftStaticPage>Draft</button>
+        </div>
+        <div class="form-group mb-3">
+            <label for="exampleInputEmail1">Define Url</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Define url">
+        </div>
+    </div>
+</div>
 
 @code {
+    CreateStaticPageForm? staticPageForm;
+
+    StaticPageVM CreateModel = new StaticPageVM();
+
+    [Parameter]
+    public Guid? StaticPageId { get; set; }
+
+    [Parameter]
+    public string FriendlyUrl { get; set; }
+
+    [Inject]
+    public IPageService? StaticPageService { get; set; }
+    
+    [Inject]
+    public NavigationManager? NavigationManager { get; set; }
+
+    private string staticPageTitle = string.Empty;
+
+    private string staticPageUrl = string.Empty;
+
+    private bool isUpdate { get; set; } = false;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (StaticPageId is not null)
+        {
+            isUpdate = true;
+
+            var request = new GetStaticPageQueryVM
+            {
+                Id = StaticPageId.Value
+            };
+
+            CreateModel = await StaticPageService!.GetStaticPage(request);
+
+            await InvokeAsync(StateHasChanged);
+
+        }
+        else
+        {
+            isUpdate = false;
+        }
+    }
+
+    protected async Task RefreshPosts()
+    {
+
+    }
+
+    protected async Task CreateNewStaticPage()
+    {
+        if (StaticPageService != null)
+        {
+            CreateStaticPageCommandVM blogPost = new CreateStaticPageCommandVM
+            {
+                Title = CreateModel.Title,
+                Content = CreateModel.Content,
+                Url = CreateModel.Url
+            };
+
+            ApiResponseVM response = await StaticPageService.CreateStaticPage(blogPost);
+
+            if (response.IsSuccess)
+            {
+                RedirestToList();
+            }
+            else
+            {
+
+                return;
+            }
+        }
+    }
+
+    protected void RedirestToList()
+    {
+        NavigationManager!.NavigateTo("/pages");
+    }
+
+    protected async Task UpdateStaticPage()
+    {
+        if (StaticPageService != null)
+        {
+            UpdateStaticPageCommandVM updateCommand = new UpdateStaticPageCommandVM
+            {
+                Id = CreateModel.Id,
+                Title = CreateModel.Title,
+                Content = CreateModel.Content,
+                Url = CreateModel.Url
+            };
+
+            ApiResponseVM response = await StaticPageService.UpdateStaticPage(updateCommand);
+
+            if (response.IsSuccess)
+            {
+                RedirestToList();
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+
+    protected async Task DraftStaticPage()
+    {
+        if (StaticPageService != null)
+        {
+            DraftStaticPageCommandVM draftCommand = new DraftStaticPageCommandVM
+            {
+                Id = CreateModel.Id,
+            };
+
+            ApiResponseVM response = await StaticPageService.DraftStaticPage(draftCommand);
+
+            if (response.IsSuccess)
+            {
+                RedirestToList();
+            }
+            else
+            {
+
+                return;
+            }
+        }
+    }
+
+    protected async Task PublishStaticPage()
+    {
+        if (StaticPageService != null)
+        {
+            PublishStaticPageCommandVM publishCommand = new PublishStaticPageCommandVM
+            {
+                Id = CreateModel.Id,
+            };
+
+            ApiResponseVM response = await StaticPageService.PublishStaticPage(publishCommand);
+
+            if (response.IsSuccess)
+            {
+                RedirestToList();
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
 
 }

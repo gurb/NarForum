@@ -140,10 +140,10 @@ else
         {
             CreateBlogPostCommandVM blogPost = new CreateBlogPostCommandVM
             {
-                Title = blogPostTitle,
-                Content = blogPostForm!.ModelData.Content,
+                Title = CreateModel.Title,
+                Content = CreateModel.Content,
+                Url = CreateModel.Url,
                 BlogCategoryId = CreateModel.BlogCategoryId,
-                Url = blogPostUrl
             };
 
             ApiResponseVM response = await BlogPostService.CreateBlogPost(blogPost);

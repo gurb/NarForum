@@ -4,13 +4,15 @@
 
 .card {
     border: none;
-    box-shadow:0px 0px 5px 0px rgba(0, 0, 0, 0.1)
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    margin: 0.5em !important;
 }
+
 
 
 .card-title {
     margin-bottom: 0px;
-    font-size: 1.2em;
+    /*font-size: 0.9vw !important;*/
 }
 
 .dashboard-card-link a {

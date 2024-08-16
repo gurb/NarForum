@@ -2,88 +2,95 @@
 @inject IJSRuntime JS
 @implements IAsyncDisposable
 
-<EditForm class="CustomForm" Model="@Model" OnValidSubmit="HandleCreatePost">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+<EditForm class="CustomForm" Model="@Model" OnValidSubmit="HandleCreatePage">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
 	<div class="container-form">
-	<div class="toolbar">
-		<div class="head">
-			<div class="row">
-				<div class="col-sm-3">
-					<InputSelect class="form-select form-select-sm" aria-label="Default select example" @bind-Value="@formatBlockSelectedIndex" @oninput="formatBlockHandle">
-						@foreach (var formatBlock in formatBlocks)
-						{
-							<option value="@formatBlock.Type">@formatBlock.Text</option>
-						}
-					</InputSelect>
-				</div>
-				<div class="col-sm-3">
-					<InputSelect class="form-select form-select-sm" aria-label="Default select example" @bind-Value="@fontSizeSelectedIndex" @oninput="fontSizeHandle">
-						@foreach (var fontSize in fontSizes)
-						{
-							<option value="@fontSize.Index">@fontSize.Text</option>
-						}
-					</InputSelect>
-				</div>
-				<div class="col-sm-3">
-					@* <div class="color">
+		<div class="toolbar">
+			<div class="head">
+				<div class="row">
+					<div class="col-sm-3">
+						<InputSelect class="form-select form-select-sm" aria-label="Default select example" @bind-Value="@formatBlockSelectedIndex" @oninput="formatBlockHandle">
+							@foreach (var formatBlock in formatBlocks)
+							{
+								<option value="@formatBlock.Type">@formatBlock.Text</option>
+							}
+						</InputSelect>
+					</div>
+					<div class="col-sm-3">
+						<InputSelect class="form-select form-select-sm" aria-label="Default select example" @bind-Value="@fontSizeSelectedIndex" @oninput="fontSizeHandle">
+							@foreach (var fontSize in fontSizes)
+							{
+								<option value="@fontSize.Index">@fontSize.Text</option>
+							}
+						</InputSelect>
+					</div>
+					<div class="col-sm-3">
+						@* <div class="color">
 						<span>Color</span>
 						<input type="color" oninput="formatDoc('foreColor', this.value); this.value='#000000';">
-					</div> *@
-				</div>
-				<div class="col-sm-3">
-					@* <div class="color">
+						</div> *@
+					</div>
+					<div class="col-sm-3">
+						@* <div class="color">
 						<span>Background</span>
 						<input type="color" oninput="formatDoc('hiliteColor', this.value); this.value='#000000';">
-					</div> *@
+						</div> *@
+					</div>
 				</div>
 			</div>
+			<div class="btn-toolbar">
+				<button @onclick="@(() => formatDoc(undo))" type="button"><i class="bi bi-arrow-counterclockwise"></i></button>
+				<button @onclick="@(() => formatDoc(redo))" type="button"><i class="bi bi-arrow-clockwise"></i></button>
+				<button @onclick="@(() => formatDoc(bold))" type="button"><i class="bi bi-type-bold"></i></button>
+				<button @onclick="@(() => formatDoc(underline))" type="button"><i class="bi bi-type-underline"></i></button>
+				<button @onclick="@(() => formatDoc(italic))" type="button"><i class="bi bi-type-italic"></i></button>
+				<button @onclick="@(() => formatDoc(strikeThrough))" type="button"><i class="bi bi-type-strikethrough"></i></button>
+				<button @onclick="@(() => formatDoc(insertOrderedList))" type="button"><i class="bi bi-list-ol"></i></button>
+				<button @onclick="@(() => formatDoc(insertUnorderedList))" type="button"><i class="bi bi-list-ul"></i></button>
+				<button @onclick="@(() => addLink())" type="button"><i class="bi bi-link"></i></button>
+				@* 			<button @onclick="@(() => formatDoc(unlink))" type="button"><i class='bx bx-unlink'></i></button>
+				<button id="show-code" data-active="false" type="button">&lt;/&gt;</button> *@
+			</div>
 		</div>
-		<div class="btn-toolbar">
-			<button @onclick="@(() => formatDoc(undo))" type="button"><i class="bi bi-arrow-counterclockwise"></i></button>
-			<button @onclick="@(() => formatDoc(redo))" type="button"><i class="bi bi-arrow-clockwise"></i></button>
-			<button @onclick="@(() => formatDoc(bold))" type="button"><i class="bi bi-type-bold"></i></button>
-			<button @onclick="@(() => formatDoc(underline))" type="button"><i class="bi bi-type-underline"></i></button>
-			<button @onclick="@(() => formatDoc(italic))" type="button"><i class="bi bi-type-italic"></i></button>
-			<button @onclick="@(() => formatDoc(strikeThrough))" type="button"><i class="bi bi-type-strikethrough"></i></button>
-			<button @onclick="@(() => formatDoc(insertOrderedList))" type="button"><i class="bi bi-list-ol"></i></button>
-			<button @onclick="@(() => formatDoc(insertUnorderedList))" type="button"><i class="bi bi-list-ul"></i></button>
-			<button @onclick="@(() => addLink())" type="button"><i class="bi bi-link"></i></button>
-@* 			<button @onclick="@(() => formatDoc(unlink))" type="button"><i class='bx bx-unlink'></i></button>
-			<button id="show-code" data-active="false" type="button">&lt;/&gt;</button> *@
-		</div>
-	</div>
 		<div id="content" contenteditable="true" spellcheck="false" @oninput="UpdateModelContent" @onkeydown="ContentKeyDown" @ondblclick="ControlSelection" @onkeyup="ContentKeyUp">
-	</div>
+		</div>
 
 	</div>
 
 
-    @* <div class="form-group form-margin">
-        <label for="exampleFormControlTextarea1">Create Post</label>
-        <InputTextArea id="Post" class="form-control" @bind-Value="@Model.Content"></InputTextArea>
-    </div> *@
+	@* <div class="form-group form-margin">
+	<label for="exampleFormControlTextarea1">Create Post</label>
+	<InputTextArea id="Post" class="form-control" @bind-Value="@Model.Content"></InputTextArea>
+	</div> *@
 
-    <div class="form-group text-end">
-        <input type="submit" value="Create" class="btn btn-primary" />
-    </div>
+	@*  <div class="form-group text-end">
+	<input type="submit" value="Create" class="btn btn-primary" />
+	</div> *@
 </EditForm>
 
 @code {
 	[Parameter]
-	public PostVM Model { get; set; }
-
-	[Parameter]
-	public Guid HeadingId { get; set; }
+	public StaticPageVM Model { get; set; }
 
 	[Inject]
-	public IPostService? PostService { get; set; }
+	public IPageService? StaticPageService { get; set; }
 
 	[Parameter]
 	public EventCallback<int> Callback { get; set; }
 
 	[Parameter]
 	public EventCallback<int> AddData { get; set; }
+
+
+	public StaticPageVM ModelData
+	{
+		get
+		{
+			Model.Content = GenerateContentFromDisplayContent(Model.DisplayContent);
+			return Model;
+		}
+	}
 
 	const string formatBlock = "formatBlock";
 	const string undo = "undo";
@@ -141,16 +148,25 @@
 		await base.OnAfterRenderAsync(firstRender);
 		if (firstRender)
 		{
-			module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/StaticPages/Component/CreateStaticPageForm.razor.js");
+			module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/BlogPosts/Component/CreateBlogPostForm.razor.js");
 		}
+	}
+
+	protected async override Task OnParametersSetAsync()
+	{
+		if (module is not null)
+		{
+			await module.InvokeAsync<string>("setData", Model.Content);
+		}
+		await base.OnParametersSetAsync();
 	}
 
 	protected async Task ContentKeyDown(KeyboardEventArgs e)
 	{
-		if (e.Code == "Enter" || e.Code == "NumpadEnter") {
+		if (e.Code == "Enter" || e.Code == "NumpadEnter")
+		{
 			await module.InvokeAsync<string>("checkEnterCursorInQuote");
 		}
-
 	}
 
 	protected async Task ContentKeyUp(KeyboardEventArgs e)
@@ -170,6 +186,7 @@
 	{
 		// Model.Content = await module.InvokeAsync<string>("getData");
 		Model.DisplayContent = await module.InvokeAsync<string>("getData");
+		Model.Content = GenerateContentFromDisplayContent(Model.DisplayContent);
 	}
 
 	public async Task SetContenteditable()
@@ -200,10 +217,10 @@
 		return content;
 	}
 
-	private List<Guid?> GetQuotePostIds(string displayContent)
+	private List<int?> GetQuotePostIds(string displayContent)
 	{
 		string content = displayContent;
-		List<Guid?> ids = new List<Guid?>();
+		List<int?> ids = new List<int?>();
 
 		Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
 		MatchCollection matches = quoteRegex.Matches(content);
@@ -214,9 +231,9 @@
 			string postId = match.Groups[2].Value;
 			string quoteContent = match.Groups[3].Value;
 
-			if(!string.IsNullOrEmpty(postId))
+			if (!string.IsNullOrEmpty(postId))
 			{
-				Guid? qId = new Guid(postId);
+				int? qId = Convert.ToInt32(postId);
 
 				ids.Add(qId);
 			}
@@ -226,20 +243,18 @@
 	}
 
 
-	protected async Task HandleCreatePost()
+	protected async Task HandleCreatePage()
 	{
-		PostVM? post;
+		CreateStaticPageCommandVM? staticPage;
 
-		post = new PostVM
-        {
-            HeadingId = HeadingId,
-            Content = Model.Content
-        };
+		staticPage = new CreateStaticPageCommandVM
+		{
+			Content = Model.Content
+		};
 
-		post.Content = GenerateContentFromDisplayContent(Model.DisplayContent);
-		post.QuotePostIds = GetQuotePostIds(Model.DisplayContent);
+		staticPage.Content = GenerateContentFromDisplayContent(Model.DisplayContent);
 
-		var result = await PostService.CreatePost(post);
+		var result = await StaticPageService.CreateStaticPage(staticPage);
 
 		await Callback.InvokeAsync();
 
