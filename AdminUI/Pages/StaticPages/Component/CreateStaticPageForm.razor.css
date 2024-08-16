@@ -1,8 +1,7 @@
 ﻿.custom-form {
-    min-height: 400px;
+    min-height: 80vh;
 }
 .container-form {
-    max-width: 991px;
     width: 100%;
     background: #fff;
     border-radius: 8px;
@@ -95,6 +94,7 @@
     padding: 16px;
     outline: none;
     max-height: 50vh;
+    min-height: 50vh;
     overflow: auto;
 }
 
