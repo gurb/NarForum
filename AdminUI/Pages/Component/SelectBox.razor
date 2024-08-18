@@ -8,6 +8,19 @@
                 <span class="selected-user-tag w-100">
                     @SelectedLabelText
                 </span>
+
+                @if (IsUpdateActive && SelectedLabel is not null)
+                {
+                    <span class="selected-user-tag-update">
+                    <i @onclick=updateSelectedLabel class="bi bi-pencil-fill"></i>
+                    </span>
+                }
+                @if (IsDeleteActive && SelectedLabel is not null)
+                {
+                    <span class="selected-user-tag-remove">
+                    <i @onclick=deleteSelectedLabel class="bi bi-trash-fill"></i>
+                    </span>
+                }
             }
             <span></span>
         </label>
@@ -55,6 +68,12 @@
     public bool Selected { get; set; }
 
     [Parameter]
+    public bool IsDeleteActive { get; set; }
+
+    [Parameter]
+    public bool IsUpdateActive { get; set; }
+
+    [Parameter]
     public string Placeholder { get; set; } = string.Empty;
 
     [Parameter]
@@ -70,6 +89,12 @@
 
     [Parameter]
     public EventCallback<int> SubCallback { get; set; }
+
+    [Parameter]
+    public EventCallback<int> DeleteCallback { get; set; }
+
+    [Parameter]
+    public EventCallback<int> UpdateCallback { get; set; }
 
 
     [Parameter]
@@ -148,5 +173,21 @@
     public async Task SetSelectedLabel(SelectLabel? selectedLabel)
     {
         await selectLabel(selectedLabel!);
+    }
+
+    protected async Task deleteSelectedLabel()
+    {
+        if(DeleteCallback.HasDelegate)
+        {
+            await DeleteCallback.InvokeAsync();
+        }
+    }
+
+    protected async Task updateSelectedLabel()
+    {
+        if (UpdateCallback.HasDelegate)
+        {
+            await UpdateCallback.InvokeAsync();
+        }
     }
 }

@@ -50,7 +50,11 @@ else
                 Placeholder="Search Blog Category" 
                 SearchLabelCallback="RefreshCategoryLabels" 
                 SelectCallback="BlogCategorySelected" 
-                SubCallback="OpenAddBlogCategory"></SelectBox>
+                SubCallback="OpenAddBlogCategory"
+                IsDeleteActive=true
+                IsUpdateActive=true
+                DeleteCallback="OpenDeleteBlogCategoryConfirmation"
+                UpdateCallback="OpenUpdateBlogCategoryModal"></SelectBox>
         </div>
         <div class="form-group mb-3">
             <label for="exampleInputEmail1">Define Url</label>
@@ -60,11 +64,20 @@ else
 </div>
 
 <AddBlogCategoryModal @ref=addBlogCategoryModal></AddBlogCategoryModal>
+<UpdateBlogCategoryModal @ref=updateBlogCategoryModal UpdateModel="updateBlogCategoryCommand"></UpdateBlogCategoryModal>
+<ConfirmModal @ref=removeBlogCategoryModal Callback="DeleteBlogCategory" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this blog category? If you remove it, the change will be applied to all blog posts related to this category."></ConfirmModal>
 
 @code {
     AddBlogCategoryModal? addBlogCategoryModal;
+    UpdateBlogCategoryModal? updateBlogCategoryModal;
+    ConfirmModal? removeBlogCategoryModal;
+
+
+    UpdateBlogCategoryCommandVM? updateBlogCategoryCommand;
 
     CreateBlogPostForm? blogPostForm;
+
+    UpdateBlogCategoryCommandVM updateBlogCategory = new UpdateBlogCategoryCommandVM();
 
     BlogPostVM CreateModel = new BlogPostVM();
 
@@ -160,6 +173,58 @@ else
         }
     }
 
+    protected void OpenDeleteBlogCategoryConfirmation()
+    {
+        if(removeBlogCategoryModal is not null)
+        {
+            removeBlogCategoryModal.ShowModal();
+        }
+    }
+
+    protected async Task DeleteBlogCategory()
+    {
+        if (CreateModel.BlogCategoryId is not null)
+        {
+            RemoveBlogCategoryCommandVM removeCommand = new RemoveBlogCategoryCommandVM
+            {
+                Id = CreateModel.BlogCategoryId.Value,
+            };
+
+            ApiResponseVM response = await BlogCategoryService.RemoveBlogCategory(removeCommand);
+
+            if (response.IsSuccess)
+            {
+                RedirestToList();
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+    protected async Task UpdateBlogCategory()
+    {
+        if(CreateModel.BlogCategoryId is not null)
+        {
+            UpdateBlogCategoryCommandVM removeCommand = new UpdateBlogCategoryCommandVM
+            {
+                Id = CreateModel.BlogCategoryId.Value,
+            };
+
+            // ApiResponseVM response = await BlogCategoryService.RemoveBlogCategory(removeCommand);
+
+            // if (response.IsSuccess)
+            // {
+            //     RedirestToList();
+            // }
+            // else
+            // {
+            //     return;
+            // }
+        }
+    }
+
     protected void RedirestToList()
     {
         NavigationManager!.NavigateTo("/blog/posts");
@@ -237,6 +302,23 @@ else
         if(addBlogCategoryModal is not null)
         {
             addBlogCategoryModal.ShowModal();
+        }
+    }
+
+    protected async Task OpenUpdateBlogCategoryModal()
+    {
+        if (selectBox is not null && selectBox.SelectedLabel is not null)
+        {
+            if (updateBlogCategoryModal is not null)
+            {
+                updateBlogCategoryCommand = new UpdateBlogCategoryCommandVM
+                {
+                    Id = selectBox.SelectedLabel.Id,
+                    Name = selectBox.SelectedLabel.Text
+                };
+                await InvokeAsync(StateHasChanged);
+                updateBlogCategoryModal.ShowModal();
+            }
         }
     }
 

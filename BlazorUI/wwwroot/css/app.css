@@ -163,3 +163,18 @@ a {
     margin-left:10px;
 }
 
+.selected-user-tag-update {
+    background: #ccc;
+    padding: 5px;
+    font-size: 15px;
+    border-radius: 3px;
+    margin-left: 10px;
+}
+
+.selected-user-tag-remove {
+    background-color:red;
+    padding: 5px;
+    font-size: 15px;
+    border-radius: 3px;
+    margin-left: 10px;
+}
