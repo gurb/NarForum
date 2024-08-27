@@ -1,0 +1,31 @@
+﻿@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<h3>TotalView</h3>
+
+
+<canvas id="totalViewChart"></canvas>
+
+
+@code {
+    private IJSInProcessObjectReference? module;
+
+
+	protected async override Task OnAfterRenderAsync(bool firstRender)
+	{
+		await base.OnAfterRenderAsync(firstRender);
+		if (firstRender)
+		{
+			module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Charts/TotalView.razor.js");
+			await module.InvokeVoidAsync("drawTotalViewChart");
+		}
+	}
+
+	async ValueTask IAsyncDisposable.DisposeAsync()
+	{
+		if (module is not null)
+		{
+			await module.DisposeAsync();
+		}
+	}
+}
