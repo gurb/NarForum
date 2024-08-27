@@ -108,3 +108,8 @@ code {
     border-bottom: 1px solid #ccc;
     padding-bottom:10px;
 }
+
+thead {
+    background: #7d7d7c;
+    color: #f7f7f7;
+}

@@ -1,6 +1,6 @@
 ﻿@page "/heading/list"
 
-<h3>HeadingList</h3>
+<h3>Heading List</h3>
 
 <HeadingsFilter QueryModel="query" Callback="RefreshListFilter"></HeadingsFilter>
 
@@ -8,7 +8,6 @@
     <caption>List of users</caption>
     <thead>
         <tr>
-            <th scope="col" style="width:70px;">#</th>
             <th scope="col">Title</th>
             <th scope="col">Category</th>
             <th scope="col" style="width:20%">Author</th>
@@ -25,11 +24,20 @@
             @foreach (var heading in Headings)
             {
                 <tr>
-                    <th scope="row" class="text-end align-middle">@heading.Id</th>
-                    <td class="align-middle">@heading.Title</td>
+                    <th class="align-middle">
+                        <div class="cell-content">
+                            <div class="flex-fill text-center">
+                                @heading.Id
+                            </div>
+                            <div class="text-center align-middle">
+                                @heading.Title
+                            </div>
+                        </div>
+                    </th>
                     <td class="align-middle">@heading.CategoryName</td>
                     <td class="align-middle">@heading.UserName</td>
                     <td class="text-end align-middle">
+                        <button type="button" class="btn btn-warning" @onclick="() => DetailHeading(heading)"><i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-primary" @onclick="() => DetailHeading(heading)"><i class="bi bi-card-text"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DeleteHeading(heading)"><i class="bi bi-trash"></i></button>
                     </td>

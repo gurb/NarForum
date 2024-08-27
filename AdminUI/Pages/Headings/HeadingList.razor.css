@@ -1,0 +1,9 @@
+﻿.cell-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-fill {
+    font-size: 0.65em;
+    color: #bbb;
+}
