@@ -1,0 +1,67 @@
+﻿@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<h3>BrowserView</h3>
+
+<div class="container-fluid">
+    <div class="row">
+	    <div class="col-sm-6">
+            <canvas id="browserViewChart"></canvas>
+	    </div>
+	    <div class="col-sm-6">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td colspan="2">Larry the Bird</td>
+                        <td>twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+	    </div>
+    </div>
+</div>
+
+
+@code {
+	private IJSInProcessObjectReference? module;
+
+
+	protected async override Task OnAfterRenderAsync(bool firstRender)
+	{
+		await base.OnAfterRenderAsync(firstRender);
+		if (firstRender)
+		{
+			module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Charts/BrowserView.razor.js");
+			await module.InvokeVoidAsync("drawBrowserViewChart");
+		}
+	}
+
+	async ValueTask IAsyncDisposable.DisposeAsync()
+	{
+		if (module is not null)
+		{
+			await module.DisposeAsync();
+		}
+	}
+}
