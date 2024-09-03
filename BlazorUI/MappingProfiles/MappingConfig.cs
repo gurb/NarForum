@@ -11,6 +11,7 @@ using BlazorUI.Models.Message;
 using BlazorUI.Models.Post;
 using BlazorUI.Models.Section;
 using BlazorUI.Models.StaticPage;
+using BlazorUI.Models.TrackingLog;
 using BlazorUI.Models.User;
 using BlazorUI.Services.Base;
 
@@ -92,6 +93,11 @@ namespace BlazorUI.MappingProfiles
             CreateMap<GetStaticPageQueryVM, GetStaticPageQuery>().ReverseMap();
             CreateMap<GetStaticPagesQueryVM, GetStaticPagesQuery>().ReverseMap();
             CreateMap<GetStaticPagesWithPaginationQueryVM, GetStaticPagesWithPaginationQuery>().ReverseMap();
+
+            //CreateMap<TrackingLogVM, TrackingLogDTO>().ReverseMap();
+            //CreateMap<AddTrackingLogCommandVM, AddTrackingLogCommand>().ReverseMap();
+            //CreateMap<GetTrackingLogQueryVM, GetTrackingLogQuery>().ReverseMap();
+            //CreateMap<GetTrackingLogsQueryVM, GetTrackingLogsQueryVM>().ReverseMap();
         }
     }
 }

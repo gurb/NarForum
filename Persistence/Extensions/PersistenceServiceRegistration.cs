@@ -29,6 +29,7 @@ namespace Persistence.Extensions
             services.AddScoped<IQuoteRepository, QuoteRepository>();
 
             services.AddScoped<IForumStatService, ForumStatService>();
+            services.AddScoped<ITrackingLogRepository, TrackingLogRepository>();
 
             services.AddScoped<IBlogPostRepository, BlogPostRepository>();
             services.AddScoped<IBlogCommentRepository, BlogCommentRepository>();

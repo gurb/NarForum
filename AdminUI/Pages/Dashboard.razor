@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @using System.Text.Json.Serialization
 @using System.Text.Json
+
 @inject AlertService alertService;
 @implements IAsyncDisposable
 
@@ -64,8 +65,11 @@
             
         </div>
         <div class="row dashboard-row">
-            <div class="col-sm-4 dasboard-menu-button">
-                <DashboardCard Name="Sections" Icon="tag" Url="section/list"></DashboardCard>
+            <div class="col-sm-6 dasboard-menu-button">
+                <NewUserStatView></NewUserStatView>
+            </div>
+            <div class="col-sm-6 dasboard-menu-button">
+                <PopularHeadingView></PopularHeadingView>
             </div>
         </div>
 
@@ -103,6 +107,83 @@
                     }
                 </ul>
             }
+        </div>
+        <div class="row">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#home">Active Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#menu1">Last Headings</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane container active" id="home">
+                    <table class="table table-striped-columns">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>mdo</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td colspan="2">Larry the Bird</td>
+                                <td>twitter</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane container fade" id="menu1">
+                    <table class="table table-striped-columns">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>mdo</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td colspan="2">Larry the Bird</td>
+                                <td>twitter</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

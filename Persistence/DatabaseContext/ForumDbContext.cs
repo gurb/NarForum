@@ -28,6 +28,8 @@ namespace Persistence.DatabaseContext
 
         public DbSet<StaticPage> StaticPages { get; set; }
 
+        public DbSet<TrackingLog> TrackingLogs { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // find all configurations file from assembly and apply
