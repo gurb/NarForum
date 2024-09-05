@@ -6,9 +6,8 @@
 - "add-migration InitialMigration" enter command
 - "Update-Database" enter command
 
-
 # example
-> add-migration Forum4 -c ForumDbContext
+> add-migration Forum5 -c ForumDbContext
 > update-database -Context ForumDbContext
 
 > add-migration Id1 -c ForumIdentityDbContext
