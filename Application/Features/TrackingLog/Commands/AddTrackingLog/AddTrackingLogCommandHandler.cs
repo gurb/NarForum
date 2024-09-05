@@ -25,9 +25,11 @@ namespace Application.Features.TrackingLog.Commands.AddTrackingLog
             {
                 var predicate = PredicateBuilder.True<Domain.TrackingLog>();
 
-                var blogCategory = _mapper.Map<Domain.TrackingLog>(request);
+                var trackingLog = _mapper.Map<Domain.TrackingLog>(request);
+                trackingLog.DateTime = DateTime.UtcNow;
+                trackingLog.Browser = request.Browser;
 
-                await _trackingLogRepository.AddAsync(blogCategory);
+                await _trackingLogRepository.AddAsync(trackingLog);
 
                 response.Message = "Tracking log is added.";
             }

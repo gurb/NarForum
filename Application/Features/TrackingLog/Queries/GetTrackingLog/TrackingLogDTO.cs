@@ -13,5 +13,6 @@ namespace Application.Features.TrackingLog.Queries.GetTrackingLog
         public TrackingType Type { get; set; }
         public Guid? TargetId { get; set; }
         public Guid? TempUserId { get; set; }
+        public string? Browser { get; set; }
     }
 }

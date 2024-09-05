@@ -30,6 +30,30 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+
+    <script>
+        function SetCookiePolicyAccepted() {
+            localStorage.setItem('CookiePolicyAccepted', true);
+        }
+
+        function SetCookiePolicyRejected() {
+            localStorage.setItem('CookiePolicyAccepted', "false");
+        }
+
+        function GetCookiePolicyAccepted() {
+            const cookiePolicy = localStorage.getItem('CookiePolicyAccepted');
+            if (cookiePolicy === "true") {
+                return true;
+            }
+            else if (cookiePolicy === "false") {
+                return false;
+            }
+            else {
+                return null;
+            }
+        }
+
+    </script>
 </body>
 
 </html>

@@ -80,6 +80,9 @@ else
     [Inject]
     public IUserService UserService { get; set; }
 
+    [Inject]
+    public ITrackingLogService? TrackingLogService { get; set; }
+
     HeadingVM? Heading { get; set; }
 
     UserInfoVM CurrentUser { get; set; }
@@ -167,6 +170,26 @@ else
             }
         }
     }
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        if (TrackingLogService is not null && HeadingId is not null)
+        {
+            module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Headings/HeadingDetail.razor.js");
+
+            AddTrackingLogCommandVM command = new AddTrackingLogCommandVM
+            {
+                Type = Models.Enums.TrackingTypeVM.HEADING,
+                TargetId = HeadingId.DecodeBase64UrlToGuid(),
+                URL = getBaseUrl(),
+                Browser = await module.InvokeAsync<string>("GetBrowserName")
+            };
+
+            await TrackingLogService.AddTrackingLog(command);
+        }
+    }
+
 
     protected async override Task OnParametersSetAsync()
     {

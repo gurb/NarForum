@@ -1,4 +1,5 @@
-﻿using Application.Features.TrackingLog.Queries.GetTrackingLog;
+﻿using Application.Features.TrackingLog.Commands.AddTrackingLog;
+using Application.Features.TrackingLog.Queries.GetTrackingLog;
 using AutoMapper;
 using Domain;
 
@@ -9,6 +10,7 @@ namespace Application.MappingProfiles
         public TrackingLogProfile()
         {
             CreateMap<TrackingLogDTO, TrackingLog>().ReverseMap();
+            CreateMap<AddTrackingLogCommand, TrackingLog>().ReverseMap();
         }
     }
 }

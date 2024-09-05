@@ -9118,6 +9118,9 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("tempUserId")]
         public System.Guid? TempUserId { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("browser")]
+        public string Browser { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -10321,6 +10324,9 @@ namespace BlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("tempUserId")]
         public System.Guid? TempUserId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("browser")]
+        public string Browser { get; set; }
 
     }
 

@@ -41,6 +41,7 @@ builder.Services.AddScoped<ITrackingLogService, TrackingLogService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 

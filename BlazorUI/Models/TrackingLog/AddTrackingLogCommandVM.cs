@@ -12,5 +12,6 @@ namespace BlazorUI.Models.TrackingLog
         public TrackingTypeVM Type { get; set; }
         public Guid? TargetId { get; set; }
         public Guid? TempUserId { get; set; }
+        public string? Browser { get; set; }
     }
 }
