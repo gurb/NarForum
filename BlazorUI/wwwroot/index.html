@@ -33,7 +33,7 @@
 
     <script>
         function SetCookiePolicyAccepted() {
-            localStorage.setItem('CookiePolicyAccepted', true);
+            localStorage.setItem('CookiePolicyAccepted', "true");
         }
 
         function SetCookiePolicyRejected() {
@@ -42,11 +42,8 @@
 
         function GetCookiePolicyAccepted() {
             const cookiePolicy = localStorage.getItem('CookiePolicyAccepted');
-            if (cookiePolicy === "true") {
-                return true;
-            }
-            else if (cookiePolicy === "false") {
-                return false;
+            if (cookiePolicy === "true" || cookiePolicy === "false") {
+                return cookiePolicy;
             }
             else {
                 return null;

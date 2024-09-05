@@ -174,7 +174,9 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        if (TrackingLogService is not null && HeadingId is not null)
+        var cookiePolicyAccepted = await JS.InvokeAsync<string>("GetCookiePolicyAccepted");
+
+        if (TrackingLogService is not null && HeadingId is not null && cookiePolicyAccepted == "true")
         {
             module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Headings/HeadingDetail.razor.js");
 
