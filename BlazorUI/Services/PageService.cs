@@ -5,7 +5,7 @@ using BlazorUI.Services.Base;
 using BlazorUI.Services.Common;
 using AutoMapper;
 
-namespace AdminUI.Services
+namespace BlazorUI.Services
 {
     public class PageService : BaseHttpService, IPageService
     {

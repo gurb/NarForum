@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Reflection;
+using BlazorUI.Contracts;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -38,6 +39,8 @@ builder.Services.AddScoped<IBlogCategoryService, BlogCategoryService>();
 builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
 builder.Services.AddScoped<IBlogPostService, BlogPostService>();
 builder.Services.AddScoped<IPageService, PageService>();
+
+builder.Services.AddScoped<ITrackingLogService, TrackingLogService>();
 
 builder.Services.AddSingleton<AlertService>();
 

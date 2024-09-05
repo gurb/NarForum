@@ -1,4 +1,3 @@
-using AdminUI.Services;
 using BlazorUI;
 using BlazorUI.Contracts;
 using BlazorUI.Handlers;
@@ -37,6 +36,8 @@ builder.Services.AddScoped<IBlogCategoryService, BlogCategoryService>();
 builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
 builder.Services.AddScoped<IBlogPostService, BlogPostService>();
 builder.Services.AddScoped<IPageService, PageService>();
+
+builder.Services.AddScoped<ITrackingLogService, TrackingLogService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
