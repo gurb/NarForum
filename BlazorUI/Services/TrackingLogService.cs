@@ -1,4 +1,5 @@
-﻿using BlazorUI.Contracts;
+﻿using AutoMapper;
+using BlazorUI.Contracts;
 using BlazorUI.Models;
 using BlazorUI.Models.TrackingLog;
 using BlazorUI.Services.Base;
@@ -8,23 +9,34 @@ namespace BlazorUI.Services
 {
     public class TrackingLogService : BaseHttpService, ITrackingLogService
     {
-        public TrackingLogService(IClient client, LocalStorageService localStorage) : base(client, localStorage)
+        private readonly IMapper _mapper;
+        public TrackingLogService(IClient client, LocalStorageService localStorage, IMapper mapper) : base(client, localStorage)
         {
+            _mapper = mapper;
         }
 
-        public Task<ApiResponseVM> AddBlogCategory(AddTrackingLogCommandVM command)
+        public async Task<ApiResponseVM> AddTrackingLog(AddTrackingLogCommandVM command)
         {
-            throw new NotImplementedException();
+            var addTrackingLogCommand = _mapper.Map<AddTrackingLogCommand>(command);
+            var data = await _client.AddTrackingLogAsync(addTrackingLogCommand);
+
+            return _mapper.Map<ApiResponseVM>(data);
         }
 
-        public Task<List<TrackingLogVM>> GetBlogCategories(GetTrackingLogsQueryVM request)
+        public async Task<TrackingLogVM> GetTrackingLog(GetTrackingLogQueryVM request)
         {
-            throw new NotImplementedException();
+            var query = _mapper.Map<GetTrackingLogQuery>(request);
+            var data = await _client.GetTrackingLogAsync(query);
+
+            return _mapper.Map<TrackingLogVM>(data);
         }
 
-        public Task<TrackingLogVM> GetBlogCategory(GetTrackingLogQueryVM request)
+        public async Task<List<TrackingLogVM>> GetTrackingLogs(GetTrackingLogsQueryVM request)
         {
-            throw new NotImplementedException();
+            var query = _mapper.Map<GetTrackingLogsQuery>(request);
+            var data = await _client.GetTrackingLogsAsync(query);
+
+            return _mapper.Map<List<TrackingLogVM>>(data);
         }
     }
 }

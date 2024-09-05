@@ -5,8 +5,8 @@ namespace BlazorUI.Contracts
 {
     public interface ITrackingLogService
     {
-        Task<List<TrackingLogVM>> GetBlogCategories(GetTrackingLogsQueryVM request);
-        Task<TrackingLogVM> GetBlogCategory(GetTrackingLogQueryVM request);
-        Task<ApiResponseVM> AddBlogCategory(AddTrackingLogCommandVM command);
+        Task<List<TrackingLogVM>> GetTrackingLogs(GetTrackingLogsQueryVM request);
+        Task<TrackingLogVM> GetTrackingLog(GetTrackingLogQueryVM request);
+        Task<ApiResponseVM> AddTrackingLog(AddTrackingLogCommandVM command);
     }
 }

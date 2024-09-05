@@ -94,10 +94,10 @@ namespace BlazorUI.MappingProfiles
             CreateMap<GetStaticPagesQueryVM, GetStaticPagesQuery>().ReverseMap();
             CreateMap<GetStaticPagesWithPaginationQueryVM, GetStaticPagesWithPaginationQuery>().ReverseMap();
 
-            //CreateMap<TrackingLogVM, TrackingLogDTO>().ReverseMap();
-            //CreateMap<AddTrackingLogCommandVM, AddTrackingLogCommand>().ReverseMap();
-            //CreateMap<GetTrackingLogQueryVM, GetTrackingLogQuery>().ReverseMap();
-            //CreateMap<GetTrackingLogsQueryVM, GetTrackingLogsQueryVM>().ReverseMap();
+            CreateMap<TrackingLogVM, TrackingLogDTO>().ReverseMap();
+            CreateMap<AddTrackingLogCommandVM, AddTrackingLogCommand>().ReverseMap();
+            CreateMap<GetTrackingLogQueryVM, GetTrackingLogQuery>().ReverseMap();
+            CreateMap<GetTrackingLogsQueryVM, GetTrackingLogsQueryVM>().ReverseMap();
         }
     }
 }
