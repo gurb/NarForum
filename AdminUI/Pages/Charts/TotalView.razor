@@ -1,24 +1,95 @@
 ﻿@inject IJSRuntime JS
 @implements IAsyncDisposable
 
-<h3>TotalView</h3>
+
+<div class="row">
+	<div class="col-sm-6">
+		<h3>Total Views</h3>
+	</div>
+	<div class="col-sm-6">
+		<select @oninput=OnChangeTime>
+			@foreach (var cnt in Times)
+			{
+				<option value="@cnt">@cnt</option>
+			}
+		</select>
+	</div>
+	
+</div>
 
 
 <canvas id="totalViewChart"></canvas>
 
 
 @code {
-    private IJSInProcessObjectReference? module;
+	private IJSInProcessObjectReference? module;
+
+
+	[Inject]
+	public ITrackingLogService? TrackingLogService { get; set; }
+
+	private string SelectedTime { get; set; } = "Days";
+
+	private List<string> Times = new List<string>
+	{
+		"Days",
+		"Weeks",
+		"Months",
+		"Years"
+	};
+
+	private List<TrackingLogVM>? logs { get; set; }
 
 	protected async override Task OnAfterRenderAsync(bool firstRender)
 	{
 		await base.OnAfterRenderAsync(firstRender);
+
+		logs = new List<TrackingLogVM>();
+
 		if (firstRender)
 		{
 			module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Charts/TotalView.razor.js");
-			await module.InvokeVoidAsync("drawTotalViewChart");
+
+			if(TrackingLogService is not null)
+			{
+				GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+				{
+
+				};
+
+				logs = await TrackingLogService.GetTrackingLogs(query);
+
+
+				if(logs is not null && logs.Count > 0)
+				{
+					await module.InvokeVoidAsync("drawTotalViewChart", "Days");
+				}
+
+			}
 		}
 	}
+
+	private async Task OnChangeTime(ChangeEventArgs e)
+	{
+		SelectedTime = e.Value.ToString();
+
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+
+			if (logs is not null && logs.Count > 0 && module is not null)
+			{
+				await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime);
+			}
+
+		}
+	} 
 
 	async ValueTask IAsyncDisposable.DisposeAsync()
 	{

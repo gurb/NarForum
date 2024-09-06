@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Reflection;
-using BlazorUI.Contracts;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 

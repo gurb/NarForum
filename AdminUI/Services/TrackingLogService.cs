@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using BlazorUI.Contracts;
 using AdminUI.Models;
 using AdminUI.Models.TrackingLog;
 using AdminUI.Services.Base;
 using AdminUI.Services.Common;
+using AdminUI.Contracts;
 
 namespace AdminUI.Services
 {

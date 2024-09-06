@@ -1,7 +1,7 @@
 ﻿using AdminUI.Models;
 using AdminUI.Models.TrackingLog;
 
-namespace BlazorUI.Contracts
+namespace AdminUI.Contracts
 {
     public interface ITrackingLogService
     {
