@@ -7,9 +7,26 @@
 		<h3>Total Views</h3>
 	</div>
 	<div class="col-sm-6 text-end">
-		<span>
-			<input type="date" id="birthday" value="@overrideStart.ToLocalTime().ToString("yyyy-MM-dd")" @onchange="@OnChangeDayDate" name="birthday">
-		</span>
+		@if(SelectedTime == "Day")
+		{
+			<span>
+				<input type="date" id="birthday" value="@overrideStart.ToLocalTime().ToString("yyyy-MM-dd")" @onchange="@OnChangeDayDate" name="birthday">
+			</span>
+		}
+		@if(SelectedTime == "Week")
+		{
+			
+		}
+		@if (SelectedTime == "Month")
+		{
+			<span>
+				<input type="month" id="start" name="start" value="@monthStart.ToLocalTime().ToString("yyyy-MM")" @onchange="@OnChangeMonthDate" />
+			</span>
+		}
+		@if (SelectedTime == "Year")
+		{
+
+		}
 		<span>
 			<select @oninput=OnChangeTime>
 				@foreach (var cnt in Times)
@@ -37,6 +54,7 @@
 	private string SelectedTime { get; set; } = "Day";
 
 	private DateTime overrideStart = DateTime.UtcNow;
+	private DateTime monthStart = DateTime.UtcNow;
 
 	private List<string> Times = new List<string>
 	{
@@ -107,6 +125,7 @@
 			if (SelectedTime == "Month")
 			{
 				query.DateType = Models.Enums.TrackingLogDateType.MONTH;
+				monthStart = DateTime.UtcNow;
 			}
 
 			if (SelectedTime == "Year")
@@ -132,7 +151,9 @@
 				}
 				if (query.DateType == Models.Enums.TrackingLogDateType.MONTH)
 				{
-					await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime);
+					var monthAnonLogs = ConvertTrackingLogsToMonth(logs.Where(x => x.IsMember == false).ToList());
+					var monthMemLogs = ConvertTrackingLogsToMonth(logs.Where(x => x.IsMember == true).ToList());
+					await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime, monthAnonLogs, monthMemLogs);
 				}
 				if (query.DateType == Models.Enums.TrackingLogDateType.YEAR)
 				{
@@ -171,6 +192,33 @@
 		}
 	}
 
+	public async Task OnChangeMonthDate(ChangeEventArgs args)
+	{
+		var value = args.Value.ToString();
+		monthStart = value == string.Empty ? DateTime.Today : DateTime.Parse(value);
+
+		// overrideStart = await GetStartOfWeek(overrideStart);
+
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				DateTime = DateTime.SpecifyKind(monthStart, DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.MONTH
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+			if (logs is not null && module is not null)
+			{
+				var monthAnonLogs = ConvertTrackingLogsToMonth(logs.Where(x => x.IsMember == false).ToList());
+				var monthMemLogs = ConvertTrackingLogsToMonth(logs.Where(x => x.IsMember == true).ToList());
+				await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime, monthAnonLogs, monthMemLogs);
+			}
+		}
+	}
+
 	async ValueTask IAsyncDisposable.DisposeAsync()
 	{
 		if (module is not null)
@@ -204,6 +252,28 @@
 		}
 
 		return dayTimeLogs;
+
+	}
+
+	private Dictionary<string, int> ConvertTrackingLogsToMonth(List<TrackingLogVM> logs)
+	{
+		Dictionary<string, int> monthTimeLogs = new Dictionary<string, int>();
+
+		foreach (var log in logs)
+		{
+			string monthLogKey = log.DateTime.ToString("dd");
+
+			if (monthTimeLogs.ContainsKey(monthLogKey))
+			{
+				monthTimeLogs[monthLogKey] += 1;
+			}
+			else
+			{
+				monthTimeLogs[monthLogKey] = 1;
+			}
+		}
+
+		return monthTimeLogs;
 
 	}
 }
