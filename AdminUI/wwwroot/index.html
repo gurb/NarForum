@@ -32,6 +32,12 @@
     <script src="js/chart.js"></script>
 
     <script src="_framework/blazor.webassembly.js"></script>
+
+    <script>
+        function GetTimeZone() {
+            return Intl.DateTimeFormat().resolvedOptions().timeZone;
+        }
+    </script>
 </body>
 
 </html>

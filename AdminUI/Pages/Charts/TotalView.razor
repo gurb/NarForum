@@ -6,13 +6,18 @@
 	<div class="col-sm-6">
 		<h3>Total Views</h3>
 	</div>
-	<div class="col-sm-6">
-		<select @oninput=OnChangeTime>
-			@foreach (var cnt in Times)
-			{
-				<option value="@cnt">@cnt</option>
-			}
-		</select>
+	<div class="col-sm-6 text-end">
+		<span>
+			<input type="date" id="birthday" value="@overrideStart.ToLocalTime().ToString("yyyy-MM-dd")" @onchange="@OnChangeDayDate" name="birthday">
+		</span>
+		<span>
+			<select @oninput=OnChangeTime>
+				@foreach (var cnt in Times)
+				{
+					<option value="@cnt">@cnt</option>
+				}
+			</select>
+		</span>
 	</div>
 	
 </div>
@@ -24,18 +29,21 @@
 @code {
 	private IJSInProcessObjectReference? module;
 
+	private string? ClientTimeZone { get; set; }
 
 	[Inject]
 	public ITrackingLogService? TrackingLogService { get; set; }
 
-	private string SelectedTime { get; set; } = "Days";
+	private string SelectedTime { get; set; } = "Day";
+
+	private DateTime overrideStart = DateTime.UtcNow;
 
 	private List<string> Times = new List<string>
 	{
-		"Days",
-		"Weeks",
-		"Months",
-		"Years"
+		"Day",
+		"Week",
+		"Month",
+		"Year"
 	};
 
 	private List<TrackingLogVM>? logs { get; set; }
@@ -43,6 +51,8 @@
 	protected async override Task OnAfterRenderAsync(bool firstRender)
 	{
 		await base.OnAfterRenderAsync(firstRender);
+
+		ClientTimeZone = await JS.InvokeAsync<string>("GetTimeZone");
 
 		logs = new List<TrackingLogVM>();
 
@@ -54,7 +64,7 @@
 			{
 				GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
 				{
-
+						TimeZone = ClientTimeZone
 				};
 
 				logs = await TrackingLogService.GetTrackingLogs(query);
@@ -62,7 +72,9 @@
 
 				if(logs is not null && logs.Count > 0)
 				{
-					await module.InvokeVoidAsync("drawTotalViewChart", "Days");
+					var dayAnonLogs = ConvertTrackingLogsToDay(logs.Where(x => x.IsMember == false).ToList());
+					var dayMemLogs = ConvertTrackingLogsToDay(logs.Where(x => x.IsMember == true).ToList());
+					await module.InvokeVoidAsync("drawTotalViewChart", "Day", dayAnonLogs, dayMemLogs);
 				}
 
 			}
@@ -77,19 +89,87 @@
 		{
 			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
 			{
-
+				TimeZone = ClientTimeZone
 			};
+
+
+			if(SelectedTime == "Day")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.DAY;
+				overrideStart = DateTime.UtcNow;
+			}
+
+			if(SelectedTime == "Week")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.WEEK;
+			}
+
+			if (SelectedTime == "Month")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.MONTH;
+			}
+
+			if (SelectedTime == "Year")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.YEAR;
+			}
 
 			logs = await TrackingLogService.GetTrackingLogs(query);
 
 
 			if (logs is not null && logs.Count > 0 && module is not null)
 			{
-				await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime);
+
+				if(query.DateType == Models.Enums.TrackingLogDateType.DAY)
+				{
+					var dayAnonLogs = ConvertTrackingLogsToDay(logs.Where(x => x.IsMember == false).ToList());
+					var dayMemLogs = ConvertTrackingLogsToDay(logs.Where(x => x.IsMember == true).ToList());
+					await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime, dayAnonLogs, dayMemLogs);
+				}
+				if (query.DateType == Models.Enums.TrackingLogDateType.WEEK)
+				{
+					await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime);
+				}
+				if (query.DateType == Models.Enums.TrackingLogDateType.MONTH)
+				{
+					await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime);
+				}
+				if (query.DateType == Models.Enums.TrackingLogDateType.YEAR)
+				{
+					await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime);
+				}
+
 			}
 
 		}
-	} 
+	}
+
+	public async Task OnChangeDayDate(ChangeEventArgs args)
+	{
+		var value = args.Value.ToString();
+		overrideStart = value == string.Empty ? DateTime.Today : DateTime.Parse(value);
+
+		// overrideStart = await GetStartOfWeek(overrideStart);
+
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				DateTime = DateTime.SpecifyKind(overrideStart, DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.DAY
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+			if (logs is not null && module is not null)
+			{
+				var dayAnonLogs = ConvertTrackingLogsToDay(logs.Where(x => x.IsMember == false).ToList());
+				var dayMemLogs = ConvertTrackingLogsToDay(logs.Where(x => x.IsMember == true).ToList());
+				await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime, dayAnonLogs, dayMemLogs);
+			}
+		}
+	}
 
 	async ValueTask IAsyncDisposable.DisposeAsync()
 	{
@@ -97,5 +177,33 @@
 		{
 			await module.DisposeAsync();
 		}
+	}
+
+
+	private ValueTask<DateTime> GetStartOfWeek(DateTime date)
+	{
+		return ValueTask.FromResult(date.AddDays(-(int)date.DayOfWeek));
+	}
+
+	private Dictionary<string, int> ConvertTrackingLogsToDay(List<TrackingLogVM> logs)
+	{
+		Dictionary<string, int> dayTimeLogs = new Dictionary<string, int>();
+
+		foreach(var log in logs)
+		{
+			string dayLogKey = log.DateTime.ToLocalTime().ToString("hhtt");
+
+			if (dayTimeLogs.ContainsKey(dayLogKey))
+			{
+				dayTimeLogs[dayLogKey] += 1;
+			}
+			else
+			{
+				dayTimeLogs[dayLogKey] = 1;
+			}
+		}
+
+		return dayTimeLogs;
+
 	}
 }

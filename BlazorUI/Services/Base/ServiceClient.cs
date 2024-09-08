@@ -9790,8 +9790,14 @@ namespace BlazorUI.Services.Base
     public partial class GetTrackingLogsQuery
     {
 
-        [System.Text.Json.Serialization.JsonPropertyName("searchText")]
-        public string SearchText { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("dateType")]
+        public TrackingLogDateType DateType { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
+        public System.DateTime DateTime { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("timeZone")]
+        public string TimeZone { get; set; }
 
     }
 
@@ -10327,6 +10333,20 @@ namespace BlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("browser")]
         public string Browser { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum TrackingLogDateType
+    {
+
+        _0 = 0,
+
+        _1 = 1,
+
+        _2 = 2,
+
+        _3 = 3,
 
     }
 
