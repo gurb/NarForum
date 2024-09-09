@@ -88,7 +88,7 @@
 				logs = await TrackingLogService.GetTrackingLogs(query);
 
 
-				if(logs is not null && logs.Count > 0)
+				if(logs is not null)
 				{
 					var dayAnonLogs = ConvertTrackingLogsToDay(logs.Where(x => x.IsMember == false).ToList());
 					var dayMemLogs = ConvertTrackingLogsToDay(logs.Where(x => x.IsMember == true).ToList());
@@ -136,7 +136,7 @@
 			logs = await TrackingLogService.GetTrackingLogs(query);
 
 
-			if (logs is not null && logs.Count > 0 && module is not null)
+			if (logs is not null && module is not null)
 			{
 
 				if(query.DateType == Models.Enums.TrackingLogDateType.DAY)

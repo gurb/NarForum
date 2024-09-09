@@ -56,8 +56,15 @@ namespace Application.Features.TrackingLog.Queries.GetTrackingLogs
 
                 return _mapper.Map<List<TrackingLogDTO>>(logsInClientTimeZone);
 			}
+			if (request.DateType == TrackingLogDateType.MONTH && request.TimeZone is not null)
+			{
+                foreach (var log in trackingLogs)
+                {
+                    log.DateTime = TimeZoneInfo.ConvertTimeFromUtc(log.DateTime, clientTimeZone).Date;
+				}
+			}
 
-            var data = _mapper.Map<List<TrackingLogDTO>>(trackingLogs);
+			var data = _mapper.Map<List<TrackingLogDTO>>(trackingLogs);
 
             return data;
         }
