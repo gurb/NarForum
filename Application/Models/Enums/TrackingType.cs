@@ -8,10 +8,12 @@ namespace Application.Models.Enums
 {
     public enum TrackingType
     {
-        HOMEPAGE,
+		NONE,
+		HOMEPAGE,
         HEADING,
         USERPROFILE,
         BLOG,
         STATICPAGE,
+        NEWUSER,
     }
 }

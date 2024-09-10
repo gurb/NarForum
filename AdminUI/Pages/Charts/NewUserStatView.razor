@@ -1,24 +1,402 @@
-﻿@inject IJSRuntime JS
+﻿@using System.Globalization
+@inject IJSRuntime JS
 @implements IAsyncDisposable
 <div class="chart-stat-component">
-<h3 class="dashboard-stat-title">NewUserStatView</h3>
-
+	<div class="dashboard-stat-head-area">
+		<h3 class="dashboard-stat-title">New Users</h3>
+		<SelectDate ChangeTimeCallback="OnChangeTime"
+					ChangeDayCallback="OnChangeDayDate"
+					ChangeWeekCallback="OnChangeWeekDate"
+					ChangeMonthCallback="OnChangeMonthDate"
+					ChangeYearCallback="OnChangeYearDate">
+		</SelectDate>
+	</div>
 
 <canvas id="newUserStatViewChart"></canvas>
 
 </div>
 @code {
 	private IJSInProcessObjectReference? module;
+	private string? ClientTimeZone { get; set; }
+	[Inject]
+	public ITrackingLogService? TrackingLogService { get; set; }
+	private string SelectedTime { get; set; } = "Day";
 
+	private static int GetWeek
+	{
+		get
+		{
+			Calendar calendar = CultureInfo.CurrentCulture.Calendar;
+			CalendarWeekRule weekRule = CultureInfo.CurrentCulture.DateTimeFormat.CalendarWeekRule;
+			DayOfWeek firstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+
+			int weekNumber = calendar.GetWeekOfYear(DateTime.UtcNow, weekRule, firstDayOfWeek);
+
+			return weekNumber;
+		}
+	}
+
+	private List<TrackingLogVM>? logs { get; set; }
 
 	protected async override Task OnAfterRenderAsync(bool firstRender)
 	{
 		await base.OnAfterRenderAsync(firstRender);
+
+		ClientTimeZone = await JS.InvokeAsync<string>("GetTimeZone");
+
+		logs = new List<TrackingLogVM>();
+
 		if (firstRender)
 		{
 			module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Charts/NewUserStatView.razor.js");
-			await module.InvokeVoidAsync("drawNewUserStatViewChart");
+
+			if (TrackingLogService is not null)
+			{
+				GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+				{
+					TrackingType = Models.Enums.TrackingTypeVM.NEWUSER,
+					TimeZone = ClientTimeZone,
+					DateType = Models.Enums.TrackingLogDateType.DAY,
+					DateTime = DateTime.UtcNow
+				};
+
+				logs = await TrackingLogService.GetTrackingLogs(query);
+
+				if (logs is not null)
+				{
+					var dayLogs = ConvertTrackingLogsToDay(logs);
+					await module.InvokeVoidAsync("drawNewUserStatViewChart", SelectedTime, dayLogs);
+				}
+
+			}
 		}
+	}
+
+	private async void OnChangeTime(string selectedTime)
+	{
+		SelectedTime = selectedTime;
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TrackingType = Models.Enums.TrackingTypeVM.NEWUSER,
+				TimeZone = ClientTimeZone
+			};
+
+			if (SelectedTime == "Day")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.DAY;
+				query.DateTime = DateTime.UtcNow;
+			}
+
+			if (SelectedTime == "Week")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.WEEK;
+				query.DateTime = DateTime.SpecifyKind(GetDateFromIsoWeek($"{DateTime.UtcNow.Year.ToString()}-W{GetWeek}"), DateTimeKind.Utc);
+			}
+
+			if (SelectedTime == "Month")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.MONTH;
+				query.DateTime = DateTime.UtcNow;
+			}
+
+			if (SelectedTime == "Year")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.YEAR;
+				query.DateTime = DateTime.UtcNow;
+			}
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+
+			if (logs is not null && module is not null)
+			{
+				if (query.DateType == Models.Enums.TrackingLogDateType.DAY)
+				{
+					var dayLogs = ConvertTrackingLogsToDay(logs);
+					await module.InvokeVoidAsync("drawNewUserStatViewChart", SelectedTime, dayLogs);
+				}
+				if (query.DateType == Models.Enums.TrackingLogDateType.WEEK)
+				{
+					var weekLogs = ConvertTrackingLogsToWeek(logs);
+					await module.InvokeVoidAsync("drawNewUserStatViewChart", SelectedTime, weekLogs);
+				}
+				if (query.DateType == Models.Enums.TrackingLogDateType.MONTH)
+				{
+					var monthLogs = ConvertTrackingLogsToMonth(logs);
+					await module.InvokeVoidAsync("drawNewUserStatViewChart", SelectedTime, monthLogs);
+				}
+				if (query.DateType == Models.Enums.TrackingLogDateType.YEAR)
+				{
+					var yearLogs = ConvertTrackingLogsToYear(logs);
+					await module.InvokeVoidAsync("drawNewUserStatViewChart", SelectedTime, yearLogs);
+				}
+
+			}
+
+		}
+	}
+
+	public async Task OnChangeDayDate(DateTime selectedDay)
+	{
+		// overrideStart = await GetStartOfWeek(overrideStart);
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				TrackingType = Models.Enums.TrackingTypeVM.NEWUSER,
+				DateTime = DateTime.SpecifyKind(selectedDay, DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.DAY
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+			if (logs is not null && module is not null)
+			{
+				var dayLogs = ConvertTrackingLogsToDay(logs);
+				await module.InvokeVoidAsync("drawNewUserStatViewChart", SelectedTime, dayLogs);
+			}
+		}
+	}
+
+	public async Task OnChangeWeekDate(string selectedWeek)
+	{
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				TrackingType = Models.Enums.TrackingTypeVM.NEWUSER,
+				DateTime = DateTime.SpecifyKind(GetDateFromIsoWeek(selectedWeek), DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.WEEK
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+
+
+			if (logs is not null && module is not null)
+			{
+				var weekLogs = ConvertTrackingLogsToWeek(logs);
+				await module.InvokeVoidAsync("drawNewUserStatViewChart", SelectedTime, weekLogs);
+			}
+		}
+	}
+
+	public async Task OnChangeMonthDate(DateTime selectedMonth)
+	{
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				TrackingType = Models.Enums.TrackingTypeVM.NEWUSER,
+				DateTime = DateTime.SpecifyKind(selectedMonth, DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.MONTH
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+			if (logs is not null && module is not null)
+			{
+				var monthLogs = ConvertTrackingLogsToMonth(logs);
+				await module.InvokeVoidAsync("drawNewUserStatViewChart", SelectedTime, monthLogs);
+			}
+		}
+	}
+
+
+	public async Task OnChangeYearDate(DateTime selectedYear)
+	{
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				TrackingType = Models.Enums.TrackingTypeVM.NEWUSER,
+				DateTime = DateTime.SpecifyKind(selectedYear, DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.YEAR
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+			if (logs is not null && module is not null)
+			{
+				var yearLogs = ConvertTrackingLogsToYear(logs);
+				await module.InvokeVoidAsync("drawNewUserStatViewChart", SelectedTime, yearLogs);
+			}
+		}
+	}
+
+	private Dictionary<string, int> ConvertTrackingLogsToDay(List<TrackingLogVM> logs)
+	{
+		Dictionary<string, int> dayTimeLogs = new Dictionary<string, int>();
+
+		foreach (var log in logs)
+		{
+			string dayLogKey = log.DateTime.ToLocalTime().ToString("hhtt");
+
+			if (dayTimeLogs.ContainsKey(dayLogKey))
+			{
+				dayTimeLogs[dayLogKey] += 1;
+			}
+			else
+			{
+				dayTimeLogs[dayLogKey] = 1;
+			}
+		}
+
+		return dayTimeLogs;
+
+	}
+
+	private Dictionary<string, int> ConvertTrackingLogsToWeek(List<TrackingLogVM> logs)
+	{
+		Dictionary<string, int> weekTimeLogs = new Dictionary<string, int>();
+
+		foreach (var log in logs)
+		{
+			string day = "";
+			var dayOfWeek = log.DateTime.DayOfWeek;
+
+			if (dayOfWeek == DayOfWeek.Monday)
+			{
+				day = "Mon";
+			}
+			if (dayOfWeek == DayOfWeek.Tuesday)
+			{
+				day = "Tue";
+			}
+			if (dayOfWeek == DayOfWeek.Wednesday)
+			{
+				day = "Wed";
+			}
+			if (dayOfWeek == DayOfWeek.Thursday)
+			{
+				day = "Thu";
+			}
+			if (dayOfWeek == DayOfWeek.Friday)
+			{
+				day = "Fri";
+			}
+			if (dayOfWeek == DayOfWeek.Saturday)
+			{
+				day = "Sat";
+			}
+
+			if (dayOfWeek == DayOfWeek.Sunday)
+			{
+				day = "Sun";
+			}
+
+			if (weekTimeLogs.ContainsKey(day))
+			{
+				weekTimeLogs[day] += 1;
+			}
+			else
+			{
+				weekTimeLogs[day] = 1;
+			}
+		}
+
+		return weekTimeLogs;
+
+	}
+
+	private Dictionary<string, int> ConvertTrackingLogsToMonth(List<TrackingLogVM> logs)
+	{
+		Dictionary<string, int> monthTimeLogs = new Dictionary<string, int>();
+
+		foreach (var log in logs)
+		{
+			string monthLogKey = log.DateTime.ToString("dd");
+
+			if (monthTimeLogs.ContainsKey(monthLogKey))
+			{
+				monthTimeLogs[monthLogKey] += 1;
+			}
+			else
+			{
+				monthTimeLogs[monthLogKey] = 1;
+			}
+		}
+
+		return monthTimeLogs;
+
+	}
+
+	private Dictionary<string, int> ConvertTrackingLogsToYear(List<TrackingLogVM> logs)
+	{
+		Dictionary<string, int> yearTimeLogs = new Dictionary<string, int>();
+
+		foreach (var log in logs)
+		{
+			string yearMonth = log.DateTime.Month.ToString();
+			string yearLogKey = "";
+
+			if (yearMonth == "1")
+			{
+				yearLogKey = "Jan";
+			}
+			if (yearMonth == "2")
+			{
+				yearLogKey = "Feb";
+			}
+			if (yearMonth == "3")
+			{
+				yearLogKey = "Mar";
+			}
+			if (yearMonth == "4")
+			{
+				yearLogKey = "Apr";
+			}
+			if (yearMonth == "5")
+			{
+				yearLogKey = "May";
+			}
+			if (yearMonth == "6")
+			{
+				yearLogKey = "Jun";
+			}
+			if (yearMonth == "7")
+			{
+				yearLogKey = "Jul";
+			}
+			if (yearMonth == "8")
+			{
+				yearLogKey = "Aug";
+			}
+			if (yearMonth == "9")
+			{
+				yearLogKey = "Sep";
+			}
+			if (yearMonth == "10")
+			{
+				yearLogKey = "Oct";
+			}
+			if (yearMonth == "11")
+			{
+				yearLogKey = "Nov";
+			}
+			if (yearMonth == "12")
+			{
+				yearLogKey = "Dec";
+			}
+
+			if (yearTimeLogs.ContainsKey(yearLogKey))
+			{
+				yearTimeLogs[yearLogKey] += 1;
+			}
+			else
+			{
+				yearTimeLogs[yearLogKey] = 1;
+			}
+		}
+
+		return yearTimeLogs;
+
 	}
 
 	async ValueTask IAsyncDisposable.DisposeAsync()
@@ -27,5 +405,30 @@
 		{
 			await module.DisposeAsync();
 		}
+	}
+
+	public DateTime GetDateFromIsoWeek(string isoWeek)
+	{
+		var parts = isoWeek.Split(new[] { "-W" }, StringSplitOptions.None);
+		int year = int.Parse(parts[0]);
+		int week = int.Parse(parts[1]);
+
+		DateTime jan1 = new DateTime(year, 1, 1);
+		int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+
+		DateTime firstThursday = jan1.AddDays(daysOffset);
+		var cal = CultureInfo.CurrentCulture.Calendar;
+		int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+		var weekNum = week;
+
+		if (firstWeek == 1)
+		{
+			weekNum -= 1;
+		}
+
+		var result = firstThursday.AddDays(weekNum * 7);
+
+		return result.AddDays(-3);
 	}
 }

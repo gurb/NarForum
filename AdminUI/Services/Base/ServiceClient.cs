@@ -9790,6 +9790,9 @@ namespace AdminUI.Services.Base
     public partial class GetTrackingLogsQuery
     {
 
+        [System.Text.Json.Serialization.JsonPropertyName("trackingType")]
+        public TrackingType TrackingType { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("dateType")]
         public TrackingLogDateType DateType { get; set; }
 
@@ -10363,6 +10366,10 @@ namespace AdminUI.Services.Base
         _3 = 3,
 
         _4 = 4,
+
+        _5 = 5,
+
+        _6 = 6,
 
     }
 

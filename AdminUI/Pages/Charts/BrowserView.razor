@@ -1,49 +1,91 @@
-﻿@inject IJSRuntime JS
+﻿@using System.Globalization
+@inject IJSRuntime JS
 @implements IAsyncDisposable
 <div class="chart-stat-component">
-<h3 class="dashboard-stat-title">Browsers</h3>
+    <div class="dashboard-stat-head-area">
+        <h3 class="dashboard-stat-title">Browsers</h3>
+        <SelectDate ChangeTimeCallback="OnChangeTime"
+                    ChangeDayCallback="OnChangeDayDate"
+                    ChangeWeekCallback="OnChangeWeekDate"
+                    ChangeMonthCallback="OnChangeMonthDate"
+                    ChangeYearCallback="OnChangeYearDate">
+        </SelectDate>
+    </div>
+
 
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
-            <canvas id="browserViewChart"></canvas>
-	    </div>
-        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
-            <table class="table table-striped table-responsive">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>twitter</td>
-                    </tr>
-                </tbody>
-            </table>
-	    </div>
+
+		@if (logs is null || logs.Count == 0)
+		{
+			<div class="dashboard-not-found-stat-data">
+				<p>Not Found Logs</p>
+			</div>
+		}
+		else
+		{
+			<div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+				<canvas id="browserViewChart" style="display:block"></canvas>
+			</div>
+			<div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+				<table class="table table-responsive dashboard-stat-table">
+					<tbody>
+						@foreach (var log in LogsPie)
+						{
+							<tr>
+								<th scope="row"><i class="bi bi-square-fill for-@log.Key.ToLower()"></i></th>
+								<td>@log.Key</td>
+								<td>@CalculatePercentage(@log.Value).ToString("n2")% (@log.Value)</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		}
+		
+		
+
     </div>
 
     </div>
 @code {
 	private IJSInProcessObjectReference? module;
+	private string SelectedTime { get; set; } = "Day";
+	private string? ClientTimeZone { get; set; }
 
+	[Inject]
+	public ITrackingLogService? TrackingLogService { get; set; }
+
+	private List<TrackingLogVM>? logs { get; set; }
+
+	Dictionary<string, int> LogsPie { get; set; } = new Dictionary<string, int>();
+
+	int AllBrowsersCount = 0;
+
+
+	private float CalculatePercentage(int value)
+	{
+		if(logs is not null && logs.Count > 0)
+		{
+			float ratio = (float)value / (float)logs.Count;
+
+			return 100 * ratio;
+		}
+		return 0;	
+	}
+
+	private static int GetWeek
+	{
+		get
+		{
+			Calendar calendar = CultureInfo.CurrentCulture.Calendar;
+			CalendarWeekRule weekRule = CultureInfo.CurrentCulture.DateTimeFormat.CalendarWeekRule;
+			DayOfWeek firstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+
+			int weekNumber = calendar.GetWeekOfYear(DateTime.UtcNow, weekRule, firstDayOfWeek);
+
+			return weekNumber;
+		}
+	}
 
 	protected async override Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -52,7 +94,189 @@
 		{
 			module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Charts/BrowserView.razor.js");
 			await module.InvokeVoidAsync("drawBrowserViewChart");
+
+			logs = new List<TrackingLogVM>();
+
+			if (TrackingLogService is not null)
+			{
+				GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+				{
+					TimeZone = ClientTimeZone
+				};
+
+				logs = await TrackingLogService.GetTrackingLogs(query);
+
+				if (logs is not null)
+				{
+					LogsPie = CalculatePercentages(logs);
+					await InvokeAsync(StateHasChanged);
+					await module.InvokeVoidAsync("drawBrowserViewChart", LogsPie);
+				}
+			}
 		}
+	}
+
+	private async void OnChangeTime(string selectedTime)
+	{
+		SelectedTime = selectedTime;
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone
+			};
+
+
+			if (SelectedTime == "Day")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.DAY;
+				query.DateTime = DateTime.UtcNow;
+			}
+
+			if (SelectedTime == "Week")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.WEEK;
+				query.DateTime = DateTime.SpecifyKind(GetDateFromIsoWeek($"{DateTime.UtcNow.Year.ToString()}-W{GetWeek}"), DateTimeKind.Utc);
+			}
+
+			if (SelectedTime == "Month")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.MONTH;
+				query.DateTime = DateTime.UtcNow;
+			}
+
+			if (SelectedTime == "Year")
+			{
+				query.DateType = Models.Enums.TrackingLogDateType.YEAR;
+				query.DateTime = DateTime.UtcNow;
+			}
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+			LogsPie = new Dictionary<string, int>();
+
+			if (logs is not null && module is not null)
+			{
+				LogsPie = CalculatePercentages(logs);
+				await InvokeAsync(StateHasChanged);
+				await module.InvokeVoidAsync("drawBrowserViewChart", LogsPie);
+			}
+
+		}
+	}
+
+	public async Task OnChangeDayDate(DateTime selectedDay)
+	{
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				DateTime = DateTime.SpecifyKind(selectedDay, DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.DAY
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+			if (logs is not null && module is not null)
+			{
+				LogsPie = CalculatePercentages(logs);
+				await InvokeAsync(StateHasChanged);
+				await module.InvokeVoidAsync("drawBrowserViewChart", LogsPie);
+			}
+		}
+	}
+
+	public async Task OnChangeWeekDate(string selectedWeek)
+	{
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				DateTime = DateTime.SpecifyKind(GetDateFromIsoWeek(selectedWeek), DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.WEEK
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+
+			if (logs is not null && module is not null)
+			{
+				LogsPie = CalculatePercentages(logs);
+				await InvokeAsync(StateHasChanged);
+				await module.InvokeVoidAsync("drawBrowserViewChart", LogsPie);
+			}
+		}
+	}
+
+	public async Task OnChangeMonthDate(DateTime selectedMonth)
+	{
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				DateTime = DateTime.SpecifyKind(selectedMonth, DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.MONTH
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+			if (logs is not null && module is not null)
+			{
+				LogsPie = CalculatePercentages(logs);
+				await InvokeAsync(StateHasChanged);
+				await module.InvokeVoidAsync("drawBrowserViewChart", LogsPie);
+			}
+		}
+	}
+
+
+	public async Task OnChangeYearDate(DateTime selectedYear)
+	{
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				DateTime = DateTime.SpecifyKind(selectedYear, DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.YEAR
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+			if (logs is not null && module is not null)
+			{
+				LogsPie = CalculatePercentages(logs);
+				await InvokeAsync(StateHasChanged);
+				await module.InvokeVoidAsync("drawBrowserViewChart", LogsPie);
+			}
+
+
+		}
+	}
+
+	private Dictionary<string, int> CalculatePercentages(List<TrackingLogVM> paramLogs)
+	{
+		Dictionary<string, int> logsPie = new Dictionary<string, int>();
+
+		foreach (var log in paramLogs)
+		{
+			if (log.Browser is null) continue;
+
+
+			if(!logsPie.ContainsKey(log.Browser))
+			{
+				logsPie.Add(log.Browser, 1);
+			}
+			else
+			{
+				logsPie[log.Browser] += 1;
+			}
+		}
+
+		return logsPie;
 	}
 
 	async ValueTask IAsyncDisposable.DisposeAsync()
@@ -61,5 +285,30 @@
 		{
 			await module.DisposeAsync();
 		}
+	}
+
+	public DateTime GetDateFromIsoWeek(string isoWeek)
+	{
+		var parts = isoWeek.Split(new[] { "-W" }, StringSplitOptions.None);
+		int year = int.Parse(parts[0]);
+		int week = int.Parse(parts[1]);
+
+		DateTime jan1 = new DateTime(year, 1, 1);
+		int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+
+		DateTime firstThursday = jan1.AddDays(daysOffset);
+		var cal = CultureInfo.CurrentCulture.Calendar;
+		int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+		var weekNum = week;
+
+		if (firstWeek == 1)
+		{
+			weekNum -= 1;
+		}
+
+		var result = firstThursday.AddDays(weekNum * 7);
+
+		return result.AddDays(-3);
 	}
 }

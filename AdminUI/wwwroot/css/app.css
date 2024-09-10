@@ -120,6 +120,10 @@ thead {
     padding: 10px;
 }
 
+.dashboard-stat-table {
+    font-size: 0.8rem;
+}
+
 .dashboard-select-box {
     font-size: 0.7rem;
     border: 1px solid #ccc;
@@ -145,4 +149,16 @@ thead {
     justify-content: space-between;
 }
 
+
+.dashboard-not-found-stat-data {
+    padding: 100px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard-not-found-stat-data p{
+    font-size: 20px;
+    color:#ccc;
+}
 /** dashboard styles end */

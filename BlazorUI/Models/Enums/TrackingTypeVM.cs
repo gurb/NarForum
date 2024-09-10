@@ -2,10 +2,12 @@
 {
     public enum TrackingTypeVM
     {
-        HOMEPAGE,
+        NONE,
+		HOMEPAGE,
         HEADING,
         USERPROFILE,
         BLOG,
         STATICPAGE,
+        NEWUSER
     }
 }

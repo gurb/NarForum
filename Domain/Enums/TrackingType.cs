@@ -2,10 +2,12 @@
 {
     public enum TrackingType
     {
+        NONE,
         HOMEPAGE,
         HEADING,
         USERPROFILE,
         BLOG,
         STATICPAGE,
+        NEWUSER
     }
 }

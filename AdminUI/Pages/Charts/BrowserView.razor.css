@@ -1,0 +1,39 @@
+﻿.browser-color-box {
+
+}
+
+.for-chrome {
+    color: #538fff;
+}
+
+.for-edge {
+    color: #b431e6;
+}
+
+.for-firefox {
+    color: #ff5b58;
+}
+
+.for-opera {
+    color: #f7ed65;
+}
+
+.for-internet-explorer {
+    color: #28d2ab;
+}
+
+.for-safari {
+    color: #fca207;
+}
+
+.for-samsung-browser {
+    color: #f6ccf9;
+}
+
+.for-uc-browser {
+    color: #268189;
+}
+
+.for-others {
+    color: #2d1a77;
+}

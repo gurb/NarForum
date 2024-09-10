@@ -45,7 +45,12 @@ namespace Application.Features.TrackingLog.Queries.GetTrackingLogs
                 predicate = predicate.And(x => x.DateTime.Year == request.DateTime.Year);
 			}
 
-			var trackingLogs = await _trackingLogRepository.GetAllAsync(predicate);
+            if (request.TrackingType != Models.Enums.TrackingType.NONE)
+            {
+                predicate = predicate.And(x => x.Type == (Domain.Models.Enums.TrackingType)request.TrackingType);
+            }
+
+            var trackingLogs = await _trackingLogRepository.GetAllAsync(predicate);
 
 			if (request.DateType == TrackingLogDateType.DAY && request.TimeZone is not null)
             {

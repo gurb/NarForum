@@ -12,15 +12,15 @@
 
 export function GetBrowserName() {
     var BROWSER = new Array(
-        ["Microsoft Edge", /edg/i],
-        ["Microsoft Internet Explorer", /trident/i],
-        ["Mozilla Firefox", /firefox|fxios/i],
+        ["Edge", /edg/i],
+        ["Internet Explorer", /trident/i],
+        ["Firefox", /firefox|fxios/i],
         ["Opera", /opr\//i],
         ["UC Browser", /ucbrowser/i],
         ["Samsung Browser", /samsungbrowser/i],
-        ["Google Chrome", /chrome|chromium|crios/i],
-        ["Apple Safari", /safari/i],
-        ["Unknown", /.+/i],
+        ["Chrome", /chrome|chromium|crios/i],
+        ["Safari", /safari/i],
+        ["Others", /.+/i],
     ).find(([, value]) => value.test(window.navigator.userAgent)).shift();
 
     return BROWSER;

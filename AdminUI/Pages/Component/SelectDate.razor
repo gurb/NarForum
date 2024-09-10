@@ -222,6 +222,12 @@
 	private async void OnChangeTime(ChangeEventArgs e)
 	{
 		SelectedTime = e.Value.ToString();
+
+		overrideStart = DateTime.UtcNow;
+		weekStart = $"{DateTime.UtcNow.Year.ToString()}-W{GetWeek}";
+		monthStart = DateTime.UtcNow;
+		yearStart = DateTime.UtcNow;
+
 		await this.ChangeTimeCallback.InvokeAsync(SelectedTime);
 	}
 

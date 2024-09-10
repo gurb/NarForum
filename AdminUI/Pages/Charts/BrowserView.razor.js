@@ -1,21 +1,53 @@
-﻿export function drawBrowserViewChart() {
+﻿let browserViewChart;
+
+export function drawBrowserViewChart(logs) {
     let ctx = document.getElementById('browserViewChart');
 
-    new Chart(ctx, {
+    if (browserViewChart != null && browserViewChart.destroy != null) {
+        browserViewChart.destroy();
+    }
+    
+    if (logs == null) {
+        return;
+    }
+
+    browserViewChart = new Chart(ctx, {
         type: 'pie',
         data: {
             labels: [
-                'Red',
-                'Blue',
-                'Yellow'
+                'Chrome',
+                'Edge',
+                'Firefox',
+                'Opera',
+                'Safari',
+                'Internet Explorer',
+                'Samsung Browser',
+                'UC Browser',
+                'Others'
             ],
             datasets: [{
-                label: 'My First Dataset',
-                data: [300, 50, 100],
+                label: 'Browser Views',
+                data: [
+                    logs['Chrome'],
+                    logs['Edge'],
+                    logs['Firefox'],
+                    logs['Opera'],
+                    logs['Safari'],
+                    logs['Internet Explorer'],
+                    logs['Samsung Browser'],
+                    logs['UC Browser'],
+                    logs['Others']
+                ],
                 backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)'
+                    '#538fff',
+                    '#b431e6',
+                    '#ff5b58',
+                    '#f7ed65',
+                    '#fca207',
+                    '#28d2ab',
+                    '#f6ccf9',
+                    '#268189',
+                    '#2d1a77',
                 ],
                 hoverOffset: 4
             }]
