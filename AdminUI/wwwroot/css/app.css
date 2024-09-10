@@ -113,3 +113,36 @@ thead {
     background: #7d7d7c;
     color: #f7f7f7;
 }
+
+/** dashboard styles begin */
+
+.chart-stat-component {
+    padding: 10px;
+}
+
+.dashboard-select-box {
+    font-size: 0.7rem;
+    border: 1px solid #ccc;
+    padding: 5px 15px;
+    margin-right: 5px;
+    background: linear-gradient(1deg, #d5d5d5, #ffffff);
+}
+
+.dashboard-input-date {
+    font-size: 0.7rem;
+    border: 1px solid #ccc;
+    padding: 4px 15px;
+    margin-right: 5px;
+    background: linear-gradient(1deg, #d5d5d5, #ffffff);
+}
+
+.dashboard-stat-title {
+    font-size: 1.3rem;
+}
+
+.dashboard-stat-head-area {
+    display: flex;
+    justify-content: space-between;
+}
+
+/** dashboard styles end */
