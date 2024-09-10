@@ -16,7 +16,6 @@ namespace Application.Features.TrackingLog.Queries.GetTrackingLogs
             _mapper = mapper;
             _trackingLogRepository = trackingLogRepository;
         }
-
         public async Task<List<TrackingLogDTO>> Handle(GetTrackingLogsQuery request, CancellationToken cancellationToken)
         {
 
@@ -35,7 +34,7 @@ namespace Application.Features.TrackingLog.Queries.GetTrackingLogs
 			}
             else if(request.DateType == TrackingLogDateType.WEEK)
             {
-				//predicate = predicate.And(x => x.DateTime.Date == request.DateTime);
+				predicate = predicate.And(x => x.DateTime >= request.DateTime && x.DateTime <= request.DateTime.AddDays(7));
 			}
 			else if (request.DateType == TrackingLogDateType.MONTH)
 			{
@@ -61,6 +60,13 @@ namespace Application.Features.TrackingLog.Queries.GetTrackingLogs
                 foreach (var log in trackingLogs)
                 {
                     log.DateTime = TimeZoneInfo.ConvertTimeFromUtc(log.DateTime, clientTimeZone).Date;
+				}
+			}
+			if (request.DateType == TrackingLogDateType.WEEK && request.TimeZone is not null)
+			{
+				foreach (var log in trackingLogs)
+				{
+					log.DateTime = TimeZoneInfo.ConvertTimeFromUtc(log.DateTime, clientTimeZone).Date;
 				}
 			}
 

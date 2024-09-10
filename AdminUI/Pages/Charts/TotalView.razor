@@ -1,4 +1,5 @@
-﻿@inject IJSRuntime JS
+﻿@using System.Globalization
+@inject IJSRuntime JS
 @implements IAsyncDisposable
 
 
@@ -15,7 +16,9 @@
 		}
 		@if(SelectedTime == "Week")
 		{
-			
+			<span>
+				<input type="week" name="week" id="camp-week" value="@weekStart" @onchange="@OnChangeWeekDate" />
+			</span>
 		}
 		@if (SelectedTime == "Month")
 		{
@@ -25,7 +28,141 @@
 		}
 		@if (SelectedTime == "Year")
 		{
-
+			<span>
+				<select class="form-select" id="year" name="year" value="@yearStart.Year" @onchange="@OnChangeYearDate">
+					<option value="">year</option>
+					<option value="1970">1970</option>
+					<option value="1971">1971</option>
+					<option value="1972">1972</option>
+					<option value="1973">1973</option>
+					<option value="1974">1974</option>
+					<option value="1975">1975</option>
+					<option value="1976">1976</option>
+					<option value="1977">1977</option>
+					<option value="1978">1978</option>
+					<option value="1979">1979</option>
+					<option value="1980">1980</option>
+					<option value="1981">1981</option>
+					<option value="1982">1982</option>
+					<option value="1983">1983</option>
+					<option value="1984">1984</option>
+					<option value="1985">1985</option>
+					<option value="1986">1986</option>
+					<option value="1987">1987</option>
+					<option value="1988">1988</option>
+					<option value="1989">1989</option>
+					<option value="1990">1990</option>
+					<option value="1991">1991</option>
+					<option value="1992">1992</option>
+					<option value="1993">1993</option>
+					<option value="1994">1994</option>
+					<option value="1995">1995</option>
+					<option value="1996">1996</option>
+					<option value="1997">1997</option>
+					<option value="1998">1998</option>
+					<option value="1999">1999</option>
+					<option value="2000">2000</option>
+					<option value="2001">2001</option>
+					<option value="2002">2002</option>
+					<option value="2003">2003</option>
+					<option value="2004">2004</option>
+					<option value="2005">2005</option>
+					<option value="2006">2006</option>
+					<option value="2007">2007</option>
+					<option value="2008">2008</option>
+					<option value="2009">2009</option>
+					<option value="2010">2010</option>
+					<option value="2011">2011</option>
+					<option value="2012">2012</option>
+					<option value="2013">2013</option>
+					<option value="2014">2014</option>
+					<option value="2015">2015</option>
+					<option value="2016">2016</option>
+					<option value="2017">2017</option>
+					<option value="2018">2018</option>
+					<option value="2019">2019</option>
+					<option value="2020">2020</option>
+					<option value="2021">2021</option>
+					<option value="2022">2022</option>
+					<option value="2023">2023</option>
+					<option value="2024">2024</option>
+					<option value="2025">2025</option>
+					<option value="2026">2026</option>
+					<option value="2027">2027</option>
+					<option value="2028">2028</option>
+					<option value="2029">2029</option>
+					<option value="2030">2030</option>
+					<option value="2031">2031</option>
+					<option value="2032">2032</option>
+					<option value="2033">2033</option>
+					<option value="2034">2034</option>
+					<option value="2035">2035</option>
+					<option value="2036">2036</option>
+					<option value="2037">2037</option>
+					<option value="2038">2038</option>
+					<option value="2039">2039</option>
+					<option value="2040">2040</option>
+					<option value="2041">2041</option>
+					<option value="2042">2042</option>
+					<option value="2043">2043</option>
+					<option value="2044">2044</option>
+					<option value="2045">2045</option>
+					<option value="2046">2046</option>
+					<option value="2047">2047</option>
+					<option value="2048">2048</option>
+					<option value="2049">2049</option>
+					<option value="2050">2050</option>
+					<option value="2051">2051</option>
+					<option value="2052">2052</option>
+					<option value="2053">2053</option>
+					<option value="2054">2054</option>
+					<option value="2055">2055</option>
+					<option value="2056">2056</option>
+					<option value="2057">2057</option>
+					<option value="2058">2058</option>
+					<option value="2059">2059</option>
+					<option value="2060">2060</option>
+					<option value="2061">2061</option>
+					<option value="2062">2062</option>
+					<option value="2063">2063</option>
+					<option value="2064">2064</option>
+					<option value="2065">2065</option>
+					<option value="2066">2066</option>
+					<option value="2067">2067</option>
+					<option value="2068">2068</option>
+					<option value="2069">2069</option>
+					<option value="2070">2070</option>
+					<option value="2071">2071</option>
+					<option value="2072">2072</option>
+					<option value="2073">2073</option>
+					<option value="2074">2074</option>
+					<option value="2075">2075</option>
+					<option value="2076">2076</option>
+					<option value="2077">2077</option>
+					<option value="2078">2078</option>
+					<option value="2079">2079</option>
+					<option value="2080">2080</option>
+					<option value="2081">2081</option>
+					<option value="2082">2082</option>
+					<option value="2083">2083</option>
+					<option value="2084">2084</option>
+					<option value="2085">2085</option>
+					<option value="2086">2086</option>
+					<option value="2087">2087</option>
+					<option value="2088">2088</option>
+					<option value="2089">2089</option>
+					<option value="2090">2090</option>
+					<option value="2091">2091</option>
+					<option value="2092">2092</option>
+					<option value="2093">2093</option>
+					<option value="2094">2094</option>
+					<option value="2095">2095</option>
+					<option value="2096">2096</option>
+					<option value="2097">2097</option>
+					<option value="2098">2098</option>
+					<option value="2099">2099</option>
+				</select>
+			</span>
 		}
 		<span>
 			<select @oninput=OnChangeTime>
@@ -53,8 +190,26 @@
 
 	private string SelectedTime { get; set; } = "Day";
 
+
+	private static int GetWeek
+	{
+		get
+		{
+			Calendar calendar = CultureInfo.CurrentCulture.Calendar;
+			CalendarWeekRule weekRule = CultureInfo.CurrentCulture.DateTimeFormat.CalendarWeekRule;
+			DayOfWeek firstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+
+			int weekNumber = calendar.GetWeekOfYear(DateTime.UtcNow, weekRule, firstDayOfWeek);
+
+			return weekNumber;
+		}
+	}
+
+
 	private DateTime overrideStart = DateTime.UtcNow;
+	private string weekStart = $"{DateTime.UtcNow.Year.ToString()}-W{GetWeek}";
 	private DateTime monthStart = DateTime.UtcNow;
+	private DateTime yearStart = DateTime.UtcNow;
 
 	private List<string> Times = new List<string>
 	{
@@ -120,6 +275,7 @@
 			if(SelectedTime == "Week")
 			{
 				query.DateType = Models.Enums.TrackingLogDateType.WEEK;
+				weekStart = $"{DateTime.UtcNow.Year.ToString()}-W{GetWeek}";
 			}
 
 			if (SelectedTime == "Month")
@@ -131,6 +287,7 @@
 			if (SelectedTime == "Year")
 			{
 				query.DateType = Models.Enums.TrackingLogDateType.YEAR;
+				yearStart = DateTime.UtcNow;
 			}
 
 			logs = await TrackingLogService.GetTrackingLogs(query);
@@ -147,7 +304,9 @@
 				}
 				if (query.DateType == Models.Enums.TrackingLogDateType.WEEK)
 				{
-					await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime);
+					var weekAnonLogs = ConvertTrackingLogsToWeek(logs.Where(x => x.IsMember == false).ToList());
+					var weekMemLogs = ConvertTrackingLogsToWeek(logs.Where(x => x.IsMember == true).ToList());
+					await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime, weekAnonLogs, weekMemLogs);
 				}
 				if (query.DateType == Models.Enums.TrackingLogDateType.MONTH)
 				{
@@ -157,7 +316,9 @@
 				}
 				if (query.DateType == Models.Enums.TrackingLogDateType.YEAR)
 				{
-					await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime);
+					var yearAnonLogs = ConvertTrackingLogsToYear(logs.Where(x => x.IsMember == false).ToList());
+					var yearMemLogs = ConvertTrackingLogsToYear(logs.Where(x => x.IsMember == true).ToList());
+					await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime, yearAnonLogs, yearMemLogs);
 				}
 
 			}
@@ -192,6 +353,33 @@
 		}
 	}
 
+	public async Task OnChangeWeekDate(ChangeEventArgs args)
+	{
+		var value = args.Value.ToString();
+		weekStart = value == string.Empty ? $"{DateTime.UtcNow.Year.ToString()}-W{DateTime.UtcNow.DayOfYear}" : value!;
+
+		// overrideStart = await GetStartOfWeek(overrideStart);
+
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				DateTime = DateTime.SpecifyKind(GetDateFromIsoWeek(weekStart), DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.WEEK
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+			if (logs is not null && module is not null)
+			{
+				var weekAnonLogs = ConvertTrackingLogsToWeek(logs.Where(x => x.IsMember == false).ToList());
+				var weekMemLogs = ConvertTrackingLogsToWeek(logs.Where(x => x.IsMember == true).ToList());
+				await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime, weekAnonLogs, weekMemLogs);
+			}
+		}
+	}
+
 	public async Task OnChangeMonthDate(ChangeEventArgs args)
 	{
 		var value = args.Value.ToString();
@@ -218,6 +406,35 @@
 			}
 		}
 	}
+
+
+	public async Task OnChangeYearDate(ChangeEventArgs args)
+	{
+		var value = args.Value.ToString();
+		yearStart = value == string.Empty ? DateTime.UtcNow : DateTime.Parse($"{value}-01-01");
+
+		// overrideStart = await GetStartOfWeek(overrideStart);
+
+		if (TrackingLogService is not null)
+		{
+			GetTrackingLogsQueryVM query = new GetTrackingLogsQueryVM
+			{
+				TimeZone = ClientTimeZone,
+				DateTime = DateTime.SpecifyKind(yearStart, DateTimeKind.Utc),
+				DateType = Models.Enums.TrackingLogDateType.YEAR
+			};
+
+			logs = await TrackingLogService.GetTrackingLogs(query);
+
+			if (logs is not null && module is not null)
+			{
+				var yearAnonLogs = ConvertTrackingLogsToYear(logs.Where(x => x.IsMember == false).ToList());
+				var yearMemLogs = ConvertTrackingLogsToYear(logs.Where(x => x.IsMember == true).ToList());
+				await module.InvokeVoidAsync("drawTotalViewChart", SelectedTime, yearAnonLogs, yearMemLogs);
+			}
+		}
+	}
+
 
 	async ValueTask IAsyncDisposable.DisposeAsync()
 	{
@@ -255,6 +472,59 @@
 
 	}
 
+	private Dictionary<string, int> ConvertTrackingLogsToWeek(List<TrackingLogVM> logs)
+	{
+		Dictionary<string, int> weekTimeLogs = new Dictionary<string, int>();
+
+		foreach (var log in logs)
+		{
+			string day = "";
+			var dayOfWeek = log.DateTime.DayOfWeek;
+
+			if (dayOfWeek == DayOfWeek.Monday)
+			{
+				day = "Mon";
+			}
+			if (dayOfWeek == DayOfWeek.Tuesday)
+			{
+				day = "Tue";
+			}
+			if (dayOfWeek == DayOfWeek.Wednesday)
+			{
+				day = "Wed";
+			}
+			if (dayOfWeek == DayOfWeek.Thursday)
+			{
+				day = "Thu";
+			}
+			if (dayOfWeek == DayOfWeek.Friday)
+			{
+				day = "Fri";
+			}
+			if (dayOfWeek == DayOfWeek.Saturday)
+			{
+				day = "Sat";
+			}
+
+			if (dayOfWeek == DayOfWeek.Sunday)
+			{
+				day = "Sun";
+			}
+
+			if (weekTimeLogs.ContainsKey(day))
+			{
+				weekTimeLogs[day] += 1;
+			}
+			else
+			{
+				weekTimeLogs[day] = 1;
+			}
+		}
+
+		return weekTimeLogs;
+
+	}
+
 	private Dictionary<string, int> ConvertTrackingLogsToMonth(List<TrackingLogVM> logs)
 	{
 		Dictionary<string, int> monthTimeLogs = new Dictionary<string, int>();
@@ -275,5 +545,103 @@
 
 		return monthTimeLogs;
 
+	}
+
+	private Dictionary<string, int> ConvertTrackingLogsToYear(List<TrackingLogVM> logs)
+	{
+		Dictionary<string, int> yearTimeLogs = new Dictionary<string, int>();
+
+		foreach (var log in logs)
+		{
+			string yearMonth = log.DateTime.Month.ToString();
+			string yearLogKey = "";
+
+			if (yearMonth == "1")
+			{
+				yearLogKey = "Jan";
+			}
+			if (yearMonth == "2")
+			{
+				yearLogKey = "Feb";
+			}
+			if (yearMonth == "3")
+			{
+				yearLogKey = "Mar";
+			}
+			if (yearMonth == "4")
+			{
+				yearLogKey = "Apr";
+			}
+			if (yearMonth == "5")
+			{
+				yearLogKey = "May";
+			}
+			if (yearMonth == "6")
+			{
+				yearLogKey = "Jun";
+			}
+			if (yearMonth == "7")
+			{
+				yearLogKey = "Jul";
+			}
+			if (yearMonth == "8")
+			{
+				yearLogKey = "Aug";
+			}
+			if (yearMonth == "9")
+			{
+				yearLogKey = "Sep";
+			}
+			if (yearMonth == "10")
+			{
+				yearLogKey = "Oct";
+			}
+			if (yearMonth == "11")
+			{
+				yearLogKey = "Nov";
+			}
+			if (yearMonth == "12")
+			{
+				yearLogKey = "Dec";
+			}
+
+			if (yearTimeLogs.ContainsKey(yearLogKey))
+			{
+				yearTimeLogs[yearLogKey] += 1;
+			}
+			else
+			{
+				yearTimeLogs[yearLogKey] = 1;
+			}
+		}
+
+		return yearTimeLogs;
+
+	}
+
+
+	public DateTime GetDateFromIsoWeek(string isoWeek)
+	{
+		var parts = isoWeek.Split(new[] { "-W" }, StringSplitOptions.None);
+		int year = int.Parse(parts[0]);
+		int week = int.Parse(parts[1]);
+
+		DateTime jan1 = new DateTime(year, 1, 1);
+		int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+
+		DateTime firstThursday = jan1.AddDays(daysOffset);
+		var cal = CultureInfo.CurrentCulture.Calendar;
+		int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+		var weekNum = week;
+
+		if (firstWeek == 1)
+		{
+			weekNum -= 1;
+		}
+
+		var result = firstThursday.AddDays(weekNum * 7);
+
+		return result.AddDays(-3);
 	}
 }

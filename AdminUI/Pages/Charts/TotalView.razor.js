@@ -7,13 +7,13 @@ export function drawTotalViewChart(chartType, anonLogs, memLogs) {
     if (totalViewChart != null && totalViewChart.destroy != null) {
         totalViewChart.destroy();
     }
+    console.log(anonLogs);
 
     if (chartType === "Day") {
 
         if (anonLogs == null && memLogs == null) {
             return;
         }
-        console.log(anonLogs);
         totalViewChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -111,14 +111,30 @@ export function drawTotalViewChart(chartType, anonLogs, memLogs) {
                 datasets: [
                     {
                         label: "Member Users",
-                        data: [34, 14, 15, 16, 17, 18, 19],
+                        data: [
+                            memLogs["Mon"] ?? 0,
+                            memLogs["Tue"] ?? 0,
+                            memLogs["Wed"] ?? 0,
+                            memLogs["Thu"] ?? 0,
+                            memLogs["Fri"] ?? 0,
+                            memLogs["Sat"] ?? 0,
+                            memLogs["Sun"] ?? 0
+                        ],
                         lineTension: 0.4,
                         fill: true,
                         borderColor: '#4682B4'
                     },
                     {
                         label: "Anonymous Users",
-                        data: [54, 24, 25, 32, 27, 36, 29],
+                        data: [
+                            anonLogs["Mon"] ?? 0,
+                            anonLogs["Tue"] ?? 0,
+                            anonLogs["Wed"] ?? 0,
+                            anonLogs["Thu"] ?? 0,
+                            anonLogs["Fri"] ?? 0,
+                            anonLogs["Sat"] ?? 0,
+                            anonLogs["Sun"] ?? 0
+                        ],
                         lineTension: 0.4,
                         fill: true,
                         borderColor: '#B0C4DE'
@@ -131,7 +147,13 @@ export function drawTotalViewChart(chartType, anonLogs, memLogs) {
                         ticks: {
                             maxTicksLimit: 5
                         }
-                    }]
+                    }],
+                    y: {
+                        suggestedMin: 0,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
                 },
                 legend: { display: false }
             }
@@ -229,7 +251,13 @@ export function drawTotalViewChart(chartType, anonLogs, memLogs) {
                         ticks: {
                             maxTicksLimit: 5
                         }
-                    }]
+                    }],
+                    y: {
+                        suggestedMin: 0,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
                 },
                 legend: { display: false }
             }
@@ -243,14 +271,40 @@ export function drawTotalViewChart(chartType, anonLogs, memLogs) {
                 datasets: [
                     {
                         label: "Member Users",
-                        data: [34, 14, 15, 16, 17, 18, 19, 20, 21, 28, 25, 30],
+                        data: [
+                            memLogs["Jan"] ?? 0,
+                            memLogs["Feb"] ?? 0,
+                            memLogs["Mar"] ?? 0,
+                            memLogs["Apr"] ?? 0,
+                            memLogs["May"] ?? 0,
+                            memLogs["Jun"] ?? 0,
+                            memLogs["Jul"] ?? 0,
+                            memLogs["Aug"] ?? 0,
+                            memLogs["Sep"] ?? 0,
+                            memLogs["Oct"] ?? 0,
+                            memLogs["Nov"] ?? 0,
+                            memLogs["Dec"] ?? 0,
+                        ],
                         lineTension: 0.4,
                         fill: true,
                         borderColor: '#4682B4'
                     },
                     {
                         label: "Anonymous Users",
-                        data: [54, 24, 25, 32, 27, 36, 29, 40, 41, 56, 35, 60],
+                        data: [
+                            anonLogs["Jan"] ?? 0,
+                            anonLogs["Feb"] ?? 0,
+                            anonLogs["Mar"] ?? 0,
+                            anonLogs["Apr"] ?? 0,
+                            anonLogs["May"] ?? 0,
+                            anonLogs["Jun"] ?? 0,
+                            anonLogs["Jul"] ?? 0,
+                            anonLogs["Aug"] ?? 0,
+                            anonLogs["Sep"] ?? 0,
+                            anonLogs["Oct"] ?? 0,
+                            anonLogs["Nov"] ?? 0,
+                            anonLogs["Dec"] ?? 0,
+                        ],
                         lineTension: 0.4,
                         fill: true,
                         borderColor: '#B0C4DE'
@@ -263,7 +317,13 @@ export function drawTotalViewChart(chartType, anonLogs, memLogs) {
                         ticks: {
                             maxTicksLimit: 5
                         }
-                    }]
+                    }],
+                    y: {
+                        suggestedMin: 0,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
                 },
                 legend: { display: false }
             }
