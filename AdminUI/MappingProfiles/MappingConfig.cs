@@ -122,6 +122,9 @@ namespace AdminUI.MappingProfiles
             CreateMap<AddTrackingLogCommandVM, AddTrackingLogCommand>().ReverseMap();
             CreateMap<GetTrackingLogQueryVM, GetTrackingLogQuery>().ReverseMap();
             CreateMap<GetTrackingLogsQueryVM, GetTrackingLogsQuery>().ReverseMap();
-        }
-    }
+			CreateMap<TrackingLogsPaginationVM, TrackingLogsPaginationDTO>().ReverseMap();
+			CreateMap<GetTrackingLogsWithPaginationQueryVM, GetTrackingLogsWithPaginationQuery>().ReverseMap();
+
+		}
+	}
 }

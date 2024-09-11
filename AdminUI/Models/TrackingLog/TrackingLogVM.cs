@@ -1,4 +1,5 @@
 ﻿using AdminUI.Models.Enums;
+using AdminUI.Models.Heading;
 
 namespace AdminUI.Models.TrackingLog
 {
@@ -14,5 +15,7 @@ namespace AdminUI.Models.TrackingLog
 		public Guid? TargetId { get; set; }
 		public Guid? TempUserId { get; set; }
 		public string? Browser { get; set; }
+		public HeadingVM? Heading { get; set; }
+		public int ViewCounter { get; set; }
 	}
 }

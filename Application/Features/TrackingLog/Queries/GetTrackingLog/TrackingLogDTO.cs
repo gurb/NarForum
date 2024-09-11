@@ -1,4 +1,5 @@
-﻿using Application.Models.Enums;
+﻿using Application.Features.Heading.Queries;
+using Application.Models.Enums;
 
 namespace Application.Features.TrackingLog.Queries.GetTrackingLog
 {
@@ -14,5 +15,8 @@ namespace Application.Features.TrackingLog.Queries.GetTrackingLog
         public Guid? TargetId { get; set; }
         public Guid? TempUserId { get; set; }
         public string? Browser { get; set; }
+
+        public HeadingDTO? Heading { get; set; }
+        public int ViewCounter { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Application.Features.TrackingLog.Commands.AddTrackingLog;
 using Application.Features.TrackingLog.Queries.GetTrackingLog;
 using Application.Features.TrackingLog.Queries.GetTrackingLogs;
+using Application.Features.TrackingLog.Queries.GetTrackingLogsWithPagination;
 using Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -36,7 +37,15 @@ namespace Api.Controllers
             return trackingLog;
         }
 
-        [AllowAnonymous]
+		[HttpPost("GetTrackingLogsWithPagination")]
+		public async Task<TrackingLogsPaginationDTO> GetTrackingLogsWithPagination(GetTrackingLogsWithPaginationQuery request)
+		{
+			var dto = await _mediator.Send(request);
+
+			return dto;
+		}
+
+		[AllowAnonymous]
         [HttpPost("AddTrackingLog")]
 
         public async Task<ApiResponse> AddTrackingLog(AddTrackingLogCommand command)

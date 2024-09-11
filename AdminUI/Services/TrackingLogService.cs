@@ -38,5 +38,13 @@ namespace AdminUI.Services
 
             return _mapper.Map<List<TrackingLogVM>>(data);
         }
+
+        public async Task<TrackingLogsPaginationVM> GetTrackingLogsWithPagination(GetTrackingLogsWithPaginationQueryVM request)
+        {
+            var query = _mapper.Map<GetTrackingLogsWithPaginationQuery>(request);
+            var data = await _client.GetTrackingLogsWithPaginationAsync(query);
+
+            return _mapper.Map<TrackingLogsPaginationVM>(data);
+        }
     }
 }

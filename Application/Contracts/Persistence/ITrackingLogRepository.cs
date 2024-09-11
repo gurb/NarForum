@@ -11,4 +11,6 @@ public interface ITrackingLogRepository
     Task UpdateAsync(TrackingLog Entity);
     Task<TrackingLog> GetAsync(Expression<Func<TrackingLog, bool>> predicate);
     Task<List<TrackingLog>> GetAllAsync(Expression<Func<TrackingLog, bool>> predicate);
+	int GetCount(Expression<Func<TrackingLog, bool>> predicate);
+	Task<List<TrackingLog>> GetWithPagination(Expression<Func<TrackingLog, bool>> predicate, int pageIndex, int pageSize);
 }

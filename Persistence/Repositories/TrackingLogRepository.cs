@@ -2,6 +2,7 @@
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DatabaseContext;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Persistence.Repositories
@@ -42,7 +43,23 @@ namespace Persistence.Repositories
             return await _context.TrackingLogs.FirstOrDefaultAsync(predicate);
         }
 
-        public async Task UpdateAsync(TrackingLog Entity)
+		public int GetCount(Expression<Func<TrackingLog, bool>> predicate)
+		{
+			return _context.TrackingLogs.AsNoTracking().Where(predicate).Count();
+		}
+
+		public async Task<List<TrackingLog>> GetWithPagination(Expression<Func<TrackingLog, bool>> predicate, int pageIndex, int pageSize)
+		{
+			var productsPerPage = await _context.TrackingLogs.AsNoTracking()
+				.Where(predicate)
+				.Skip((pageIndex - 1) * pageSize)
+				.Take(pageSize)
+				.ToListAsync();
+
+			return productsPerPage;
+		}
+
+		public async Task UpdateAsync(TrackingLog Entity)
         {
             _context.Update(Entity);
             _context.Entry(Entity).State = EntityState.Modified;

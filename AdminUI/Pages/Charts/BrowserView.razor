@@ -95,6 +95,8 @@
 			module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Charts/BrowserView.razor.js");
 			await module.InvokeVoidAsync("drawBrowserViewChart");
 
+			ClientTimeZone = await JS.InvokeAsync<string>("GetTimeZone");
+
 			logs = new List<TrackingLogVM>();
 
 			if (TrackingLogService is not null)
