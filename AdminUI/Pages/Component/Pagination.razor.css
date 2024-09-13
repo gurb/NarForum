@@ -1,28 +1,26 @@
 ﻿.page-item {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     border: 1px solid #ccc;
     margin-right: 5px;
-    background: #eee;
+    background: linear-gradient(1deg, #d5d5d5, #ffffff);
     cursor: pointer;
 }
 
 .page-item a {
     background: transparent;
-    border: none;
-    color: black;
+    border:none;
+    color:black;
 }
-
 .page-item-number {
-    margin-right: 0px;
+    margin-right:0px;
 }
 
 .page-item.active .page-link {
-    z-index: 3;
+    z-index: 3; 
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: #595959;
+    border-color: #595959;
 }
-
 .page-item-number:last-child {
 }
 

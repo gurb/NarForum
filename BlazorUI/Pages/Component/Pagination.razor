@@ -15,7 +15,7 @@
                     {
                         @if(j > 0 && j <= TotalPages)
                         {
-                            <li class="page-item @(j == CurrentPage ? "active" : "")">
+                            <li class="page-item page-item-number @(j == CurrentPage ? "active" : "")">
                                 <a class="page-link" href="@getUrl(j)">@j</a>
                             </li>
                         }
@@ -25,7 +25,7 @@
                 {
                     @for (var j = 1; j <= TotalPages; j++)
                     {
-                        <li class="page-item @(j == CurrentPage ? "active" : "")">
+                        <li class="page-item page-item-number @(j == CurrentPage ? "active" : "")">
                             <a class="page-link" href="@getUrl(j)">@j</a>
                         </li>
                     }
@@ -33,7 +33,7 @@
 
                 @if(TotalPages != CurrentPage)
                 {
-                    <li class="page-item"><a href="@getUrl(CurrentPage+1)" class="page-link">Next</a></li>
+                    <li class="page-item page-item-next"><a href="@getUrl(CurrentPage+1)" class="page-link">Next</a></li>
                     <li class="page-item"><a href="@getUrl(TotalPages)" class="page-link"><i class="bi bi-chevron-double-right"></i></a></li>
                 }
             }
@@ -52,7 +52,7 @@
                         @if (j > 0 && j <= TotalPages)
                         {
 
-                            <li class="page-item @(j == CurrentPage ? "active" : "")">
+                            <li class="page-item page-item-number @(j == CurrentPage ? "active" : "")">
                                 <a class="page-link" @onclick="() => ChangePage(pageNumber)">@j</a>
                             </li>
                         }
@@ -63,14 +63,14 @@
                     @for (var j = 1; j <= TotalPages; j++)
                     {
                         var pageNumber = j;
-                        <li class="page-item @(j == CurrentPage ? "active" : "")">
+                        <li class="page-item page-item-number @(j == CurrentPage ? "active" : "")">
                             <a class="page-link" @onclick="() => ChangePage(pageNumber)">@j</a>
                         </li>
                     }
                 }
                 @if (TotalPages != CurrentPage)
                 {
-                    <li class="page-item"><a @onclick="() => ChangePage(CurrentPage+1)" class="page-link">Next</a></li>
+                    <li class="page-item page-item-next"><a @onclick="() => ChangePage(CurrentPage+1)" class="page-link">Next</a></li>
                     <li class="page-item"><a @onclick="() => ChangePage(TotalPages)" class="page-link"><i class="bi bi-chevron-double-right"></i></a></li>
                 }
             }
