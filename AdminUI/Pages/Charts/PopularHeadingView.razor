@@ -17,11 +17,11 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <table class="table table-striped table-responsive">
-            <thead>
+        <table class="table table-responsive custom-popular-heading-table">
+            <thead style="background:#f1f1f1;">
                 <tr>
                     <th scope="col">Title</th>
-                    <th scope="col">View Counter</th>
+                    <th scope="col">Views</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,8 +30,8 @@
                     @foreach (var log in popularLogs)
                     {
                         <tr>
-                            <td>@log.Title</td>
-                            <td>@log.ViewCounter</td>
+                            <td class="col-9">@log.Title <a class="link-primary log-link" href=""><i class="bi bi-box-arrow-up-right"></i></a></td>
+                            <td class="col-3">@log.ViewCounter</td>
                         </tr>
                     }
                 } 

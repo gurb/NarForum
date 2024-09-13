@@ -1,0 +1,13 @@
+﻿.custom-popular-heading-table {
+    font-size: 0.9rem;
+}
+.custom-popular-heading-table th {
+    background: #f1f1f1;
+    color: #333;
+    border-bottom: none;
+}
+
+
+.custom-popular-heading-table>:not(caption) > * > * {
+    padding: 0.2rem 0.2rem;
+}

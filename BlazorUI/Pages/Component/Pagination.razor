@@ -4,11 +4,37 @@
         <ul class="pagination">
             @if(!UseCallback)
             {
-                @for (var j = 1; j <= TotalPages; j++)
+                @if(CurrentPage != 1)
                 {
-                    <li class="page-item @(j == CurrentPage ? "active" : "")">
-                        <a class="page-link" href="@getUrl(j)">@j</a>
-                    </li>
+                    <li class="page-item"><a href="@getUrl(1)" class="page-link"><i class="bi bi-chevron-double-left"></i></a></li>
+                    <li class="page-item"><a href="@getUrl(CurrentPage-1)" class="page-link">Previous</a></li>
+                }
+                @if (LimitPage <= TotalPages)
+                {
+                    @for (var j = CurrentPage - (LimitPage / 2); j <= CurrentPage + (LimitPage / 2); j++)
+                    {
+                        @if(j > 0 && j <= TotalPages)
+                        {
+                            <li class="page-item @(j == CurrentPage ? "active" : "")">
+                                <a class="page-link" href="@getUrl(j)">@j</a>
+                            </li>
+                        }
+                    }
+                }
+                else
+                {
+                    @for (var j = 1; j <= TotalPages; j++)
+                    {
+                        <li class="page-item @(j == CurrentPage ? "active" : "")">
+                            <a class="page-link" href="@getUrl(j)">@j</a>
+                        </li>
+                    }
+                }
+
+                @if(TotalPages != CurrentPage)
+                {
+                    <li class="page-item"><a href="@getUrl(CurrentPage+1)" class="page-link">Next</a></li>
+                    <li class="page-item"><a href="@getUrl(TotalPages)" class="page-link"><i class="bi bi-chevron-double-right"></i></a></li>
                 }
             }
             else
@@ -21,6 +47,7 @@
                     </li>
                 }
             }
+
         </ul>
     </nav>
 }
@@ -31,6 +58,9 @@
 
     [Parameter]
     public int CurrentPage { get; set; }
+
+    [Parameter]
+    public int LimitPage { get; set; } = 5;
 
     [Parameter]
     public string BaseUrl { get; set; }

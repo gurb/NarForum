@@ -161,4 +161,12 @@ thead {
     font-size: 20px;
     color:#ccc;
 }
+
+.log-link {
+    text-decoration: none;
+}
+
+.log-link:hover {
+    text-decoration: underline;
+}
 /** dashboard styles end */
