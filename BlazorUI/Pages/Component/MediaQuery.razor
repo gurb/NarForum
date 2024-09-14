@@ -11,6 +11,7 @@
     [Parameter]
     public EventCallback<bool> ValueChanged { get; set; }
 
+
     protected async override Task OnAfterRenderAsync(bool firstRender) {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
@@ -18,6 +19,10 @@
             module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Component/MediaQuery.razor.js");
             await module.InvokeVoidAsync("RegisterChangeCallback", DotNetObjectReference.Create(this));
             await module.InvokeVoidAsync("MinWidthPx", Width);
+
+            bool value = await module.InvokeAsync<bool>("CheckQuery");
+            await ValueChanged.InvokeAsync(value);
+            await InvokeAsync(StateHasChanged);
         }
     }
 
@@ -28,7 +33,7 @@
         {
             bool value = await module.InvokeAsync<bool>("CheckQuery");
             await ValueChanged.InvokeAsync(value);
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
     }
 

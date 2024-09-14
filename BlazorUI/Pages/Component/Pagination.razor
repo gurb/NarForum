@@ -1,14 +1,23 @@
 ﻿@if (TotalPages > 1)
 {
     <nav aria-label="Page navigation">
-        <ul class="pagination">
+        <ul class="pagination @(!MinVersion == true ? "pagination-min" : "")">
             @if(!UseCallback)
             {
                 @if(CurrentPage != 1)
                 {
+
                     <li class="page-item"><a href="@getUrl(1)" class="page-link"><i class="bi bi-chevron-double-left"></i></a></li>
-                    <li class="page-item"><a href="@getUrl(CurrentPage-1)" class="page-link">Previous</a></li>
+                    @if(!MinVersion)
+                    {
+                        <li class="page-item"><a href="@getUrl(CurrentPage-1)" class="page-link"><i class="bi bi-chevron-left"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item"><a href="@getUrl(CurrentPage-1)" class="page-link">Previous</a></li>
+                    }
                 }
+
                 @if (LimitPage <= TotalPages)
                 {
                     @for (var j = CurrentPage - (LimitPage / 2); j <= CurrentPage + (LimitPage / 2); j++)
@@ -31,9 +40,17 @@
                     }
                 }
 
+           
                 @if(TotalPages != CurrentPage)
                 {
-                    <li class="page-item page-item-next"><a href="@getUrl(CurrentPage+1)" class="page-link">Next</a></li>
+                    @if(!MinVersion)
+                    {
+                        <li class="page-item page-item-next"><a href="@getUrl(CurrentPage+1)" class="page-link"><i class="bi bi-chevron-right"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item page-item-next"><a href="@getUrl(CurrentPage+1)" class="page-link">Next</a></li>
+                    }
                     <li class="page-item"><a href="@getUrl(TotalPages)" class="page-link"><i class="bi bi-chevron-double-right"></i></a></li>
                 }
             }
@@ -42,10 +59,20 @@
                 @if (CurrentPage != 1)
                 {
                     <li class="page-item"><a @onclick="() => ChangePage(1)" class="page-link"><i class="bi bi-chevron-double-left"></i></a></li>
-                    <li class="page-item"><a @onclick="() => ChangePage(CurrentPage-1)" class="page-link">Previous</a></li>
+                    @if (!MinVersion)
+                    {
+                        <li class="page-item"><a @onclick="() => ChangePage(CurrentPage-1)" class="page-link"><i class="bi bi-chevron-left"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item"><a @onclick="() => ChangePage(CurrentPage-1)" class="page-link">Previous</a></li>
+                    }
                 }
+                
                 @if (LimitPage <= TotalPages)
                 {
+                    
+
                     @for (var j = CurrentPage - (LimitPage / 2); j <= CurrentPage + (LimitPage / 2); j++)
                     {
                         var pageNumber = j;
@@ -57,6 +84,7 @@
                             </li>
                         }
                     }
+
                 }
                 else
                 {
@@ -68,13 +96,22 @@
                         </li>
                     }
                 }
+                
                 @if (TotalPages != CurrentPage)
                 {
-                    <li class="page-item page-item-next"><a @onclick="() => ChangePage(CurrentPage+1)" class="page-link">Next</a></li>
+                    @if (!MinVersion)
+                    {
+                        <li class="page-item page-item-next"><a @onclick="() => ChangePage(CurrentPage+1)" class="page-link"><i class="bi bi-chevron-right"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item page-item-next"><a @onclick="() => ChangePage(CurrentPage+1)" class="page-link">Next</a></li>
+                    }
                     <li class="page-item"><a @onclick="() => ChangePage(TotalPages)" class="page-link"><i class="bi bi-chevron-double-right"></i></a></li>
                 }
             }
 
+            <li class="page-item page-item-right-input"><a @onclick="() => ChangePage(TotalPages)" class="page-link">Page @CurrentPage - @TotalPages</a></li>
         </ul>
     </nav>
 }
@@ -95,6 +132,9 @@
     [Parameter]
     public bool UseCallback { get; set; }
 
+    [Parameter]
+    public bool MinVersion { get; set; }
+
     private string getUrl(int index)
     {
         return $"{BaseUrl}{index}";
@@ -102,6 +142,14 @@
 
     [Parameter]
     public EventCallback<int> PageChanged { get; set; }
+
+    protected override void OnParametersSet()
+    {
+
+
+        base.OnParametersSet();
+    }
+
 
     private async Task ChangePage(int page)
     {

@@ -3,7 +3,7 @@
 @using BlazorUI.Pages.Category.Modal
 
 <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
-
+<MediaQuery Width=700 @bind-Value=min700></MediaQuery>
 
 <div class="row category-header">
     <div class="col-6">
@@ -29,18 +29,22 @@
 </div>
 
 <div class="row current-category-card-body">
+    
     <div class="col-4">
         Sub Categories
     </div>
-    <div class="col-2">
-        Headings
-    </div>
-    <div class="col-2">
-       Posts
-    </div>
-    <div class="col-4">
-        Last Post
-    </div>
+    @if (min700)
+    {
+        <div class="col-2">
+            Headings
+        </div>
+        <div class="col-2">
+            Posts
+        </div>
+        <div class="col-4">
+            Last Post
+        </div>
+    }
 </div>
 
 @if(!isLoaded)
@@ -51,15 +55,15 @@ else
 {
     @foreach (var category in Categories)
     {
-        
-        <CategoryCard Model="category"></CategoryCard>
+
+        <CategoryCard ShowNumber="min700" Model="category"></CategoryCard>
     }
     <hr />
     <div class="row current-category-card-body">
         <div class="col-6">
             Headings
         </div>
-        @if(showNumber)
+        @if (min700)
         {
             <div class="col-2">
                 Posts
@@ -69,15 +73,13 @@ else
             Last Post
         </div>
     </div>
-
-    <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    <Pagination MinVersion="min700" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
     @foreach (var heading in Headings)
     {
-        <HeadingCard Model="heading" ShowNumber="showNumber" CategoryName="@CategoryName"></HeadingCard>
+        <HeadingCard Model="heading" ShowNumber="min700" CategoryName="@CategoryName"></HeadingCard>
     }
-    <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    <Pagination MinVersion="min700" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
 }
-<MediaQuery Width=700 @bind-Value=showNumber></MediaQuery>
 
 @if(Model != null)
 {
@@ -88,7 +90,9 @@ else
     private bool isLoaded { get; set; }
     private CategoryVM? Model { get; set; }
 
-    private bool showNumber { get; set; } = true;
+    Pagination? top, bottom;
+
+    private bool min700 { get; set; } = true;
 
     [Parameter]
     public string CategoryName { get; set; }
@@ -124,6 +128,8 @@ else
     private int CurrentPage = 1;
 
     private List<BreadcrumbItem> BreadcrumbItems { get; set; }
+
+   
 
     protected async Task SetBreadcrumb()
     {

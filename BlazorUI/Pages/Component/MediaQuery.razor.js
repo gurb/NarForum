@@ -13,13 +13,16 @@ export function CheckQuery() {
     if (mediaQuery != null) {
         return handleMediaQueryChange(mediaQuery);
     }
-    return true;
+    return false;
 }
 
 function handleMediaQueryChange(e) {
     if (e.matches) {
+        console.log(true);
         return true;
+
     } else {
+        console.log(false);
         return false;
     }
 }

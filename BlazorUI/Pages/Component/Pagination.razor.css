@@ -1,4 +1,8 @@
-﻿.page-item {
+﻿.pagination-min {
+    justify-content: center;
+}
+
+.page-item {
     font-size: 11px;
     border: 1px solid #ccc;
     margin-right: 5px;
@@ -14,6 +18,11 @@
 
 .page-item-number {
     margin-right: 0px;
+}
+
+.page-item-right-input {
+    background: #fff;
+    margin-left: auto;
 }
 
 .page-item.active .page-link {
