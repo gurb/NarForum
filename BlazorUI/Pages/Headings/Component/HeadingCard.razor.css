@@ -12,6 +12,17 @@
 .link-heading-primary {
     color: #2c83d3;
     text-decoration: none;
+    display: inline-block;
+    text-overflow: ellipsis;
+    width: calc(80%);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.heading-text-area {
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
 }
 
 .last-post-summary {

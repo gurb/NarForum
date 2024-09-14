@@ -178,3 +178,7 @@ a {
     border-radius: 3px;
     margin-left: 10px;
 }
+
+.row {
+    --bs-gutter-x: 0;
+}

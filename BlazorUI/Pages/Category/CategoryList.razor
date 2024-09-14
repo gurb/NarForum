@@ -59,21 +59,25 @@ else
         <div class="col-6">
             Headings
         </div>
-        <div class="col-2">
-            Posts
-        </div>
+        @if(showNumber)
+        {
+            <div class="col-2">
+                Posts
+            </div>
+        }
         <div class="col-4">
             Last Post
         </div>
     </div>
 
+    <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
     @foreach (var heading in Headings)
     {
-        <HeadingCard Model="heading" CategoryName="@CategoryName"></HeadingCard>
+        <HeadingCard Model="heading" ShowNumber="showNumber" CategoryName="@CategoryName"></HeadingCard>
     }
     <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
-
 }
+<MediaQuery Width=700 @bind-Value=showNumber></MediaQuery>
 
 @if(Model != null)
 {
@@ -83,6 +87,8 @@ else
 @code {
     private bool isLoaded { get; set; }
     private CategoryVM? Model { get; set; }
+
+    private bool showNumber { get; set; } = true;
 
     [Parameter]
     public string CategoryName { get; set; }

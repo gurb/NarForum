@@ -1,11 +1,14 @@
 ﻿<div class="row heading-card-body align-items-center">
-    <div class="col-sm-6">
+    <div class="col-sm-6 heading-text-area">
         <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i>
         <a href="@url" class="link-heading-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Title</a>
     </div>
-    <div class="col-sm-2">
-        @Model.PostCounter
-    </div>
+    @if(ShowNumber)
+    {
+        <div class="col-sm-2">
+            @Model.PostCounter
+        </div>
+    }
     <div class="col-sm-4 last-post-summary">
         <small class="last-post-username">by <a href="@userUrl">@Model.LastUserName</a></small>
         <br />
@@ -13,12 +16,17 @@
     </div>
 </div>
 
+
+
 @code {
     [Parameter]
     public HeadingVM Model { get; set; }
 
     [Parameter]
     public string CategoryName { get; set; }
+
+    [Parameter]
+    public bool ShowNumber { get; set; } = true;
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
