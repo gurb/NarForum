@@ -31,5 +31,14 @@ namespace BlazorUI.Extensions
                 .Replace("\\", "")
                 .Replace("?", "");
         }
+
+
+        public static string ToTitleCase(this string sample)
+        {
+            if (sample == null)
+                return "";
+
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(sample.ToLower());
+        }
     }
 }
