@@ -15,7 +15,7 @@ namespace Persistence.Repositories
 
         public async Task<Category> GetByName(string name)
         {
-            return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Name == name);
+            return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
         }
 
         public async Task IncreasePostCounter(Guid HeadingId)

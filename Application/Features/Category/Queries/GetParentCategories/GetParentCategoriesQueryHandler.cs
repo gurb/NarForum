@@ -28,7 +28,7 @@ namespace Application.Features.Category.Queries.GetParentCategories
             // query the database
             var categories = await _categoryRepository.GetAsync();
 
-            var childCategory = categories.FirstOrDefault(x => x.Name == request.CategoryName);
+            var childCategory = categories.FirstOrDefault(x => x.Name.ToLower() == request.CategoryName.ToLower());
 
             List<Domain.Category> response = new List<Domain.Category>();
 
@@ -50,7 +50,7 @@ namespace Application.Features.Category.Queries.GetParentCategories
 
         private List<Domain.Category> GetParentsOfCategory(Domain.Category child, List<Domain.Category> list, List<Domain.Category> response)
         {
-            if (child.ParentCategoryId == Guid.Empty)
+            if (child.ParentCategoryId == Guid.Empty || child.ParentCategoryId == null)
             {
                 return response;
             }

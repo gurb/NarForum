@@ -156,9 +156,9 @@ else
 
     private SortTypeVM selectedSortTypeVM = SortTypeVM.RECENT;
 
-    protected async Task SetBreadcrumb()
+    protected async Task SetBreadcrumb(string CurrentName)
     {
-        var parentCategories = await CategoryService.GetParentCategoriesByName(CategoryName);
+        var parentCategories = await CategoryService.GetParentCategoriesByName(CurrentName);
         parentCategories = parentCategories.OrderBy(x => x.Id).ToList();
 
         BreadcrumbItems = new List<BreadcrumbItem>();
@@ -168,6 +168,8 @@ else
             BreadcrumbItems.Add(new BreadcrumbItem { Text = parent.Name, HrefLink = $"/category/{parent.Name.ToFriendlyUrl()}/" });
         }
         BreadcrumbItems.Last().IsCurrentPage = true;
+
+        await InvokeAsync(StateHasChanged);
     }
 
     protected async override Task OnParametersSetAsync()
@@ -175,7 +177,7 @@ else
         if (PageIndex == 0) PageIndex = 1;
 
         Model = await CategoryService.GetCategoryByName(CategoryName);
-        Categories = await CategoryService.GetCategoriesByName(CategoryName);
+        Categories = await CategoryService.GetCategoriesById(Model.Id);
 
         CurrentPage = PageIndex;
 
@@ -191,7 +193,7 @@ else
         Headings = headingsPagination.Headings;
         TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
-        await SetBreadcrumb();
+        await SetBreadcrumb(Model.Name);
 
         isLoaded = true;
     }
