@@ -71,6 +71,29 @@ else
         }
         <div class="col-4">
             Last Post
+            <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                <i class="bi bi-funnel"></i>
+            </span>
+            <ul class="dropdown-menu page-input-dropdown">
+                <li class="dropdown-item">
+                    <a href="">test</a>
+                </li>
+            </ul>
+
+            <span style="float:right;font-size:18px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                <i class="bi bi-filter-right"></i>
+            </span>
+            <ul class="dropdown-menu sort-by-dropdown">
+                <li class="dropdown-item">
+                    <a @onclick="() => SortHeadingList(SortTypeVM.RECENT)">Recent</a>
+                </li>
+                <li class="dropdown-item">
+                    <a @onclick="() => SortHeadingList(SortTypeVM.MOSTREPLIED)">Most Replied</a>
+                </li>
+                <li class="dropdown-item">
+                    <a @onclick="() => SortHeadingList(SortTypeVM.OLDEST)">Oldest</a>
+                </li>
+            </ul>
         </div>
     </div>
     <Pagination MinVersion="min768" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
@@ -117,6 +140,8 @@ else
     AddCategoryModal? addCategoryModal;
 
 
+    GetHeadingsWithPaginationQueryVM? query;
+
     private string getBaseUrl()
     {
         return $"category/{CategoryName}/";
@@ -129,7 +154,7 @@ else
 
     private List<BreadcrumbItem> BreadcrumbItems { get; set; }
 
-   
+    private SortTypeVM selectedSortTypeVM = SortTypeVM.RECENT;
 
     protected async Task SetBreadcrumb()
     {
@@ -153,13 +178,47 @@ else
         Categories = await CategoryService.GetCategoriesByName(CategoryName);
 
         CurrentPage = PageIndex;
-        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsByCategoryIdWithPagination(Model.Id, PageIndex, PageSize);
+
+        query = new GetHeadingsWithPaginationQueryVM
+        {
+            SortType = selectedSortTypeVM,
+            CategoryId = Model.Id,
+            PageIndex = PageIndex,
+            PageSize = PageSize,
+        };
+
+        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
         Headings = headingsPagination.Headings;
         TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
         await SetBreadcrumb();
 
         isLoaded = true;
+    }
+
+    protected async Task SortHeadingList(SortTypeVM sortType)
+    {
+        if(Model is not null)
+        {
+            PageIndex = 1;
+            CurrentPage = PageIndex;
+
+            selectedSortTypeVM = sortType;
+
+            query = new GetHeadingsWithPaginationQueryVM
+            {
+                SortType = sortType,
+                CategoryId = Model.Id,
+                PageIndex = CurrentPage,
+                PageSize = PageSize
+            };
+
+            HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
+            Headings = headingsPagination.Headings;
+            TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+
+            isLoaded = true;
+        }
     }
 
     private void OpenModal()

@@ -9767,6 +9767,9 @@ namespace AdminUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("categoryName")]
         public string CategoryName { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("sortType")]
+        public SortType SortType { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("categoryId")]
         public System.Guid? CategoryId { get; set; }
 
@@ -10358,6 +10361,20 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("value")]
         public bool Value { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum SortType
+    {
+
+        _0 = 0,
+
+        _1 = 1,
+
+        _2 = 2,
+
+        _3 = 3,
 
     }
 

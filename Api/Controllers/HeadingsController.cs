@@ -70,7 +70,8 @@ namespace Api.Controllers
 
             return headings;
         }
-
+        
+        [AllowAnonymous]
         [HttpPost("GetHeadingsWithPagination")]
         public async Task<HeadingsPaginationDTO> GetHeadingsWithPagination(GetHeadingsWithPaginationQuery request)
         {

@@ -15,7 +15,7 @@ namespace Application.Contracts.Persistence
         Task CreateListAsync(List<T> Entities);
 		Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate, bool isTrack = false);
         int GetCount(Expression<Func<T, bool>> predicate);
-        Task<List<T>> GetWithPagination(Expression<Func<T, bool>> predicate, int pageIndex, int pageSize);
+        Task<List<T>> GetWithPagination(Expression<Func<T, bool>> predicate, int pageIndex, int pageSize, string? propertyName=null, bool desc = true);
         void UpdateList(List<T> Entities);
     }
 }

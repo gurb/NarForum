@@ -45,12 +45,31 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
 
             }
 
+            string? orderProperty = null;
+            bool desc = true;
+
             if(!String.IsNullOrEmpty(request.UserName))
             {
                 predicate = predicate.And(x => x.UserName == request.UserName);
             }
 
-            headings = await _headingRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value);
+            if(request.SortType == Models.Enums.SortType.RECENT)
+            {
+                orderProperty = "DateCreate";
+                desc = true;
+            }
+            else if (request.SortType == Models.Enums.SortType.MOSTREPLIED)
+            {
+                orderProperty = "PostCounter";
+                desc = true;
+            }
+            else if (request.SortType == Models.Enums.SortType.OLDEST)
+            {
+                orderProperty = "DateCreate";
+                desc = false;
+            }
+
+            headings = await _headingRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value, orderProperty, desc);
             var data = _mapper.Map<List<HeadingDTO>>(headings);
 
             List<Guid> categoryIds = headings.Select(x => x.CategoryId).ToList();

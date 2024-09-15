@@ -11,6 +11,7 @@ namespace BlazorUI.Contracts
         Task<List<HeadingVM>> GetHeadings();
         Task<List<HeadingVM>> GetHeadingsByCategoryName(string name);
         Task<List<HeadingVM>> GetHeadingsByCategoryId(Guid categoryId);
+        Task<HeadingsPaginationVM> GetHeadingsWithPagination(GetHeadingsWithPaginationQueryVM query);
         Task<HeadingsPaginationVM> GetHeadingsByCategoryIdWithPagination(Guid categoryId, int pageIndex, int pageSize);
         Task<HeadingsPaginationVM> GetHeadingsByUserNameWithPagination(string userName, int pageIndex, int pageSize);
 

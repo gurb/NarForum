@@ -9767,6 +9767,9 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("categoryName")]
         public string CategoryName { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("sortType")]
+        public SortType SortType { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("categoryId")]
         public System.Guid? CategoryId { get; set; }
 
@@ -10362,6 +10365,20 @@ namespace BlazorUI.Services.Base
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum SortType
+    {
+
+        _0 = 0,
+
+        _1 = 1,
+
+        _2 = 2,
+
+        _3 = 3,
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class StatWithDateDTO
     {
 
@@ -10461,6 +10478,9 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("heading")]
         public HeadingDTO Heading { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("viewCounter")]
+        public int ViewCounter { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -10486,6 +10506,9 @@ namespace BlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("totalCount")]
         public int TotalCount { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("viewCounters")]
+        public System.Collections.Generic.IDictionary<string, int?> ViewCounters { get; set; }
 
     }
 

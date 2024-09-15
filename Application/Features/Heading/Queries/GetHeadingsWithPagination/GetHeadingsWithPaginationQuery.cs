@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Models.Enums;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
     {
         public string? UserName { get; set; }
         public string? CategoryName { get; set; }
+        public SortType SortType { get; set; } = SortType.RECENT;
         public Guid? CategoryId { get; set; }
         public int? PageIndex { get; set; }
         public int? PageSize { get; set; }
