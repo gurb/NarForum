@@ -111,7 +111,26 @@
                 }
             }
 
-            <li class="page-item page-item-right-input"><a @onclick="() => ChangePage(TotalPages)" class="page-link">Page @CurrentPage - @TotalPages</a></li>
+            @if(MinVersion)
+            {
+                <li class="page-item page-item-right-input">
+                    <a class="page-link" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Page @CurrentPage - @TotalPages</a>
+                    <ul class="dropdown-menu page-input-dropdown">
+                        <form class="row g-3 needs-validation" @onsubmit="UseCallback ? () => ChangePage(inputPageNumber) : () => GoToPage()">
+                        <li class="page-input-dropdown-item">
+                            <input type="number" class="form-control page-input-box" @bind-value=inputPageNumber min="1" max="@TotalPages" required>
+                            <div class="invalid-feedback">
+                                Please enter a number between 1 and @TotalPages.
+                            </div>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn btn-primary w-100 page-input-button">Go</button>
+                        </li>
+                        </form>
+                    </ul>
+                </li>
+            }
+            
         </ul>
     </nav>
 }
@@ -135,6 +154,11 @@
     [Parameter]
     public bool MinVersion { get; set; }
 
+    private int inputPageNumber { get; set; } = 1;
+
+    [Inject]
+    public NavigationManager? navigationManager { get; set; }
+
     private string getUrl(int index)
     {
         return $"{BaseUrl}{index}";
@@ -148,6 +172,14 @@
 
 
         base.OnParametersSet();
+    }
+
+    private async Task GoToPage()
+    {
+        if(navigationManager is not null)
+        {
+            navigationManager.NavigateTo(getUrl(inputPageNumber));
+        }
     }
 
 

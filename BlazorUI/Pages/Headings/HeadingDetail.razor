@@ -16,7 +16,7 @@
 
 @if(Posts != null)
 {
-    <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    <Pagination MinVersion=min768 TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
     @foreach (var post in Posts)
     {
         @* <PostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></PostCard> *@
@@ -32,7 +32,7 @@
             OpenChatCallback="(postId) => OpenChatBoxWithUsername(post.UserName)"
             ReplyCallback="(post) => AddReply(post)"></MiniPostCard>
     }
-    <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    <Pagination MinVersion=min768 TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
     <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingGuid" Callback="RefreshPosts"></CreatePostForm>
 }
 else
@@ -41,6 +41,7 @@ else
 }
 
 
+<MediaQuery Width=768 @bind-Value=min768></MediaQuery>
 
 @code {
     [Parameter]
@@ -95,6 +96,7 @@ else
 
     private List<BreadcrumbItem> BreadcrumbItems { get; set; }
 
+    private bool min768 { get; set; }
 
     public List<LikeVM>? Likes { get; private set; }
     public List<FavoriteVM>? Favorites { get; private set; }

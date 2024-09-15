@@ -23,6 +23,22 @@
 .page-item-right-input {
     background: #fff;
     margin-left: auto;
+    user-select: none;
+}
+
+.page-input-dropdown {
+    padding:7px;
+}
+
+.page-input-dropdown-item {
+}
+
+.page-input-box {
+    font-size: 0.9rem;
+}
+
+.page-input-button {
+    font-size: 0.9rem;
 }
 
 .page-item.active .page-link {

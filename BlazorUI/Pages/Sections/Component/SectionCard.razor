@@ -20,22 +20,25 @@
     <div class="col-sm-4">
         @Model.Name
     </div>
-    <div class="col-sm-2">
-        Headings
-    </div>
-    <div class="col-sm-2">
-        Posts
-    </div>
-    <div class="col-sm-4">
-        Last Post
-        <AuthorizeView>
-            <Authorized>
-                <span style="float:right;" class="text-end">
-                    <i class="bi bi-pencil-fill" @onclick=UpdateSectionModal></i>
-                </span>
-            </Authorized>
-        </AuthorizeView>
-    </div>
+    @if(min768)
+    {
+        <div class="col-sm-2">
+            Headings
+        </div>
+        <div class="col-sm-2">
+            Posts
+        </div>
+        <div class="col-sm-4">
+            Last Post
+            <AuthorizeView>
+                <Authorized>
+                    <span style="float:right;" class="text-end">
+                        <i class="bi bi-pencil-fill" @onclick=UpdateSectionModal></i>
+                    </span>
+                </Authorized>
+            </AuthorizeView>
+        </div>
+    }
 
 </div>
 
@@ -51,10 +54,11 @@ else
 {
     @foreach (var category in Categories)
     {
-        <CategoryCard Model="category"></CategoryCard>
+        <CategoryCard ShowNumber=min768 Model="category"></CategoryCard>
     }
 }
 
+<MediaQuery Width=768 @bind-Value=min768></MediaQuery>
 
 <AddCategoryModal @ref="addCategoryModal" SectionVM="@Model" Callback="Refresh"></AddCategoryModal>
 
@@ -76,6 +80,7 @@ else
     [Inject] 
     RefreshStateService RefreshStateService { get; set; }
 
+    private bool min768;
 
     private void OpenModal()
     {

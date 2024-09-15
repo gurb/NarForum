@@ -3,7 +3,7 @@
 @using BlazorUI.Pages.Category.Modal
 
 <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
-<MediaQuery Width=700 @bind-Value=min700></MediaQuery>
+<MediaQuery Width=768 @bind-Value=min768></MediaQuery>
 
 <div class="row category-header">
     <div class="col-6">
@@ -33,7 +33,7 @@
     <div class="col-4">
         Sub Categories
     </div>
-    @if (min700)
+    @if (min768)
     {
         <div class="col-2">
             Headings
@@ -56,14 +56,14 @@ else
     @foreach (var category in Categories)
     {
 
-        <CategoryCard ShowNumber="min700" Model="category"></CategoryCard>
+        <CategoryCard ShowNumber="min768" Model="category"></CategoryCard>
     }
     <hr />
     <div class="row current-category-card-body">
         <div class="col-6">
             Headings
         </div>
-        @if (min700)
+        @if (min768)
         {
             <div class="col-2">
                 Posts
@@ -73,12 +73,12 @@ else
             Last Post
         </div>
     </div>
-    <Pagination MinVersion="min700" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    <Pagination MinVersion="min768" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
     @foreach (var heading in Headings)
     {
-        <HeadingCard Model="heading" ShowNumber="min700" CategoryName="@CategoryName"></HeadingCard>
+        <HeadingCard Model="heading" ShowNumber="min768" CategoryName="@CategoryName"></HeadingCard>
     }
-    <Pagination MinVersion="min700" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    <Pagination MinVersion="min768" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
 }
 
 @if(Model != null)
@@ -92,7 +92,7 @@ else
 
     Pagination? top, bottom;
 
-    private bool min700 { get; set; } = true;
+    private bool min768 { get; set; } = true;
 
     [Parameter]
     public string CategoryName { get; set; }
