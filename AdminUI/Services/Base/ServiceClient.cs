@@ -9770,6 +9770,18 @@ namespace AdminUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("sortType")]
         public SortType SortType { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("startDate")]
+        public System.DateTime? StartDate { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("endDate")]
+        public System.DateTime? EndDate { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("searchTitle")]
+        public string SearchTitle { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("searchUser")]
+        public string SearchUser { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("categoryId")]
         public System.Guid? CategoryId { get; set; }
 

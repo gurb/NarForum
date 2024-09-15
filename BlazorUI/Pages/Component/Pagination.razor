@@ -117,15 +117,15 @@
                     <a class="page-link" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Page @CurrentPage - @TotalPages</a>
                     <ul class="dropdown-menu page-input-dropdown">
                         <form class="row g-3 needs-validation" @onsubmit="UseCallback ? () => ChangePage(inputPageNumber) : () => GoToPage()">
-                        <li class="page-input-dropdown-item">
-                            <input type="number" class="form-control page-input-box" @bind-value=inputPageNumber min="1" max="@TotalPages" required>
-                            <div class="invalid-feedback">
-                                Please enter a number between 1 and @TotalPages.
-                            </div>
-                        </li>
-                        <li>
-                            <button type="submit" class="btn btn-primary w-100 page-input-button">Go</button>
-                        </li>
+                            <li class="page-input-dropdown-item">
+                                <input type="number" class="form-control page-input-box" @bind-value=inputPageNumber min="1" max="@TotalPages" required>
+                                <div class="invalid-feedback">
+                                    Please enter a number between 1 and @TotalPages.
+                                </div>
+                            </li>
+                            <li>
+                                <button type="submit" class="btn btn-primary w-100 page-input-button">Go</button>
+                            </li>
                         </form>
                     </ul>
                 </li>

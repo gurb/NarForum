@@ -14,4 +14,11 @@
     color: #333;
 }
 
+.page-search-heading-dropdown {
+    padding: 10px;
+    font-size: 0.9em;
+    color: #333;
+    background: #eeeeee;
+    width: 20%;
+}
 

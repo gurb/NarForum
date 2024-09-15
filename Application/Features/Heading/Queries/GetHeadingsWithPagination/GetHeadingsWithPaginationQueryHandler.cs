@@ -42,7 +42,6 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
                 {
                     predicate = predicate.And(x => x.CategoryId == category.Id);
                 }
-
             }
 
             string? orderProperty = null;
@@ -53,7 +52,24 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
                 predicate = predicate.And(x => x.UserName == request.UserName);
             }
 
-            if(request.SortType == Models.Enums.SortType.RECENT)
+            if(!String.IsNullOrEmpty(request.SearchUser))
+            {
+                predicate = predicate.And(x => x.UserName.ToLower().Contains(request.SearchUser.ToLower()));
+            }
+            if (!String.IsNullOrEmpty(request.SearchTitle))
+            {
+                predicate = predicate.And(x => x.Title.ToLower().Contains(request.SearchTitle.ToLower()));
+            }
+            if (request.StartDate != null)
+            {
+                predicate = predicate.And(x => x.DateCreate.Value >= request.StartDate);
+            }
+            if (request.EndDate != null)
+            {
+                predicate = predicate.And(x => x.DateCreate.Value <= request.EndDate);
+            }
+
+            if (request.SortType == Models.Enums.SortType.RECENT)
             {
                 orderProperty = "DateCreate";
                 desc = true;
