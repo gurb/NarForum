@@ -4,9 +4,11 @@
 
 @implements IAsyncDisposable;
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light top-nav-menu-wrapper">
+<nav class="navbar navbar-expand-lg navbar-light top-nav-menu-wrapper sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="#"></a>
+        <a class="navbar-brand" href="/">
+            <Logo LogoVM="logo"></Logo>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -81,7 +83,12 @@
     [Inject]
     LocalStorageService localStorage { get; set; }
 
+    [Inject]
+    ILogoService? logoService { get; set; }
+
     private bool showChat;
+
+    private LogoVM? logo;
 
 
     // hub ---------------------------------------------------------------
@@ -92,6 +99,12 @@
 
     protected async override Task OnInitializedAsync()
     {
+        if(logoService is not null)
+        {
+            logo = await logoService.GetLogo();
+        }
+
+
         var authState = await authenticationStateTask;
         var user = authState.User;
 

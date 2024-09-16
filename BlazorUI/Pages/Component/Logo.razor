@@ -1,0 +1,17 @@
+﻿
+@if(LogoVM is not null) {
+    @if (LogoVM.Base64 is not null)
+    {
+        <img id="forum-logo" src="data:image/png;base64, @LogoVM.Base64" alt="@LogoVM.AltText"/>
+    }
+    else if(LogoVM.Text is not null)
+    {
+        @LogoVM.Text
+    }
+}
+
+@code {
+    [Parameter]
+    public LogoVM? LogoVM { get; set; }
+    
+}

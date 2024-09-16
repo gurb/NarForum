@@ -44,8 +44,8 @@
 .page-item.active .page-link {
     z-index: 3;
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: #34485f;
+    border-color: #434343;
 }
 
 .page-item-number:last-child {

@@ -6,6 +6,14 @@ h1:focus {
     outline: none;
 }
 
+@media (min-width: 1200px) {
+    .h1, h1
+    {
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+}
+
 a, .btn-link {
     color: #0071c1;
 }
@@ -127,7 +135,8 @@ code {
 }
 
 .top-nav-menu-wrapper {
-    border-bottom: 1px solid #ccc;
+    background: #34485f;
+    border-bottom: 1px solid #ddd;
 }
 
 .top-nav-menu li {

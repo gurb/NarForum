@@ -69,32 +69,35 @@ else
                 Posts
             </div>
         }
-        <div class="col-4">
+        <div class="col-4" style="display:flex;align-items:center;justify-content:space-between">
             Last Post
-            <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                <i class="bi bi-funnel"></i>
-            </span>
-            <ul class="dropdown-menu page-search-heading-dropdown">
-                <SearchHeading Query="query" SearchCallback="SearchHeadingCallback"></SearchHeading>
-            </ul>
 
-            <span style="float:right;margin-left:10px;font-size:18px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                <i class="bi bi-filter-right"></i>
-            </span>
+            <span>
+                <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                    <i class="bi bi-funnel"></i>
+                </span>
+                <ul class="dropdown-menu page-search-heading-dropdown">
+                    <SearchHeading Query="query" SearchCallback="SearchHeadingCallback"></SearchHeading>
+                </ul>
+
+                <span style="float:right;margin-left:10px;font-size:18px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                    <i class="bi bi-filter-right"></i>
+                </span>
            
-            <ul class="dropdown-menu sort-by-dropdown">
-                <li class="dropdown-item">
-                    <a @onclick="() => SortHeadingList(SortTypeVM.RECENT)">Recent</a>
-                </li>
-                <li class="dropdown-item">
-                    <a @onclick="() => SortHeadingList(SortTypeVM.MOSTREPLIED)">Most Replied</a>
-                </li>
-                <li class="dropdown-item">
-                    <a @onclick="() => SortHeadingList(SortTypeVM.OLDEST)">Oldest</a>
-                </li>
-            </ul>
-            <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" @onclick=RefreshList>
-                <i class="bi bi-repeat"></i>
+                <ul class="dropdown-menu sort-by-dropdown">
+                    <li class="dropdown-item">
+                        <a @onclick="() => SortHeadingList(SortTypeVM.RECENT)">Recent</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a @onclick="() => SortHeadingList(SortTypeVM.MOSTREPLIED)">Most Replied</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a @onclick="() => SortHeadingList(SortTypeVM.OLDEST)">Oldest</a>
+                    </li>
+                </ul>
+                <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" @onclick=RefreshList>
+                    <i class="bi bi-repeat"></i>
+                </span>
             </span>
         </div>
     </div>

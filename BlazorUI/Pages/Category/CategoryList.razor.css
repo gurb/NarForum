@@ -2,10 +2,12 @@
     padding: 5px 10px;
     border: 1px solid #ddd;
     margin-bottom: 10px;
-    background: #eee;
+    background: #34485f;
     font-size: 0.9em;
-    font-weight: 500;
-    color: #333;
+    font-weight: 600;
+    color: #eaeaea;
+    align-items: center;
+    border-radius: 5px;
 }
 
 .sort-by-dropdown a {
@@ -17,8 +19,8 @@
 .page-search-heading-dropdown {
     padding: 10px;
     font-size: 0.9em;
-    color: #333;
-    background: #eeeeee;
+    color: #eaeaea;
+    background: #34485f;
     width: 20%;
 }
 

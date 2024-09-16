@@ -2,8 +2,9 @@
     padding: 5px 10px;
     border: 1px solid #ddd;
     margin-bottom: 10px;
-    background: #eee;
+    background: #34485f;
     font-size: 0.9em;
-    font-weight: 500;
-    color: #333;
+    font-weight: 600;
+    color: #eaeaea;
+    border-radius: 5px;
 }

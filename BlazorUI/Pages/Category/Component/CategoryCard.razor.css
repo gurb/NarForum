@@ -3,7 +3,7 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 10px;
-    background: #fff;
+    background: #f9f9f9;
     font-size: 1em;
     font-weight: 600;
     color: #333;
@@ -18,7 +18,7 @@
 }
 
 .link-category-primary {
-    color: #2c83d3;
+    color: #34485f;
     text-decoration: none;
 }
 
