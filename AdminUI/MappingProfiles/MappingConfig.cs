@@ -16,6 +16,7 @@ using AdminUI.Models.BlogComment;
 using AdminUI.Models.BlogPost;
 using AdminUI.Models.StaticPage;
 using AdminUI.Models.TrackingLog;
+using AdminUI.Models.Logo;
 
 
 namespace AdminUI.MappingProfiles
@@ -125,6 +126,10 @@ namespace AdminUI.MappingProfiles
 			CreateMap<TrackingLogsPaginationVM, TrackingLogsPaginationDTO>().ReverseMap();
 			CreateMap<GetTrackingLogsWithPaginationQueryVM, GetTrackingLogsWithPaginationQuery>().ReverseMap();
 
-		}
-	}
+            CreateMap<LogoDTO, LogoVM>().ReverseMap();
+            CreateMap<AddLogoCommand, LogoVM>().ReverseMap();
+            CreateMap<AddLogoCommand, AddLogoCommandVM>().ReverseMap();
+            CreateMap<UpdateLogoCommand, UpdateLogoCommandVM>().ReverseMap();
+        }
+    }
 }

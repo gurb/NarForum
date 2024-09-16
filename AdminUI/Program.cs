@@ -40,6 +40,8 @@ builder.Services.AddScoped<IBlogPostService, BlogPostService>();
 builder.Services.AddScoped<IPageService, PageService>();
 
 builder.Services.AddScoped<ITrackingLogService, TrackingLogService>();
+builder.Services.AddScoped<ILogoService, LogoService>();
+
 
 builder.Services.AddSingleton<AlertService>();
 

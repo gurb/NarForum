@@ -30,6 +30,8 @@ namespace Persistence.DatabaseContext
 
         public DbSet<TrackingLog> TrackingLogs { get; set; }
 
+        public DbSet<Logo> Logos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // find all configurations file from assembly and apply
