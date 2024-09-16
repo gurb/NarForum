@@ -8,6 +8,7 @@ namespace Application.Features.Logo.Queries.GetLogo
 {
     public class LogoDTO
     {
+        public Guid? Id { get; set; }
         public string? Base64 { get; set; }
         public string? Text { get; set; }
         public string? AltText { get; set; }

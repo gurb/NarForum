@@ -36,6 +36,7 @@ namespace Persistence.Extensions
             services.AddScoped<IBlogCategoryRepository, BlogCatergoryRepository>();
             services.AddScoped<IPageRepository, PageRepository>();
             services.AddScoped<ILogoService, LogoService>();
+            services.AddScoped<IForumSettingsService, ForumSettingsService>();
 
             return services;
         }

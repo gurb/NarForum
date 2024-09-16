@@ -26,7 +26,7 @@ namespace Application.Features.Logo.Queries.GetLogo
             }
             else
             {
-                return null;
+                return new LogoDTO();
             }
         }
     }

@@ -5,8 +5,10 @@ using BlazorUI.Models.BlogComment;
 using BlazorUI.Models.BlogPost;
 using BlazorUI.Models.Category;
 using BlazorUI.Models.Favorite;
+using BlazorUI.Models.ForumSettings;
 using BlazorUI.Models.Heading;
 using BlazorUI.Models.Like;
+using BlazorUI.Models.Logo;
 using BlazorUI.Models.Message;
 using BlazorUI.Models.Post;
 using BlazorUI.Models.Section;
@@ -99,6 +101,10 @@ namespace BlazorUI.MappingProfiles
             CreateMap<AddTrackingLogCommandVM, AddTrackingLogCommand>().ReverseMap();
             CreateMap<GetTrackingLogQueryVM, GetTrackingLogQuery>().ReverseMap();
             CreateMap<GetTrackingLogsQueryVM, GetTrackingLogsQueryVM>().ReverseMap();
+
+            CreateMap<LogoDTO, LogoVM>().ReverseMap();
+
+            CreateMap<ForumSettingsDTO, ForumSettingsVM>().ReverseMap();
         }
     }
 }

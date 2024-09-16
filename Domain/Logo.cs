@@ -5,7 +5,7 @@ namespace Domain
     public class Logo
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string? Base64 { get; set; }
         public string? Text { get; set; }
         public string? AltText { get; set; }
