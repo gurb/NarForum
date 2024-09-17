@@ -27,9 +27,11 @@ public class GetBlogPostsWithPaginationQueryHandler : IRequestHandler<GetBlogPos
 
         List<Domain.BlogPost> blogPosts;
 
-        if(request.IsInclude)
+        string orderProperty = "DateCreate";
+
+        if (request.IsInclude)
         {
-            blogPosts = await _blogPostRepository.GetBlogPostsWithPaginationIncludeBlogCategory(predicate, request.PageIndex.Value, request.PageSize.Value);
+            blogPosts = await _blogPostRepository.GetBlogPostsWithPaginationIncludeBlogCategory(predicate, request.PageIndex.Value, request.PageSize.Value, "DateCreate", true);
         }
         else
         {

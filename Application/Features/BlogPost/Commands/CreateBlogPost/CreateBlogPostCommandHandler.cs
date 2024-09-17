@@ -1,4 +1,5 @@
-﻿using Application.Contracts.Persistence;
+﻿using Application.Contracts.Identity;
+using Application.Contracts.Persistence;
 using Application.Models;
 using AutoMapper;
 using MediatR;
@@ -9,11 +10,13 @@ public class CreateBlogPostCommandHandler : IRequestHandler<CreateBlogPostComman
 {
     private readonly IMapper _mapper;
     private readonly IBlogPostRepository _blogPostRepository;
+    private readonly IUserService _userService;
 
-    public CreateBlogPostCommandHandler(IMapper mapper, IBlogPostRepository blogPostRepository)
+    public CreateBlogPostCommandHandler(IMapper mapper, IBlogPostRepository blogPostRepository, IUserService userService)
     {
         _mapper = mapper;
         _blogPostRepository = blogPostRepository;
+        _userService = userService;
     }
     public async Task<ApiResponse> Handle(CreateBlogPostCommand request, CancellationToken cancellationToken)
     {
@@ -21,8 +24,11 @@ public class CreateBlogPostCommandHandler : IRequestHandler<CreateBlogPostComman
 
         try
         {
+            var user = await _userService.GetCurrentUser();
+
             var blogPost = _mapper.Map<Domain.BlogPost>(request);
             blogPost.IsDraft = true;
+            blogPost.UserName = user.UserName;
 
             await _blogPostRepository.CreateAsync(blogPost);
 

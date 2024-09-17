@@ -1,7 +1,9 @@
 ﻿using Application.Contracts.Persistence;
 using Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Persistence.DatabaseContext;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Persistence.Repositories
@@ -13,14 +15,30 @@ namespace Persistence.Repositories
 
         }
 
-        public async Task<List<BlogPost>> GetBlogPostsWithPaginationIncludeBlogCategory(Expression<Func<BlogPost, bool>> predicate, int pageIndex, int pageSize)
+        public async Task<List<BlogPost>> GetBlogPostsWithPaginationIncludeBlogCategory(Expression<Func<BlogPost, bool>> predicate, int pageIndex, int pageSize, string? propertyName = null, bool desc = true)
         { 
-            var productsPerPage = await _context.BlogPosts.AsNoTracking()
-                 .Where(predicate)
-                 .Skip((pageIndex - 1) * pageSize)
-                 .Take(pageSize)
-                 .Include(x => x.BlogCategory)
-                 .ToListAsync();
+            List<BlogPost>? productsPerPage;
+            if (propertyName is not null)
+            {
+                IQueryable<BlogPost> query = _context.BlogPosts.AsNoTracking().Where(predicate);
+
+                query = ApplyOrder(query, propertyName, desc);
+
+                productsPerPage = await query
+                    .Skip((pageIndex - 1) * pageSize)
+                    .Take(pageSize)
+                    .Include(x => x.BlogCategory)
+                    .ToListAsync();
+            }
+            else
+            {
+                productsPerPage = await _context.BlogPosts.AsNoTracking()
+                    .Where(predicate)
+                    .Skip((pageIndex - 1) * pageSize)
+                    .Take(pageSize)
+                    .Include(x => x.BlogCategory)
+                    .ToListAsync();
+            }
 
             return productsPerPage;
         }

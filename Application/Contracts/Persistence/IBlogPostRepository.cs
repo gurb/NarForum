@@ -6,5 +6,5 @@ namespace Application.Contracts.Persistence;
 public interface IBlogPostRepository : IGenericRepository<BlogPost>
 {
 	Task<BlogPost?> GetByIdWithBlogCategoryAsync(Guid id, bool isTrack = false);
-    Task<List<BlogPost>> GetBlogPostsWithPaginationIncludeBlogCategory(Expression<Func<BlogPost, bool>> predicate, int pageIndex, int pageSize);
+    Task<List<BlogPost>> GetBlogPostsWithPaginationIncludeBlogCategory(Expression<Func<BlogPost, bool>> predicate, int pageIndex, int pageSize, string? propertyName = null, bool desc = true);
 }

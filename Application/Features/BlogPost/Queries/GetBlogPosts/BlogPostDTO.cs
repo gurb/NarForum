@@ -12,4 +12,7 @@ public class BlogPostDTO
     public string Url { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
     public int ViewCounter { get; set; }
+
+    public DateTime? DateCreate { get; set; }
+
 }
