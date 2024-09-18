@@ -21,7 +21,6 @@
             <small class="last-post-date">@Model.ActiveDate</small>
         </div>
     }
-    
 </div>
 
 @code {
@@ -37,7 +36,7 @@
     string url { 
         get 
         {
-            return $"/category/{Model.Name}"; 
+            return $"/category/{Model.Name.ToFriendlyUrl()}-{Model.CategoryId}"; 
         } 
     }
 

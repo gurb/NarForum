@@ -79,6 +79,9 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("BlogCategoryId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("BlogPostId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text");
@@ -117,6 +120,9 @@ namespace Persistence.Migrations
 
                     b.HasIndex("BlogCategoryId");
 
+                    b.HasIndex("BlogPostId")
+                        .IsUnique();
+
                     b.ToTable("BlogPosts");
                 });
 
@@ -128,6 +134,12 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime?>("ActiveDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CategoryId"));
 
                     b.Property<DateTime?>("DateCreate")
                         .HasColumnType("timestamp with time zone");
@@ -168,6 +180,9 @@ namespace Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId")
+                        .IsUnique();
 
                     b.HasIndex("ParentCategoryId");
 

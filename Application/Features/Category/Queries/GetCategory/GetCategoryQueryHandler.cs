@@ -19,19 +19,26 @@ namespace Application.Features.Category.Queries.GetCategory
 
         public async Task<CategoryDTO> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
         {
-            if(request.CategoryName == null)
+            CategoryDTO categoryDTO = new CategoryDTO();
+
+            Domain.Category? category = null;
+
+            if (request.CategoryId != null)
             {
-                throw new Exception("CategoryName can not be null");
+                category = await _categoryRepository.GetByIntId(request.CategoryId.Value);
+            }
+            else if (request.CategoryName != null)
+            {
+                category = await _categoryRepository.GetByName(request.CategoryName);
             }
 
-            // query the database
-            var category = await _categoryRepository.GetByName(request.CategoryName);
-
-            // convert data objecs to DTOs
-            var data = _mapper.Map<CategoryDTO>(category);
+            if(category != null)
+            {
+                categoryDTO = _mapper.Map<CategoryDTO>(category);
+            }
 
             // return list of DTOs
-            return data;
+            return categoryDTO;
         }
     }
 }

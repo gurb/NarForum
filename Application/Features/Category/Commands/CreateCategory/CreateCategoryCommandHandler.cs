@@ -41,7 +41,7 @@ namespace Application.Features.Category.Commands.CreateCategory
 
                 var categoryExist = await _categoryRepository.GetByName(category.Name);
 
-                if (categoryExist is not null)
+                if (categoryExist is not null && request.SectionId == categoryExist.SectionId)
                 {
                     response.IsSuccess = false;
                     response.Message = "Category name is already exist";

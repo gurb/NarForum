@@ -4,7 +4,7 @@
 @if (BlogPostVM is not null)
 {
     <div class="col-sm-12 blog-post-card">
-        <h3 class="blog-post-card-title">@BlogPostVM.Title</h3>
+        <h3 class="blog-post-card-title"><a href="">@BlogPostVM.Title</a></h3>
         <div class="blog-post-card-content">
             @ArrangeContent(BlogPostVM.Content).Substring(0, Math.Min(250, ArrangeContent(BlogPostVM.Content).Length))...
         </div>

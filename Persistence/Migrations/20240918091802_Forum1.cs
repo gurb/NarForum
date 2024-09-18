@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -39,6 +40,18 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ForumSettings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ForumUrl = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ForumSettings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Likes",
                 columns: table => new
                 {
@@ -52,6 +65,21 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Likes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Logos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Base64 = table.Column<string>(type: "text", nullable: true),
+                    Text = table.Column<string>(type: "text", nullable: true),
+                    AltText = table.Column<string>(type: "text", nullable: true),
+                    Path = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,11 +118,32 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TrackingLogs",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Country = table.Column<string>(type: "text", nullable: true),
+                    IpAddress = table.Column<string>(type: "text", nullable: true),
+                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    URL = table.Column<string>(type: "text", nullable: true),
+                    IsMember = table.Column<bool>(type: "boolean", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    TargetId = table.Column<Guid>(type: "uuid", nullable: true),
+                    TempUserId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Browser = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TrackingLogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BlogPosts",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    BlogCategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    BlogPostId = table.Column<int>(type: "integer", nullable: false),
+                    BlogCategoryId = table.Column<Guid>(type: "uuid", nullable: true),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     Url = table.Column<string>(type: "text", nullable: false),
@@ -113,8 +162,7 @@ namespace Persistence.Migrations
                         name: "FK_BlogPosts_BlogCategories_BlogCategoryId",
                         column: x => x.BlogCategoryId,
                         principalTable: "BlogCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -122,14 +170,16 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CategoryId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    ParentCategoryId = table.Column<Guid>(type: "uuid", nullable: false),
-                    SectionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ParentCategoryId = table.Column<Guid>(type: "uuid", nullable: true),
+                    SectionId = table.Column<Guid>(type: "uuid", nullable: true),
                     HeadingCounter = table.Column<int>(type: "integer", nullable: false),
                     PostCounter = table.Column<int>(type: "integer", nullable: false),
-                    LastHeadingId = table.Column<Guid>(type: "uuid", nullable: false),
-                    LastPostId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LastHeadingId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastPostId = table.Column<Guid>(type: "uuid", nullable: true),
                     LastUserName = table.Column<string>(type: "text", nullable: true),
                     ActiveDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -143,14 +193,12 @@ namespace Persistence.Migrations
                         name: "FK_Categories_Categories_ParentCategoryId",
                         column: x => x.ParentCategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Categories_Sections_SectionId",
                         column: x => x.SectionId,
                         principalTable: "Sections",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -158,7 +206,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    BlogPostId = table.Column<Guid>(type: "uuid", nullable: false),
+                    BlogPostId = table.Column<Guid>(type: "uuid", nullable: true),
                     Content = table.Column<string>(type: "text", nullable: false),
                     UserName = table.Column<string>(type: "text", nullable: false),
                     DateCreate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -172,8 +220,7 @@ namespace Persistence.Migrations
                         name: "FK_BlogComments_BlogPosts_BlogPostId",
                         column: x => x.BlogPostId,
                         principalTable: "BlogPosts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -296,6 +343,18 @@ namespace Persistence.Migrations
                 column: "BlogCategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BlogPosts_BlogPostId",
+                table: "BlogPosts",
+                column: "BlogPostId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_CategoryId",
+                table: "Categories",
+                column: "CategoryId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Categories_ParentCategoryId",
                 table: "Categories",
                 column: "ParentCategoryId");
@@ -346,7 +405,13 @@ namespace Persistence.Migrations
                 name: "Favorites");
 
             migrationBuilder.DropTable(
+                name: "ForumSettings");
+
+            migrationBuilder.DropTable(
                 name: "Likes");
+
+            migrationBuilder.DropTable(
+                name: "Logos");
 
             migrationBuilder.DropTable(
                 name: "Quotes");
@@ -356,6 +421,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "StaticPages");
+
+            migrationBuilder.DropTable(
+                name: "TrackingLogs");
 
             migrationBuilder.DropTable(
                 name: "BlogPosts");

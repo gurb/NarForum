@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.Base;
 using Microsoft.EntityFrameworkCore;
+using System.Xml;
 
 namespace Persistence.DatabaseContext
 {
@@ -39,8 +40,17 @@ namespace Persistence.DatabaseContext
             // find all configurations file from assembly and apply
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ForumDbContext).Assembly);
 
+            modelBuilder.Entity<Category>()
+                .HasIndex(u => u.CategoryId)
+                .IsUnique();
+
+            modelBuilder.Entity<BlogPost>()
+                .HasIndex(u => u.BlogPostId)
+                .IsUnique();
+
             base.OnModelCreating(modelBuilder);
         }
+
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

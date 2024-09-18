@@ -58,6 +58,19 @@ namespace Api.Controllers
             return category;
         }
 
+        [AllowAnonymous]
+        [HttpGet("GetCategoryByIntId")]
+        public async Task<CategoryDTO> Get(int Id)
+        {
+            var query = new GetCategoryQuery
+            {
+                CategoryId = Id
+            };
+            var category = await _mediator.Send(query);
+
+            return category;
+        }
+
 
         [AllowAnonymous]
         [HttpPost("GetCategoriesWithPagination")]

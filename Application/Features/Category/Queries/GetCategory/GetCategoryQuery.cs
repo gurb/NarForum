@@ -11,5 +11,6 @@ namespace Application.Features.Category.Queries.GetCategory
     public class GetCategoryQuery : IRequest<CategoryDTO>
     {
         public string? CategoryName { get; set; }
+        public int? CategoryId { get; set; }
     }
 }

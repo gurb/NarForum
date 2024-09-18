@@ -1,9 +1,11 @@
 ﻿using Domain.Base;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain;
 
 public class BlogPost: BaseEntity
 {
+    public int BlogPostId { get; set; }
     public BlogCategory? BlogCategory { get; set; }
     public Guid? BlogCategoryId { get; set; }
     public string Title { get; set; } = string.Empty;

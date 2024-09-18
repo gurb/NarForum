@@ -1,0 +1,24 @@
+﻿@page "/blog/{FriendlyUrl}-{BlogPostId:int}"
+
+@using BlazorUI.Models.BlogPost
+
+@if (BlogPostVM is not null)
+{
+    <div class="col-sm-12 blog-post-detail-container">
+        <h1 class="blog-post-detail-heading">@BlogPostVM.Title</h1>
+        <div class="blog-post-detail-content">
+            @((MarkupString)BlogPostVM.Content)
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public BlogPostVM? BlogPostVM { get; set; }
+
+    [Parameter]
+    public string? FriendlyUrl { get; set; }
+
+    [Parameter]
+    public int BlogPostId { get; set; }
+}

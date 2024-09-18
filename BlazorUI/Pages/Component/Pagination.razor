@@ -22,10 +22,11 @@
                 {
                     @for (var j = CurrentPage - (LimitPage / 2); j <= CurrentPage + (LimitPage / 2); j++)
                     {
+                        var pageNumber = j;
                         @if(j > 0 && j <= TotalPages)
                         {
                             <li class="page-item page-item-number @(j == CurrentPage ? "active" : "")">
-                                <a class="page-link" href="@getUrl(j)">@j</a>
+                                <a class="page-link" href="@getUrl(pageNumber)">@j</a>
                             </li>
                         }
                     }
@@ -34,8 +35,9 @@
                 {
                     @for (var j = 1; j <= TotalPages; j++)
                     {
+                        var pageNumber = j;
                         <li class="page-item page-item-number @(j == CurrentPage ? "active" : "")">
-                            <a class="page-link" href="@getUrl(j)">@j</a>
+                            <a class="page-link" href="@getUrl(pageNumber)">@j</a>
                         </li>
                     }
                 }
@@ -71,20 +73,16 @@
                 
                 @if (LimitPage <= TotalPages)
                 {
-                    
-
                     @for (var j = CurrentPage - (LimitPage / 2); j <= CurrentPage + (LimitPage / 2); j++)
                     {
                         var pageNumber = j;
                         @if (j > 0 && j <= TotalPages)
                         {
-
                             <li class="page-item page-item-number @(j == CurrentPage ? "active" : "")">
                                 <a class="page-link" @onclick="() => ChangePage(pageNumber)">@j</a>
                             </li>
                         }
                     }
-
                 }
                 else
                 {
@@ -189,6 +187,14 @@
         {
             CurrentPage = page;
             await PageChanged.InvokeAsync(CurrentPage);
+        }
+    }
+
+    private async Task ChangePageUrl(int page)
+    {
+        if (page != CurrentPage)
+        {
+            CurrentPage = page;
         }
     }
 }

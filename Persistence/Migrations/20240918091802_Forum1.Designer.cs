@@ -12,8 +12,8 @@ using Persistence.DatabaseContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    [Migration("20240903184820_Forum5")]
-    partial class Forum5
+    [Migration("20240918091802_Forum1")]
+    partial class Forum1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,6 +82,9 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("BlogCategoryId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("BlogPostId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text");
@@ -120,6 +123,9 @@ namespace Persistence.Migrations
 
                     b.HasIndex("BlogCategoryId");
 
+                    b.HasIndex("BlogPostId")
+                        .IsUnique();
+
                     b.ToTable("BlogPosts");
                 });
 
@@ -131,6 +137,12 @@ namespace Persistence.Migrations
 
                     b.Property<DateTime?>("ActiveDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CategoryId"));
 
                     b.Property<DateTime?>("DateCreate")
                         .HasColumnType("timestamp with time zone");
@@ -172,6 +184,9 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId")
+                        .IsUnique();
+
                     b.HasIndex("ParentCategoryId");
 
                     b.HasIndex("SectionId");
@@ -201,6 +216,20 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Favorites");
+                });
+
+            modelBuilder.Entity("Domain.ForumSettings", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ForumUrl")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ForumSettings");
                 });
 
             modelBuilder.Entity("Domain.Heading", b =>
@@ -277,6 +306,29 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("Domain.Logo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AltText")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Base64")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Logos");
                 });
 
             modelBuilder.Entity("Domain.Post", b =>
@@ -445,6 +497,9 @@ namespace Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Browser")
+                        .HasColumnType("text");
 
                     b.Property<string>("Country")
                         .HasColumnType("text");

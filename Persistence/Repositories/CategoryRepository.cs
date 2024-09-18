@@ -18,6 +18,11 @@ namespace Persistence.Repositories
             return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
         }
 
+        public async Task<Category> GetByIntId(int id)
+        {
+            return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.CategoryId == id);
+        }
+
         public async Task IncreasePostCounter(Guid HeadingId)
         {
             var heading = await _context.Headings.FirstOrDefaultAsync(x => x.Id == HeadingId);

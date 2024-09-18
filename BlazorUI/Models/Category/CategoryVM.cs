@@ -3,6 +3,7 @@
     public class CategoryVM
     {
         public Guid Id { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; } = string.Empty;
 		public Guid? SectionId { get; set; }
         public Guid? ParentCategoryId { get; set; }

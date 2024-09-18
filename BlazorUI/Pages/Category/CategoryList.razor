@@ -1,5 +1,5 @@
-﻿@page "/category/{CategoryName}"
-@page "/category/{CategoryName}/{PageIndex:int}"
+﻿@page "/category/{CategoryName}-{CategoryId:int}"
+@page "/category/{CategoryName}-{CategoryId:int}/{PageIndex:int}"
 @using BlazorUI.Pages.Category.Modal
 
 <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
@@ -124,6 +124,8 @@ else
 
     [Parameter]
     public string CategoryName { get; set; }
+    [Parameter]
+    public int CategoryId { get; set; }
 
     [Parameter]
     public int PageIndex { get; set; } = 1;
@@ -149,7 +151,7 @@ else
 
     private string getBaseUrl()
     {
-        return $"category/{CategoryName}/";
+        return $"category/{CategoryName.ToFriendlyUrl()}/";
     }
 
     // Pagination variables
@@ -170,7 +172,7 @@ else
         BreadcrumbItems.Add(new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" });
         foreach (var parent in parentCategories)
         {
-            BreadcrumbItems.Add(new BreadcrumbItem { Text = parent.Name, HrefLink = $"/category/{parent.Name.ToFriendlyUrl()}/" });
+            BreadcrumbItems.Add(new BreadcrumbItem { Text = parent.Name, HrefLink = $"/category/{parent.Name.ToFriendlyUrl()}-{parent.CategoryId}/" });
         }
         BreadcrumbItems.Last().IsCurrentPage = true;
 

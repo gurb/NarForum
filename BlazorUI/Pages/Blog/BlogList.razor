@@ -38,6 +38,8 @@ else
                 
             }
         }
+        <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+
         </div>
     }
     else
@@ -61,6 +63,17 @@ else
     [Parameter]
     public int PageIndex { get; set; } = 1;
 
+    private string getBaseUrl()
+    {
+        if(CategoryName is not null)
+        {
+            return $"blog/{CategoryName}/";
+        }
+        else
+        {
+            return $"blog/";
+        }
+    }
 
     private GetBlogPostsWithPaginationQueryVM? query {get; set;}
 
@@ -90,6 +103,8 @@ else
 
             // Model = await BlogCategoryService.GetBlogCategory(request);
         }
+
+        CurrentPage = PageIndex;
 
         query = new GetBlogPostsWithPaginationQueryVM
         {
