@@ -5,6 +5,6 @@ namespace Application.Features.Category.Queries.GetParentCategories
 {
     public class GetParentCategoriesQuery: IRequest<List<CategoryDTO>>
     {
-        public string? CategoryName { get; set; }
+        public int? id { get; set; }
     }
 }

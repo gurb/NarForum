@@ -1,6 +1,6 @@
-﻿@page "/category/{CategoryName}/{HeadingId}/{FriendlyUrl}/"
-@page "/category/{CategoryName}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}"
-@page "/category/{CategoryName}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}/{PostId:guid}"
+﻿@page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/"
+@page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}"
+@page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}/{PostId:guid}"
 @using System.Text.RegularExpressions
 
 @inject IJSRuntime JS
@@ -8,44 +8,52 @@
 
 @inject RefreshStateService refreshStateService;
 
-@if (Heading != null)
+@if(isLoading)
+{
+    <SkeletonBreadcrumb></SkeletonBreadcrumb>
+    <SkeletonH1 ClassName="@("heading-title")"></SkeletonH1>
+    <SkeletonCustomMiniPost></SkeletonCustomMiniPost>
+    <SkeletonCustomMiniPost></SkeletonCustomMiniPost>
+    <SkeletonCustomMiniPost></SkeletonCustomMiniPost>
+}
+else
 {
     <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
-    <h1 class="heading-title">@Heading.Title</h1>
-}
+    @if(Heading is not null)
+    {
+        <h1 class="heading-title">@Heading.Title</h1>
+    }
 
-@if(Posts != null)
-{
     <Pagination MinVersion=min768 TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
     @foreach (var post in Posts)
     {
         @* <PostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></PostCard> *@
-        <MiniPostCard Post="post" 
-            Id="@post.Id" 
-            PostId="@post.Id" 
-            Content="@post.Content" 
-            Username="@post.UserName" 
-            IsOP='Heading!.UserName == post.UserName' 
-            LikeCallback="(postId) => LikePost(postId)"
-            UnLikeCallback="(postId) => UnLikePost(postId)"
-            AddFavoriteCallback="(postId) => AddFavorite(postId)"
-            OpenChatCallback="(postId) => OpenChatBoxWithUsername(post.UserName)"
-            ReplyCallback="(post) => AddReply(post)"></MiniPostCard>
+        <MiniPostCard Post="post"
+                      Id="@post.Id"
+                      PostId="@post.Id"
+                      Content="@post.Content"
+                      Username="@post.UserName"
+                      IsOP='Heading!.UserName == post.UserName'
+                      LikeCallback="(postId) => LikePost(postId)"
+                      UnLikeCallback="(postId) => UnLikePost(postId)"
+                      AddFavoriteCallback="(postId) => AddFavorite(postId)"
+                      OpenChatCallback="(postId) => OpenChatBoxWithUsername(post.UserName)"
+                      ReplyCallback="(post) => AddReply(post)"></MiniPostCard>
     }
     <Pagination MinVersion=min768 TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
     <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingGuid" Callback="RefreshPosts"></CreatePostForm>
-}
-else
-{
-    <p>Loading...</p>
 }
 
 
 <MediaQuery Width=768 @bind-Value=min768></MediaQuery>
 
 @code {
+    private bool isLoading { get; set; } = true;
+
     [Parameter]
     public string CategoryName { get; set; }
+    [Parameter]
+    public int CategoryId { get; set; }
 
     [Parameter]
     public string? FriendlyUrl { get; set; }
@@ -121,14 +129,14 @@ else
 
     protected async Task SetBreadcrumb()
     {
-        var parentCategories = await CategoryService.GetParentCategoriesByName(CategoryName);
-        parentCategories = parentCategories.OrderBy(x => x.Id).ToList();
+        var parentCategories = await CategoryService.GetParentCategoriesByIntId(CategoryId);
+        parentCategories = parentCategories.OrderBy(x => x.CategoryId).ToList();
 
         BreadcrumbItems = new List<BreadcrumbItem>();
         BreadcrumbItems.Add(new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" });
         foreach (var parent in parentCategories)
         {
-            BreadcrumbItems.Add(new BreadcrumbItem { Text = parent.Name, HrefLink = $"/category/{parent.Name}/" });
+            BreadcrumbItems.Add(new BreadcrumbItem { Text = parent.Name, HrefLink = $"/category/{parent.Name.ToFriendlyUrl()}-{parent.CategoryId}/" });
         }
         BreadcrumbItems.Add(new BreadcrumbItem { Text = Heading!.Title, IsCurrentPage = true });
     }
@@ -198,6 +206,7 @@ else
 
     protected async override Task OnParametersSetAsync()
     {
+        isLoading = true;
         CreateModel = new PostVM();
 
         if (PageIndex == 0) PageIndex = 1;
@@ -236,7 +245,9 @@ else
 
         await SetBreadcrumb();
 
+        isLoading = false;
         await InvokeAsync(StateHasChanged);
+
     }
 
     private void ConfigureDisplayPosts(List<PostVM>? posts)

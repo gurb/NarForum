@@ -21,7 +21,8 @@ namespace Application.Features.Category.Queries.GetCategories
         public async Task<List<CategoryDTO>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
             // query the database
-            var categories = await _categoryRepository.GetAsync();
+            var allCategories = await _categoryRepository.GetAsync();
+            var categories = new List<Domain.Category>(allCategories);
             var categorieLastHeadingIds = categories.Select(x => x.LastHeadingId).ToList();
 
             var headings = await _headingRepository.GetAllAsync(x => categorieLastHeadingIds.Contains(x.Id));
@@ -56,6 +57,14 @@ namespace Application.Features.Category.Queries.GetCategories
                 
                 if(heading != null)
                 {
+                    var headingCategory = allCategories.FirstOrDefault(x => heading.CategoryId == x.Id);
+                    
+                    if (headingCategory != null)
+                    {
+                        category.LastCategoryId = headingCategory.CategoryId;
+                        category.LastCategoryTitle = headingCategory.Name;
+                    }
+                   
                     category.LastHeadingTitle = heading.Title;
                 }
             }

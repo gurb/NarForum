@@ -278,12 +278,12 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByNameAsync(string name);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByIntIdAsync(int? id);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByNameAsync(string name, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByIntIdAsync(int? id, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -3297,15 +3297,15 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByNameAsync(string name)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByIntIdAsync(int? id)
         {
-            return GetParentCategoriesByNameAsync(name, System.Threading.CancellationToken.None);
+            return GetParentCategoriesByIntIdAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByNameAsync(string name, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByIntIdAsync(int? id, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3318,12 +3318,12 @@ namespace AdminUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Categories/GetParentCategoriesByName"
-                    urlBuilder_.Append("api/Categories/GetParentCategoriesByName");
+                    // Operation Path: "api/Categories/GetParentCategoriesByIntId"
+                    urlBuilder_.Append("api/Categories/GetParentCategoriesByIntId");
                     urlBuilder_.Append('?');
-                    if (name != null)
+                    if (id != null)
                     {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("Name")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(name, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                        urlBuilder_.Append(System.Uri.EscapeDataString("id")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     urlBuilder_.Length--;
 
@@ -10066,6 +10066,12 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("lastPostId")]
         public System.Guid? LastPostId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("lastCategoryTitle")]
+        public string LastCategoryTitle { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("lastCategoryId")]
+        public int? LastCategoryId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("lastHeadingTitle")]
         public string LastHeadingTitle { get; set; }

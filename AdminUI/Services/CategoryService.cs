@@ -56,9 +56,9 @@ namespace AdminUI.Services
             return data;
         }
 
-        public async Task<List<CategoryVM>> GetParentCategoriesByName(string CategoryName)
+        public async Task<List<CategoryVM>> GetParentCategoriesByIntId(int CategoryId)
         {
-            var categories = await _client.GetParentCategoriesByNameAsync(CategoryName);
+            var categories = await _client.GetParentCategoriesByIntIdAsync(CategoryId);
             var data = _mapper.Map<List<CategoryVM>>(categories);
 
             return data;

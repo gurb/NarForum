@@ -10,7 +10,7 @@ namespace AdminUI.Contracts
         Task<List<CategoryVM>> GetCategories();
         Task<List<CategoryVM>> GetSectionCategories();
         Task<List<CategoryVM>> GetCategoriesByName(string CategoryName);
-        Task<List<CategoryVM>> GetParentCategoriesByName(string CategoryName);
+        Task<List<CategoryVM>> GetParentCategoriesByIntId(int CategoryId);
         Task<CategoriesPaginationVM> GetCategoriesWithPagination(CategoriesPaginationQueryVM paramQuery);
 
         // commands

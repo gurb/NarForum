@@ -111,12 +111,12 @@ namespace Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("GetParentCategoriesByName")]
-        public async Task<List<CategoryDTO>> GetParentCategoriesByName(string Name)
+        [HttpGet("GetParentCategoriesByIntId")]
+        public async Task<List<CategoryDTO>> GetParentCategoriesByIntId(int id)
         {
             var query = new GetParentCategoriesQuery
             {
-                CategoryName = Name
+                id = id
             };
 
             var categories = await _mediator.Send(query);

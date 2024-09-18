@@ -21,6 +21,9 @@ namespace Application.Features.Category.Queries.GetCategories
 
         public Guid? LastHeadingId { get; set; }
 		public Guid? LastPostId { get; set; }
+
+        public string? LastCategoryTitle { get; set; }
+        public int? LastCategoryId { get; set; }
 		public string? LastHeadingTitle { get; set; }
         public string? LastUserName { get; set; }
         public DateTime? ActiveDate { get; set; }

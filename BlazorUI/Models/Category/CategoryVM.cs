@@ -11,6 +11,8 @@
         public int PostCounter { get; set; }
 
 
+        public string? LastCategoryTitle { get; set; }
+        public int? LastCategoryId { get; set; }
         public Guid? LastHeadingId { get; set; }
         public Guid? LastPostId { get; set; }
         public string? LastHeadingTitle { get; set; }

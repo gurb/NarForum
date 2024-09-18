@@ -1,6 +1,5 @@
 ﻿@page "/create-heading"
-@page "/create-heading/{CategoryName}"
-
+@page "/create-heading/{CategoryName}-{CategoryId:int}"
 
 @if(CategoryName != null)
 {
@@ -58,6 +57,8 @@ else
 
     [Parameter]
     public string? CategoryName { get; set; }
+    [Parameter]
+    public int CategoryId { get; set; }
 
     [Inject]
     public IHeadingService? HeadingService { get; set; }
@@ -76,7 +77,7 @@ else
 
         if(CategoryName != null)
         {
-            parentCategory = categories.FirstOrDefault(x => x.Name == CategoryName);
+            parentCategory = categories.FirstOrDefault(x => x.CategoryId == CategoryId);
             Model.CategoryId = parentCategory != null ? parentCategory.Id : Guid.Empty;
         }
         else
@@ -105,6 +106,6 @@ else
 
         var result = await HeadingService.CreateHeading(heading);
 
-        NavigationManager.NavigateTo($"/category/{CategoryName}");
+        NavigationManager.NavigateTo($"/category/{CategoryName.ToFriendlyUrl()}-{CategoryId}");
     }
 }

@@ -28,7 +28,7 @@ namespace Application.Features.Category.Queries.GetParentCategories
             // query the database
             var categories = await _categoryRepository.GetAsync();
 
-            var childCategory = categories.FirstOrDefault(x => x.Name.ToLower() == request.CategoryName.ToLower());
+            var childCategory = categories.FirstOrDefault(x => x.CategoryId == request.id);
 
             List<Domain.Category> response = new List<Domain.Category>();
 

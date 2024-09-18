@@ -7,7 +7,7 @@
 
 <div class="row category-header">
     <div class="col-6">
-        <h1>@CategoryName.ToTitleCase()</h1>
+        <h1>@(Model != null ? @Model.Name : "")</h1>
     </div>
     <div class="col-6 d-flex justify-content-end p-0">
         <ul class="list-group list-group-horizontal">
@@ -28,24 +28,27 @@
     </div>
 </div>
 
-<div class="row current-category-card-body">
-    
-    <div class="col-4">
-        Sub Categories
-    </div>
-    @if (min768)
-    {
-        <div class="col-2">
-            Headings
-        </div>
-        <div class="col-2">
-            Posts
-        </div>
+@if(Categories is not null && Categories.Count > 0)
+{
+    <div class="row current-category-card-body">
+
         <div class="col-4">
-            Last Post
+            Sub Categories
         </div>
-    }
-</div>
+        @if (min768)
+        {
+            <div class="col-2">
+                Headings
+            </div>
+            <div class="col-2">
+                Posts
+            </div>
+            <div class="col-4">
+                Last Post
+            </div>
+        }
+    </div>
+}
 
 @if(!isLoaded)
 {
@@ -58,7 +61,7 @@ else
 
         <CategoryCard ShowNumber="min768" Model="category"></CategoryCard>
     }
-    <hr />
+
     <div class="row current-category-card-body">
         <div class="col-6">
             Headings
@@ -102,9 +105,12 @@ else
         </div>
     </div>
     <Pagination MinVersion="min768" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
-    @foreach (var heading in Headings)
+    @if(Model is not null)
     {
-        <HeadingCard Model="heading" ShowNumber="min768" CategoryName="@CategoryName"></HeadingCard>
+        @foreach (var heading in Headings)
+        {
+            <HeadingCard Model="heading" ShowNumber="min768" CategoryUrl="@(Model.Name.ToFriendlyUrl() + "-" + Model.CategoryId)"></HeadingCard>
+        }
     }
     <Pagination MinVersion="min768" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
 }
@@ -151,7 +157,11 @@ else
 
     private string getBaseUrl()
     {
-        return $"category/{CategoryName.ToFriendlyUrl()}/";
+        if(Model is not null)
+        {
+            return $"category/{CategoryName.ToFriendlyUrl()}-{Model.Id}/";
+        }
+        return "";
     }
 
     // Pagination variables
@@ -163,10 +173,10 @@ else
 
     private SortTypeVM selectedSortTypeVM = SortTypeVM.RECENT;
 
-    protected async Task SetBreadcrumb(string CurrentName)
+    protected async Task SetBreadcrumb(int CurrentCategoryId)
     {
-        var parentCategories = await CategoryService.GetParentCategoriesByName(CurrentName);
-        parentCategories = parentCategories.OrderBy(x => x.Id).ToList();
+        var parentCategories = await CategoryService.GetParentCategoriesByIntId(CurrentCategoryId);
+        parentCategories = parentCategories.OrderBy(x => x.CategoryId).ToList();
 
         BreadcrumbItems = new List<BreadcrumbItem>();
         BreadcrumbItems.Add(new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" });
@@ -183,7 +193,7 @@ else
     {
         if (PageIndex == 0) PageIndex = 1;
 
-        Model = await CategoryService.GetCategoryByName(CategoryName);
+        Model = await CategoryService.GetCategoryByIntId(CategoryId);
         Categories = await CategoryService.GetCategoriesById(Model.Id);
 
         CurrentPage = PageIndex;
@@ -204,7 +214,7 @@ else
         Headings = headingsPagination.Headings;
         TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
-        await SetBreadcrumb(Model.Name);
+        await SetBreadcrumb(Model.CategoryId);
 
         isLoaded = true;
     }
@@ -288,13 +298,19 @@ else
 
     private void CreateHeading()
     {
-        NavigationManager.NavigateTo($"/create-heading/{CategoryName}");
+        if(Model is not null)
+        {
+            NavigationManager.NavigateTo($"/create-heading/{CategoryName.ToFriendlyUrl()}-{Model.CategoryId}");
+        }
     }
 
 
     private async Task RefreshCategories()
     {
-        Categories = await CategoryService.GetCategoriesByName(CategoryName);
-        await InvokeAsync(StateHasChanged);
+        if(Model is not null)
+        {
+            Categories = await CategoryService.GetCategoriesById(Model.Id);
+            await InvokeAsync(StateHasChanged);
+        }
     }
 }

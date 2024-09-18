@@ -23,7 +23,7 @@
     public HeadingVM Model { get; set; }
 
     [Parameter]
-    public string CategoryName { get; set; }
+    public string CategoryUrl { get; set; }
 
     [Parameter]
     public bool ShowNumber { get; set; } = true;
@@ -35,7 +35,7 @@
     { 
         get 
         { 
-            return $"/category/{CategoryName}/{Model.Id.EncodeGuidToBase64Url()}/{Model.Title.ToFriendlyUrl()}";
+            return $"/category/{CategoryUrl}/{Model.Id.EncodeGuidToBase64Url()}/{Model.Title.ToFriendlyUrl()}";
         } 
     }
 

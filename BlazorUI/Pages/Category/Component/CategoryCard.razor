@@ -54,7 +54,7 @@
         {
             if (Model.LastHeadingTitle != null && Model.LastHeadingId != null)
             {
-                return $"/category/{Model.Name}/{Model.LastHeadingId.Value.EncodeGuidToBase64Url()}/{Model.LastHeadingTitle.ToFriendlyUrl()}";
+                return $"/category/{Model.LastCategoryTitle.ToFriendlyUrl()}-{Model.LastCategoryId}/{Model.LastHeadingId.Value.EncodeGuidToBase64Url()}/{Model.LastHeadingTitle.ToFriendlyUrl()}";
             }
             return null;
         }
