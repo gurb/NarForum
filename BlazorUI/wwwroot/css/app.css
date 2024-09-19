@@ -396,7 +396,7 @@ a {
 
 .section-card-body {
     padding: 5px 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #34485f;
     margin-bottom: 10px;
     background: #34485f;
     font-size: 0.9em;
@@ -505,7 +505,7 @@ a {
 
 .current-category-card-body {
     padding: 5px 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #34485f;
     margin-bottom: 10px;
     background: #34485f;
     font-size: 0.9em;
@@ -573,4 +573,40 @@ a {
     font-size: 16px;
     margin-right: 10px;
     color: #bbb;
+}
+
+
+/* sidepanel */
+
+.sidebar-container {
+    padding: 10px;
+    padding-top: 50px;
+}
+
+.recent-heading-list-container {
+    border-radius: 5px;
+    background: #f9f9f9;
+    padding: 0;
+}
+
+.sidebar-title {
+    margin-bottom: 0px;
+    padding: 10px 5px;
+    width: 100%;
+    display: block;
+    font-size: 18px;
+    line-height: 18px;
+    border: 1px solid #34485f;
+    background: #34485f;
+    color: #eaeaea;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.recent-heading-list {
+    padding: 5px;
+    border: 1px solid #dddddd;
+    border-top: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }

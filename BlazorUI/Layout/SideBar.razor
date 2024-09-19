@@ -1,7 +1,6 @@
 ﻿@page "/{PageType}"
 @inject NavigationManager nav
 @using BlazorUI.Pages.Blog.Component
-<h3>SideBar</h3>
 
 @if (activePage == "blog")
 {
@@ -9,10 +8,12 @@
 }
 else if (activePage == null || activePage == "")
 {
+    <RecentHeadings></RecentHeadings>
     <RecentPosts></RecentPosts>
 }
 else
 {
+    <RecentHeadings></RecentHeadings>
     <RecentPosts></RecentPosts>
 }
 

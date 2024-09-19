@@ -1,0 +1,70 @@
+﻿<div class="row recent-heading-list-container">
+    <h3 class="sidebar-title">Recent Headings</h3>
+    @if (isLoading)
+    {
+        
+    }
+    else
+    {
+        <div class="recent-heading-list">
+        @for (int i=0; i < headings!.Count(); i++)
+        {
+            var heading = headings![i];
+            <div class="d-flex flex-start @((i == 0) ? "mt-1" : "mt-3")">
+                <a class="me-3" href="#">
+                <img class="rounded shadow-1-strong"
+                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar"
+                    width="50" height="50" />
+                </a>
+                <div class="flex-grow-1 flex-shrink-1">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-1">
+                        @heading.Title <span class="small"> - 12 Jun 2024</span>
+                    </p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        }
+        </div>
+    }
+</div>
+
+
+@code {
+    private bool isLoading = true;
+
+    [Inject]
+    private IHeadingService? headingService { get; set; }
+
+    private List<HeadingVM>? headings;
+
+    private int headingLimit = 10;
+
+    protected async override Task OnInitializedAsync()
+    {
+        if(headingService is not null)
+        {
+            GetHeadingsWithPaginationQueryVM query = new GetHeadingsWithPaginationQueryVM
+            {
+                SortType = SortTypeVM.RECENT,
+                PageIndex = 1,
+                PageSize = headingLimit,
+            };
+
+            HeadingsPaginationVM pagination = await headingService.GetHeadingsWithPagination(query);
+
+            headings = pagination.Headings;
+
+
+            if(headings is not null && headings.Count > 0)
+            {
+                isLoading = false;
+            }
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+}
