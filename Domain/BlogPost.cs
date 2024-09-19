@@ -5,6 +5,7 @@ namespace Domain;
 
 public class BlogPost: BaseEntity
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int BlogPostId { get; set; }
     public BlogCategory? BlogCategory { get; set; }
     public Guid? BlogCategoryId { get; set; }
