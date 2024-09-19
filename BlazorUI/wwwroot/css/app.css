@@ -267,6 +267,11 @@ a {
     border-radius: .25rem;
 }
 
+.skeleton-mini-user-profile {
+    float:left;
+    margin-right:10px;
+}
+
 .skeleton-text {
     width: 100%;
     height: 20px;
@@ -579,8 +584,7 @@ a {
 /* sidepanel */
 
 .sidebar-container {
-    padding: 10px;
-    padding-top: 50px;
+    padding: 0 10px;
 }
 
 .recent-heading-list-container {
@@ -601,6 +605,55 @@ a {
     color: #eaeaea;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+}
+
+.no-image-user-profile {
+    opacity: .6;
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 0.25rem;
+    background: #512DA8;
+    font-size: 25px;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+}
+
+.no-image-user-profile-post {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #512DA8;
+    font-size: 15px;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+}
+
+.no-image-user-profile-link {
+    text-decoration: none;
+}
+
+.recent-heading-title {
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+.recent-heading-title a {
+    text-decoration: none;
+}
+
+.recent-heading-title-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.recent-heading-category-badge {
+    background: #27750f;
+    color: white;
+    font-size: 10px;
 }
 
 .recent-heading-list {

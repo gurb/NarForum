@@ -1,7 +1,10 @@
 ﻿<article id="@Id" class="card mb-4 custom-mini-post">
     <header class="card-header border-0 bg-transparent align-items-center">
-        <img src="https://via.placeholder.com/30x30"
-             class="rounded-circle me-2 custom-mini-post-image align-items-center" />
+        @* <img src="https://via.placeholder.com/30x30"
+             class="rounded-circle me-2 custom-mini-post-image align-items-center" /> *@
+                <span class=no-image-user-profile-post>
+                    @Username.ToUpper()[0]
+                </span>
              <a href="/user/@Username" class="fw-semibold text-decoration-none custom-mini-post-username">@(Username != null ? Username : "User")</a>
                 @if (IsOP)
                 {

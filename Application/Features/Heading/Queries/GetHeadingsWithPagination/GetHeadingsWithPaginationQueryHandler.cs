@@ -97,6 +97,7 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
                 if (category != null)
                 {
                     heading.CategoryName = category.Name;
+                    heading.CategoryIntId = category.CategoryId;
                 }
             }
 

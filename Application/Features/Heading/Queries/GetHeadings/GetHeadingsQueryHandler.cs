@@ -27,16 +27,18 @@ namespace Application.Features.Heading.Queries.GetHeadings
         {
             // query the database
             var headings = await _headingRepository.GetAsync();
-
+            Domain.Category? category = null;
 
             if (request.CategoryId != null)
             {
+                category = await _categoryRepository.GetByIdAsync(request.CategoryId.Value);
+
                 headings = headings.Where(x => x.CategoryId == request.CategoryId).ToList();
             }
 
             if (request.CategoryName != null)
             {
-                var category = await _categoryRepository.GetByName(request.CategoryName);
+                category = await _categoryRepository.GetByName(request.CategoryName);
 
                 if (category != null)
                 {
@@ -44,8 +46,17 @@ namespace Application.Features.Heading.Queries.GetHeadings
                 }
             }
 
+
             // convert data objecs to DTOs
             var data = _mapper.Map<List<HeadingDTO>>(headings);
+
+            if (category != null)
+            {
+                foreach (var item in data)
+                {
+                    item.CategoryIntId = category.CategoryId;
+                }
+            }
 
             // return list of DTOs
             return data;

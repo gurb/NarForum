@@ -10673,6 +10673,9 @@ namespace AdminUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("postCounter")]
         public int PostCounter { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("categoryIntId")]
+        public int CategoryIntId { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("lastPostId")]
         public System.Guid LastPostId { get; set; }
 

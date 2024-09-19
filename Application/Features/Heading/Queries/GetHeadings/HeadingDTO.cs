@@ -12,6 +12,7 @@
 
         public int PostCounter { get; set; }
 
+        public int CategoryIntId { get; set; }
         public Guid LastPostId { get; set; }
         public string? LastUserName { get; set; }
         public DateTime? ActiveDate { get; set; }
