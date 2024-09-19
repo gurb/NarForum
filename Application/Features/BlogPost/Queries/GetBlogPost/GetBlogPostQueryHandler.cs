@@ -19,11 +19,20 @@ namespace Application.Features.BlogPost.Queries.GetBlogPost
 
         public async Task<BlogPostDTO> Handle(GetBlogPostQuery request, CancellationToken cancellationToken)
         {
-            var blogPost = await _blogPostRepository.GetByIdWithBlogCategoryAsync(request.Id);
+            BlogPostDTO dto = new BlogPostDTO();
 
-            var data = _mapper.Map<BlogPostDTO>(blogPost);
+            if(request.Id != null)
+            {
+                var blogPost = await _blogPostRepository.GetByIdWithBlogCategoryAsync(request.Id.Value);
+                dto = _mapper.Map<BlogPostDTO>(blogPost);
+            }
+            else if(request.IntId != null)
+            {
+                var blogPost = await _blogPostRepository.GetByIntIdWithBlogCategoryAsync(request.IntId.Value);
+                dto = _mapper.Map<BlogPostDTO>(blogPost);
+            }
 
-            return data;
+            return dto;
         }
     }
 }

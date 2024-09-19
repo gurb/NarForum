@@ -1,24 +1,78 @@
-﻿@page "/blog/{FriendlyUrl}-{BlogPostId:int}"
+﻿@page "/blog/{Title}-{BlogPostId:int}"
 
 @using BlazorUI.Models.BlogPost
 
 @if (BlogPostVM is not null)
 {
+    <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
+
     <div class="col-sm-12 blog-post-detail-container">
         <h1 class="blog-post-detail-heading">@BlogPostVM.Title</h1>
         <div class="blog-post-detail-content">
             @((MarkupString)BlogPostVM.Content)
         </div>
     </div>
+} else
+{
+    <SkeletonBreadcrumb></SkeletonBreadcrumb>
+    <div class="col-sm-12 blog-post-detail-container">
+        <SkeletonH1 ClassName="blog-post-detail-heading"></SkeletonH1>
+        <div class="blog-post-detail-content">
+            <SkeletonText></SkeletonText>
+            <SkeletonText></SkeletonText>
+            <SkeletonText></SkeletonText>
+            <SkeletonText></SkeletonText>
+            <SkeletonText></SkeletonText>
+            <SkeletonText></SkeletonText>
+        </div>
+    </div>
 }
 
 @code {
+    [Inject]
+    private IBlogPostService? blogPostService { get; set; }
+
     [Parameter]
     public BlogPostVM? BlogPostVM { get; set; }
 
     [Parameter]
-    public string? FriendlyUrl { get; set; }
+    public string? Title { get; set; }
 
     [Parameter]
     public int BlogPostId { get; set; }
+
+    private List<BreadcrumbItem> BreadcrumbItems { get; set; }
+
+    protected async Task SetBreadcrumb()
+    {
+        BreadcrumbItems = new List<BreadcrumbItem>();
+        BreadcrumbItems.Add(new BreadcrumbItem { Text = "Blog", HrefLink = $"/blog" });
+        if(BlogPostVM.BlogCategory is not null)
+        {
+            BreadcrumbItems.Add(new BreadcrumbItem { Text = $"{BlogPostVM.BlogCategory.Name}", HrefLink = $"/blog/{BlogPostVM.BlogCategory.Name.ToFriendlyUrl()}" });
+        }
+        else
+        {
+            BreadcrumbItems.Add(new BreadcrumbItem { Text = $"No Category", HrefLink = null });
+        }
+        BreadcrumbItems.Add(new BreadcrumbItem { Text = $"{BlogPostVM.Title}", IsCurrentPage = true });
+    }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (BlogPostVM is null && blogPostService is not null)
+        {
+            var query = new GetBlogPostQueryVM
+            {
+                IntId = BlogPostId
+            };
+
+            BlogPostVM = await blogPostService.GetBlogPost(query);
+
+
+            await SetBreadcrumb();
+        }
+
+        await base.OnParametersSetAsync();
+    }
 }

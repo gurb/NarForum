@@ -5,6 +5,7 @@ namespace Application.Features.BlogPost.Queries.GetBlogPosts;
 public class BlogPostDTO
 {
     public Guid? Id { get; set; }
+    public int BlogPostId { get; set; }
     public BlogCategoryDTO? BlogCategory { get; set; }
     public Guid? BlogCategoryId { get; set; }
 	public string Title { get; set; } = string.Empty;

@@ -29,7 +29,9 @@ namespace BlazorUI.Extensions
                 .Replace(")", "")
                 .Replace("/", "")
                 .Replace("\\", "")
-                .Replace("?", "");
+                .Replace("?", "")
+                .Replace(".", "-")
+                .Replace(",", "-");
         }
 
 

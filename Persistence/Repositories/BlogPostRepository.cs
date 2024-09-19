@@ -51,5 +51,14 @@ namespace Persistence.Repositories
 			}
 			return await _context.BlogPosts.AsNoTracking().Include(x => x.BlogCategory).FirstOrDefaultAsync(x => x.Id == id);
 		}
-	}
+
+        public async Task<BlogPost?> GetByIntIdWithBlogCategoryAsync(int id, bool isTrack = false)
+        {
+            if (isTrack)
+            {
+                return await _context.BlogPosts.Include(x => x.BlogCategory).FirstOrDefaultAsync(x => x.BlogPostId == id);
+            }
+            return await _context.BlogPosts.AsNoTracking().Include(x => x.BlogCategory).FirstOrDefaultAsync(x => x.BlogPostId == id);
+        }
+    }
 }

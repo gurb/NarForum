@@ -7,20 +7,33 @@
 @using BlazorUI.Models.BlogComment
 @using BlazorUI.Pages.Blog.Component
 
-<AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 
-<div class="row blog-list-header">
-    <div class="col-6">
-        <h1 class="blog-heading">Blog</h1>
-    </div>
-</div>
 
 @if (isLoading)
 {
-    <p>Loading Data...</p>
+    <SkeletonBreadcrumb></SkeletonBreadcrumb>
+    <div class="row blog-list-header">
+        <div class="col-6">
+            <h1 class="blog-heading skeleton skeleton-h1"></h1>
+        </div>
+    </div>
+
+    <SkeletonBlogPostCard></SkeletonBlogPostCard>
+    <SkeletonBlogPostCard></SkeletonBlogPostCard>
+    <SkeletonBlogPostCard></SkeletonBlogPostCard>
+    <SkeletonBlogPostCard></SkeletonBlogPostCard>
 }
 else
 {
+
+    <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
+
+    <div class="row blog-list-header">
+        <div class="col-6">
+            <h1 class="blog-heading">Blog</h1>
+        </div>
+    </div>
+
     if(BlogPosts is not null && BlogPosts.Count > 0)
     {
         <div class="blog-post-grid">
@@ -81,7 +94,7 @@ else
 
     public List<BlogPostVM>? BlogPosts { get; set; }
 
-    bool isLoading;
+    bool isLoading = true;
 
     // Pagination variables
     private int PageSize = 10; // Number of items per page

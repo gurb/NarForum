@@ -5,5 +5,6 @@ namespace Application.Features.BlogPost.Queries.GetBlogPost;
 
 public class GetBlogPostQuery: IRequest<BlogPostDTO>
 {
-    public Guid Id { get; set; }
+    public int? IntId { get; set; }
+    public Guid? Id { get; set; }
 }

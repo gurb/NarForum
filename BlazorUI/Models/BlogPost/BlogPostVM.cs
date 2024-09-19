@@ -4,6 +4,7 @@ namespace BlazorUI.Models.BlogPost;
 
 public class BlogPostVM
 {
+    public int BlogPostId { get; set; }
     public BlogCategoryVM? BlogCategory { get; set; }
     public string? BlogCategoryId { get; set; }
     public string Title { get; set; } = string.Empty;

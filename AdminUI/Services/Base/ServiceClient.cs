@@ -9980,6 +9980,9 @@ namespace AdminUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("id")]
         public System.Guid? Id { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("blogPostId")]
+        public int BlogPostId { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("blogCategory")]
         public BlogCategoryDTO BlogCategory { get; set; }
 
@@ -10376,8 +10379,11 @@ namespace AdminUI.Services.Base
     public partial class GetBlogPostQuery
     {
 
+        [System.Text.Json.Serialization.JsonPropertyName("intId")]
+        public int? IntId { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public System.Guid Id { get; set; }
+        public System.Guid? Id { get; set; }
 
     }
 
