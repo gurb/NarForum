@@ -4,7 +4,6 @@
 
 
 
-
 <div class="row">
     <div class="col-12 text-end">
         <AuthorizeView>
@@ -43,9 +42,6 @@
 
 </div>
 
-<div class="row current-category-card-body">
-    
-</div>
 
 @if(Categories == null)
 {
@@ -66,6 +62,8 @@ else
 <UpdateSectionModal @ref=updateSectionModal Model="@Model" Callback="Refresh"></UpdateSectionModal>
 
 @code {
+    private bool loading { get; set; } = true;
+
     [Parameter]
     public SectionVM Model { get; set; }
 

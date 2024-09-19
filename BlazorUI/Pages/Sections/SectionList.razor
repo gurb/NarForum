@@ -1,6 +1,18 @@
 ﻿@if (Sections == null)
 {
-    <p>Loading Data...</p>
+    <SkeletonSectionCard min768=min768></SkeletonSectionCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonSectionCard min768=min768></SkeletonSectionCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonSectionCard min768=min768></SkeletonSectionCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
 }
 else
 {
@@ -23,4 +35,10 @@ else
     </div>
 
     <AddSectionModal @ref="addSectionModal" Callback="Refresh"></AddSectionModal>
+}
+
+<MediaQuery Width=768 @bind-Value=min768></MediaQuery>
+
+@code {
+    public bool min768 { get; set; } = true;
 }

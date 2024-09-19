@@ -2,117 +2,135 @@
 @page "/category/{CategoryName}-{CategoryId:int}/{PageIndex:int}"
 @using BlazorUI.Pages.Category.Modal
 
-<AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 <MediaQuery Width=768 @bind-Value=min768></MediaQuery>
 
-<div class="row category-header">
-    <div class="col-6">
-        <h1>@(Model != null ? @Model.Name : "")</h1>
-    </div>
-    <div class="col-6 d-flex justify-content-end p-0">
-        <ul class="list-group list-group-horizontal">
-            <AuthorizeView>
-                <Authorized>
-                    <li class="list-group-item">
-                            <button @onclick="CreateHeading" class="btn btn-secondary"><i class="bi bi-file-earmark-plus"></i> Create Heading</button>
-                        </li>
-                    <li class="list-group-item">
-                        <button @onclick="OpenModal" class="btn btn-secondary"><i class="bi bi-journal-plus"></i> Add Category</button>
-                        </li>
-                </Authorized>
-                <NotAuthorized>
 
-                </NotAuthorized>
-            </AuthorizeView>
-        </ul>
-    </div>
-</div>
-
-@if(Categories is not null && Categories.Count > 0)
+@if(isLoading)
 {
-    <div class="row current-category-card-body">
-
-        <div class="col-4">
-            Sub Categories
-        </div>
-        @if (min768)
-        {
-            <div class="col-2">
-                Headings
-            </div>
-            <div class="col-2">
-                Posts
-            </div>
-            <div class="col-4">
-                Last Post
-            </div>
-        }
-    </div>
-}
-
-@if(!isLoaded)
-{
-    <p>Loading Data...</p>
+    <SkeletonBreadcrumb></SkeletonBreadcrumb>
+    <SkeletonH1></SkeletonH1>
+    <SkeletonCategorySectionCard min768=@min768></SkeletonCategorySectionCard>
+    <SkeletonCategoryCard ShowNumber=@min768></SkeletonCategoryCard>
+    <SkeletonHeadingSectionCard min768=@min768></SkeletonHeadingSectionCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
 }
 else
 {
-    @foreach (var category in Categories)
-    {
+    <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 
-        <CategoryCard ShowNumber="min768" Model="category"></CategoryCard>
-    }
 
-    <div class="row current-category-card-body">
+    <div class="row category-header">
         <div class="col-6">
-            Headings
+            <h1>@(Model != null ? @Model.Name : "")</h1>
         </div>
-        @if (min768)
-        {
-            <div class="col-2">
-                Posts
-            </div>
-        }
-        <div class="col-4" style="display:flex;align-items:center;justify-content:space-between">
-            Last Post
+        <div class="col-6 d-flex justify-content-end p-0">
+            <ul class="list-group list-group-horizontal">
+                <AuthorizeView>
+                    <Authorized>
+                        <li class="list-group-item">
+                            <button @onclick="CreateHeading" class="btn btn-secondary"><i class="bi bi-file-earmark-plus"></i> Create Heading</button>
+                        </li>
+                        <li class="list-group-item">
+                            <button @onclick="OpenModal" class="btn btn-secondary"><i class="bi bi-journal-plus"></i> Add Category</button>
+                        </li>
+                    </Authorized>
+                    <NotAuthorized>
 
-            <span>
-                <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                    <i class="bi bi-funnel"></i>
-                </span>
-                <ul class="dropdown-menu page-search-heading-dropdown">
-                    <SearchHeading Query="query" SearchCallback="SearchHeadingCallback"></SearchHeading>
-                </ul>
-
-                <span style="float:right;margin-left:10px;font-size:18px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                    <i class="bi bi-filter-right"></i>
-                </span>
-           
-                <ul class="dropdown-menu sort-by-dropdown">
-                    <li class="dropdown-item">
-                        <a @onclick="() => SortHeadingList(SortTypeVM.RECENT)">Recent</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a @onclick="() => SortHeadingList(SortTypeVM.MOSTREPLIED)">Most Replied</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a @onclick="() => SortHeadingList(SortTypeVM.OLDEST)">Oldest</a>
-                    </li>
-                </ul>
-                <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" @onclick=RefreshList>
-                    <i class="bi bi-repeat"></i>
-                </span>
-            </span>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </ul>
         </div>
     </div>
-    <Pagination MinVersion="min768" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
-    @if(Model is not null)
+
+    @if (Categories is not null && Categories.Count > 0)
     {
-        @foreach (var heading in Headings)
-        {
-            <HeadingCard Model="heading" ShowNumber="min768" CategoryUrl="@(Model.Name.ToFriendlyUrl() + "-" + Model.CategoryId)"></HeadingCard>
-        }
+        <div class="row current-category-card-body">
+
+            <div class="col-4">
+                Sub Categories
+            </div>
+            @if (min768)
+            {
+                <div class="col-2">
+                    Headings
+                </div>
+                <div class="col-2">
+                    Posts
+                </div>
+                <div class="col-4">
+                    Last Post
+                </div>
+            }
+        </div>
     }
-    <Pagination MinVersion="min768" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+
+    if(Categories is not null)
+    {
+        @foreach (var category in Categories)
+        {
+
+            <CategoryCard ShowNumber="min768" Model="category"></CategoryCard>
+        }
+
+        <div class="row current-category-card-body">
+            <div class="col-6">
+                Headings
+            </div>
+            @if (min768)
+            {
+                <div class="col-2">
+                    Posts
+                </div>
+            }
+            <div class="col-4" style="display:flex;align-items:center;justify-content:space-between">
+                Last Post
+
+                <span>
+                    <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <i class="bi bi-funnel"></i>
+                    </span>
+                    <ul class="dropdown-menu page-search-heading-dropdown">
+                        <SearchHeading Query="query" SearchCallback="SearchHeadingCallback"></SearchHeading>
+                    </ul>
+
+                    <span style="float:right;margin-left:10px;font-size:18px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <i class="bi bi-filter-right"></i>
+                    </span>
+
+                    <ul class="dropdown-menu sort-by-dropdown">
+                        <li class="dropdown-item">
+                            <a @onclick="() => SortHeadingList(SortTypeVM.RECENT)">Recent</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a @onclick="() => SortHeadingList(SortTypeVM.MOSTREPLIED)">Most Replied</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a @onclick="() => SortHeadingList(SortTypeVM.OLDEST)">Oldest</a>
+                        </li>
+                    </ul>
+                    <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" @onclick=RefreshList>
+                        <i class="bi bi-repeat"></i>
+                    </span>
+                </span>
+            </div>
+        </div>
+        <Pagination MinVersion="min768" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+        @if (Model is not null)
+        {
+            @foreach (var heading in Headings)
+            {
+                <HeadingCard Model="heading" ShowNumber="min768" CategoryUrl="@(Model.Name.ToFriendlyUrl() + "-" + Model.CategoryId)"></HeadingCard>
+            }
+        }
+        <Pagination MinVersion="min768" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    }
+
 }
 
 @if(Model != null)
@@ -121,7 +139,7 @@ else
 }
 
 @code {
-    private bool isLoaded { get; set; }
+    private bool isLoading { get; set; } = true;
     private CategoryVM? Model { get; set; }
 
     Pagination? top, bottom;
@@ -216,7 +234,7 @@ else
 
         await SetBreadcrumb(Model.CategoryId);
 
-        isLoaded = true;
+        isLoading = false;
     }
 
     protected async Task SortHeadingList(SortTypeVM sortType)
@@ -244,7 +262,7 @@ else
             Headings = headingsPagination.Headings;
             TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
-            isLoaded = true;
+            isLoading = false;
         }
     }
 
@@ -269,7 +287,7 @@ else
             Headings = headingsPagination.Headings;
             TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
-            isLoaded = true;
+            isLoading = false;
         }
     }
 
@@ -287,7 +305,7 @@ else
             Headings = headingsPagination.Headings;
             TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
-            isLoaded = true;
+            isLoading = false;
         }
     }
 
