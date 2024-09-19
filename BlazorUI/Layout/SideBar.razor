@@ -1,0 +1,54 @@
+﻿@page "/{PageType}"
+@inject NavigationManager nav
+@using BlazorUI.Pages.Blog.Component
+<h3>SideBar</h3>
+
+@if (activePage == "blog")
+{
+    <BlogCategoryList></BlogCategoryList>
+}
+else if (activePage == null || activePage == "")
+{
+    <RecentPosts></RecentPosts>
+}
+else
+{
+    <RecentPosts></RecentPosts>
+}
+
+
+
+@code {
+    [Parameter]
+    public string? PageType { get; set; }
+
+
+    string activePage = "";
+
+    string url = "";
+
+    protected override void OnInitialized()
+    {
+        nav.LocationChanged += (o, e) =>
+        {
+            url = e.Location;
+            string baseUrlRemoved = url.Split(new[] { "://" }, StringSplitOptions.None)[1].Split(new[] { '/' }, 2)[1];
+            string[] parts = baseUrlRemoved.Split('/');
+
+            if(parts is not null && parts.Length > 0)
+            {
+                activePage = parts[0];
+            }
+            else
+            {
+                activePage = "";
+            }
+
+            StateHasChanged();
+        };
+
+        base.OnInitialized();
+    }
+
+    
+}
