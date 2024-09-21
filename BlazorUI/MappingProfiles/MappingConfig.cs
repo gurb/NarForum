@@ -7,6 +7,7 @@ using BlazorUI.Models.Category;
 using BlazorUI.Models.Favorite;
 using BlazorUI.Models.ForumSettings;
 using BlazorUI.Models.Heading;
+using BlazorUI.Models.Image;
 using BlazorUI.Models.Like;
 using BlazorUI.Models.Logo;
 using BlazorUI.Models.Message;
@@ -105,6 +106,8 @@ namespace BlazorUI.MappingProfiles
             CreateMap<LogoDTO, LogoVM>().ReverseMap();
 
             CreateMap<ForumSettingsDTO, ForumSettingsVM>().ReverseMap();
+
+            CreateMap<UploadImageRequest, UploadImageRequestVM>().ReverseMap();
         }
     }
 }

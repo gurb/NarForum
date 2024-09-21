@@ -18,6 +18,7 @@ using AdminUI.Models.StaticPage;
 using AdminUI.Models.TrackingLog;
 using AdminUI.Models.Logo;
 using AdminUI.Models.ForumSettings;
+using AdminUI.Models.Image;
 
 
 namespace AdminUI.MappingProfiles
@@ -134,6 +135,9 @@ namespace AdminUI.MappingProfiles
 
             CreateMap<ForumSettingsDTO, ForumSettingsVM>().ReverseMap();
             CreateMap<UpdateForumSettingsCommand, UpdateForumSettingsCommandVM>().ReverseMap();
+
+            CreateMap<UploadImageRequest, UploadImageRequestVM>().ReverseMap();
+
         }
     }
 }

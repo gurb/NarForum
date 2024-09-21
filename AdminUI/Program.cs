@@ -43,6 +43,7 @@ builder.Services.AddScoped<ITrackingLogService, TrackingLogService>();
 builder.Services.AddScoped<ILogoService, LogoService>();
 
 builder.Services.AddScoped<IForumSettingsService, ForumSettingsService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 
 builder.Services.AddSingleton<AlertService>();
 
