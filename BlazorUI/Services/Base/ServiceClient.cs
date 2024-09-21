@@ -10288,6 +10288,15 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("profileImageBase64")]
+        public string ProfileImageBase64 { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("fileName")]
+        public string FileName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("contentType")]
+        public string ContentType { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("profileImage")]
         public byte[] ProfileImage { get; set; }
 

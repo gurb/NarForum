@@ -9,6 +9,7 @@ using Identity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mime;
 using System.Security.Claims;
 
 namespace Identity.Services
@@ -43,15 +44,12 @@ namespace Identity.Services
             UserInfoResponse response = new UserInfoResponse
             {
                 UserName = currentUser.UserName,
+                Id = currentUser.Id,
                 RegisterDate = currentUser.RegisterDate,
             };
 
             return response;
         }
-
-
-
-
 
         public async Task<UserInfoResponse> GetUserInfo(UserInfoRequest request)
         {
@@ -124,44 +122,76 @@ namespace Identity.Services
             {
                 var user = await GetCurrentUser();
 
-
                 if(user != null)
                 {
 
                     if(request.IsChangeImage)
                     {
-                        if(request.ProfileImage != null)
+                        if(request.ProfileImageBase64 != null && request.ContentType != null && request.FileName != null)
                         {
+                            IFormFile? ProfileImage;
+
+                            byte[] fileBytes = Convert.FromBase64String(request.ProfileImageBase64);
+
+
+                            MemoryStream stream = new MemoryStream(fileBytes);
+                            ProfileImage = new FormFile(stream, 0, stream.Length, null, request.FileName)
+                            {
+                                Headers = new HeaderDictionary(),
+                                ContentType = request.ContentType
+                            };
+
                             UploadImageRequest uploadRequest = new UploadImageRequest
                             {
                                 UserId = new Guid(user.Id!),
                                 Type = Application.Models.Enums.UploadImageType.UserProfile,
                                 Dir = request.Dir,
-                                Files = new List<IFormFile> { request.ProfileImage }
+                                Files = new List<IFormFile> { ProfileImage }
                             };
 
                             ApiResponse uploadResponse = await _imageService.UploadImageToServer(uploadRequest);
 
                             if (!uploadResponse.IsSuccess)
                             {
+                                stream.Dispose();
                                 return response;
                             }
+
+                            stream.Dispose();
                         }
                     }
 
-                    var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
-
-                    if(updateUser != null)
+                    if(user.UserName != request.UserName && request.UserName != null && request.UserName.Length > 3 && request.UserName.Length < 30)
                     {
-                        updateUser.UserName = request.UserName;
+                        var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
 
-                        _identityDbContext.Users.Update(updateUser);
-                        await _identityDbContext.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        response.IsSuccess = false;
-                        response.Message = "User cannot find";
+                        if (updateUser != null)
+                        {
+                            var anyUser = await _identityDbContext
+                                .Users
+                                .AnyAsync
+                                    (x => x.UserName == request.UserName ||
+                                     x.UserName.ToLower() == request.UserName.ToLower() ||
+                                     x.UserName.ToUpper() == request.UserName.ToUpper());
+
+                            if (anyUser)
+                            {
+                                response.IsSuccess = false;
+                                response.Message = "Username is already taken";
+
+                                return response;
+                            }
+
+                            updateUser.UserName = request.UserName;
+
+                            _identityDbContext.Users.Update(updateUser);
+                            await _identityDbContext.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "User cannot find";
+                        }
                     }
                 }
                 else

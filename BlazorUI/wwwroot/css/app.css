@@ -598,7 +598,7 @@ a {
     padding: 10px 5px;
     width: 100%;
     display: block;
-    font-size: 18px;
+    font-size: 15px;
     line-height: 18px;
     border: 1px solid #34485f;
     background: #34485f;
@@ -673,6 +673,7 @@ a {
     border-radius:5px;
     background:#f1f1f1;
     cursor: pointer;
+    position: relative;
 }
 
 .user-profile-no-image {
@@ -695,4 +696,25 @@ a {
 .user-settings-title {
     font-size: 35px;
     margin-bottom: 40px;
+}
+
+.unvisible-input-file {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background: pink;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+}
+
+.user-settings-button input[type=file]::-webkit-file-upload-button {
+    opacity: 0;
+    cursor: pointer;
+}
+
+.profile-image-user {
+    width: 150px;
+    height: 150px;
 }

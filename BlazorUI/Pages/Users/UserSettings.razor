@@ -10,12 +10,21 @@
             @* <span class="font-weight-bold">@Model.UserName</span> *@
             <span> </span>
             <div class="user-profile-no-image">
-                <span class="no-image-user"><i class="bi bi-person-fill"></i></span>
+                @if(request.ProfileImageBase64 is not null)
+                {
+                    <img class="profile-image-user" src="data:image/png;base64, @request.ProfileImageBase64" alt="User Profile Image" />
+                }
+                else
+                {
+                    <span class="no-image-user"><i class="bi bi-person-fill"></i></span>
+                }
             </div>
 
             <div class="row">
                 <div class="col-sm-12">
-                    <button class="user-settings-button float-none w-100 mt-3 mb-2"><i class="bi bi-image"></i> Update</button>
+                    <button class="user-settings-button float-none w-100 mt-3 mb-2">
+                        <InputFile class="unvisible-input-file" OnChange="LoadFile"></InputFile><i class="bi bi-image"></i> Update
+                    </button>
                 </div>
                 <div class="col-sm-12">
                     <button class="user-settings-button float-none w-100"><i class="bi bi-trash"></i> Remove</button>
@@ -28,7 +37,7 @@
         <form @onsubmit=OnSaveChanges>
             <div class="mb-3">
                 <label for="exampleInputUserName" class="form-label">UserName</label>
-                <input type="text" class="form-control" id="exampleInputUserName" aria-describedby="userNameHelp">
+                <input type="text" @bind-value=request.UserName class="form-control" id="exampleInputUserName" aria-describedby="userNameHelp">
                 <div id="userNameHelp" class="form-text">Change your username if it is not taken</div>
             </div>
             @* <div class="mb-3">
@@ -48,12 +57,97 @@
 
 
 @code {
+    [Inject]
+    public IUserService? UserService { get; set; }
 
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationStateTask { get; set; }
 
+    private List<IBrowserFile> loadedFiles = new();
+    private long maxFileSize = 1024 * 5;
+    private int maxFiles = 1;
+    private bool isLoading;
 
+    ChangeUserSettingsRequestVM? request { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        request = new ChangeUserSettingsRequestVM();
+
+        if (UserService is not null)
+        {
+            if (authenticationStateTask is not null)
+            {
+                var authState = await authenticationStateTask;
+
+                if (authState is not null)
+                {
+                    var user = authState.User;
+
+                    if (user is not null && user.Identity is not null && user.Identity.IsAuthenticated)
+                    {
+                        request.UserName = user.Identity.Name;
+                    }
+                }
+            }
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LoadFile(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+
+        loadedFiles.Clear();
+
+        foreach (var file in e.GetMultipleFiles(maxFiles))
+        {
+            try
+            {
+                loadedFiles.Add(file);
+            }
+            catch (Exception ex)
+            {
+            //
+            }
+        }
+
+        if (loadedFiles.Count > 0)
+        {
+            var file = loadedFiles.FirstOrDefault();
+            if (file is not null)
+            {
+                await using MemoryStream fs = new MemoryStream();
+                await file.OpenReadStream(maxAllowedSize: 1048576).CopyToAsync(fs);
+                byte[] somBytes = GetBytes(fs);
+                request.ProfileImageBase64 = Convert.ToBase64String(somBytes, 0, somBytes.Length);
+                request.FileName = e.File.Name;
+                request.ContentType = e.File.ContentType;
+
+                request.IsChangeImage = true;
+            }
+        }
+
+        isLoading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+    
+
+    public static byte[] GetBytes(Stream stream)
+    {
+        var bytes = new byte[stream.Length];
+        stream.Seek(0, SeekOrigin.Begin);
+        stream.ReadAsync(bytes, 0, bytes.Length);
+        stream.Dispose();
+        return bytes;
+    }
 
     protected async Task OnSaveChanges()
     {
-        
+        if(UserService is not null && request is not null)
+        {
+            await UserService.ChangeUserSettings(request);
+        }
     }
 }
