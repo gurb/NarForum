@@ -2,6 +2,7 @@
 using Application.Models;
 using Application.Models.Persistence.Image;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,5 +31,29 @@ namespace Api.Controllers
             return response;
         }
 
+        [HttpGet("images/user-profile/{userId}")]
+        [AllowAnonymous]
+        [EnableCors("AllowAllOriginsForImages")]
+        public IActionResult GetUserProfileImageFile(string userId)
+        {
+            var dir = Path.Combine(_webHostEnvironment.ContentRootPath, $"Uploads/Images/Users/{userId}/user-profile");
+
+            if (!Directory.Exists(dir))
+            {
+                return NotFound();    
+            }
+            var files = Directory.GetFiles(dir);
+
+            if (files.Length == 0)
+            {
+                return NotFound("No files found in the directory.");
+            }
+
+            var fileName = Path.GetFileName(files[0]);
+            var filePath = Path.Combine(dir, fileName);
+
+            var imageFileStream = System.IO.File.OpenRead(filePath);
+            return File(imageFileStream, "image/jpeg");
+        }
     }
 }

@@ -23,5 +23,7 @@ namespace BlazorUI.Services
 
             return _mapper.Map<ApiResponseVM>(response);
         }
+
+
     }
 }

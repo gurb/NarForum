@@ -1,4 +1,7 @@
-﻿<div class="row recent-heading-list-container">
+﻿@inject HttpClient Http
+@inject IConfiguration Configuration
+
+<div class="row recent-heading-list-container">
     <h3 class="sidebar-title">Recent Headings</h3>
     @if (isLoading)
     {
@@ -12,10 +15,29 @@
             var heading = headings![i];
             <div class="d-flex flex-start @((i == 0) ? "mt-1" : "mt-3")">
                 <a class="me-3 no-image-user-profile-link" href="@($"user/{heading.UserName}")">
-                <span class=no-image-user-profile>
-                    @heading.UserName.ToUpper()[0]
-                </span>
-                @* <img class="rounded shadow-1-strong"
+
+                    @if (isImageAvailables is not null && isImageAvailables.Count > 0)
+                    {
+                        if (isImageAvailables.ContainsKey(heading.UserId) && isImageAvailables[heading.UserId])
+                        {
+                            <span class=no-image-user-profile>
+                                <img src="@GetImageUrl(heading.UserId)" />
+                            </span>
+                        }
+                        else
+                        {
+                            <span class=no-image-user-profile>
+                                @heading.UserName.ToUpper()[0]
+                            </span>
+                        }  
+                    }
+                    else
+                    {
+                        <span class=no-image-user-profile>
+                            @heading.UserName.ToUpper()[0]
+                        </span>
+                    }
+                        @* <img class="rounded shadow-1-strong"
                     src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar"
                     width="50" height="50" /> *@
                 </a>
@@ -50,7 +72,13 @@
 
     private int headingLimit = 10;
 
+    private Dictionary<string, bool> isImageAvailables = new Dictionary<string, bool>();
 
+
+    private string GetImageUrl(string headingUserId)
+    {
+        return $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{headingUserId}";
+    }
 
     protected async override Task OnInitializedAsync()
     {
@@ -70,10 +98,32 @@
 
             if(headings is not null && headings.Count > 0)
             {
+                foreach(var heading in headings)
+                {
+                    if (!isImageAvailables.ContainsKey(heading.UserId))
+                    {
+                        bool isImageAvailable = await UrlExists($"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{heading.UserId}");
+                        isImageAvailables.Add(heading.UserId, true);
+                    }
+                }
+
                 isLoading = false;
             }
         }
 
         await base.OnInitializedAsync();
+    }
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿@page "/user/settings"
+@inject IConfiguration Configuration
+
 <div class="row">
     <div class="col-6">
         <h1 class="user-settings-title">User Settings</h1>
@@ -10,7 +12,11 @@
             @* <span class="font-weight-bold">@Model.UserName</span> *@
             <span> </span>
             <div class="user-profile-no-image">
-                @if(request.ProfileImageBase64 is not null)
+                @if (imageUrl is not null && request.IsChangeImage == false)
+                {
+                    <img class="profile-image-user" src="@imageUrl" alt="User Profile Image" />
+                }
+                else if (request.ProfileImageBase64 is not null && request.IsChangeImage)
                 {
                     <img class="profile-image-user" src="data:image/png;base64, @request.ProfileImageBase64" alt="User Profile Image" />
                 }
@@ -68,6 +74,8 @@
     private int maxFiles = 1;
     private bool isLoading;
 
+    private string? imageUrl { get; set; }
+
     ChangeUserSettingsRequestVM? request { get; set; }
 
     protected async override Task OnInitializedAsync()
@@ -87,6 +95,13 @@
                     if (user is not null && user.Identity is not null && user.Identity.IsAuthenticated)
                     {
                         request.UserName = user.Identity.Name;
+
+                        var userInfo = await UserService.GetUserInfo(request.UserName);
+
+                        if(userInfo is not null)
+                        {
+                            imageUrl = $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userInfo.Id}";
+                        }
                     }
                 }
             }

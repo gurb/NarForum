@@ -45,6 +45,14 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 
+//builder.Services.AddSingleton(sp =>
+//{
+//    var config = new ConfigurationBuilder()
+//        .AddJsonFile("wwwroot/appSettings.json")
+//        .Build();
+//    return config;
+//});
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 

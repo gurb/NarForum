@@ -35,6 +35,14 @@ builder.Services.AddCors(options =>
         .AllowCredentials()  // Eğer credential (kimlik doğrulama) kullanılıyorsa ekleyin.
         .SetIsOriginAllowed((host) => true) // CORS doğrulamasını özelleştirmek için gerekebilir.
     );
+
+    options.AddPolicy("AllowAllOriginsForImages",
+            builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+            });
 });
 
 builder.Services.AddHttpContextAccessor();
