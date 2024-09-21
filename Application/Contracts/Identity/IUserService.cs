@@ -1,4 +1,5 @@
-﻿using Application.Models.Identity.User;
+﻿using Application.Models;
+using Application.Models.Identity.User;
 using System.Linq.Expressions;
 
 
@@ -14,5 +15,8 @@ namespace Application.Contracts.Identity
         public Task<UserInfoResponse> GetCurrentUser();
 
         public Task<UsersPaginationDTO> GetWithPagination(GetUsersWithPaginationQuery query);
+
+        public Task<ApiResponse> ChangeUserSettings(ChangeUserSettingsRequest request);
+
     }
 }

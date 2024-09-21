@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlazorUI.Contracts;
+using BlazorUI.Models;
 using BlazorUI.Models.User;
 using BlazorUI.Services.Base;
 using BlazorUI.Services.Common;
@@ -12,6 +13,14 @@ public class UserService : BaseHttpService, IUserService
     public UserService(IClient client, IMapper mapper, LocalStorageService localStorage) : base(client, localStorage)
     {
         _mapper = mapper;
+    }
+
+    public async Task<ApiResponseVM> ChangeUserSettings(ChangeUserSettingsRequestVM request)
+    {
+        var req = _mapper.Map<ChangeUserSettingsRequest>(request);
+        var response = await _client.ChangeUserSettingsAsync(req);
+
+        return _mapper.Map<ApiResponseVM>(response);
     }
 
     public async Task<UserInfoVM> GetUserInfo(string userName)

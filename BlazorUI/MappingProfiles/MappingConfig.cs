@@ -108,6 +108,8 @@ namespace BlazorUI.MappingProfiles
             CreateMap<ForumSettingsDTO, ForumSettingsVM>().ReverseMap();
 
             CreateMap<UploadImageRequest, UploadImageRequestVM>().ReverseMap();
+
+            CreateMap<ChangeUserSettingsRequestVM, ChangeUserSettingsRequest>().ReverseMap();
         }
     }
 }

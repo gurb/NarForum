@@ -15,12 +15,10 @@ namespace Persistence.Repositories
         private readonly long _maxFileSize = 5 * 1024 * 1024;
 
         protected readonly ForumDbContext _context;
-        private readonly IUserService _userService;
 
-        public ImageService(ForumDbContext dbContext, IUserService userService)
+        public ImageService(ForumDbContext dbContext)
         {
             _context = dbContext;
-            _userService = userService;
         }
 
         public async Task<ApiResponse> UploadImageToServer(UploadImageRequest request)
@@ -139,7 +137,7 @@ namespace Persistence.Repositories
             {
                 List<UploadFile> uploadFiles = new List<UploadFile>();
 
-                var user = await _userService.GetCurrentUser();
+                //var user = await _userService.GetCurrentUser();
 
                 foreach (var file in request.Files)
                 {
@@ -160,7 +158,7 @@ namespace Persistence.Repositories
 
                     uploadFile.StoredFileName = trustedFileName;
                     uploadFile.FileName = untrustedFileName;
-                    uploadFile.UserName = user.UserName;
+                    uploadFile.UserName = null;
                     uploadFile.UploadDate = DateTime.UtcNow;
                     uploadFiles.Add(uploadFile);
 
@@ -184,7 +182,7 @@ namespace Persistence.Repositories
             try
             {
                 List<UploadFile> uploadFiles = new List<UploadFile>();
-                var user = await _userService.GetCurrentUser();
+                //var user = await _userService.GetCurrentUser();
 
                 foreach (var file in request.Files)
                 {
@@ -205,7 +203,7 @@ namespace Persistence.Repositories
 
                     uploadFile.StoredFileName = trustedFileName;
                     uploadFile.FileName = untrustedFileName;
-                    uploadFile.UserName = user.UserName;
+                    uploadFile.UserName = null;
                     uploadFile.UploadDate = DateTime.UtcNow;
                     uploadFiles.Add(uploadFile);
 
@@ -230,7 +228,7 @@ namespace Persistence.Repositories
             try
             {
                 List<UploadFile> uploadFiles = new List<UploadFile>();
-                var user = await _userService.GetCurrentUser();
+                //var user = await _userService.GetCurrentUser();
 
                 foreach (var file in request.Files)
                 {
@@ -251,7 +249,7 @@ namespace Persistence.Repositories
 
                     uploadFile.StoredFileName = trustedFileName;
                     uploadFile.FileName = untrustedFileName;
-                    uploadFile.UserName = user.UserName;
+                    uploadFile.UserName = null;
                     uploadFile.UploadDate = DateTime.UtcNow;
                     uploadFiles.Add(uploadFile);
 
@@ -276,7 +274,7 @@ namespace Persistence.Repositories
             try
             {
                 List<UploadFile> uploadFiles = new List<UploadFile>();
-                var user = await _userService.GetCurrentUser();
+                //var user = await _userService.GetCurrentUser();
 
                 foreach (var file in request.Files)
                 {
@@ -297,7 +295,7 @@ namespace Persistence.Repositories
 
                     uploadFile.StoredFileName = trustedFileName;
                     uploadFile.FileName = untrustedFileName;
-                    uploadFile.UserName = user.UserName;
+                    uploadFile.UserName = null;
                     uploadFile.UploadDate = DateTime.UtcNow;
                     uploadFiles.Add(uploadFile);
 
@@ -321,7 +319,7 @@ namespace Persistence.Repositories
             try
             {
                 List<UploadFile> uploadFiles = new List<UploadFile>();
-                var user = await _userService.GetCurrentUser();
+                //var user = await _userService.GetCurrentUser();
 
                 foreach (var file in request.Files)
                 {
@@ -343,7 +341,7 @@ namespace Persistence.Repositories
                     uploadFile.StoredFileName = trustedFileName;
                     uploadFile.FileName = untrustedFileName;
                     uploadFile.UploadDate = DateTime.UtcNow;
-                    uploadFile.UserName = user.UserName;
+                    uploadFile.UserName = null;
 
                     uploadFiles.Add(uploadFile);
 
