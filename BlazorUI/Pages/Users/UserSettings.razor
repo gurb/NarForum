@@ -1,0 +1,59 @@
+﻿@page "/user/settings"
+<div class="row">
+    <div class="col-6">
+        <h1 class="user-settings-title">User Settings</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="d-flex flex-column align-items-center text-center">
+            @* <span class="font-weight-bold">@Model.UserName</span> *@
+            <span> </span>
+            <div class="user-profile-no-image">
+                <span class="no-image-user"><i class="bi bi-person-fill"></i></span>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="user-settings-button float-none w-100 mt-3 mb-2"><i class="bi bi-image"></i> Update</button>
+                </div>
+                <div class="col-sm-12">
+                    <button class="user-settings-button float-none w-100"><i class="bi bi-trash"></i> Remove</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-sm-8 user-profile-info">
+        <form @onsubmit=OnSaveChanges>
+            <div class="mb-3">
+                <label for="exampleInputUserName" class="form-label">UserName</label>
+                <input type="text" class="form-control" id="exampleInputUserName" aria-describedby="userNameHelp">
+                <div id="userNameHelp" class="form-text">Change your username if it is not taken</div>
+            </div>
+            @* <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> *@
+            <div class="mb-3 text-end">
+                <button type="submit" class="user-settings-button"><i class="bi bi-floppy-fill"></i> Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@code {
+
+
+
+
+    protected async Task OnSaveChanges()
+    {
+        
+    }
+}

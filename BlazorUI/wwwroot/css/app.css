@@ -663,3 +663,36 @@ a {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
+.user-settings-button {
+    float: right;
+    font-size: 14px;
+    font-weight: 500;
+    padding:5px;
+    border: 1px solid #ccc;
+    border-radius:5px;
+    background:#f1f1f1;
+    cursor: pointer;
+}
+
+.user-profile-no-image {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}
+
+.no-image-user {
+    background: #f1f1f1;
+    width: 150px;
+    height: 150px;
+    /* padding: 10px; */
+    border-radius: 15%;
+    font-size: 70px;
+    color: #8f8f8f;
+    line-height: 150px;
+}
+
+.user-settings-title {
+    font-size: 35px;
+    margin-bottom: 40px;
+}

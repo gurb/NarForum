@@ -11,13 +11,31 @@ else
                 <div class="d-flex flex-column align-items-center text-center">
                     @* <span class="font-weight-bold">@Model.UserName</span> *@
                     <span> </span>
-                    <div class="user-profile-user-image">
+                    @* <div class="user-profile-user-image">
                         <img class="rounded-circle" width="128px" height="128px" src="/images/profile.png">
+                    </div> *@
+                    <div class="user-profile-no-image">
+                        <span class="no-image-user"><i class="bi bi-person-fill"></i></span>
                     </div>
                 </div>
             </div>
             <div class="col-sm-8 user-profile-info">
-                <h3>@Model.UserName</h3>
+                <AuthorizeView>
+                    <Authorized>
+                        @if(IsAuthenticated)
+                        {
+                            <h3>@Model.UserName <span @onclick=OpenUserSettings class="user-settings-button"><i class="bi bi-gear-fill"></i> Settings</span></h3>
+                        }
+                        else
+                        {
+                            <h3>@Model.UserName</h3>
+                        }
+                </Authorized>
+                    <NotAuthorized>
+                        <h3>@Model.UserName</h3>
+                    </NotAuthorized>
+                </AuthorizeView>
+            
                 <small>Member Since @Model.RegisterDate</small>
                 <br />
                 <small>@Model.HeadingCounter Headings</small>
@@ -44,11 +62,47 @@ else
     public string UserName { get; set; }
 
     [Inject]
-    public IUserService UserService { get; set; }
+    public IUserService? UserService { get; set; }
 
+    [CascadingParameter] 
+    private Task<AuthenticationState>? authenticationStateTask { get; set; }
+
+    [Inject]
+    public NavigationManager? navigationManager { get; set; }
+
+    private bool IsAuthenticated { get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
-        Model = await UserService.GetUserInfo(UserName);
+        if(UserService is not null)
+        {
+            if(authenticationStateTask is not null)
+            {
+                var authState = await authenticationStateTask;
+
+                if (authState is not null)
+                {
+                    var user = authState.User;
+
+                    if (user is not null && user.Identity is not null && user.Identity.IsAuthenticated)
+                    {
+                        if (UserName == user.Identity.Name)
+                        {
+                            IsAuthenticated = true;
+                        }
+                    }
+                }
+            }
+
+            Model = await UserService.GetUserInfo(UserName);
+        }
+    }
+
+    private async Task OpenUserSettings()
+    {
+        if(navigationManager is not null)
+        {
+            navigationManager.NavigateTo("user/settings");
+        }
     }
 }
