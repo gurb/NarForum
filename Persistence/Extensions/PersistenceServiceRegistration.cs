@@ -38,6 +38,8 @@ namespace Persistence.Extensions
             services.AddScoped<ILogoService, LogoService>();
             services.AddScoped<IForumSettingsService, ForumSettingsService>();
 
+            services.AddScoped<IImageService, ImageService>();
+
             return services;
         }
     }

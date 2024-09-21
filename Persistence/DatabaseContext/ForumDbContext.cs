@@ -35,6 +35,8 @@ namespace Persistence.DatabaseContext
 
         public DbSet<ForumSettings> ForumSettings { get; set; }
 
+        public DbSet<UploadFile> UploadFiles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // find all configurations file from assembly and apply
