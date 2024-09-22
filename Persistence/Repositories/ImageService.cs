@@ -389,7 +389,10 @@ namespace Persistence.Repositories
             }
             List<string> files = Directory.GetFiles(galleryDir).ToList();
 
-            return files;
+            // Sadece dosya isimlerini almak için Path.GetFileName kullan
+            List<string> fileNames = files.Select(file => Path.GetFileName(file)).ToList();
+
+            return fileNames;
         }
     }
 }

@@ -738,3 +738,18 @@ a {
     top:0;
     left:0;
 }
+
+.image-gallery {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.image-gallery-item {
+    width: 120px;
+    height: 90px;
+    padding: 2px;
+    border: 3px solid #f1f1f1;
+    outline: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 5px;
+}

@@ -75,7 +75,7 @@ namespace Api.Controllers
         {
             var filepath = Path.Combine(_webHostEnvironment.ContentRootPath, $"Uploads/Images/Users/{userId}/user-gallery/{filename}");
 
-            if (System.IO.File.Exists(filepath))
+            if (!System.IO.File.Exists(filepath))
             {
                 return NotFound();
             }

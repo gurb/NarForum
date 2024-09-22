@@ -17,12 +17,12 @@
         </div>
         <hr />
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12 image-gallery">
                 @if (availableImages is not null && availableImages.Count > 0)
                 {
                     @foreach (var img in availableImages)
                     {
-                        <img src="@img" />
+                        <img width="120" height="70" class="image-gallery-item" src="@getImgUrl(img)" />
                     }
                 }
                 
@@ -109,6 +109,11 @@
         }
 
         await base.OnInitializedAsync();
+    }
+
+    private string getImgUrl(string imgName)
+    {
+        return $"{Configuration["ApiBaseUrl"]}/file/images/user-gallery/{userId}/{imgName}";
     }
 
     protected async Task GetGalleryImages(string userId)
