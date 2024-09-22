@@ -2,6 +2,6 @@
 {
     public class AddImageModelVM
     {
-        public bool IsFromServer { get; set; };
+        public bool IsFromServer { get; set; }
     }
 }

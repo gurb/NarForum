@@ -70,6 +70,10 @@
     </div>
 </EditForm>
 
+
+<AddImageModal @ref="addImageModal"></AddImageModal>
+
+
 @code {
 	[Parameter]
 	public PostVM Model { get; set; }
@@ -85,6 +89,8 @@
 
 	[Parameter]
 	public EventCallback<int> AddData { get; set; }
+
+	AddImageModal? addImageModal;
 
 	const string formatBlock = "formatBlock";
 	const string undo = "undo";
@@ -275,10 +281,15 @@
 
 	async Task addImage()
 	{
-		if (module != null)
+		if(addImageModal is not null)
 		{
-			await module.InvokeAsync<string>("addLink");
+			addImageModal.ShowModal();
 		}
+
+		// if (module != null)
+		// {
+		// 	await module.InvokeAsync<string>("addLink");
+		// }
 	}
 
 	protected async Task formatBlockHandle()

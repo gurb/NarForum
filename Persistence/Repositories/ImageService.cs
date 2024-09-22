@@ -4,6 +4,7 @@ using Application.Models;
 using Application.Models.Enums;
 using Application.Models.Persistence.Image;
 using Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DatabaseContext;
 
@@ -45,7 +46,7 @@ namespace Persistence.Repositories
             }
             else if(request.Type == UploadImageType.Gallery)
             {
-                if (request.PostId == null)
+                if (request.UserId == null)
                 {
                     response.IsSuccess = false;
                     response.Message = "UserID is null";
@@ -66,33 +67,40 @@ namespace Persistence.Repositories
         {
             ApiResponse response = new ApiResponse();
 
-            if (request.Files == null || request.Files.Count == 0)
+            if(request.FilesBase64 != null && request.FilesBase64.Count > 0)
             {
-                response.IsSuccess = false;
-                response.Message = "Choose a file";
-                return response;
-            }
 
-            foreach (var file in request.Files)
+            }
+            else
             {
-                var extensionFile = Path.GetExtension(file.FileName).ToLower();
-                if (!_allowedExtensions.Contains(extensionFile))
-                {
-                    response.IsSuccess = false;
-                    response.Message = "Invalid file";
-                    return response;
-                }
+				if (request.Files == null || request.Files.Count == 0)
+				{
+					response.IsSuccess = false;
+					response.Message = "Choose a file";
+					return response;
+				}
 
-                if (file.Length > _maxFileSize)
-                {
-                    response.IsSuccess = false;
-                    response.Message = "File size is too large.";
-                    return response;
-                }
-            }
+				foreach (var file in request.Files)
+				{
+					var extensionFile = Path.GetExtension(file.FileName).ToLower();
+					if (!_allowedExtensions.Contains(extensionFile))
+					{
+						response.IsSuccess = false;
+						response.Message = "Invalid file";
+						return response;
+					}
+
+					if (file.Length > _maxFileSize)
+					{
+						response.IsSuccess = false;
+						response.Message = "File size is too large.";
+						return response;
+					}
+				}
+			}
 
 
-            if (request.Dir == null)
+			if (request.Dir == null)
             {
                 response.IsSuccess = false;
                 response.Message = "Not found a DIR value";
@@ -186,14 +194,25 @@ namespace Persistence.Repositories
                 List<UploadFile> uploadFiles = new List<UploadFile>();
                 //var user = await _userService.GetCurrentUser();
 
-                foreach (var file in request.Files)
+                foreach (var fileBase64 in request.FilesBase64)
                 {
                     var uploadFile = new UploadFile();
 
-                    string trustedFileName = Path.GetRandomFileName();
-                    string untrustedFileName = file.FileName;
 
-                    var forumPostDir = Path.Combine(request.Dir, "ForumPosts", request.UserId.ToString());
+                    byte[] fileBytes = Convert.FromBase64String(fileBase64.Base64);
+
+
+                    MemoryStream stream = new MemoryStream(fileBytes);
+                    IFormFile galleryImage = new FormFile(stream, 0, stream.Length, null, fileBase64.FileName)
+                    {
+                        Headers = new HeaderDictionary(),
+                        ContentType = fileBase64.ContentType
+                    };
+
+                    string trustedFileName = Path.GetRandomFileName();
+                    string untrustedFileName = fileBase64.FileName;
+
+                    var forumPostDir = Path.Combine(request.Dir, "Users", request.UserId.ToString(), "user-gallery");
                     if (!Directory.Exists(forumPostDir))
                     {
                         Directory.CreateDirectory(forumPostDir);
@@ -201,7 +220,7 @@ namespace Persistence.Repositories
                     var pathFile = Path.Combine(forumPostDir, trustedFileName);
 
                     await using FileStream fs = new(pathFile, FileMode.Create);
-                    await file.CopyToAsync(fs);
+                    await galleryImage.CopyToAsync(fs);
 
                     uploadFile.StoredFileName = trustedFileName;
                     uploadFile.FileName = untrustedFileName;
@@ -360,6 +379,17 @@ namespace Persistence.Repositories
 
             return response;
         }
-        
+
+        public List<string> GetImageUrlsFromGallery(string userId, string? dir)
+        {
+            var galleryDir = Path.Combine(dir, "Users", userId, "user-gallery");
+            if (!Directory.Exists(galleryDir))
+            {
+                return new List<string>();
+            }
+            List<string> files = Directory.GetFiles(galleryDir).ToList();
+
+            return files;
+        }
     }
 }

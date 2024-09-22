@@ -15,6 +15,13 @@ namespace BlazorUI.Services
             _mapper = mapper;
         }
 
+        public async Task<List<string>> GetImageUrlsFromGallery(string userId, string? dir)
+        {
+            var response =  await _client.GetImageUrlsFromGalleryAsync(userId, dir);
+
+            return response.ToList();
+        }
+
         public async Task<ApiResponseVM> UploadImageToServer(UploadImageRequestVM request)
         {
             UploadImageRequest req = _mapper.Map<UploadImageRequest>(request);

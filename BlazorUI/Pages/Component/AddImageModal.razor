@@ -2,6 +2,7 @@
 @inject IUserService? userService;
 @inject IImageService? imageService;
 @inject IConfiguration Configuration;
+@inject HttpClient Http
 
 
 <Modal @ref="modal" ModalTitle="Add Image" Callback="@HandleAdd">
@@ -17,10 +18,14 @@
         <hr />
         <div class="row">
             <div class="col-sm-12">
-                @foreach(var img in imageGallery)
+                @if (availableImages is not null && availableImages.Count > 0)
                 {
-                    <img src="@img" />
+                    @foreach (var img in availableImages)
+                    {
+                        <img src="@img" />
+                    }
                 }
+                
             </div>
         </div>
     }
@@ -47,7 +52,23 @@
     private int maxFiles = 1;
     private bool isLoading;
 
-    string userId;
+    string? userId;
+
+    List<string> availableImages = new List<string>();
+
+
+    public void ShowModal()
+    {
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        modal?.CloseModal();
+    }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
 
     protected override void OnInitialized()
     {
@@ -77,15 +98,47 @@
 
                         var userInfo = await userService.GetUserInfo(userName);
                         userId = userInfo.Id;
+
+                        if(userId is not null)
+                        {
+                            await GetGalleryImages(userId);
+                        }
                     }
                 }
             }
         }
 
-
         await base.OnInitializedAsync();
     }
 
+    protected async Task GetGalleryImages(string userId)
+    {
+        if (imageService is not null)
+        {
+            availableImages.Clear();
+
+            imageGallery = await imageService.GetImageUrlsFromGallery(userId, null);
+
+            foreach (var image in imageGallery)
+            {
+                bool isImageAvailable = await UrlExists($"{Configuration["ApiBaseUrl"]}/file/images/user-gallery/{userId}/{image}");
+                availableImages.Add(image);
+            }
+        }
+    }
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 
     protected async Task HandleAdd()
     {
@@ -94,8 +147,12 @@
 
     private async Task LoadFile(InputFileChangeEventArgs e)
     {
-        request = new UploadImageRequestVM();
-        request.FilesBase64 = new List<string>();
+        request = new UploadImageRequestVM
+        {
+           Type = UploadImageTypeVM.Gallery,
+           UserId = new Guid(userId),
+        };
+        request.FilesBase64 = new List<ImageBase64VM>();
 
         isLoading = true;
 
@@ -120,13 +177,21 @@
                 await using MemoryStream fs = new MemoryStream();
                 await file.OpenReadStream(maxAllowedSize: 1048576).CopyToAsync(fs);
                 byte[] somBytes = GetBytes(fs);
-                request.FilesBase64.Add(Convert.ToBase64String(somBytes, 0, somBytes.Length));
+
+                ImageBase64VM imageBase64 = new ImageBase64VM
+                {
+                    Base64 = Convert.ToBase64String(somBytes, 0, somBytes.Length),
+                    FileName = file.Name,
+                    ContentType = file.ContentType
+                };
+
+                request.FilesBase64.Add(imageBase64);
             }
         }
 
         if(imageService is not null && request.FilesBase64.Count > 0)
         {
-            await imageService.UploadImageToServer(request);
+            var response = await imageService.UploadImageToServer(request);
         }
 
         isLoading = false;
