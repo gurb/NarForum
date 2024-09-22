@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mime;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Identity.Services
 {
@@ -79,6 +80,28 @@ namespace Identity.Services
             return response;
         }
 
+        public async Task<List<UserInfoResponse>> GetUserIdsByName(List<string> userNames)
+        {
+            var list = new List<UserInfoResponse>();
+            var predicate = PredicateBuilder.True<ForumUser>();
+
+            foreach (var username in userNames)
+            {
+                predicate = predicate.And(x => x.UserName == username);
+            }
+
+            var users = await _identityDbContext.Users.AsNoTracking()
+                .Where(predicate)
+                .Select(x => new UserInfoResponse
+                {
+                    Id = x.Id,
+                    UserName = x.UserName,
+                })
+                .ToListAsync();
+
+            return users;
+        }
+
         public async Task<UsersPaginationDTO> GetWithPagination(GetUsersWithPaginationQuery query)
         {
             UsersPaginationDTO dto = new UsersPaginationDTO();
@@ -113,6 +136,8 @@ namespace Identity.Services
 
             return dto;
         }
+
+
 
         public async Task<ApiResponse> ChangeUserSettings(ChangeUserSettingsRequest request)
         {

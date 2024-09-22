@@ -13,7 +13,7 @@ namespace Application.Contracts.Identity
         public Task<UserInfoResponse> GetUserInfo(UserInfoRequest request);
 
         public Task<UserInfoResponse> GetCurrentUser();
-
+        public Task<List<UserInfoResponse>> GetUserIdsByName(List<string> userNames);
         public Task<UsersPaginationDTO> GetWithPagination(GetUsersWithPaginationQuery query);
 
         public Task<ApiResponse> ChangeUserSettings(ChangeUserSettingsRequest request);
