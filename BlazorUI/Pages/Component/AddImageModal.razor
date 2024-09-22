@@ -197,6 +197,11 @@
         if(imageService is not null && request.FilesBase64.Count > 0)
         {
             var response = await imageService.UploadImageToServer(request);
+
+            if(response.IsSuccess)
+            {
+                await GetGalleryImages(userId);
+            }
         }
 
         isLoading = false;
