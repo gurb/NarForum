@@ -4,6 +4,7 @@ using Application.Models;
 using Application.Models.Enums;
 using Application.Models.Persistence.Image;
 using Domain;
+using Microsoft.EntityFrameworkCore;
 using Persistence.DatabaseContext;
 
 namespace Persistence.Repositories
@@ -141,9 +142,9 @@ namespace Persistence.Repositories
 
                 foreach (var file in request.Files)
                 {
-                    var uploadFile = new UploadFile();
+                    bool isUpdate = false;
 
-                    string trustedFileName = Path.GetRandomFileName();
+                    string trustedFileName = request.UserId.ToString();
                     string untrustedFileName = file.FileName;
 
                     var userDir = Path.Combine(request.Dir, "Users", request.UserId.ToString(), "user-profile");
@@ -151,18 +152,42 @@ namespace Persistence.Repositories
                     {
                         Directory.CreateDirectory(userDir);
                     }
+
                     var pathFile = Path.Combine(userDir, trustedFileName);
+                    if (File.Exists(pathFile))
+                    {
+                        File.Delete(pathFile);
+                        isUpdate = true;
+                    }
 
                     await using FileStream fs = new(pathFile, FileMode.Create);
                     await file.CopyToAsync(fs);
 
-                    uploadFile.StoredFileName = trustedFileName;
-                    uploadFile.FileName = untrustedFileName;
-                    uploadFile.UserName = null;
-                    uploadFile.UploadDate = DateTime.UtcNow;
-                    uploadFiles.Add(uploadFile);
+                    if (isUpdate)
+                    {
+                        var updateUploadFile = await _context.UploadFiles.FirstOrDefaultAsync(x => x.StoredFileName == trustedFileName);
 
-                    _context.UploadFiles.Add(uploadFile);
+                        if (updateUploadFile != null)
+                        {
+                            updateUploadFile.StoredFileName = trustedFileName;
+                            updateUploadFile.FileName = untrustedFileName;
+                            updateUploadFile.UserName = null;
+                            updateUploadFile.UploadDate = DateTime.UtcNow;
+                            _context.UploadFiles.Update(updateUploadFile);
+                        }
+                    }
+                    else
+                    {
+                        var uploadFile = new UploadFile();
+
+                        uploadFile.StoredFileName = trustedFileName;
+                        uploadFile.FileName = untrustedFileName;
+                        uploadFile.UserName = null;
+                        uploadFile.UploadDate = DateTime.UtcNow;
+                        uploadFiles.Add(uploadFile);
+                        _context.UploadFiles.Add(uploadFile);
+                    }
+
                 }
 
                 await _context.SaveChangesAsync();
