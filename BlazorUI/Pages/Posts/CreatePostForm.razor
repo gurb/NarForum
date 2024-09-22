@@ -9,22 +9,24 @@
 	<div class="toolbar">
 		<div class="head">
 			<div class="row">
-				<div class="col-sm-3">
-					<InputSelect class="form-select form-select-sm" aria-label="Default select example" @bind-Value="@formatBlockSelectedIndex" @oninput="formatBlockHandle">
+				<div class="col-sm-2">
+					<InputSelect class="form-select form-select-sm post-form-toolbar-select" aria-label="Default select example" @bind-Value="@formatBlockSelectedIndex" @oninput="formatBlockHandle">
 						@foreach (var formatBlock in formatBlocks)
 						{
 							<option value="@formatBlock.Type">@formatBlock.Text</option>
 						}
 					</InputSelect>
 				</div>
-				<div class="col-sm-3">
-					<InputSelect class="form-select form-select-sm" aria-label="Default select example" @bind-Value="@fontSizeSelectedIndex" @oninput="fontSizeHandle">
+				<div style="width:10px"></div>
+				<div class="col-sm-2">
+						<InputSelect class="form-select form-select-sm post-form-toolbar-select" aria-label="Default select example" @bind-Value="@fontSizeSelectedIndex" @oninput="fontSizeHandle">
 						@foreach (var fontSize in fontSizes)
 						{
 							<option value="@fontSize.Index">@fontSize.Text</option>
 						}
 					</InputSelect>
 				</div>
+				<div class="col-1"></div>
 				<div class="col-sm-3">
 					@* <div class="color">
 						<span>Color</span>
@@ -71,7 +73,7 @@
 </EditForm>
 
 
-<AddImageModal @ref="addImageModal"></AddImageModal>
+<AddImageModal @ref="addImageModal" Callback="addImageCallback"></AddImageModal>
 
 
 @code {
@@ -285,12 +287,16 @@
 		{
 			addImageModal.ShowModal();
 		}
-
-		// if (module != null)
-		// {
-		// 	await module.InvokeAsync<string>("addLink");
-		// }
 	}
+
+	protected async Task addImageCallback(List<string> imgUrls)
+	{
+		if (module != null)
+		{
+			await module.InvokeAsync<string>("addImageUrls", imgUrls);
+		}
+	}
+
 
 	protected async Task formatBlockHandle()
 	{
@@ -301,6 +307,7 @@
 			await module.InvokeAsync<string>("formatDoc", "formatBlock", value);
 		}
 	}
+
 
 	protected async Task fontSizeHandle()
 	{

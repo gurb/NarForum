@@ -69,7 +69,7 @@
     }
 
     [Parameter]
-    public EventCallback<int> Callback { get; set; }
+    public EventCallback<List<string>> Callback { get; set; }
 
     protected override void OnInitialized()
     {
@@ -148,7 +148,17 @@
 
     protected async Task HandleAdd()
     {
+        if(Callback.HasDelegate)
+        {
+            List<string> urlList = new List<string>();
 
+            foreach(var img in selectedImages)
+            {
+                urlList.Add(getImgUrl(img));
+            }
+            CloseModal();
+            await Callback.InvokeAsync(urlList);
+        }
     }
 
     private async Task LoadFile(InputFileChangeEventArgs e)

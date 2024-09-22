@@ -125,9 +125,36 @@ export function formatDoc(cmd, value = null) {
 	}
 }
 
+export function insertImage(url) {
+	var img = document.createElement('img');
+	img.src = url;
+	img.classList.add("img-fluid");
+
+	var range = window.getSelection().getRangeAt(0);
+	range.deleteContents();
+
+	var frag = document.createDocumentFragment();
+	frag.appendChild(img);
+	range.insertNode(frag);
+
+	range.setStartAfter(img);
+	range.setEndAfter(img);
+	window.getSelection().removeAllRanges();
+	window.getSelection().addRange(range);
+}
+
 export function addLink() {
 	const url = prompt('Insert url');
 	formatDoc('createLink', url);
+
+}
+
+export function addImageUrls(urlList) {
+	if (Array.isArray(urlList)) {
+		for (var i = 0; i < urlList.length; i++) {
+			insertImage(urlList[i]);
+		}
+	}
 }
 
 
