@@ -53,5 +53,30 @@ else
         base.OnInitialized();
     }
 
-    
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender)
+        {
+            LocationChanged();
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
+    private void LocationChanged()
+    {
+        url = nav.Uri;
+        string baseUrlRemoved = url.Split(new[] { "://" }, StringSplitOptions.None)[1].Split(new[] { '/' }, 2)[1];
+        string[] parts = baseUrlRemoved.Split('/');
+
+        if (parts is not null && parts.Length > 0)
+        {
+            activePage = parts[0];
+        }
+        else
+        {
+            activePage = "";
+        }
+        StateHasChanged();
+    }
 }
