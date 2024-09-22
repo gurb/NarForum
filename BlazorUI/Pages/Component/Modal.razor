@@ -3,7 +3,7 @@
 @if(isOpen)
 {
     <div class="custom-modal-overlay" id="custom-modal-overlay-id">
-        <div class="custom-modal">
+        <div class="custom-modal" style="max-width:@MaxWidth;">
             <div class="custom-modal-content">
                 <div class="custom-modal-header">
                     <div class="custom-modal-title-area">
@@ -36,6 +36,9 @@
 
     [Parameter]
     public string ModalButtonText { get; set; } = "Save";
+
+    [Parameter]
+    public string MaxWidth { get; set; } = "700px";
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
