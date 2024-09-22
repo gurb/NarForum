@@ -1,0 +1,145 @@
+﻿@using BlazorUI.Models.Image
+@inject IUserService? userService;
+@inject IImageService? imageService;
+@inject IConfiguration Configuration;
+
+
+<Modal @ref="modal" ModalTitle="Add Image" Callback="@HandleAdd">
+    @if(Model is not null && Model.IsFromServer)
+    {
+        <div class="row">
+            <div class="col-sm-6">
+                <button class="user-settings-button float-none w-100 mt-3 mb-2">
+                    <InputFile class="unvisible-input-file" OnChange="LoadFile"></InputFile><i class="bi bi-image"></i> Update
+                </button>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                @foreach(var img in imageGallery)
+                {
+                    <img src="@img" />
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        
+    }
+</Modal>
+
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationStateTask { get; set; }
+
+    Modal? modal;
+    AddImageModelVM? Model { get; set; }
+
+    UploadImageRequestVM request { get; set; }
+
+    private List<string> imageGallery { get; set; } = new List<string>();
+
+    private List<IBrowserFile> loadedFiles = new();
+    private long maxFileSize = 1024 * 5;
+    private int maxFiles = 1;
+    private bool isLoading;
+
+    string userId;
+
+    protected override void OnInitialized()
+    {
+        Model = new AddImageModelVM
+        {
+            IsFromServer = true
+        };
+
+        base.OnInitialized();
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        if (userService is not null)
+        {
+            if (authenticationStateTask is not null)
+            {
+                var authState = await authenticationStateTask;
+
+                if (authState is not null)
+                {
+                    var user = authState.User;
+
+                    if (user is not null && user.Identity is not null && user.Identity.IsAuthenticated)
+                    {
+                        var userName = user.Identity.Name;
+
+                        var userInfo = await userService.GetUserInfo(userName);
+                        userId = userInfo.Id;
+                    }
+                }
+            }
+        }
+
+
+        await base.OnInitializedAsync();
+    }
+
+
+    protected async Task HandleAdd()
+    {
+
+    }
+
+    private async Task LoadFile(InputFileChangeEventArgs e)
+    {
+        request = new UploadImageRequestVM();
+        request.FilesBase64 = new List<string>();
+
+        isLoading = true;
+
+        loadedFiles.Clear();
+
+        foreach (var file in e.GetMultipleFiles(maxFiles))
+        {
+            try
+            {
+                loadedFiles.Add(file);
+            }
+            catch (Exception ex)
+            {
+            //
+            }
+        }
+
+        if (loadedFiles.Count > 0)
+        {
+            foreach(var file in loadedFiles)
+            {
+                await using MemoryStream fs = new MemoryStream();
+                await file.OpenReadStream(maxAllowedSize: 1048576).CopyToAsync(fs);
+                byte[] somBytes = GetBytes(fs);
+                request.FilesBase64.Add(Convert.ToBase64String(somBytes, 0, somBytes.Length));
+            }
+        }
+
+        if(imageService is not null && request.FilesBase64.Count > 0)
+        {
+            await imageService.UploadImageToServer(request);
+        }
+
+        isLoading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    public static byte[] GetBytes(Stream stream)
+    {
+        var bytes = new byte[stream.Length];
+        stream.Seek(0, SeekOrigin.Begin);
+        stream.ReadAsync(bytes, 0, bytes.Length);
+        stream.Dispose();
+        return bytes;
+    }
+}

@@ -49,6 +49,7 @@
 			<button @onclick="@(() => formatDoc(insertOrderedList))" type="button"><i class="bi bi-list-ol"></i></button>
 			<button @onclick="@(() => formatDoc(insertUnorderedList))" type="button"><i class="bi bi-list-ul"></i></button>
 			<button @onclick="@(() => addLink())" type="button"><i class="bi bi-link"></i></button>
+			<button @onclick="@(() => addImage())" type="button"><i class="bi bi-image"></i></button>
 @* 			<button @onclick="@(() => formatDoc(unlink))" type="button"><i class='bx bx-unlink'></i></button>
 			<button id="show-code" data-active="false" type="button">&lt;/&gt;</button> *@
 		</div>
@@ -265,6 +266,14 @@
 	}
 
 	async Task addLink()
+	{
+		if (module != null)
+		{
+			await module.InvokeAsync<string>("addLink");
+		}
+	}
+
+	async Task addImage()
 	{
 		if (module != null)
 		{

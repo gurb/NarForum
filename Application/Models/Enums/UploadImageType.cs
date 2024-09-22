@@ -9,9 +9,7 @@ namespace Application.Models.Enums
     public enum UploadImageType
     {
         UserProfile,
-        ForumPost,
-        BlogPost,
-        StaticPage,
+        Gallery,
         GeneralUse,
     }
 }

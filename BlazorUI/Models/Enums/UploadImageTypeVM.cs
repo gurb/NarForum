@@ -3,9 +3,7 @@
     public enum UploadImageTypeVM
     {
         UserProfile,
-        ForumPost,
-        BlogPost,
-        StaticPage,
+        Gallery,
         GeneralUse,
     }
 }

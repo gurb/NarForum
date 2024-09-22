@@ -43,39 +43,16 @@ namespace Persistence.Repositories
 
                 response = await UploadImageAsUserProfile(request);
             }
-            else if(request.Type == UploadImageType.ForumPost)
+            else if(request.Type == UploadImageType.Gallery)
             {
                 if (request.PostId == null)
                 {
                     response.IsSuccess = false;
-                    response.Message = "PostId is null";
+                    response.Message = "UserID is null";
 
                     return response;
                 }
-                response = await UploadImageInForumPost(request);
-            }
-            else if (request.Type == UploadImageType.BlogPost)
-            {
-                if (request.BlogPostId == null)
-                {
-                    response.IsSuccess = false;
-                    response.Message = "BlogPostId is null";
-
-                    return response;
-                }
-
-                response = await UploadImageInBlogPost(request);
-            }
-            else if (request.Type == UploadImageType.StaticPage)
-            {
-                if (request.StaticPageId == null)
-                {
-                    response.IsSuccess = false;
-                    response.Message = "StaticPageId is null";
-
-                    return response;
-                }
-                response = await UploadImageInStaticPage(request);
+                response = await UploadImageToUserGallery(request);
             }
             else if (request.Type == UploadImageType.GeneralUse)
             {
@@ -200,7 +177,7 @@ namespace Persistence.Repositories
 
             return response;
         }
-        private async Task<ApiResponse> UploadImageInForumPost(UploadImageRequest request)
+        private async Task<ApiResponse> UploadImageToUserGallery(UploadImageRequest request)
         {
             ApiResponse response = new ApiResponse();
 
@@ -216,7 +193,7 @@ namespace Persistence.Repositories
                     string trustedFileName = Path.GetRandomFileName();
                     string untrustedFileName = file.FileName;
 
-                    var forumPostDir = Path.Combine(request.Dir, "ForumPosts", request.PostId.ToString());
+                    var forumPostDir = Path.Combine(request.Dir, "ForumPosts", request.UserId.ToString());
                     if (!Directory.Exists(forumPostDir))
                     {
                         Directory.CreateDirectory(forumPostDir);
