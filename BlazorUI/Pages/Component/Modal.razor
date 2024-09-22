@@ -19,7 +19,7 @@
                     @ChildContent
                 </div>
                 <div class="custom-modal-footer text-end">
-                    <button type="button" @onclick="callbackMethod" class="btn btn-primary">Save</button>
+                    <button type="button" @onclick="callbackMethod" class="btn btn-primary">@ModalButtonText</button>
                 </div>
             </div>
         </div>
@@ -34,6 +34,8 @@
     [Parameter]
     public string ModalTitle { get; set; } = string.Empty;
 
+    [Parameter]
+    public string ModalButtonText { get; set; } = "Save";
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -42,6 +44,8 @@
     public EventCallback<int> Callback { get; set; }
 
     private bool isOpen { get; set; }
+
+
 
 
     public async void ShowModal()

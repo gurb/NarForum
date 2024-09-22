@@ -5,13 +5,13 @@
 @inject HttpClient Http
 
 
-<Modal @ref="modal" ModalTitle="Add Image" Callback="@HandleAdd">
+<Modal @ref="modal" ModalTitle="Add Image" Callback="@HandleAdd" ModalButtonText="Add Image or Images">
     @if(Model is not null && Model.IsFromServer)
     {
         <div class="row">
             <div class="col-sm-6">
                 <button class="user-settings-button float-none w-100 mt-3 mb-2">
-                    <InputFile class="unvisible-input-file" OnChange="LoadFile"></InputFile><i class="bi bi-image"></i> Update
+                    <InputFile class="unvisible-input-file" OnChange="LoadFile"></InputFile><i class="bi bi-image"></i> Load image File from your device
                 </button>
             </div>
         </div>
