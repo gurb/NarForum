@@ -137,6 +137,7 @@ namespace AdminUI.MappingProfiles
             CreateMap<UpdateForumSettingsCommand, UpdateForumSettingsCommandVM>().ReverseMap();
 
             CreateMap<UploadImageRequest, UploadImageRequestVM>().ReverseMap();
+            CreateMap<ImageBase64, ImageBase64VM>().ReverseMap();
 
         }
     }

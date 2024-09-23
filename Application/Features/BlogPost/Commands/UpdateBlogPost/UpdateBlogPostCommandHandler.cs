@@ -23,7 +23,15 @@ public class UpdateBlogPostCommandHandler: IRequestHandler<UpdateBlogPostCommand
 
         try
         {
-            var blogPost = await _blogPostRepository.GetByIdAsync(request.Id, true);
+            if(request.Id == null)
+            {
+                response.IsSuccess = false;
+                response.Message = "Blog Post Id is null";
+
+                return response;
+            }
+
+            var blogPost = await _blogPostRepository.GetByIdAsync(request.Id.Value, true);
 
             if (blogPost != null)
             {

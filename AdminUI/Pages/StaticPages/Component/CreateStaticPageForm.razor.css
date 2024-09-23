@@ -74,8 +74,8 @@
 }
 
 .toolbar .btn-toolbar button {
-    background: #fff;
-    border: 2px solid #ddd;
+    background: linear-gradient(0deg, rgba(204, 204, 204, 1) 0%, rgba(221, 221, 221, 1) 40%, rgba(255, 255, 255, 1) 100%);
+    border: 1px solid #ccc;
     border-radius: 6px;
     cursor: pointer;
     width: 40px;
@@ -84,6 +84,10 @@
     align-items: center;
     justify-content: center;
     font-size: 18px;
+}
+
+.post-form-toolbar-select {
+    background: linear-gradient(0deg, rgba(204, 204, 204, 1) 0%, rgba(221, 221, 221, 1) 40%, rgba(255, 255, 255, 1) 100%) !important;
 }
 
 .toolbar .btn-toolbar button:hover {

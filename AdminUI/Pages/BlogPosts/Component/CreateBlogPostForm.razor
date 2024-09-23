@@ -49,6 +49,7 @@
 			<button @onclick="@(() => formatDoc(insertOrderedList))" type="button"><i class="bi bi-list-ol"></i></button>
 			<button @onclick="@(() => formatDoc(insertUnorderedList))" type="button"><i class="bi bi-list-ul"></i></button>
 			<button @onclick="@(() => addLink())" type="button"><i class="bi bi-link"></i></button>
+			<button @onclick="@(() => addImage())" type="button"><i class="bi bi-image"></i></button>
 @* 			<button @onclick="@(() => formatDoc(unlink))" type="button"><i class='bx bx-unlink'></i></button>
 			<button id="show-code" data-active="false" type="button">&lt;/&gt;</button> *@
 		</div>
@@ -68,6 +69,8 @@
         <input type="submit" value="Create" class="btn btn-primary" />
     </div> *@
 </EditForm>
+
+<AddImageModal @ref="addImageModal" Callback="addImageCallback"></AddImageModal>
 
 @code {
 	[Parameter]
@@ -91,6 +94,8 @@
 			return Model;  
 		}
 	}
+
+	AddImageModal? addImageModal;
 
 	const string formatBlock = "formatBlock";
 	const string undo = "undo";
@@ -281,6 +286,22 @@
 		if (module != null)
 		{
 			await module.InvokeAsync<string>("addLink");
+		}
+	}
+
+	async Task addImage()
+	{
+		if(addImageModal is not null)
+		{
+			addImageModal.ShowModal();
+		}
+	}
+
+	protected async Task addImageCallback(List<string> imgUrls)
+	{
+		if (module != null)
+		{
+			await module.InvokeAsync<string>("addImageUrls", imgUrls);
 		}
 	}
 

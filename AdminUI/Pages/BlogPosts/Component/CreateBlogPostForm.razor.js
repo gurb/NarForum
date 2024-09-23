@@ -125,9 +125,31 @@ export function formatDoc(cmd, value = null) {
 	}
 }
 
+export function insertImage(url) {
+	document.execCommand('insertImage', false, url);
+
+	var img = document.querySelector('img[src="' + url + '"]');
+
+	// Add the class to the image
+	if (img) {
+		img.classList.add('img-fluid');
+	}
+
+	document.execCommand('insertHTML', false, '<br><br>');
+}
+
 export function addLink() {
 	const url = prompt('Insert url');
 	formatDoc('createLink', url);
+
+}
+
+export function addImageUrls(urlList) {
+	if (Array.isArray(urlList)) {
+		for (var i = 0; i < urlList.length; i++) {
+			insertImage(urlList[i]);
+		}
+	}
 }
 
 

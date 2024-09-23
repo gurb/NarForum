@@ -243,6 +243,11 @@ else
                 Url = CreateModel.Url
             };
 
+            if (CreateModel.BlogCategoryId == Guid.Empty)
+            {
+                updateCommand.BlogCategoryId = null;
+            }
+
             ApiResponseVM response = await BlogPostService.UpdateBlogPost(updateCommand);
 
             if(response.IsSuccess)
