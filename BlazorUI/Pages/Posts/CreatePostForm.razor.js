@@ -126,21 +126,16 @@ export function formatDoc(cmd, value = null) {
 }
 
 export function insertImage(url) {
-	var img = document.createElement('img');
-	img.src = url;
-	img.classList.add("img-fluid");
+	document.execCommand('insertImage', false, url);
 
-	var range = window.getSelection().getRangeAt(0);
-	range.deleteContents();
+	var img = document.querySelector('img[src="' + url + '"]');
 
-	var frag = document.createDocumentFragment();
-	frag.appendChild(img);
-	range.insertNode(frag);
+	// Add the class to the image
+	if (img) {
+		img.classList.add('img-fluid');
+	}
 
-	range.setStartAfter(img);
-	range.setEndAfter(img);
-	window.getSelection().removeAllRanges();
-	window.getSelection().addRange(range);
+	document.execCommand('insertHTML', false, '<br><br>');
 }
 
 export function addLink() {
