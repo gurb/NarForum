@@ -10200,6 +10200,9 @@ namespace AdminUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
         public System.Guid PostId { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("userId")]
+        public System.Guid? UserId { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
 
@@ -10214,6 +10217,9 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("userId")]
+        public System.Guid? UserId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("postId")]
         public System.Guid PostId { get; set; }
@@ -10419,6 +10425,9 @@ namespace AdminUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("userId")]
+        public System.Guid? UserId { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -10460,6 +10469,9 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("userId")]
+        public System.Guid? UserId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("viewCounter")]
         public int ViewCounter { get; set; }
@@ -10799,6 +10811,9 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("userId")]
+        public System.Guid? UserId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
         public System.DateTime? DateTime { get; set; }
@@ -11155,7 +11170,7 @@ namespace AdminUI.Services.Base
         public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userId")]
-        public string UserId { get; set; }
+        public System.Guid? UserId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("mainPostId")]
         public System.Guid MainPostId { get; set; }
@@ -11354,6 +11369,9 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("userName")]
         public string UserName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("userId")]
+        public System.Guid? UserId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("categoryName")]
         public string CategoryName { get; set; }
@@ -11636,6 +11654,9 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("author")]
         public string Author { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("userId")]
+        public System.Guid? UserId { get; set; }
 
     }
 

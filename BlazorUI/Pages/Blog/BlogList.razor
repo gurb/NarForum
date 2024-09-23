@@ -29,9 +29,19 @@ else
     <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 
     <div class="row blog-list-header">
-        <div class="col-6">
-            <h1 class="blog-heading">Blog</h1>
-        </div>
+        @if(CategoryName is null)
+        {
+            <div class="col-6">
+                <h1 class="blog-heading">Blog</h1>
+            </div>
+        }
+        else
+        {
+            <div class="col-6">
+                <h1 class="blog-heading">@CategoryName.Replace("-", " ").ToTitleCase()</h1>
+            </div>
+        }
+
     </div>
 
     if(BlogPosts is not null && BlogPosts.Count > 0)

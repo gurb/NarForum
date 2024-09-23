@@ -620,6 +620,19 @@ a {
     line-height: 50px;
 }
 
+.no-image-user-profile-blog-comment {
+    opacity: .6;
+    display: block;
+    width: 65px;
+    height: 65px;
+    border-radius: 0.25rem;
+    background: #512DA8;
+    font-size: 32.5px;
+    color: #fff;
+    text-align: center;
+    line-height: 65px;
+}
+
 .no-image-user-profile-post {
     display: inline-block;
     width: 30px;
@@ -739,6 +752,26 @@ a {
     left:0;
 }
 
+.image-user-profile-blog-comment {
+    opacity: 1;
+    display: block;
+    position: relative;
+    width: 65px;
+    height: 65px;
+    border-radius: 0.25rem;
+    background: #c7c7c7;
+    font-size: 32.5px;
+    color: #fff;
+    text-align: center;
+    line-height: 65px;
+}
+
+.image-user-profile-blog-comment img {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .image-gallery {
     max-height: 300px;
     overflow-y: scroll;
@@ -757,4 +790,12 @@ a {
 .image-gallery-item.selected {
     border: 3px solid #34485f;
     outline: 1px solid #ddd;
+}
+
+h3.blog-comment-title {
+    margin-top: 50px;
+}
+
+h3.blog-comment-form-title {
+    margin-top: 50px;
 }

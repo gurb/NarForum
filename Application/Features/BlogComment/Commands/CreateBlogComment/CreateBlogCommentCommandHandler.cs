@@ -1,4 +1,5 @@
-﻿using Application.Contracts.Persistence;
+﻿using Application.Contracts.Identity;
+using Application.Contracts.Persistence;
 using Application.Models;
 using AutoMapper;
 using MediatR;
@@ -10,10 +11,13 @@ namespace Application.Features.BlogComment.Commands.CreateBlogComment
 
         private readonly IMapper _mapper;
         private readonly IBlogCommentRepository _blogCommentRepository;
-        public CreateBlogCommentCommandHandler(IMapper mapper, IBlogCommentRepository blogCommentRepository)
+        private readonly IUserService _userService;
+
+        public CreateBlogCommentCommandHandler(IMapper mapper, IBlogCommentRepository blogCommentRepository, IUserService userService)
         {
             _mapper = mapper;
             _blogCommentRepository = blogCommentRepository;
+            _userService = userService;
         }
 
         public async Task<ApiResponse> Handle(CreateBlogCommentCommand request, CancellationToken cancellationToken)
@@ -22,11 +26,26 @@ namespace Application.Features.BlogComment.Commands.CreateBlogComment
 
             try
             {
-                var blogComment = _mapper.Map<Domain.BlogComment>(request);
+                var user = await _userService.GetCurrentUser();
 
-                await _blogCommentRepository.CreateAsync(blogComment);
+                if(user != null)
+                {
+                    var blogComment = _mapper.Map<Domain.BlogComment>(request);
+                    blogComment.UserName = user.UserName;
+                    if(user.Id != null)
+                    {
+                        blogComment.UserId = new Guid(user.Id);
+                    }
 
-                response.Message = "Blog comment is added.";
+                    await _blogCommentRepository.CreateAsync(blogComment);
+
+                    response.Message = "Blog comment is added.";
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Comment cannot added due to comment's user not found";
+                }
             }
             catch (Exception ex)
             {

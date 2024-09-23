@@ -33,6 +33,10 @@ namespace Application.Features.Like.Commands.AddLike
 
             var user = await _userService.GetCurrentUser();
             request.UserName = user.UserName;
+            if (user.Id != null)
+            {
+                request.UserId = new Guid(user.Id);
+            }
 
             try
             {

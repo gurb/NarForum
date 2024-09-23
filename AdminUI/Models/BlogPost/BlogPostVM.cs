@@ -12,5 +12,6 @@ public class BlogPostVM
     public string Content { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
+    public Guid? UserId { get; set; }
     public int ViewCounter { get; set; }
 }

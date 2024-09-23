@@ -12,6 +12,7 @@ namespace Application.Features.Favorite.Queries.GetFavorites
 		public Guid HeadingId { get; set; } = Guid.Empty;
 		public Guid PostId { get; set; } = Guid.Empty;
 		public string UserName { get; set; } = string.Empty;
+        public Guid? UserId { get; set; }
         public DateTime? DateTime { get; set; }
     }
 }

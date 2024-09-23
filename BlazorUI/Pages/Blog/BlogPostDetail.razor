@@ -1,6 +1,7 @@
 ﻿@page "/blog/{Title}-{BlogPostId:int}"
 
 @using BlazorUI.Models.BlogPost
+@using BlazorUI.Pages.Blog.Component
 
 @if (BlogPostVM is not null)
 {
@@ -12,6 +13,8 @@
             @((MarkupString)BlogPostVM.Content)
         </div>
     </div>
+
+    <BlogCommentList BlogPostVM="BlogPostVM"></BlogCommentList>
 } else
 {
     <SkeletonBreadcrumb></SkeletonBreadcrumb>

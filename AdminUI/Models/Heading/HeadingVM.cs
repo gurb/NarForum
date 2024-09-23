@@ -8,6 +8,7 @@
         public string? CategoryName { get; set; }
         public string? Content { get; set; }
         public string UserName { get; set; } = string.Empty;
+        public Guid? UserId { get; set; }
         public Guid MainPostId { get; set; }
 
         public int PostCounter { get; set; }

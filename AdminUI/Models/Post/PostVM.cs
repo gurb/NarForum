@@ -6,6 +6,7 @@
         public string Content { get; set; } = string.Empty;
         public Guid HeadingId { get; set; }
         public string UserName { get; set; } = string.Empty;
+        public Guid? UserId { get; set; }
 
         public string? CategoryName { get; set; }
         public string? HeadingTitle { get; set; }

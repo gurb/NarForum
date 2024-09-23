@@ -29,6 +29,10 @@ public class CreateBlogPostCommandHandler : IRequestHandler<CreateBlogPostComman
             var blogPost = _mapper.Map<Domain.BlogPost>(request);
             blogPost.IsDraft = true;
             blogPost.UserName = user.UserName;
+            if(user.Id != null)
+            {
+                blogPost.UserId = new Guid(user.Id);
+            }
 
             await _blogPostRepository.CreateAsync(blogPost);
 

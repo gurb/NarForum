@@ -8,6 +8,7 @@ namespace Domain
         public Guid HeadingId { get; set; }
         public string Content { get; set; } = string.Empty;
         public string? UserName { get; set; }
+        public Guid? UserId { get; set; }
         public int HeadingIndex { get; set; }
     }
 }

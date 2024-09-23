@@ -47,6 +47,10 @@ namespace Application.Features.Heading.Commands.CreateHeading
             // convert to domain entity object
             var Heading = _mapper.Map<Domain.Heading>(request);
             Heading.UserName = user.UserName;
+            if (user.Id != null)
+            {
+                Heading.UserId = new Guid(user.Id);
+            }
 
 
             var category = await _CategoryRepository.GetByIdAsync(Heading.CategoryId);

@@ -54,6 +54,10 @@ namespace Application.Features.Post.Commands.CreatePost
             }
 
             post.UserName = user.UserName;
+            if (user.Id != null)
+            {
+                post.UserId = new Guid(user.Id);
+            }
 
             // add to database
             await _postRepository.CreateAsync(post);

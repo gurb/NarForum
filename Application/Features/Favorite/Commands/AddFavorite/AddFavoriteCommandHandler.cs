@@ -23,7 +23,10 @@ namespace Application.Features.Favorite.Commands.AddFavorite
         {
             var user = await _userService.GetCurrentUser();
             request.UserName = user.UserName;
-
+            if (user.Id != null)
+            {
+                request.UserId = new Guid(user.Id);
+            }
             try
             {
                 var oldFavorite = await _favoriteRepository.GetAsync(x => x.HeadingId == request.HeadingId && x.UserName == request.UserName && x.PostId == request.PostId);

@@ -8,4 +8,5 @@ public class BlogComment: BaseEntity
     public Guid? BlogPostId { get; set; }
     public string Content { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
+    public Guid? UserId { get; set; }
 }

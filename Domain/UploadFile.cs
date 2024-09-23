@@ -10,6 +10,7 @@ namespace Domain
         public string? StoredFileName { get; set; }
         public string? ContentType { get; set; }
         public string? UserName { get; set; }
+        public Guid? UserId { get; set; }
         public DateTime UploadDate { get; set; } = DateTime.UtcNow;
     }
 }

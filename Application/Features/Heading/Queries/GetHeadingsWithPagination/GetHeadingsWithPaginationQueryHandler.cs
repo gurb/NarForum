@@ -91,21 +91,12 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
             headings = await _headingRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value, orderProperty, desc);
             var data = _mapper.Map<List<HeadingDTO>>(headings);
 
-            List<string> userNames = data.Select(x => x.UserName!).Distinct().ToList();
-            var userInfos = await _userService.GetUserIdsByName(userNames);
-
 
             List<Guid> categoryIds = headings.Select(x => x.CategoryId).ToList();
             List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));
 
             foreach (var heading in data)
             {
-                var userHeading = userInfos.FirstOrDefault(x => x.UserName == heading.UserName);
-                if (userHeading != null)
-                {
-                    heading.UserId = userHeading.Id;
-                }
-
                 var category = categories.FirstOrDefault(x => x.Id == heading.CategoryId);
                 if (category != null)
                 {

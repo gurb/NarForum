@@ -1,6 +1,8 @@
-﻿using Application.Contracts.Persistence;
+﻿using Application.Contracts.Identity;
+using Application.Contracts.Persistence;
 using Application.Models;
 using AutoMapper;
+using Domain;
 using MediatR;
 
 namespace Application.Features.StaticPage.Commands.CreateStaticPage;
@@ -9,10 +11,12 @@ public class CreateStaticPageCommandHandler : IRequestHandler<CreateStaticPageCo
 {
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
-    public CreateStaticPageCommandHandler(IMapper mapper, IPageRepository pageRepository)
+    private readonly IUserService _userService;
+    public CreateStaticPageCommandHandler(IMapper mapper, IPageRepository pageRepository, IUserService userService)
     {
         _mapper = mapper;
         _pageRepository = pageRepository;
+        _userService = userService;
     }
 
     public async Task<ApiResponse> Handle(CreateStaticPageCommand request, CancellationToken cancellationToken)
@@ -23,6 +27,13 @@ public class CreateStaticPageCommandHandler : IRequestHandler<CreateStaticPageCo
         {
             var staticPage = _mapper.Map<Domain.StaticPage>(request);
             staticPage.IsDraft = true;
+
+            var user = await _userService.GetCurrentUser();
+            if (user.Id != null)
+            {
+                staticPage.Author = user.UserName;
+                staticPage.UserId = new Guid(user.Id);
+            }
 
             await _pageRepository.CreateAsync(staticPage);
 
