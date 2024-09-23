@@ -10833,6 +10833,9 @@ namespace AdminUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("id")]
         public System.Guid? Id { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("name")]
+        public string Name { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]

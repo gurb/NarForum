@@ -109,12 +109,18 @@ else
 
         if(CategoryName is not null)
         {
+            string categoryName = CategoryName.Replace("-", " ");
+
             GetBlogCategoryQueryVM request = new GetBlogCategoryQueryVM
             {
-
+                Name = categoryName
             };
 
-            // Model = await BlogCategoryService.GetBlogCategory(request);
+            Model = await BlogCategoryService.GetBlogCategory(request);
+        }
+        else
+        {
+            Model = null;
         }
 
         CurrentPage = PageIndex;

@@ -24,6 +24,10 @@ namespace Application.Features.BlogCategory.Queries.GetBlogCategory
             {
                 predicate = predicate.And(x => x.Id == request.Id);
             }
+            if (request.Name is not null)
+            {
+                predicate = predicate.And(x => x.Name.ToLower() == request.Name.ToLower());
+            }
             else
             {
                 return null;
