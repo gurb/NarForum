@@ -37,6 +37,8 @@ namespace Persistence.DatabaseContext
 
         public DbSet<UploadFile> UploadFiles { get; set; }
 
+        public DbSet<Report> Reports { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // find all configurations file from assembly and apply
