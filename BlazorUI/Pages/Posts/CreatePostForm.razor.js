@@ -42,7 +42,6 @@ export function checkEnterCursorInQuote() {
 	var range = selection.getRangeAt(0);
 	var blockquote = getParentBlockquote(range);
 	content = document.getElementById('content');
-	console.log("testtttet 1");
 	if (blockquote) {
 		var evt = window.event || arguments.callee.caller.arguments[0];
 		console.log(evt);
