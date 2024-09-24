@@ -19,6 +19,8 @@ using AdminUI.Models.TrackingLog;
 using AdminUI.Models.Logo;
 using AdminUI.Models.ForumSettings;
 using AdminUI.Models.Image;
+using AdminUI.Models.Report;
+using AdminUI.Models.Contact;
 
 
 namespace AdminUI.MappingProfiles
@@ -139,6 +141,21 @@ namespace AdminUI.MappingProfiles
             CreateMap<UploadImageRequest, UploadImageRequestVM>().ReverseMap();
             CreateMap<ImageBase64, ImageBase64VM>().ReverseMap();
 
+            CreateMap<ReportVM, ReportDTO>().ReverseMap();
+            CreateMap<ReportsPaginationVM, ReportsPaginationDTO>().ReverseMap();
+            CreateMap<CreateReportCommandVM, CreateReportCommand>().ReverseMap();
+            CreateMap<RemoveReportCommandVM, RemoveReportCommand>().ReverseMap();
+            CreateMap<GetReportQueryVM, GetReportQuery>().ReverseMap();
+            CreateMap<GetReportsQueryVM, GetReportsQuery>().ReverseMap();
+            CreateMap<GetReportsWithPaginationQueryVM, GetReportsWithPaginationQuery>().ReverseMap();
+
+            CreateMap<ContactVM, ContactDTO>().ReverseMap();
+            CreateMap<ContactsPaginationVM, ContactsPaginationDTO>().ReverseMap();
+            CreateMap<CreateContactCommandVM, CreateContactCommand>().ReverseMap();
+            CreateMap<RemoveContactCommandVM, RemoveContactCommand>().ReverseMap();
+            CreateMap<GetContactQueryVM, GetContactQuery>().ReverseMap();
+            CreateMap<GetContactsQueryVM, GetContactsQuery>().ReverseMap();
+            CreateMap<GetContactsWithPaginationQueryVM, GetContactsWithPaginationQuery>().ReverseMap();
         }
     }
 }

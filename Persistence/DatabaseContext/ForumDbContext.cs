@@ -16,28 +16,20 @@ namespace Persistence.DatabaseContext
         public DbSet<Category> Categories { get; set; }
         public DbSet<Heading> Headings { get; set; }
         public DbSet<Section> Sections { get; set; }
-
         public DbSet<Like> Likes { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
-
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Reply> Replies { get; set; }
-
         public DbSet<BlogCategory> BlogCategories { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set;}
         public DbSet<BlogComment> BlogComments {get; set;}
-
         public DbSet<StaticPage> StaticPages { get; set; }
-
         public DbSet<TrackingLog> TrackingLogs { get; set; }
-
         public DbSet<Logo> Logos { get; set; }
-
         public DbSet<ForumSettings> ForumSettings { get; set; }
-
         public DbSet<UploadFile> UploadFiles { get; set; }
-
         public DbSet<Report> Reports { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

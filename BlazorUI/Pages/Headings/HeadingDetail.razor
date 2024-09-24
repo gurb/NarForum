@@ -37,6 +37,7 @@ else
                       UnLikeCallback="(postId) => UnLikePost(postId)"
                       AddFavoriteCallback="(postId) => AddFavorite(postId)"
                       OpenChatCallback="(postId) => OpenChatBoxWithUsername(post.UserName)"
+                      ReportCallback="(post) => OpenReportModel(post)"
                       ReplyCallback="(post) => AddReply(post)"></MiniPostCard>
     }
     <Pagination MinVersion=min768 TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
@@ -44,10 +45,14 @@ else
 }
 
 
+<AddReportModal @ref=reportModal PostVM="ReportPostVM"></AddReportModal>
+
 <MediaQuery Width=768 @bind-Value=min768></MediaQuery>
 
 @code {
     private bool isLoading { get; set; } = true;
+
+    AddReportModal? reportModal;
 
     [Parameter]
     public string CategoryName { get; set; }
@@ -109,6 +114,8 @@ else
     public List<FavoriteVM>? Favorites { get; private set; }
 
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    PostVM? ReportPostVM { get; set; }
 
     private string getBaseUrl()
     {
@@ -465,6 +472,22 @@ else
         }
 
         return newContent;
+    }
+
+    private async Task OpenReportModel(PostVM postVM)
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            ReportPostVM = postVM;
+            reportModal?.ShowModal();
+        }
+        else
+        {
+            NavigationManager.NavigateTo("login");
+        }
     }
 
 

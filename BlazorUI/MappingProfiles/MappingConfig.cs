@@ -4,6 +4,7 @@ using BlazorUI.Models.BlogCategory;
 using BlazorUI.Models.BlogComment;
 using BlazorUI.Models.BlogPost;
 using BlazorUI.Models.Category;
+using BlazorUI.Models.Contact;
 using BlazorUI.Models.Favorite;
 using BlazorUI.Models.ForumSettings;
 using BlazorUI.Models.Heading;
@@ -12,6 +13,7 @@ using BlazorUI.Models.Like;
 using BlazorUI.Models.Logo;
 using BlazorUI.Models.Message;
 using BlazorUI.Models.Post;
+using BlazorUI.Models.Report;
 using BlazorUI.Models.Section;
 using BlazorUI.Models.StaticPage;
 using BlazorUI.Models.TrackingLog;
@@ -111,6 +113,22 @@ namespace BlazorUI.MappingProfiles
             CreateMap<ImageBase64, ImageBase64VM>().ReverseMap();
 
             CreateMap<ChangeUserSettingsRequestVM, ChangeUserSettingsRequest>().ReverseMap();
+
+            CreateMap<ReportVM, ReportDTO>().ReverseMap();
+            CreateMap<ReportsPaginationVM, ReportsPaginationDTO>().ReverseMap();
+            CreateMap<CreateReportCommandVM, CreateReportCommand>().ReverseMap();
+            CreateMap<RemoveReportCommandVM, RemoveReportCommand>().ReverseMap();
+            CreateMap<GetReportQueryVM, GetReportQuery>().ReverseMap();
+            CreateMap<GetReportsQueryVM, GetReportsQuery>().ReverseMap();
+            CreateMap<GetReportsWithPaginationQueryVM, GetReportsWithPaginationQuery>().ReverseMap();
+
+            CreateMap<ContactVM, ContactDTO>().ReverseMap();
+            CreateMap<ContactsPaginationVM, ContactsPaginationDTO>().ReverseMap();
+            CreateMap<CreateContactCommandVM, CreateContactCommand>().ReverseMap();
+            CreateMap<RemoveContactCommandVM, RemoveContactCommand>().ReverseMap();
+            CreateMap<GetContactQueryVM, GetContactQuery>().ReverseMap();
+            CreateMap<GetContactsQueryVM, GetContactsQuery>().ReverseMap();
+            CreateMap<GetContactsWithPaginationQueryVM, GetContactsWithPaginationQuery>().ReverseMap();
         }
     }
 }

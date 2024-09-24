@@ -51,7 +51,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("RemoveReport")]
-        public async Task<ApiResponse> RemoveBlogPost(RemoveReportCommand command)
+        public async Task<ApiResponse> RemoveReport(RemoveReportCommand command)
         {
             var response = await _mediator.Send(command);
             return response;

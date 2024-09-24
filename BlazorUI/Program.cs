@@ -42,6 +42,7 @@ builder.Services.AddScoped<ILogoService, LogoService>();
 builder.Services.AddScoped<IForumSettingsService, ForumSettingsService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());

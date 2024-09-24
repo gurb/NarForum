@@ -49,6 +49,11 @@
             <i class="bi bi-reply"></i> Reply
         </button>
         <button type="button"
+                @onclick="report"
+                class="btn btn-link btn-sm text-decoration-none post-report-button">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+        </button>
+        <button type="button"
                 @onclick="favorite"
                 class="btn btn-light btn-sm border rounded-4 ms-2 post-favorite-button">
             @if (Post.IsFavorite)
@@ -96,6 +101,9 @@
     public EventCallback<string> OpenChatCallback { get; set; }
 
     [Parameter]
+    public EventCallback<PostVM> ReportCallback { get; set; }
+
+    [Parameter]
     public PostVM Post { get; set; }
 
 
@@ -119,6 +127,10 @@
         await ReplyCallback.InvokeAsync(Post);
     }
 
+    protected async Task report()
+    {
+        await ReportCallback.InvokeAsync(Post);
+    }
 
     protected async Task showChat()
     {

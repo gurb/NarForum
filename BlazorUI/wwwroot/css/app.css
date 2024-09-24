@@ -233,6 +233,12 @@ a {
     float: right;
 }
 
+.post-report-button {
+    float: right;
+    background: #eee;
+    margin-left: 5px;
+}
+
 .row {
     --bs-gutter-x: 0;
 }
