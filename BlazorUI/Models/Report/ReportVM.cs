@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Features.Report.Queries.GetReport
+﻿namespace BlazorUI.Models.Report
 {
-    public class ReportDTO
+    public class ReportVM
     {
         public Guid? Id { get; set; }
         public string? Title { get; set; }

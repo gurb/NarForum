@@ -1,4 +1,5 @@
-﻿using Application.Features.Report.Queries.GetReport;
+﻿using Application.Features.Report.Commands.CreateReport;
+using Application.Features.Report.Queries.GetReport;
 using AutoMapper;
 using Domain;
 using System;
@@ -15,7 +16,7 @@ namespace Application.MappingProfiles
         public ReportProfile()
         {
             CreateMap<ReportDTO, Report>().ReverseMap();
-            //CreateMap<CreateReportCommand, Report>().ReverseMap();
+            CreateMap<CreateReportCommand, Report>().ReverseMap();
         }
         
     }

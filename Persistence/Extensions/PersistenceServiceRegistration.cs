@@ -39,6 +39,7 @@ namespace Persistence.Extensions
             services.AddScoped<IForumSettingsService, ForumSettingsService>();
 
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IReportRepository, ReportRepository>();
 
             return services;
         }

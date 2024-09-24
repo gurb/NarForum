@@ -1,16 +1,14 @@
-﻿using Domain.Base;
-
-namespace Domain
+﻿namespace BlazorUI.Models.Report
 {
-    public class Report: BaseEntity
+    public class GetReportsWithPaginationQueryVM
     {
-
         public string? Title { get; set; }
         public string? Message { get; set; }
-        public string? UserName { get; set; }
         public Guid? SenderUserId { get; set; }
         public Guid? PostId { get; set; }
         public Guid? HeadingId { get; set; }
-        public int HeadingIndex { get; set; }
+
+        public int? PageIndex { get; set; }
+        public int? PageSize { get; set; }
     }
 }
