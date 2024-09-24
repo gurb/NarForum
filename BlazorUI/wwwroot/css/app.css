@@ -33,8 +33,8 @@ a, .btn-link {
 }
 
 .custom-container {
-    /*max-width: 1600px;*/
     padding-top: 1.1rem;
+    margin-bottom: 100px;
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -194,7 +194,11 @@ a {
 
 .heading-title {
     font-size: 1.7em;
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
+}
+
+.row.category-header {
+    margin-bottom: 1.5em;
 }
 
 .custom-mini-post {
@@ -804,4 +808,29 @@ h3.blog-comment-title {
 
 h3.blog-comment-form-title {
     margin-top: 50px;
+}
+
+.forum-footer {
+    background: #34485f17;
+    color: #5e5e5e;
+    margin-top: 50px;
+}
+
+.forum-footer a {
+    color: #5e5e5e;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#forum-logo-footer {
+    background: #34485f;
+    padding: 5px;
+    border-radius: 5px;
+    opacity: .4;
+    width: 140px;
+}
+
+.footer-title {
+    color: #34485f;
 }

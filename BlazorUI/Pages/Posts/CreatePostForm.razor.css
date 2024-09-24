@@ -75,7 +75,7 @@
 }
 
 .toolbar .btn-toolbar button {
-    background: linear-gradient(0deg, rgba(204, 204, 204, 1) 0%, rgba(221, 221, 221, 1) 40%, rgba(255, 255, 255, 1) 100%);
+    background: #edeef1;
     border: 1px solid #ccc;
     border-radius: 6px;
     cursor: pointer;

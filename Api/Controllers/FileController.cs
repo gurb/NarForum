@@ -83,5 +83,30 @@ namespace Api.Controllers
             var imageFileStream = System.IO.File.OpenRead(filepath);
             return File(imageFileStream, "image/jpeg");
         }
+
+        [HttpGet("images/logo/")]
+        [AllowAnonymous]
+        [EnableCors("AllowAllOriginsForImages")]
+        public IActionResult GetLogoFile()
+        {
+            var dir = Path.Combine(_webHostEnvironment.ContentRootPath, $"Uploads/Images/Logo/");
+
+            if (!Directory.Exists(dir))
+            {
+                return NotFound();
+            }
+            var files = Directory.GetFiles(dir);
+
+            if (files.Length == 0)
+            {
+                return NotFound("No files found in the directory.");
+            }
+
+            var fileName = Path.GetFileName(files[0]);
+            var filePath = Path.Combine(dir, fileName);
+
+            var imageFileStream = System.IO.File.OpenRead(filePath);
+            return File(imageFileStream, "image/png");
+        }
     }
 }

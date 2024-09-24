@@ -1,0 +1,55 @@
+﻿<footer class="container-fluid mt-auto forum-footer">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-12 col-md">
+                <Logo LogoId="forum-logo-footer"  LogoVM="logoVM"></Logo>
+                <small class="d-block mb-3 text-muted">© 2024–2024</small>
+            </div>
+            <div class="col-6 col-md">
+                @* <h5>Features</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary" href="#">Cool stuff</a></li>
+                    <li><a class="link-secondary" href="#">Random feature</a></li>
+                    <li><a class="link-secondary" href="#">Team feature</a></li>
+                    <li><a class="link-secondary" href="#">Stuff for developers</a></li>
+                    <li><a class="link-secondary" href="#">Another one</a></li>
+                    <li><a class="link-secondary" href="#">Last time</a></li>
+                </ul> *@
+            </div>
+            <div class="col-6 col-md">
+                @* <h5>Resources</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary" href="#">Resource name</a></li>
+                    <li><a class="link-secondary" href="#">Resource</a></li>
+                    <li><a class="link-secondary" href="#">Another resource</a></li>
+                    <li><a class="link-secondary" href="#">Final resource</a></li>
+                </ul> *@
+            </div>
+            <div class="col-6 col-md">
+                <h5 class="footer-title">Developer</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary" href="https://github.com/gurb">Github</a></li>
+                    <li><a class="link-secondary" href="#">Envato</a></li>
+                    <li><a class="link-secondary" href="#">Docs</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5 class="footer-title">Pages</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary" href="about">About</a></li>
+                    <li><a class="link-secondary" href="blog">Blog</a></li>
+                    <li><a class="link-secondary" href="terms">Terms</a></li>
+                    <li><a class="link-secondary" href="privacy-policy">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@code {
+    LogoVM logoVM = new LogoVM
+    {
+        AltText = "gurbforum",
+        Text = "gurbforum",
+    };
+}
