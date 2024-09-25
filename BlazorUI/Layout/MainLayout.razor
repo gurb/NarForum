@@ -19,7 +19,14 @@
                 </div> *@
                 <div class="col-sm-9">
                     <article>
-                        @Body
+                        <ErrorBoundary Context="exception" @ref="_errorBoundary">
+                            <ChildContent>
+                                @Body
+                            </ChildContent>
+                            <ErrorContent>
+                                <p class="fw-bold text-danger">@exception.Message</p>
+                            </ErrorContent>
+                        </ErrorBoundary>
                     </article>
                     <ConsentCookie/>
                 </div>
@@ -32,3 +39,13 @@
         <Footer></Footer>
     </main>
 </div>
+
+
+@code {
+    private ErrorBoundary? _errorBoundary;
+
+    protected override void OnParametersSet()
+    {
+        _errorBoundary?.Recover();
+    }
+}

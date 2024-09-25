@@ -855,3 +855,11 @@ h3.blog-comment-form-title {
     color: #eaeaea;
 }
 
+.not-found-area {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    height: 50vh;
+}
+

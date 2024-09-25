@@ -1,4 +1,4 @@
-﻿@page "/{PageType}"
+﻿
 @inject NavigationManager nav
 @using BlazorUI.Pages.Blog.Component
 
@@ -8,11 +8,16 @@
 }
 else if(activePage == "user")
 {
-    
+
 }
 else if (activePage == "contact")
 {
 
+}
+else if (activePage == "category")
+{
+    <RecentHeadings></RecentHeadings>
+    <RecentPosts></RecentPosts>
 }
 else if (activePage == null || activePage == "")
 {
@@ -21,13 +26,11 @@ else if (activePage == null || activePage == "")
 }
 else
 {
-    <RecentHeadings></RecentHeadings>
-    <RecentPosts></RecentPosts>
 }
 
 @code {
     [Parameter]
-    public string? PageType { get; set; }
+    public string? slug { get; set; }
 
 
     string activePage = "";
