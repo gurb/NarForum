@@ -75,6 +75,10 @@
         if(contactService is not null)
         {
             var response = await contactService.CreateContact(Model);
+            if(response.IsSuccess)
+            {
+                Model = new CreateContactCommandVM();
+            }
         }
     }
 }
