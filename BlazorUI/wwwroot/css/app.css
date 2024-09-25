@@ -834,3 +834,24 @@ h3.blog-comment-form-title {
 .footer-title {
     color: #34485f;
 }
+
+.footer-description {
+    font-size: 14px;
+}
+
+.contact-form .form-label {
+    font-size: 0.9rem;
+    color: #565e64;
+}
+
+.btn-forum {
+    color: #fff;
+    font-weight: 500;
+    padding: 10px;
+    background: #34485fd9;
+}
+
+.btn-forum:hover {
+    color: #eaeaea;
+}
+
