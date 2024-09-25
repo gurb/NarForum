@@ -24,7 +24,22 @@
                                 @Body
                             </ChildContent>
                             <ErrorContent>
-                                <p class="fw-bold text-danger">@exception.Message</p>
+                                @if ((exception as BlazorUI.Services.Base.ApiException).StatusCode == 401)
+                                {
+                                    <BlazorUI.Pages.ErrorPages.Page401></BlazorUI.Pages.ErrorPages.Page401>
+                                }
+                                else if ((exception as BlazorUI.Services.Base.ApiException).StatusCode == 500)
+                                {
+                                    <BlazorUI.Pages.ErrorPages.Page500></BlazorUI.Pages.ErrorPages.Page500>
+                                }
+                                else if ((exception as BlazorUI.Services.Base.ApiException).StatusCode == 204)
+                                {
+                                    <BlazorUI.Pages.ErrorPages.Page204></BlazorUI.Pages.ErrorPages.Page204>
+                                }
+                                else
+                                {
+                                    <p class="fw-bold text-danger">@exception.Message</p>
+                                }
                             </ErrorContent>
                         </ErrorBoundary>
                     </article>
