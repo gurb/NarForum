@@ -2,7 +2,8 @@
 
 <div class="row category-card-body align-items-center">
     <div class="col-sm-4" style="display: flex;align-items: center;">
-        <i class="bi bi-journals" style="font-size:1.5em;margin-right:20px;"></i>
+        <i class="bi bi-journals category-normal-icon" style="font-size:1.5em;margin-right:20px;"></i>
+        <i class="bi bi-pencil-square category-edit-button" style="font-size:1.5em;margin-right:20px;cursor:pointer" @onclick=UpdateCategory></i>
         <a href="@url" class="link-category-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Name </a>
     </div>
     @if(ShowNumber)
@@ -33,6 +34,8 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
+    // []
+
     string url { 
         get 
         {
@@ -58,5 +61,10 @@
             }
             return null;
         }
+    }
+
+    protected async Task UpdateCategory()
+    {
+        
     }
 }

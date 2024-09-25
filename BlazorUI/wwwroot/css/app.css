@@ -431,6 +431,22 @@ a {
     color: #333;
 }
 
+.category-edit-button {
+    display: none;
+}
+
+.category-normal-icon {
+    display: block;
+}
+
+.category-card-body:hover .category-edit-button {
+    display: block;
+}
+
+.category-card-body:hover .category-normal-icon {
+    display: none;
+}
+
 .category-card-heading-counter {
     font-weight: 500;
 }

@@ -10,6 +10,11 @@
             <InputText id="Name" class="form-control" @bind-Value="@Model.Name"></InputText>
             <ValidationMessage For="@(() => Model.Name)" />
         </div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Category Description</label>
+            <InputText id="Name" class="form-control" @bind-Value="@Model.Description"></InputText>
+            <ValidationMessage For="@(() => Model.Description)" />
+        </div>
     </EditForm>
 </Modal>
 
@@ -58,6 +63,7 @@
             category = new CategoryVM
             {
                 Name = Model.Name,
+                Description = Model.Description,
                 ParentCategoryId = ParentCategoryVM.Id,
                 SectionId = ParentCategoryVM.SectionId
             };
@@ -67,6 +73,7 @@
             category = new CategoryVM
             {
                 Name = Model.Name,
+                Description = Model.Description,
                 SectionId = SectionVM.Id,
 
             };
