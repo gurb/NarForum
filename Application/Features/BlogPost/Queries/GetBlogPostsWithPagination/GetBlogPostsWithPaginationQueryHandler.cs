@@ -27,11 +27,14 @@ public class GetBlogPostsWithPaginationQueryHandler : IRequestHandler<GetBlogPos
 
         List<Domain.BlogPost> blogPosts;
 
-        string orderProperty = "DateCreate";
+        Dictionary<string, bool> orderFunctions = new Dictionary<string, bool>
+        {
+            { "DateCreate",  true},
+        };
 
         if (request.IsInclude)
         {
-            blogPosts = await _blogPostRepository.GetBlogPostsWithPaginationIncludeBlogCategory(predicate, request.PageIndex.Value, request.PageSize.Value, "DateCreate", true);
+            blogPosts = await _blogPostRepository.GetBlogPostsWithPaginationIncludeBlogCategory(predicate, request.PageIndex.Value, request.PageSize.Value, orderFunctions);
         }
         else
         {

@@ -1,17 +1,20 @@
 ﻿@using BlazorUI.Models.Category
 
 <div class="row category-card-body align-items-center">
-    <div class="col-sm-4" style="display: flex;align-items: center;">
+    <div class="col-sm-6" style="display: flex;align-items: center;">
         <i class="bi bi-journals category-normal-icon" style="font-size:1.5em;margin-right:20px;"></i>
         <i class="bi bi-pencil-square category-edit-button" style="font-size:1.5em;margin-right:20px;cursor:pointer" @onclick=UpdateCategory></i>
-        <a href="@url" class="link-category-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Name </a>
+        <div>
+            <a href="@url" class="link-category-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Name </a>
+            <p class="category-card-description">@Model.Description</p>
+        </div>
     </div>
     @if(ShowNumber)
     {
-        <div class="col-sm-2 category-card-heading-counter">
+        <div class="col-sm-1 category-card-heading-counter">
             @Model.HeadingCounter
         </div>
-        <div class="col-sm-2 category-card-post-counter">
+        <div class="col-sm-1 category-card-post-counter">
             @Model.PostCounter
         </div>
         <div class="col-sm-4 last-post-summary">

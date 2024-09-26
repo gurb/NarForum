@@ -13,6 +13,9 @@
         public Guid? UserId { get; set; }
         public Guid MainPostId { get; set; }
 
+        public bool IsLock { get; set; }
+        public bool IsPin { get; set; }
+
         public int PostCounter { get; set; }
 
         public int CategoryIntId { get; set; }

@@ -17,6 +17,8 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUserService _userService;
 
+        
+
         public GetHeadingsWithPaginationQueryHandler(IMapper mapper, IHeadingRepository headingRepository, ICategoryRepository categoryRepository, IUserService userService)
         {
             _mapper = mapper;
@@ -72,23 +74,27 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
                 predicate = predicate.And(x => x.DateCreate.Value <= request.EndDate);
             }
 
+            Dictionary<string, bool> orderFunctions = new Dictionary<string, bool>
+            {
+                { "IsPin",  true},
+            };
+
             if (request.SortType == Models.Enums.SortType.RECENT)
             {
-                orderProperty = "DateCreate";
-                desc = true;
+                orderFunctions.Add("DateCreate", true);
             }
             else if (request.SortType == Models.Enums.SortType.MOSTREPLIED)
             {
-                orderProperty = "PostCounter";
-                desc = true;
+                orderFunctions.Add("PostCounter", true);
+                
             }
             else if (request.SortType == Models.Enums.SortType.OLDEST)
             {
-                orderProperty = "DateCreate";
-                desc = false;
+                orderFunctions.Add("DateCreate", false);
             }
+            
 
-            headings = await _headingRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value, orderProperty, desc);
+            headings = await _headingRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value, orderFunctions);
             var data = _mapper.Map<List<HeadingDTO>>(headings);
 
 

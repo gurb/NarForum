@@ -52,15 +52,15 @@ else
     {
         <div class="row current-category-card-body">
 
-            <div class="col-4">
+            <div class="col-6">
                 Sub Categories
             </div>
             @if (min768)
             {
-                <div class="col-2">
+                <div class="col-1">
                     Headings
                 </div>
-                <div class="col-2">
+                <div class="col-1">
                     Posts
                 </div>
                 <div class="col-4">
@@ -74,7 +74,6 @@ else
     {
         @foreach (var category in Categories)
         {
-
             <CategoryCard ShowNumber="min768" Model="category" UpdateCallback="(category) => OpenUpdateModal(category)"></CategoryCard>
         }
 
@@ -221,6 +220,7 @@ else
 
         Model = await CategoryService.GetCategoryByIntId(CategoryId);
         Categories = await CategoryService.GetCategoriesById(Model.Id);
+        Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
 
         CurrentPage = PageIndex;
 

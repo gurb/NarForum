@@ -1,4 +1,5 @@
-﻿using AdminUI.Models.Category;
+﻿using AdminUI.Models;
+using AdminUI.Models.Category;
 using AdminUI.Models.Heading;
 using AdminUI.Services.Base;
 
@@ -18,5 +19,7 @@ namespace AdminUI.Contracts
         // commands
         Task<ApiResponse<Guid>> CreateHeading(HeadingVM heading);
         Task RemoveHeading(RemoveHeadingCommandVM heading);
+        Task<ApiResponseVM> LockHeading(LockHeadingCommandVM command);
+        Task<ApiResponseVM> PinHeading(PinHeadingCommandVM command);
     }
 }

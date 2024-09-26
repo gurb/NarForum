@@ -1,9 +1,12 @@
 ﻿using Application.Features.Heading.Commands.CreateHeading;
+using Application.Features.Heading.Commands.LockHeading;
+using Application.Features.Heading.Commands.PinHeading;
 using Application.Features.Heading.Commands.RemoveHeading;
 using Application.Features.Heading.Queries;
 using Application.Features.Heading.Queries.GetHeading;
 using Application.Features.Heading.Queries.GetHeadings;
 using Application.Features.Heading.Queries.GetHeadingsWithPagination;
+using Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -128,6 +131,20 @@ namespace Api.Controllers
         {
             var response = await _mediator.Send(command);
             return Ok(response);
+        }
+
+        [HttpPost("LockHeading")]
+        public async Task<ApiResponse> LockHeading(LockHeadingCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return response;
+        }
+
+        [HttpPost("PinHeading")]
+        public async Task<ApiResponse> PinHeading(PinHeadingCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return response;
         }
     }
 }

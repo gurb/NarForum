@@ -1,6 +1,7 @@
 ﻿using Application.Contracts.Persistence;
 using Domain.Base;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Persistence.DatabaseContext;
 using System.Linq.Expressions;
 
@@ -68,14 +69,15 @@ namespace Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<T>> GetWithPagination(Expression<Func<T, bool>> predicate, int pageIndex, int pageSize, string? propertyName, bool desc = true)
+        public async Task<List<T>> GetWithPagination(Expression<Func<T, bool>> predicate, int pageIndex, int pageSize, Dictionary<string, bool>? orderFunctions=null)
         {
-            List<T>? productsPerPage; 
-            if(propertyName is not null)
+            List<T>? productsPerPage;
+            
+            if(orderFunctions != null)
             {
                 IQueryable<T> query = _context.Set<T>().AsNoTracking().Where(predicate);
 
-                query = ApplyOrder(query, propertyName, desc);
+                query = ApplyOrder(query, orderFunctions);
 
                 productsPerPage = await query
                     .Skip((pageIndex - 1) * pageSize)
@@ -115,25 +117,32 @@ namespace Persistence.Repositories
             return _context.Set<T>().AsNoTracking().Where(predicate).AnyAsync();
         }
 
-        public static IQueryable<T> ApplyOrder<T>(IQueryable<T> source, string sortProperty, bool descending)
+        public static IQueryable<T> ApplyOrder<T>(IQueryable<T> source, Dictionary<string,bool> sortOrders)
         {
             var parameter = Expression.Parameter(typeof(T), "x");
-            var property = Expression.Property(parameter, sortProperty);
-            var propertyType = property.Type;
-            var convertedProperty = Expression.Convert(property, typeof(object));
-            var sortExpression = Expression.Lambda<Func<T, object>>(convertedProperty, parameter);
+            Expression resultExpression = source.Expression;
 
-            var methodName = descending ? "OrderByDescending" : "OrderBy";
-            var method = typeof(Queryable).GetMethods()
-                .Where(m => m.Name == methodName && m.GetParameters().Length == 2)
-                .Single()
-                .MakeGenericMethod(typeof(T), typeof(object));
+            foreach (var (sortProperty, descending) in sortOrders)
+            {
+                var property = Expression.Property(parameter, sortProperty);
+                var convertedProperty = Expression.Convert(property, typeof(object));
+                var sortExpression = Expression.Lambda<Func<T, object>>(convertedProperty, parameter);
 
-            var resultExpression = Expression.Call(
-                method,
-                source.Expression,
-                sortExpression
-            );
+                var methodName = resultExpression == source.Expression
+                    ? (descending ? "OrderByDescending" : "OrderBy")
+                    : (descending ? "ThenByDescending" : "ThenBy");
+
+                var method = typeof(Queryable).GetMethods()
+                    .Where(m => m.Name == methodName && m.GetParameters().Length == 2)
+                    .Single()
+                    .MakeGenericMethod(typeof(T), typeof(object));
+
+                resultExpression = Expression.Call(
+                    method,
+                    resultExpression,
+                    sortExpression
+                );
+            }
 
             return source.Provider.CreateQuery<T>(resultExpression);
         }

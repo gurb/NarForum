@@ -63,6 +63,7 @@ namespace Application.Features.Category.Queries.GetCategories
                     {
                         category.LastCategoryId = headingCategory.CategoryId;
                         category.LastCategoryTitle = headingCategory.Name;
+                        
                     }
                    
                     category.LastHeadingTitle = heading.Title;

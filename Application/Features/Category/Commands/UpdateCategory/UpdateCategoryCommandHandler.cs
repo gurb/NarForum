@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Persistence;
 using Application.Models;
+using Domain;
 using MediatR;
 
 namespace Application.Features.Category.Commands.UpdateCategory
@@ -29,6 +30,7 @@ namespace Application.Features.Category.Commands.UpdateCategory
                     {
                         updateCategory.Name = request.Name;
                         updateCategory.Description = request.Description;
+                        updateCategory.OrderIndex = request.OrderIndex;
 
                         await _categoryRepository.UpdateAsync(updateCategory);
 

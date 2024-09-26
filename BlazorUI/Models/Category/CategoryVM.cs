@@ -10,6 +10,7 @@
         public Guid? ParentCategoryId { get; set; }
         public int HeadingCounter { get; set; }
         public int PostCounter { get; set; }
+        public int OrderIndex { get; set; }
 
 
         public string? LastCategoryTitle { get; set; }

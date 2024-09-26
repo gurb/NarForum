@@ -1,4 +1,5 @@
-﻿using BlazorUI.Models.Heading;
+﻿using BlazorUI.Models;
+using BlazorUI.Models.Heading;
 using BlazorUI.Models.Post;
 using BlazorUI.Services.Base;
 
@@ -17,5 +18,8 @@ namespace BlazorUI.Contracts
 
         // commands
         Task<ApiResponse<Guid>> CreateHeading(HeadingVM heading);
+        Task<ApiResponseVM> LockHeading(LockHeadingCommandVM command);
+        Task<ApiResponseVM> PinHeading(PinHeadingCommandVM command);
+
     }
 }

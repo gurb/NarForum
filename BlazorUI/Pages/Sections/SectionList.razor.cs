@@ -31,12 +31,14 @@ namespace BlazorUI.Pages.Sections
             RefreshStateService.RefreshSectionList += Refresh;
             Sections = await SectionService.GetSections();
             Categories = await CategoryService.GetSectionCategories();
+            Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
         }
 
         private async void Refresh()
         {
             Sections = await SectionService.GetSections();
             Categories = await CategoryService.GetSectionCategories();
+            Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
             await InvokeAsync(StateHasChanged);
         }
 

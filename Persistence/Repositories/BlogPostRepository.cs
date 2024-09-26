@@ -15,14 +15,14 @@ namespace Persistence.Repositories
 
         }
 
-        public async Task<List<BlogPost>> GetBlogPostsWithPaginationIncludeBlogCategory(Expression<Func<BlogPost, bool>> predicate, int pageIndex, int pageSize, string? propertyName = null, bool desc = true)
+        public async Task<List<BlogPost>> GetBlogPostsWithPaginationIncludeBlogCategory(Expression<Func<BlogPost, bool>> predicate, int pageIndex, int pageSize, Dictionary<string, bool>? orderFunctions = null)
         { 
             List<BlogPost>? productsPerPage;
-            if (propertyName is not null)
+            if (orderFunctions != null)
             {
                 IQueryable<BlogPost> query = _context.BlogPosts.AsNoTracking().Where(predicate);
 
-                query = ApplyOrder(query, propertyName, desc);
+                query = ApplyOrder(query, orderFunctions);
 
                 productsPerPage = await query
                     .Skip((pageIndex - 1) * pageSize)

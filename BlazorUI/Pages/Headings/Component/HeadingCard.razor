@@ -1,7 +1,27 @@
 ﻿<div class="row heading-card-body align-items-center">
     <div class="col-sm-6 heading-text-area">
-        <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i>
-        <a href="@url" class="link-heading-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Title</a>
+        @if (Model.IsPin && !Model.IsLock)
+        {
+            <i class="bi bi-file-earmark-text" style="font-size:1.5em;"></i>
+            <i class="bi bi-pin-fill me-1" style="font-size:1.2em;margin-right:10px;"></i>
+        }
+        else if (!Model.IsPin && Model.IsLock)
+        {
+            <i class="bi bi-file-earmark-lock2" style="font-size:1.5em;margin-right:20px;"></i>
+        }
+        else if (Model.IsPin && Model.IsLock)
+        {
+            <i class="bi bi-file-earmark-lock2" style="font-size:1.5em;"></i>
+            <i class="bi bi-pin-fill" style="font-size:1.2em;margin-right:10px;"></i>
+        }
+        else
+        {
+            <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i>
+        }
+        
+        <a href="@url" class="link-heading-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">
+            @Model.Title
+        </a>
     </div>
     @if(ShowNumber)
     {

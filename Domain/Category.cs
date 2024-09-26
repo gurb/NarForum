@@ -15,6 +15,7 @@ namespace Domain
 		[ForeignKey("SectionId")]
 		public Section? Section { get; set; }
         public Guid? SectionId { get; set; }
+        public int OrderIndex { get; set; }
 
         public int HeadingCounter { get; set; }
         public int PostCounter { get; set; }

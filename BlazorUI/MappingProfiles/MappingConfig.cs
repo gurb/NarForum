@@ -42,6 +42,8 @@ namespace BlazorUI.MappingProfiles
             CreateMap<HeadingsPaginationDTO, HeadingsPaginationVM>().ReverseMap();
             CreateMap<CreateHeadingCommand, HeadingVM>().ReverseMap();
             CreateMap<GetHeadingsWithPaginationQuery, GetHeadingsWithPaginationQueryVM>().ReverseMap();
+            CreateMap<PinHeadingCommand, PinHeadingCommandVM>().ReverseMap();
+            CreateMap<LockHeadingCommand, LockHeadingCommandVM>().ReverseMap();
 
             CreateMap<UserInfoResponse, UserInfoVM>().ReverseMap();
             CreateMap<UsersPaginationDTO, UsersPaginationVM>().ReverseMap();

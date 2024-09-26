@@ -20,7 +20,43 @@ else
     <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
     @if(Heading is not null)
     {
-        <h1 class="heading-title">@Heading.Title</h1>
+        <div class="row">
+            <div class="col-sm-11 heading-merge">
+                <span class="heading-status">
+                    @if (Heading.IsPin)
+                    {
+                        <i class="bi bi-pin-fill me-1"></i>
+                    }
+                    @if (Heading.IsLock)
+                    {
+                        <i class="bi bi-lock-fill me-1"></i>
+                    }
+                </span>
+                <h1 class="heading-title">
+                    
+                    @Heading.Title
+                </h1>
+            </div>
+            <div class="col-sm-1 heading-control">
+                @if (Heading.IsLock)
+                {
+                    <i class="bi bi-lock-fill" @onclick="() => LockHeading(Heading)"></i>
+                }
+                else
+                {
+                    <i class="bi bi-lock" @onclick="() => LockHeading(Heading)"></i>
+                }
+                @if (Heading.IsPin)
+                {
+                    <i class="bi bi-pin-fill" @onclick="() => PinHeading(Heading)"></i>
+                }
+                else
+                {
+                    <i class="bi bi-pin" @onclick="() => PinHeading(Heading)"></i>
+                }
+            </div>
+        </div>
+
     }
 
     <Pagination MinVersion=min768 TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
@@ -41,7 +77,14 @@ else
                       ReplyCallback="(post) => AddReply(post)"></MiniPostCard>
     }
     <Pagination MinVersion=min768 TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
-    <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingGuid" Callback="RefreshPosts"></CreatePostForm>
+    @if(Heading.IsLock)
+    {
+        <p>The heading is locked by moderators and not accept new posts.</p>        
+    }
+    else
+    {
+        <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingGuid" Callback="RefreshPosts"></CreatePostForm>
+    }
 }
 
 
@@ -77,7 +120,7 @@ else
     public IPostService PostService { get; set; }
 
     [Inject]
-    public IHeadingService HeadingService { get; set; }
+    public IHeadingService? HeadingService { get; set; }
 
     [Inject]
     public ICategoryService CategoryService { get; set; }
@@ -487,6 +530,42 @@ else
         else
         {
             NavigationManager.NavigateTo("login");
+        }
+    }
+
+    private async Task PinHeading(HeadingVM heading)
+    {
+        if (HeadingService is not null)
+        {
+            PinHeadingCommandVM command = new PinHeadingCommandVM
+            {
+                Id = heading.Id
+            };
+
+            var response = await HeadingService.PinHeading(command);
+
+            if (response.IsSuccess)
+            {
+                Heading = await HeadingService.GetHeadingById(HeadingGuid);
+            }
+        }
+    }
+
+    private async Task LockHeading(HeadingVM heading)
+    {
+        if(HeadingService is not null)
+        {
+            LockHeadingCommandVM command = new LockHeadingCommandVM
+            {
+                Id = heading.Id
+            };
+
+            var response = await HeadingService.LockHeading(command);
+
+            if(response.IsSuccess)
+            {
+                Heading = await HeadingService.GetHeadingById(HeadingGuid);
+            }
         }
     }
 

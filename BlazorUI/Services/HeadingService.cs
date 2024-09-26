@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlazorUI.Contracts;
+using BlazorUI.Models;
 using BlazorUI.Models.Heading;
 using BlazorUI.Services.Base;
 using BlazorUI.Services.Common;
@@ -89,6 +90,20 @@ namespace BlazorUI.Services
             var data = _mapper.Map<HeadingsPaginationVM>(headingsPagination);
 
             return data;
+        }
+
+        public async Task<ApiResponseVM> LockHeading(LockHeadingCommandVM command)
+        {
+            LockHeadingCommand lockCommand = _mapper.Map<LockHeadingCommand>(command);
+            var response = await _client.LockHeadingAsync(lockCommand);
+            return _mapper.Map<ApiResponseVM>(response);
+        }
+
+        public async Task<ApiResponseVM> PinHeading(PinHeadingCommandVM command)
+        {
+            PinHeadingCommand pinCommand = _mapper.Map<PinHeadingCommand>(command);
+            var response = await _client.PinHeadingAsync(pinCommand);
+            return _mapper.Map<ApiResponseVM>(response);
         }
     }
 }

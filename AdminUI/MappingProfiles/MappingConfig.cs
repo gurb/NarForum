@@ -52,6 +52,8 @@ namespace AdminUI.MappingProfiles
             CreateMap<CreateHeadingCommand, HeadingVM>().ReverseMap();
             CreateMap<GetHeadingsWithPaginationQuery, HeadingPaginationQueryVM>().ReverseMap();
             CreateMap<RemoveHeadingCommand, RemoveHeadingCommandVM>().ReverseMap();
+            CreateMap<PinHeadingCommand, PinHeadingCommandVM>().ReverseMap();
+            CreateMap<LockHeadingCommand, LockHeadingCommandVM>().ReverseMap();
 
             CreateMap<UserInfoResponse, UserInfoVM>().ReverseMap();
             CreateMap<GetUsersWithPaginationQuery, UsersPaginationQueryVM>().ReverseMap();

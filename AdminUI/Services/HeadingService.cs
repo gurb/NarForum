@@ -3,6 +3,7 @@ using AdminUI.Contracts;
 using AdminUI.Models.Heading;
 using AdminUI.Services.Base;
 using AdminUI.Services.Common;
+using AdminUI.Models;
 
 namespace AdminUI.Services
 {
@@ -95,6 +96,20 @@ namespace AdminUI.Services
         {
             RemoveHeadingCommand command = _mapper.Map<RemoveHeadingCommand>(heading);
             await _client.RemoveHeadingAsync(command);
+        }
+
+        public async Task<ApiResponseVM> LockHeading(LockHeadingCommandVM command)
+        {
+            LockHeadingCommand lockCommand = _mapper.Map<LockHeadingCommand>(command);
+            var response = await _client.LockHeadingAsync(lockCommand);
+            return _mapper.Map<ApiResponseVM>(response);
+        }
+
+        public async Task<ApiResponseVM> PinHeading(PinHeadingCommandVM command)
+        {
+            PinHeadingCommand pinCommand = _mapper.Map<PinHeadingCommand>(command);
+            var response = await _client.PinHeadingAsync(pinCommand);
+            return _mapper.Map<ApiResponseVM>(response);
         }
     }
 }
