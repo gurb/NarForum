@@ -140,7 +140,7 @@ code {
 
 .top-nav-menu-wrapper {
     background: #34485f;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #34485f;
 }
 
 .top-nav-menu li {
@@ -254,6 +254,7 @@ span.heading-card-status {
 
 .custom-mini-post-date {
     float: right;
+    font-size: 12px;
 }
 
 .custom-mini-post-footer {

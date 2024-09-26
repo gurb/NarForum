@@ -13,6 +13,7 @@ namespace Application.Features.Post.Queries.GetAllPosts
         public Guid HeadingId { get; set; }
         public string UserName { get; set; } = string.Empty;
         public Guid? UserId { get; set; }
+        public DateTime DateCreate { get; set; }
 
         public string? CategoryName { get; set; }
         public string? HeadingTitle { get; set; }

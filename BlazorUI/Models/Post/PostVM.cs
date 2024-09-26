@@ -13,6 +13,8 @@
         public int? HeadingIndex { get; set; }
         public int? PageIndex { get; set; }
 
+        public DateTime DateCreate { get; set; }
+
 
         // not in database
         public bool? IsLike { get; set; }

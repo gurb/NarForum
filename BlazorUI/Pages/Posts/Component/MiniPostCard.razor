@@ -11,7 +11,7 @@
                     <span class="badge bg-primary post-badge">OP</span>
                 }
             <span @onclick="showChat" class="badge bg-primary post-badge"><i class="bi bi-send-plus-fill"></i></span>
-            <span class="ms-3 small text-muted custom-mini-post-date">2 months ago</span>
+        <span class="ms-3 small text-muted custom-mini-post-date">@Post.DateCreate</span>
     </header>
     <div class="card-body custom-mini-post-content">
         @((MarkupString)Post.DisplayContent)

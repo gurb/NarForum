@@ -12868,6 +12868,9 @@ namespace AdminUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("userId")]
         public System.Guid? UserId { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("dateCreate")]
+        public System.DateTime DateCreate { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("categoryName")]
         public string CategoryName { get; set; }
 
