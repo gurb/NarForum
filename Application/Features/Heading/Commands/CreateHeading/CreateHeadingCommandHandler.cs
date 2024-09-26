@@ -32,17 +32,7 @@ namespace Application.Features.Heading.Commands.CreateHeading
 
         public async Task<Guid> Handle(CreateHeadingCommand request, CancellationToken cancellationToken)
         {
-            // validate incoming data
-            //var validator = new CreatePostCommandValidator();
-            //var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            //if (validationResult.Errors.Any())
-            //{
-            //    throw new BadRequestException("Invalid Post", validationResult);
-            //}
-
             var user = await _userService.GetCurrentUser();
-
 
             // convert to domain entity object
             var Heading = _mapper.Map<Domain.Heading>(request);
