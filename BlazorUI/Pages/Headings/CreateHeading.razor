@@ -37,12 +37,6 @@ else
         <ValidationMessage For="@(() => Model.Title)" />
     </div>
 
-    @* <div class="form-group form-margin">
-        <label for="exampleFormControlTextarea1">Example textarea</label>
-        <InputTextArea id="Post" class="form-control" @bind-Value="@Model.Content"></InputTextArea>
-    </div> *@
-
-
     <div class="form-group form-margin">
         <CreatePostForm @ref=createPostForm Model="CreateModel"></CreatePostForm>
     </div>
