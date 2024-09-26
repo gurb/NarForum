@@ -13,6 +13,7 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
         public string? UserName { get; set; }
         public string? CategoryName { get; set; }
         public SortType SortType { get; set; } = SortType.RECENT;
+        public bool IsComponent { get; set; }
 
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

@@ -12361,6 +12361,9 @@ namespace AdminUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("sortType")]
         public SortType SortType { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("isComponent")]
+        public bool IsComponent { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("startDate")]
         public System.DateTime? StartDate { get; set; }
 

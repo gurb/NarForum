@@ -221,6 +221,10 @@ a {
     opacity: .7;
 }
 
+.heading-pin-bg {
+    background: #f2f3ff96!important;
+}
+
 span.heading-status {
     font-size: 1.4rem;
     color: #666666;

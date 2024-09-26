@@ -7,6 +7,7 @@ namespace BlazorUI.Models.Heading
         public string? UserName { get; set; }
         public string? CategoryName { get; set; }
         public SortTypeVM SortType { get; set; } = SortTypeVM.RECENT;
+        public bool IsComponent { get; set; }
 
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

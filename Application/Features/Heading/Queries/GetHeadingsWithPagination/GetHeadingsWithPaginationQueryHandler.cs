@@ -74,10 +74,12 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
                 predicate = predicate.And(x => x.DateCreate.Value <= request.EndDate);
             }
 
-            Dictionary<string, bool> orderFunctions = new Dictionary<string, bool>
+            Dictionary<string, bool> orderFunctions = new Dictionary<string, bool>();
+            
+            if (!request.IsComponent)
             {
-                { "IsPin",  true},
-            };
+                orderFunctions.Add("IsPin", true);
+            }
 
             if (request.SortType == Models.Enums.SortType.RECENT)
             {
@@ -92,11 +94,9 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
             {
                 orderFunctions.Add("DateCreate", false);
             }
-            
 
             headings = await _headingRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value, orderFunctions);
             var data = _mapper.Map<List<HeadingDTO>>(headings);
-
 
             List<Guid> categoryIds = headings.Select(x => x.CategoryId).ToList();
             List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));

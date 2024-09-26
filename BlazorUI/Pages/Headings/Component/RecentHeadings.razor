@@ -89,6 +89,7 @@
                 SortType = SortTypeVM.RECENT,
                 PageIndex = 1,
                 PageSize = headingLimit,
+                IsComponent = true
             };
 
             HeadingsPaginationVM pagination = await headingService.GetHeadingsWithPagination(query);
