@@ -5,5 +5,6 @@
         UserProfile,
         Gallery,
         GeneralUse,
+        Logo,
     }
 }

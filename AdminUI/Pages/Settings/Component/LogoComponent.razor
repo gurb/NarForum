@@ -1,24 +1,24 @@
-﻿<div class="row settings-row">
+﻿@using AdminUI.Models.Enums
+@using AdminUI.Models.Image
+@inject IConfiguration Configuration
+@inject HttpClient Http
+@inject IImageService imageService;
+
+<div class="row settings-row">
     <div class="col-sm-6">
         <label>Image</label>
     </div>
     <div class="col-sm-6">
         <div class="card">
             <div class="card-body">
-                @if (isLoading)
+                @if (isExistLogo)
                 {
-                    <label>Loading...</label>
-                }
-                else if (!isLoading && logo.Base64 is not null)
-                {
-                    <img class="card-img-top" src="data:image/png;base64, @logo.Base64" alt="Card image">
+                    <img class="card-img-top" src="@logoUrl" />
                 }
                 else
                 {
                     <label>Logo image not found</label>
                 }
-                <h4 class="card-title">John Doe</h4>
-                <p class="card-text">Some example text.</p>
                 <InputFile id="fileupload" class="form-control" OnChange="LoadFile" multiple></InputFile>
             </div>
         </div>
@@ -73,40 +73,35 @@
     private int maxFiles = 1;
     private bool isLoading;
 
-    private bool notFound;
-
-
-    [Inject]
-    private ILogoService? logoService { get; set; }
+    bool isExistLogo { get; set; }
+    string logoUrl { get; set; }
 
     [Inject]
     private AlertService? alertService { get; set; }
 
     private LogoVM logo { get; set; } = new LogoVM();
 
+
+    UploadImageRequestVM? request;
+
     protected async override Task OnInitializedAsync()
     {
+        logoUrl = $"{Configuration["ApiBaseUrl"]}/file/images/logo";
+        isExistLogo = await UrlExists(logoUrl);
+
         await base.OnInitializedAsync();
-
-        if(logoService is not null)
-        {
-            var getLogo = await logoService.GetLogo();
-
-            if(getLogo.Id is null)
-            {
-                notFound = true;
-            }
-            else
-            {
-                notFound = false;
-                logo = getLogo;
-            }
-        }
     }
 
 
     private async Task LoadFile(InputFileChangeEventArgs e)
     {
+        request = new UploadImageRequestVM
+        {
+            Type = UploadImageTypeVM.Logo,
+        };
+
+        request.FilesBase64 = new List<ImageBase64VM>();
+
         isLoading = true;
 
         loadedFiles.Clear();
@@ -135,7 +130,15 @@
                 await using MemoryStream fs = new MemoryStream();
                 await file.OpenReadStream(maxAllowedSize: 1048576).CopyToAsync(fs);
                 byte[] somBytes = GetBytes(fs);
-                logo.Base64 = Convert.ToBase64String(somBytes, 0, somBytes.Length);
+
+                ImageBase64VM imageBase64 = new ImageBase64VM
+                {
+                    Base64 = Convert.ToBase64String(somBytes, 0, somBytes.Length),
+                    FileName = file.Name,
+                    ContentType = file.ContentType
+                };
+
+                request.FilesBase64.Add(imageBase64);
             }
         }
 
@@ -152,62 +155,33 @@
         return bytes;
     }
 
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     protected async Task SaveLogo()
     {
-        if(logoService is not null)
+        isLoading = true;
+
+        if (imageService is not null && request.FilesBase64.Count > 0)
         {
-            if(notFound)
+            var response = await imageService.UploadImageToServer(request);
+
+            if (response.IsSuccess)
             {
-                AddLogoCommandVM command = new AddLogoCommandVM
-                {
-                    AltText = logo.AltText,
-                    Text = logo.Text,
-                    Path = logo.Path,
-                    Base64 = logo.Base64
-                };
-
-
-                var response = await logoService.AddLogo(command);
-
-                if (response.IsSuccess)
-                {
-
-                }
-                else
-                {
-                    if (alertService is not null)
-                    {
-                        alertService.ShowAlert(response.Message);
-                    }
-                }
+                isLoading = false;
             }
-            else
-            {
-                UpdateLogoCommandVM command = new UpdateLogoCommandVM
-                {
-                    AltText = logo.AltText,
-                    Text = logo.Text,
-                    Path = logo.Path,
-                    Base64 = logo.Base64
-                };
-
-
-                var response = await logoService.UpdateLogo(command);
-
-                if (response.IsSuccess)
-                {
-
-                }
-                else
-                {
-                    if (alertService is not null)
-                    {
-                        alertService.ShowAlert(response.Message);
-                    }
-                }
-            }
-
         }
+
     }
 
 

@@ -11,5 +11,6 @@ namespace Application.Models.Enums
         UserProfile,
         Gallery,
         GeneralUse,
+        Logo
     }
 }

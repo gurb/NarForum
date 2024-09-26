@@ -59,6 +59,10 @@ namespace Persistence.Repositories
             {
                 response = await UploadImageAsGeneralUse(request);
             }
+            else if (request.Type == UploadImageType.Logo)
+            {
+                response = await UploadImageAsLogo(request);
+            }
 
             return response;
         }
@@ -367,6 +371,83 @@ namespace Persistence.Repositories
                     uploadFiles.Add(uploadFile);
 
                     _context.UploadFiles.Add(uploadFile);
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        private async Task<ApiResponse> UploadImageAsLogo(UploadImageRequest request)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                List<UploadFile> uploadFiles = new List<UploadFile>();
+
+                //var user = await _userService.GetCurrentUser();
+
+                foreach (var file in request.FilesBase64)
+                {
+                    bool isUpdate = false;
+
+                    byte[] fileBytes = Convert.FromBase64String(file.Base64);
+
+                    MemoryStream stream = new MemoryStream(fileBytes);
+                    IFormFile galleryImage = new FormFile(stream, 0, stream.Length, null, "logo.png")
+                    {
+                        Headers = new HeaderDictionary(),
+                        ContentType = file.ContentType
+                    };
+
+                    var logoDir = Path.Combine(request.Dir, "Logo");
+                    if (!Directory.Exists(logoDir))
+                    {
+                        Directory.CreateDirectory(logoDir);
+                    }
+
+                    var pathFile = Path.Combine(logoDir, "logo.png");
+                    if (File.Exists(pathFile))
+                    {
+                        File.Delete(pathFile);
+                        isUpdate = true;
+                    }
+
+                    await using FileStream fs = new(pathFile, FileMode.Create);
+                    await galleryImage.CopyToAsync(fs);
+
+                    if (isUpdate)
+                    {
+                        var updateUploadFile = await _context.UploadFiles.FirstOrDefaultAsync(x => x.StoredFileName == "logo.png");
+
+                        if (updateUploadFile != null)
+                        {
+                            updateUploadFile.StoredFileName = "logo.png";
+                            updateUploadFile.FileName = "logo.png";
+                            updateUploadFile.UserName = null;
+                            updateUploadFile.UploadDate = DateTime.UtcNow;
+                            _context.UploadFiles.Update(updateUploadFile);
+                        }
+                    }
+                    else
+                    {
+                        var uploadFile = new UploadFile();
+
+                        uploadFile.StoredFileName = "logo.png";
+                        uploadFile.FileName = "logo.png";
+                        uploadFile.UserName = null;
+                        uploadFile.UploadDate = DateTime.UtcNow;
+                        uploadFiles.Add(uploadFile);
+                        _context.UploadFiles.Add(uploadFile);
+                    }
+
                 }
 
                 await _context.SaveChangesAsync();

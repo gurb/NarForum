@@ -17,8 +17,6 @@ namespace Application.Features.Heading.Commands.CreateHeading
         private readonly IHeadingRepository _HeadingRepository;
         private readonly IPostRepository _PostRepository;
         private readonly ICategoryRepository _CategoryRepository;
-
-
         private readonly IUserService _userService;
 
         public CreateHeadingCommandHandler(IMapper mapper, IHeadingRepository HeadingRepository, IPostRepository PostRepository, IUserService userService, ICategoryRepository categoryRepository)
