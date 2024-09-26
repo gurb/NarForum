@@ -1,5 +1,6 @@
 ﻿@page "/user/settings"
 @inject IConfiguration Configuration
+@inject HttpClient Http
 
 <div class="row">
     <div class="col-6">
@@ -12,7 +13,7 @@
             @* <span class="font-weight-bold">@Model.UserName</span> *@
             <span> </span>
             <div class="user-profile-no-image">
-                @if (imageUrl is not null && request.IsChangeImage == false)
+                @if (imageExist && imageUrl is not null && request.IsChangeImage == false)
                 {
                     <img class="profile-image-user" src="@imageUrl" alt="User Profile Image" />
                 }
@@ -102,6 +103,7 @@
     private bool isLoading;
 
     private string? imageUrl { get; set; }
+    bool imageExist;
 
     ChangeUserSettingsRequestVM? request { get; set; }
 
@@ -128,6 +130,8 @@
                         if(userInfo is not null)
                         {
                             imageUrl = $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userInfo.Id}";
+
+                            imageExist = await UrlExists(imageUrl);
                         }
                     }
                 }
@@ -190,6 +194,19 @@
         if(UserService is not null && request is not null)
         {
             await UserService.ChangeUserSettings(request);
+        }
+    }
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
         }
     }
 }
