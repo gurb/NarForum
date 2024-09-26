@@ -23,5 +23,7 @@
         public bool IsFavorite { get; set; }
         public string DisplayContent { get; set; } = string.Empty;
         public List<Guid> QuotePostIds { get; set; } = new List<Guid>();
+        public string? UserProfileImageUrl { get; set; }
+
     }
 }

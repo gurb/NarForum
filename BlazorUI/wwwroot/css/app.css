@@ -700,10 +700,22 @@ span.heading-card-status {
 
 .no-image-user-profile-post {
     display: inline-block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    border-radius: 10%;
     background: #512DA8;
+    font-size: 22.5px;
+    color: #fff;
+    text-align: center;
+    line-height: 45px;
+}
+
+.image-user-profile-post {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    border-radius: 10%;
+    background: #ddd;
     font-size: 15px;
     color: #fff;
     text-align: center;

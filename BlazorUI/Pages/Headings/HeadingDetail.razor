@@ -3,7 +3,10 @@
 @page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}/{PostId:guid}"
 @using System.Text.RegularExpressions
 
+@inject HttpClient Http
+@inject IConfiguration Configuration
 @inject IJSRuntime JS
+
 @implements IAsyncDisposable
 
 @inject RefreshStateService refreshStateService;
@@ -165,6 +168,11 @@ else
         return $"category/{CategoryName}/{HeadingId}/{FriendlyUrl}/";
     }
 
+    private string GetImageUrl(string userId)
+    {
+        return $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userId}";
+    }
+
     // Pagination variables
     private int PageSize = 10; // Number of items per page
     private int TotalPages = 1;
@@ -231,6 +239,43 @@ else
         }
     }
 
+    private async Task CheckUserImageProfile()
+    {
+        if (Posts is not null && Posts.Count > 0)
+        {
+            foreach (var post in Posts)
+            {
+                if (post.UserId is not null)
+                {
+                    string imageUrl = GetImageUrl(post.UserId.ToString());
+
+                    bool isExist = await UrlExists(imageUrl);
+                    if (isExist)
+                    {
+                        post.UserProfileImageUrl = imageUrl;
+                    }
+                }
+                else
+                {
+
+                }
+            }
+        }
+    }
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
 
     protected async override Task OnInitializedAsync()
     {
@@ -275,6 +320,7 @@ else
         Heading = await HeadingService.GetHeadingById(HeadingGuid);
         PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingGuid, PageIndex, PageSize);
         Posts = postPagination.Posts;
+        await CheckUserImageProfile();
         QuotePosts = postPagination.QuotePosts;
 
         ConfigureDisplayPosts(Posts);
@@ -362,6 +408,7 @@ else
     {
         PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingGuid, 1, PageSize);
         Posts = postPagination.Posts;
+        await CheckUserImageProfile();
         QuotePosts = postPagination.QuotePosts;
 
         ConfigureDisplayPosts(Posts);

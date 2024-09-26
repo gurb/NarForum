@@ -2,9 +2,20 @@
     <header class="card-header border-0 bg-transparent align-items-center">
         @* <img src="https://via.placeholder.com/30x30"
              class="rounded-circle me-2 custom-mini-post-image align-items-center" /> *@
-                <span class=no-image-user-profile-post>
+            @if(Post.UserProfileImageUrl is not null)
+            {
+                <span class="image-user-profile-post shadow-1-strong me-3">
+                    <img src="@Post.UserProfileImageUrl" alt="avatar" width="45"
+                         height="45" />
+                </span>
+            }
+            else
+            {
+                <span class="no-image-user-profile-post me-3">
                     @Username.ToUpper()[0]
                 </span>
+            }
+            
              <a href="/user/@Username" class="fw-semibold text-decoration-none custom-mini-post-username">@(Username != null ? Username : "User")</a>
                 @if (IsOP)
                 {
