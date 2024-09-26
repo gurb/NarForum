@@ -65,8 +65,13 @@ namespace Application.Features.Heading.Commands.CreateHeading
                 {
                     HeadingId = Heading.Id,
                     Content = request.Content,
-                    UserName = user.UserName
+                    UserName = user.UserName,
                 };
+
+                if (user.Id != null)
+                {
+                    headingPost.UserId = new Guid(user.Id);
+                }
 
                 await _PostRepository.CreateAsync(headingPost);
 
