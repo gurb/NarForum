@@ -1,5 +1,6 @@
 ﻿@page "/create-heading"
 @page "/create-heading/{CategoryName}-{CategoryId:int}"
+@using System.Text.RegularExpressions
 
 @if(CategoryName != null)
 {
@@ -36,10 +37,17 @@ else
         <ValidationMessage For="@(() => Model.Title)" />
     </div>
 
-    <div class="form-group form-margin">
+    @* <div class="form-group form-margin">
         <label for="exampleFormControlTextarea1">Example textarea</label>
         <InputTextArea id="Post" class="form-control" @bind-Value="@Model.Content"></InputTextArea>
+    </div> *@
+
+
+    <div class="form-group form-margin">
+        <CreatePostForm @ref=createPostForm Model="CreateModel"></CreatePostForm>
     </div>
+
+
 
     <div class="form-group text-end">
         <input type="submit" value="Create" class="btn btn-primary" />
@@ -68,6 +76,8 @@ else
     [Inject]
     public NavigationManager? NavigationManager { get; set; }
 
+    CreatePostForm? createPostForm;
+    public PostVM CreateModel { get; set; } = new PostVM();
 
     protected async override Task OnInitializedAsync()
     {
@@ -97,6 +107,8 @@ else
     {
         HeadingVM? heading;
 
+        Model.Content = GenerateContentFromDisplayContent(CreateModel.DisplayContent);
+
         heading = new HeadingVM
         {
             Title = Model.Title,
@@ -107,5 +119,29 @@ else
         var result = await HeadingService.CreateHeading(heading);
 
         NavigationManager.NavigateTo($"/category/{CategoryName.ToFriendlyUrl()}-{CategoryId}");
+    }
+
+    private string GenerateContentFromDisplayContent(string displayContent)
+    {
+        string content = displayContent;
+
+        // Regex quoteRegex = new Regex(@"<blockquote author-quote=""([^""]*)"" post-id=""(\d+)"" class=""quote-box"">(.*?)<\/blockquote>");
+        // Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
+        Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""]([0-9a-fA-F-]{36})['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
+
+        MatchCollection matches = quoteRegex.Matches(content);
+
+        foreach (Match match in matches)
+        {
+            string userName = match.Groups[1].Value;
+            string postId = match.Groups[2].Value;
+            string quoteContent = match.Groups[3].Value;
+
+            string newQuote = $"[Quote](PostId={postId})[/Quote]";
+
+            content = content.Replace(match.Value, newQuote);
+        }
+
+        return content;
     }
 }
