@@ -11851,6 +11851,15 @@ namespace AdminUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("profileImageBase64")]
         public string ProfileImageBase64 { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("isChangePassword")]
+        public bool IsChangePassword { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("newPassword")]
+        public string NewPassword { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("confirmPassword")]
+        public string ConfirmPassword { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("fileName")]
         public string FileName { get; set; }
 
