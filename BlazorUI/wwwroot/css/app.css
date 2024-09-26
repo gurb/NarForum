@@ -708,6 +708,7 @@ span.heading-card-status {
     color: #fff;
     text-align: center;
     line-height: 45px;
+    float:left;
 }
 
 .image-user-profile-post {
@@ -720,6 +721,18 @@ span.heading-card-status {
     color: #fff;
     text-align: center;
     line-height: 30px;
+    float: left;
+}
+
+.custom-mini-post-user-area {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: unset;
+    float: left;
+}
+
+.user-info-post-number {
+    font-size: 12px;
 }
 
 .no-image-user-profile-link {

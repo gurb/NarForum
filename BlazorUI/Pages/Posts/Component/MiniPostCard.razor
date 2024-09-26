@@ -15,8 +15,10 @@
                     @Username.ToUpper()[0]
                 </span>
             }
-            
-             <a href="/user/@Username" class="fw-semibold text-decoration-none custom-mini-post-username">@(Username != null ? Username : "User")</a>
+            <span class="custom-mini-post-user-area">
+                <a href="/user/@Username" class="fw-semibold text-decoration-none custom-mini-post-username">@(Username != null ? Username : "User")</a>
+                @* <span class="user-info-post-number">111 posts</span> *@
+            </span>
                 @if (IsOP)
                 {
                     <span class="badge bg-primary post-badge">OP</span>

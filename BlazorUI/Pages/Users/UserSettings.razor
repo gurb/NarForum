@@ -46,14 +46,41 @@
                 <input type="text" @bind-value=request.UserName class="form-control" id="exampleInputUserName" aria-describedby="userNameHelp">
                 <div id="userNameHelp" class="form-text">Change your username if it is not taken</div>
             </div>
-            @* <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
+            <div class="form-check mb-3">
+                <input class="form-check-input" @bind=request.IsChangePassword type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Change Password
+                </label>
             </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div> *@
+            @if(request.IsChangePassword)
+            {
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">New Password</label>
+                    <input type="password" @bind-value=request.NewPassword class="form-control" id="exampleInputPassword1">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+                    <input type="password" @bind-value=request.ConfirmPassword class="form-control" id="exampleInputPassword1">
+                    @if (request.NewPassword != request.ConfirmPassword)
+                    {
+                        <div class="alert alert-danger mt-2" role="alert">
+                            New password not equal with confirm password.
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">New Password</label>
+                    <input type="password" @bind-value=request.NewPassword class="form-control" id="exampleInputPassword1" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+                    <input type="password" @bind-value=request.ConfirmPassword class="form-control" id="exampleInputPassword1" disabled>
+                </div>
+            }
+            
             <div class="mb-3 text-end">
                 <button type="submit" class="user-settings-button"><i class="bi bi-floppy-fill"></i> Save Changes</button>
             </div>

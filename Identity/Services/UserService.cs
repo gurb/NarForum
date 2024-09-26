@@ -148,6 +148,9 @@ namespace Identity.Services
                 if(user != null)
                 {
 
+                    
+
+
                     if(request.IsChangeImage)
                     {
                         if(request.ProfileImageBase64 != null && request.ContentType != null && request.FileName != null)
@@ -203,6 +206,15 @@ namespace Identity.Services
                                 response.Message = "Username is already taken";
 
                                 return response;
+                            }
+
+                            if (request.IsChangePassword)
+                            {
+                                if (request.NewPassword == request.ConfirmPassword)
+                                {
+                                    var hasher = new PasswordHasher<ForumUser>();
+                                    updateUser.PasswordHash = hasher.HashPassword(null, request.NewPassword);
+                                }
                             }
 
                             updateUser.UserName = request.UserName;
