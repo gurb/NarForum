@@ -11,6 +11,7 @@ namespace Application.Features.Category.Queries.GetCategories
         public Guid Id { get; set; } = Guid.Empty;
         public int CategoryId { get; set; }
 		public string Name { get; set; } = string.Empty;
+        public string? Description { get; set; }
         public string UrlName { get; set; } = string.Empty;
         public int UrlIndex { get; set; }
         public Guid? SectionId { get; set; }

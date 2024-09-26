@@ -80,5 +80,13 @@ namespace BlazorUI.Services
 
             return data;
         }
+
+        public async Task<ApiResponseVM> UpdateCategory(UpdateCategoryCommandVM category)
+        {
+            var updateCategoryCommand = _mapper.Map<UpdateCategoryCommand>(category);
+            var data = await _client.UpdateCategoryAsync(updateCategoryCommand);
+
+            return _mapper.Map<ApiResponseVM>(data);
+        }
     }
  }

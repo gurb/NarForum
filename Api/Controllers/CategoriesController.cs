@@ -1,5 +1,6 @@
 ﻿using Application.Features.Category.Commands.CreateCategory;
 using Application.Features.Category.Commands.RemoveCategory;
+using Application.Features.Category.Commands.UpdateCategory;
 using Application.Features.Category.Queries.GetCategories;
 using Application.Features.Category.Queries.GetCategoriesWithPagination;
 using Application.Features.Category.Queries.GetCategory;
@@ -126,6 +127,13 @@ namespace Api.Controllers
 
         [HttpPost]
         public async Task<ApiResponse> Create(CreateCategoryCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return response;
+        }
+
+        [HttpPost("UpdateCategory")]
+        public async Task<ApiResponse> Update(UpdateCategoryCommand command)
         {
             var response = await _mediator.Send(command);
             return response;

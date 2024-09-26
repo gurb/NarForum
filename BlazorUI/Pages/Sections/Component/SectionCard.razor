@@ -51,7 +51,7 @@ else
 {
     @foreach (var category in Categories)
     {
-        <CategoryCard ShowNumber=min768 Model="category"></CategoryCard>
+        <CategoryCard ShowNumber=min768 Model="category" UpdateCallback="(category) => OpenUpdateModal(category)"></CategoryCard>
     }
 }
 
@@ -60,6 +60,10 @@ else
 <AddCategoryModal @ref="addCategoryModal" SectionVM="@Model" Callback="Refresh"></AddCategoryModal>
 
 <UpdateSectionModal @ref=updateSectionModal Model="@Model" Callback="Refresh"></UpdateSectionModal>
+
+
+<UpdateCategoryModal @ref=updateCategoryModal Model="SelectedModel" Callback="Refresh"></UpdateCategoryModal>
+
 
 @code {
     private bool loading { get; set; } = true;
@@ -70,7 +74,10 @@ else
     [Parameter]
     public List<CategoryVM>? Categories { get; set; }
 
+    private CategoryVM? SelectedModel { get; set; }
+
     AddCategoryModal? addCategoryModal;
+    UpdateCategoryModal? updateCategoryModal;
     UpdateSectionModal? updateSectionModal;
 
     [Parameter]
@@ -91,6 +98,12 @@ else
         updateSectionModal?.ShowModal();
     }
 
+    private void OpenUpdateModal(CategoryVM categoryVM)
+    {
+        SelectedModel = categoryVM;
+
+        updateCategoryModal?.ShowModal();
+    }
 
     private async Task Refresh()
     {

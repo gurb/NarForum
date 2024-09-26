@@ -75,7 +75,7 @@ else
         @foreach (var category in Categories)
         {
 
-            <CategoryCard ShowNumber="min768" Model="category"></CategoryCard>
+            <CategoryCard ShowNumber="min768" Model="category" UpdateCallback="(category) => OpenUpdateModal(category)"></CategoryCard>
         }
 
         <div class="row current-category-card-body">
@@ -138,9 +138,17 @@ else
     <AddCategoryModal @ref="addCategoryModal" ParentCategoryVM="@Model" Callback="RefreshCategories"></AddCategoryModal>
 }
 
+@if(SelectedModel is not null)
+{
+    <UpdateCategoryModal @ref=updateCategoryModal Model="SelectedModel" Callback="RefreshCategories"></UpdateCategoryModal>
+}
+
+
 @code {
     private bool isLoading { get; set; } = true;
     private CategoryVM? Model { get; set; }
+    private CategoryVM? SelectedModel { get; set; }
+
 
     Pagination? top, bottom;
 
@@ -169,7 +177,7 @@ else
     public List<HeadingVM>? Headings { get; set; }
 
     AddCategoryModal? addCategoryModal;
-
+    UpdateCategoryModal? updateCategoryModal;
 
     GetHeadingsWithPaginationQueryVM? query;
 
@@ -330,5 +338,12 @@ else
             Categories = await CategoryService.GetCategoriesById(Model.Id);
             await InvokeAsync(StateHasChanged);
         }
+    }
+
+    private void OpenUpdateModal(CategoryVM categoryVM)
+    {
+        SelectedModel = categoryVM;
+
+        updateCategoryModal?.ShowModal();
     }
 }

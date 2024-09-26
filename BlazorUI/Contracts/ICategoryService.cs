@@ -15,6 +15,8 @@ namespace BlazorUI.Contracts
         Task<List<CategoryVM>> GetParentCategoriesByIntId(int CategoryId);
 
         // commands
-        Task<ApiResponseVM> CreateCategory(CategoryVM post);
+        Task<ApiResponseVM> CreateCategory(CategoryVM category);
+        Task<ApiResponseVM> UpdateCategory(UpdateCategoryCommandVM category);
+
     }
 }

@@ -35,6 +35,8 @@
     public NavigationManager NavigationManager { get; set; }
 
     // []
+    [Parameter]
+    public EventCallback<CategoryVM> UpdateCallback { get; set; }
 
     string url { 
         get 
@@ -65,6 +67,9 @@
 
     protected async Task UpdateCategory()
     {
-        
+        if(UpdateCallback.HasDelegate)
+        {
+            await UpdateCallback.InvokeAsync(Model);
+        }
     }
 }
