@@ -148,9 +148,6 @@ namespace Identity.Services
                 if(user != null)
                 {
 
-                    
-
-
                     if(request.IsChangeImage)
                     {
                         if(request.ProfileImageBase64 != null && request.ContentType != null && request.FileName != null)
@@ -187,9 +184,25 @@ namespace Identity.Services
                         }
                     }
 
-                    if(user.UserName != request.UserName && request.UserName != null && request.UserName.Length > 3 && request.UserName.Length < 30)
+                    var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
+                    bool isUpdate = false;
+
+                    if (request.IsChangePassword)
                     {
-                        var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
+                        if (updateUser != null)
+                        {
+                            if (request.NewPassword == request.ConfirmPassword)
+                            {
+                                var hasher = new PasswordHasher<ForumUser>();
+                                updateUser.PasswordHash = hasher.HashPassword(null, request.NewPassword);
+                                isUpdate = true;
+                            }
+                        }
+                    }
+
+
+                    if (user.UserName != request.UserName && request.UserName != null && request.UserName.Length > 3 && request.UserName.Length < 30)
+                    {
 
                         if (updateUser != null)
                         {
@@ -207,26 +220,21 @@ namespace Identity.Services
 
                                 return response;
                             }
-
-                            if (request.IsChangePassword)
-                            {
-                                if (request.NewPassword == request.ConfirmPassword)
-                                {
-                                    var hasher = new PasswordHasher<ForumUser>();
-                                    updateUser.PasswordHash = hasher.HashPassword(null, request.NewPassword);
-                                }
-                            }
-
+                            
                             updateUser.UserName = request.UserName;
-
-                            _identityDbContext.Users.Update(updateUser);
-                            await _identityDbContext.SaveChangesAsync();
+                            isUpdate = true;
                         }
                         else
                         {
                             response.IsSuccess = false;
                             response.Message = "User cannot find";
                         }
+                    }
+
+                    if(isUpdate && updateUser != null)
+                    {
+                        _identityDbContext.Users.Update(updateUser);
+                        await _identityDbContext.SaveChangesAsync();
                     }
                 }
                 else
