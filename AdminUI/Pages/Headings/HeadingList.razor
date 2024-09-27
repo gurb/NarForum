@@ -4,13 +4,15 @@
 
 <HeadingsFilter QueryModel="query" Callback="RefreshListFilter"></HeadingsFilter>
 
-<table class="table table-bordered table-hover caption-top">
+<table class="table table-bordered table-hover caption-top forum-table">
     <caption>List of users</caption>
     <thead>
         <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Category</th>
-            <th scope="col" style="width:20%">Author</th>
+            <th style="width:20%">Title</th>
+            <th class="text-end" style="width:7%">Posts</th>
+            <th style="width:15%">Category</th>
+            <th style="width:10%">Member</th>
+            <th style="width:10%">Active Date</th>
             <th scope="col" style="width:20%">Action</th>
         </tr>
     </thead>
@@ -24,19 +26,31 @@
             @foreach (var heading in Headings)
             {
                 <tr>
-                    <th class="align-middle">
+                    <td class="align-middle">
                         <div class="cell-content">
-                            <div class="flex-fill text-center">
+                            <div class="flex-fill">
                                 @heading.Id
                             </div>
-                            <div class="text-center align-middle">
+                            <div class="align-middle">
+                                @if(heading.IsPin)
+                                {
+                                    <i class="bi bi-pin-fill"></i>
+                                }
+                                @if(heading.IsLock)
+                                {
+                                    <i class="bi bi-lock-fill"></i>
+                                }
                                 @heading.Title
                             </div>
                         </div>
-                    </th>
+                    </td>
+                    <td class="align-middle text-end">@heading.PostCounter</td>
                     <td class="align-middle">@heading.CategoryName</td>
                     <td class="align-middle">@heading.UserName</td>
+                    <td class="align-middle">@heading.ActiveDate</td>
                     <td class="text-end align-middle">
+                        <button type="button" class="btn btn-secondary" @onclick="() => DetailHeading(heading)"><i class="bi bi-pin-fill"></i></button>
+                        <button type="button" class="btn btn-secondary" @onclick="() => DetailHeading(heading)"><i class="bi bi-lock-fill"></i></button>
                         <button type="button" class="btn btn-warning" @onclick="() => DetailHeading(heading)"><i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-primary" @onclick="() => DetailHeading(heading)"><i class="bi bi-card-text"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DeleteHeading(heading)"><i class="bi bi-trash"></i></button>

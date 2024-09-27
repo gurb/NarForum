@@ -4,13 +4,16 @@
 
 <CategoryFilter QueryModel="query" Callback="RefreshListFilter"></CategoryFilter>
 
-<table class="table table-bordered table-hover caption-top">
-    <caption>List of users</caption>
+<table class="table table-bordered table-hover caption-top forum-table">
+    <caption>List of categories</caption>
     <thead>
         <tr>
-            <th scope="col">Title</th>
-            <th scope="col" style="width:30%">Post Counter</th>
-            <th scope="col" style="width:30%">Action</th>
+            <th style="width:20%">Title</th>
+            <th class="text-end" style="width:7%">Headings</th>
+            <th class="text-end" style="width:7%">Posts</th>
+            <th style="width:30%">Description</th>
+            <th style="width:10%">Active Date</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -23,17 +26,20 @@
             @foreach (var category in Categories)
             {
                 <tr>
-                    <th class="align-middle">
+                    <td class="align-middle">
                         <div class="cell-content">
-                            <div class="flex-fill text-center">
+                            <div class="flex-fill">
                                 @category.Id
                             </div>
-                            <div class="text-center align-middle">
+                            <div class="align-middle">
                                 @category.Name
                             </div>
                         </div>
-                    </th>
-                    <td class="align-middle">@category.PostCounter</td>
+                    </td>
+                    <td class="align-middle text-end">@category.HeadingCounter</td>
+                    <td class="align-middle text-end">@category.PostCounter</td>
+                    <td class="align-middle">@category.Description</td>
+                    <td class="align-middle">@category.ActiveDate</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-warning" @onclick="() => DetailCategory(category)"><i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-primary" @onclick="() => DetailCategory(category)"><i class="bi bi-card-text"></i></button>
@@ -42,7 +48,6 @@
                 </tr>
             }
         }
-
     </tbody>
 </table>
 

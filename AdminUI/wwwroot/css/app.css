@@ -1,5 +1,5 @@
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
 h1:focus {
@@ -110,8 +110,13 @@ code {
 }
 
 thead {
-    background: #7d7d7c;
-    color: #f7f7f7;
+    background: #f7f7f7;
+    color: #282828;
+}
+
+thead th {
+    font-size: 14px;
+    font-weight: 600;
 }
 
 /** dashboard styles begin */
@@ -189,4 +194,13 @@ thead {
 .image-gallery-item.selected {
     border: 3px solid #34485f;
     outline: 1px solid #ddd;
+}
+
+.forum-table {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+.forum-table td {
+    font-size:14px;
 }

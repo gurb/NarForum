@@ -4,14 +4,15 @@
 
 <PostFilter QueryModel="query" Callback="RefreshListFilter"></PostFilter>
 
-<table class="table table-bordered table-hover caption-top">
+<table class="table table-bordered table-hover caption-top forum-table">
     <caption>List of users</caption>
     <thead>
         <tr>
-            <th scope="col" style="width:20%">Heading</th>
-            <th scope="col">Content</th>
-            <th scope="col" style="width:20%">Author</th>
-            <th scope="col" style="width:20%"></th>
+            <th style="width:20%">Heading</th>
+            <th style="width:30%">Content</th>
+            <th style="width:10%">Author</th>
+            <th style="width:15%">Category</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -24,18 +25,19 @@
             @foreach (var post in Posts)
             {
                 <tr>
-                    <th scope="row" class="p-0">
+                    <td scope="row">
                         <div class="cell-content">
-                            <div class="flex-fill text-center">
+                            <div class="flex-fill">
                                 @post.HeadingId
                             </div>
-                            <div class="text-center align-middle">
+                            <div class="align-middle">
                                 @post.HeadingTitle
                             </div>
                         </div>
-                        </th>
-                    <td class="align-middle">@((MarkupString)post.Content)</td>
+                        </td>
+                    <td class="align-middle">@(post.Content.Length < 155 ? post.Content : post.Content.Substring(0, 154))...</td>
                     <td class="align-middle">@post.UserName</td>
+                    <td class="align-middle">@post.CategoryName</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-primary" @onclick="() => DetailPost(post)"><i class="bi bi-card-text"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DeletePost(post)"><i class="bi bi-trash"></i></button>

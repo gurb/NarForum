@@ -4,7 +4,7 @@
 
 <SectionFilter QueryModel="query" Callback="RefreshListFilter"></SectionFilter>
 
-<table class="table table-bordered table-hover caption-top">
+<table class="table table-bordered table-hover caption-top forum-table">
     <caption>List of users</caption>
     <thead>
         <tr>
@@ -22,16 +22,16 @@
             @foreach (var sec in Sections!)
             {
                 <tr>
-                    <th class="align-middle">
+                    <td class="align-middle">
                         <div class="cell-content">
-                            <div class="flex-fill text-center">
+                            <div class="flex-fill">
                                 @sec.Id
                             </div>
-                            <div class="text-center align-middle">
+                            <div class="align-middle">
                                 @sec.Name
                             </div>
                         </div>
-                    </th>
+                    </td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-warning" @onclick="() => DetailSection(sec)"><i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-primary" @onclick="() => DetailSection(sec)"><i class="bi bi-card-text"></i></button>

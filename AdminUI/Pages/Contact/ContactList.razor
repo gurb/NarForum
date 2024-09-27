@@ -5,7 +5,7 @@
 
 <ContactFilter QueryModel="query" Callback="RefreshListFilter"></ContactFilter>
 
-<table class="table table-bordered table-hover caption-top">
+<table class="table table-bordered table-hover caption-top forum-table">
     <caption>List of Contacts</caption>
     <thead>
         <tr>
@@ -28,7 +28,7 @@
                 <tr>
                     <td class="align-middle">@contact.Subject</td>
                     <td class="align-middle">@contact.Type</td>
-                    <th scope="row" class="text-end align-middle">@contact.Email</th>
+                    <td scope="row" class="align-middle">@contact.Email</td>
                     <td class="align-middle">@contact.NameSurname</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-primary" @onclick="() => DetailReport(contact)"><i class="bi bi-card-text"></i></button>

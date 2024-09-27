@@ -4,13 +4,13 @@
 
 <BlogCommentFilter QueryModel="query" Callback="RefreshListFilter"></BlogCommentFilter>
 
-<table class="table table-bordered table-hover caption-top">
+<table class="table table-bordered table-hover caption-top forum-table">
     <caption>List of Blog Posts</caption>
     <thead>
         <tr>
-            <th scope="col" style="width:70px;">Id</th>
-            <th scope="col">Title</th>
-            <th scope="col" style="width:20%">Category</th>
+            @* <th scope="col" style="width:70px;">Id</th> *@
+            <th scope="col" style="width:20%">Member</th>
+            <th scope="col">Comment</th>
             <th scope="col" style="width:20%">Action</th>
         </tr>
     </thead>
@@ -24,9 +24,9 @@
             @foreach (var blogComment in BlogComments)
             {
                 <tr>
-                    <th scope="row" class="text-end align-middle">@blogComment.Id</th>
+                    @* <th scope="row" class="text-end align-middle">@blogComment.Id</th> *@
+                    <td class="align-middle">@blogComment.UserName</td>
                     <td class="align-middle">@blogComment.Content</td>
-                    <td class="align-middle">category</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-primary" @onclick="() => DetailBlogComment(blogComment)"><i class="bi bi-card-text"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DetailBlogComment(blogComment)"><i class="bi bi-trash"></i></button>

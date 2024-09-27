@@ -5,13 +5,15 @@
 
 <ReportFilter QueryModel="query" Callback="RefreshListFilter"></ReportFilter>
 
-<table class="table table-bordered table-hover caption-top">
+<table class="table table-bordered table-hover caption-top forum-table">
     <caption>List of Reports</caption>
     <thead>
         <tr>
-            <th scope="col" style="width:70px;">Id</th>
+            @* <th scope="col" style="width:70px;">Id</th> *@
             <th scope="col">Username</th>
-            <th scope="col" style="width:20%">Title</th>
+            <th scope="col" style="width:10%">Title</th>
+            <th scope="col" style="width:30%">Message</th>
+            <th scope="col" style="width:20%">Post Id</th>
             <th scope="col" style="width:20%">Action</th>
         </tr>
     </thead>
@@ -25,9 +27,10 @@
             @foreach (var report in Reports)
             {
                 <tr>
-                    <th scope="row" class="text-end align-middle">@report.Id</th>
                     <td class="align-middle">@report.UserName</td>
                     <td class="align-middle">@report.Title</td>
+                    <td class="align-middle">@report.Message</td>
+                    <td class="align-middle">@report.PostId</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-primary" @onclick="() => DetailReport(report)"><i class="bi bi-card-text"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DetailReport(report)"><i class="bi bi-trash"></i></button>

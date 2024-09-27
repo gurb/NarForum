@@ -40,12 +40,10 @@ namespace Application.Features.Heading.Commands.CreateHeading
                 Heading.UserId = new Guid(user.Id);
             }
 
-
             var category = await _CategoryRepository.GetByIdAsync(Heading.CategoryId);
 
             // add to database
             await _HeadingRepository.CreateAsync(Heading);
-
             
             if (request.Content != null)
             {
