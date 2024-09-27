@@ -7,11 +7,22 @@
         <ValidationSummary />
         <div class="row">
             <div class="col-sm-3">
-                <div class="form-group">
-                    <label class="control-label">Search in comment</label>
-                    <InputText id="title" class="form-control" placeholder="search in comment..." @bind-Value="@QueryModel.Content" autocomplete="off"></InputText>
-                    <ValidationMessage For="@(() => QueryModel.Content)" />
-                </div>
+                <label asp-for="Title" class="control-label">Select Blog Post</label>
+                <InputSelect class="form-select" aria-label="Default select example" @bind-Value="@QueryModel.BlogPostId" @onchange="OnChangeBlogPost">
+                    @if (!isLoading && blogPosts != null)
+                    {
+                        <option value="@string.Empty">All</option>
+                        @foreach (var blogPost in blogPosts)
+                        {
+                            <option value="@blogPost.Id">@blogPost.Title</option>
+                        }
+                    }
+                    else
+                    {
+                        <option disabled value="0">Loading...</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => QueryModel.BlogPostId)" />
             </div>
         </div>
         <div class="row" style="margin-top:10px;">
@@ -34,9 +45,31 @@
     [Parameter]
     public EventCallback<int> Callback { get; set; }
 
-    private void OnChangeCategory()
+    [Inject]
+    public IBlogPostService? blogPostService { get; set; }
+
+    private List<BlogPostVM>? blogPosts;
+    private BlogPostVM? selectedBlogPost;
+
+    private bool isLoading = true;
+
+    protected async override Task OnInitializedAsync()
     {
 
+        if (blogPostService is not null)
+        {
+            var request = new GetBlogPostsQueryVM();
+            blogPosts = await blogPostService.GetBlogPosts(request);
+            isLoading = false;
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+
+    private void OnChangeBlogPost()
+    {
+        
     }
 
     protected async Task HandleQuery()

@@ -25,6 +25,11 @@ public class GetBlogPostsWithPaginationQueryHandler : IRequestHandler<GetBlogPos
             predicate = predicate.And(x => x.BlogCategoryId == request.BlogCategoryId);
         }
 
+        if (request.SearchTitle != null)
+        {
+            predicate = predicate.And(x => x.Title.ToLower().Contains(request.SearchTitle.ToLower()));
+        }
+
         List<Domain.BlogPost> blogPosts;
 
         Dictionary<string, bool> orderFunctions = new Dictionary<string, bool>

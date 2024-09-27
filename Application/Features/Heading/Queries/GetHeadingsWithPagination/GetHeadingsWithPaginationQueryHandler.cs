@@ -67,11 +67,11 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
             }
             if (request.StartDate != null)
             {
-                predicate = predicate.And(x => x.DateCreate.Value >= request.StartDate);
+                predicate = predicate.And(x => x.DateCreate.Value.Date >= request.StartDate.Value.Date);
             }
             if (request.EndDate != null)
             {
-                predicate = predicate.And(x => x.DateCreate.Value <= request.EndDate);
+                predicate = predicate.And(x => x.DateCreate.Value.Date <= request.EndDate.Value.Date);
             }
 
             Dictionary<string, bool> orderFunctions = new Dictionary<string, bool>();

@@ -38,6 +38,16 @@ namespace Application.Features.Report.Queries.GetReportsWithPagination
                 predicate = predicate.And(x => x.PostId == request.PostId);
             }
 
+            if (request.SearchUsername != null)
+            {
+                predicate = predicate.And(x => x.UserName.ToLower().Contains(request.SearchUsername.ToLower()));
+            }
+
+            if (request.Title != null)
+            {
+                predicate = predicate.And(x => x.Title.ToLower().Contains(request.Title.ToLower()));
+            }
+
             reports = await _reportRepository.GetWithPagination(predicate, request.PageIndex.Value, request.PageSize.Value);
 
             var data = _mapper.Map<List<ReportDTO>>(reports);

@@ -11,6 +11,8 @@ namespace Application.Features.Report.Queries.GetReportsWithPagination
         public Guid? PostId { get; set; }
         public Guid? HeadingId { get; set; }
 
+        public string? SearchUsername { get; set; }
+
         public int? PageIndex { get; set; }
         public int? PageSize { get; set; }
     }

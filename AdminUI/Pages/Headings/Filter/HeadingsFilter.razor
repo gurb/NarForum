@@ -28,16 +28,34 @@
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
-                    <label class="control-label">Username</label>
-                    <InputText id="userName" class="form-control" placeholder="type username..." @bind-Value="@QueryModel.UserName" autocomplete="off"></InputText>
-                    <ValidationMessage For="@(() => QueryModel.UserName)" />
+                    <label class="control-label">Title</label>
+                    <InputText id="userName" class="form-control" placeholder="search title" @bind-Value="@QueryModel.SearchTitle" autocomplete="off"></InputText>
+                    <ValidationMessage For="@(() => QueryModel.SearchTitle)" />
                 </div>
             </div>
-       
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="control-label">Username</label>
+                    <InputText id="userName" class="form-control" placeholder="search username" @bind-Value="@QueryModel.SearchUser" autocomplete="off"></InputText>
+                    <ValidationMessage For="@(() => QueryModel.SearchUser)" />
+                </div>
+            </div>
         </div>
         <div class="row" style="margin-top:10px;">
-            <div class="col-sm-9">
-      
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="control-label">Start Date</label>
+                    <input id="startDate" @bind-value=QueryModel.StartDate class="form-control" type="date" />
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="control-label">End Date</label>
+                    <input id="endDate" @bind-value=QueryModel.EndDate class="form-control" type="date" />
+                </div>
+            </div>
+            <div class="col-sm-3">
+               
             </div>
             <div class="col-sm-3 text-end">
                 <div class="form-group">
@@ -72,11 +90,21 @@
 
     }
 
-
     protected async Task HandleQuery()
     {
         if(Callback.HasDelegate)
         {
+            if (QueryModel is not null && QueryModel.StartDate is not null)
+            {
+                QueryModel.StartDate = DateTime.SpecifyKind(QueryModel.StartDate.Value, DateTimeKind.Utc);
+            }
+
+            if (QueryModel is not null && QueryModel.EndDate is not null)
+            {
+                QueryModel.EndDate = DateTime.SpecifyKind(QueryModel.EndDate.Value, DateTimeKind.Utc);
+            }
+
+
             await Callback.InvokeAsync();
         }
     }

@@ -12245,7 +12245,7 @@ namespace BlazorUI.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("blogPostId")]
-        public System.Guid BlogPostId { get; set; }
+        public System.Guid? BlogPostId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
@@ -12285,6 +12285,9 @@ namespace BlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("isInclude")]
         public bool IsInclude { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("searchTitle")]
+        public string SearchTitle { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
@@ -12439,6 +12442,12 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
         public System.Guid? HeadingId { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("searchUsername")]
+        public string SearchUsername { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("searchContent")]
+        public string SearchContent { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
 
@@ -12496,6 +12505,9 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("headingId")]
         public System.Guid? HeadingId { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("searchUsername")]
+        public string SearchUsername { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
 
@@ -12534,6 +12546,9 @@ namespace BlazorUI.Services.Base
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetStaticPagesWithPaginationQuery
     {
+
+        [System.Text.Json.Serialization.JsonPropertyName("searchTitle")]
+        public string SearchTitle { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }

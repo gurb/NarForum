@@ -9,8 +9,8 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <label class="control-label">Title</label>
-                    <InputText id="title" class="form-control" placeholder="search title..." @bind-Value="@QueryModel.Title" autocomplete="off"></InputText>
-                    <ValidationMessage For="@(() => QueryModel.Title)" />
+                    <InputText id="title" class="form-control" placeholder="search title" @bind-Value="@QueryModel.SearchTitle" autocomplete="off"></InputText>
+                    <ValidationMessage For="@(() => QueryModel.SearchTitle)" />
                 </div>
             </div>
         </div>

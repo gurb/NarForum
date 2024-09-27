@@ -39,6 +39,11 @@ namespace Application.Features.Contact.Queries.GetContactsWithPagination
                 predicate = predicate.And(x => x.Type == request.Type);
             }
 
+            if(request.NameSurname != null)
+            {
+                predicate = predicate.And(x => x.NameSurname.ToLower().Contains(request.NameSurname.ToLower()));
+            }
+
             contacts = await _contactRepository.GetWithPagination(predicate, request.PageIndex.Value, request.PageSize.Value);
 
             var data = _mapper.Map<List<ContactDTO>>(contacts);

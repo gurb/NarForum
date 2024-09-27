@@ -4,5 +4,5 @@ namespace AdminUI.Models.BlogPost;
 
 public class GetBlogPostQueryVM
 {
-    public Guid Id { get; set; }
+    public Guid? Id { get; set; }
 }

@@ -5,7 +5,6 @@ using AutoMapper;
 using MediatR;
 
 namespace Application.Features.StaticPage.Queries.GetStaticPagesWithPagination;
-
 public class GetStaticPagesWithPaginationQueryHandler : IRequestHandler<GetStaticPagesWithPaginationQuery, StaticPagesPaginationDTO>
 {
     private readonly IMapper _mapper;
@@ -20,6 +19,11 @@ public class GetStaticPagesWithPaginationQueryHandler : IRequestHandler<GetStati
     public async Task<StaticPagesPaginationDTO> Handle(GetStaticPagesWithPaginationQuery request, CancellationToken cancellationToken)
     { 
         var predicate = PredicateBuilder.True<Domain.StaticPage>();
+
+        if(request.SearchTitle != null)
+        {
+            predicate = predicate.And(x => x.Title.ToLower().Contains(request.SearchTitle.ToLower()));
+        }
 
         var staticPages = await _pageRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value);
 

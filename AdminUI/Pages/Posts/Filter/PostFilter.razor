@@ -9,10 +9,25 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <label class="control-label">Username</label>
-                    <InputText id="userName" class="form-control" placeholder="type username..." @bind-Value="@QueryModel.UserName" autocomplete="off"></InputText>
-                    <ValidationMessage For="@(() => QueryModel.UserName)" />
+                    <InputText id="userName" class="form-control" placeholder="search username" @bind-Value="@QueryModel.SearchUserName" autocomplete="off"></InputText>
+                    <ValidationMessage For="@(() => QueryModel.SearchUserName)" />
                 </div>
             </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="control-label">Content</label>
+                    <InputText id="content" class="form-control" placeholder="search content" @bind-Value="@QueryModel.SearchContent" autocomplete="off"></InputText>
+                    <ValidationMessage For="@(() => QueryModel.SearchContent)" />
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="control-label">Post Id</label>
+                    <InputText id="content" class="form-control" placeholder="search post id" @bind-Value="@QueryModel.SearchGuid" autocomplete="off"></InputText>
+                    <ValidationMessage For="@(() => QueryModel.SearchGuid)" />
+                </div>
+            </div>
+            
         </div>
         <div class="row" style="margin-top:10px;">
             <div class="col-sm-9">
@@ -43,6 +58,25 @@
     {
         if (Callback.HasDelegate)
         {
+            if(QueryModel.SearchGuid is not null)
+            {
+                Guid postGuid;
+                bool isValid = Guid.TryParse(QueryModel.SearchGuid, out postGuid);
+                if(isValid)
+                {
+                    QueryModel.PostId = postGuid;
+                }
+                else
+                {
+                    QueryModel.PostId = null;
+                    QueryModel.SearchGuid = null;
+                }
+            }
+            else
+            {
+                QueryModel.PostId = null;
+            }
+
             await Callback.InvokeAsync();
         }
     }

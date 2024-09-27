@@ -51,6 +51,16 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
                 predicate = predicate.And(x => x.UserName == request.UserName);
             }
 
+            if(request.SearchContent != null)
+            {
+                predicate = predicate.And(x => x.Content.ToLower().Contains(request.SearchContent.ToLower()));
+            }
+
+            if (request.SearchUsername != null)
+            {
+                predicate = predicate.And(x => x.UserName.ToLower().Contains(request.SearchUsername.ToLower()));
+            }
+
             posts = await _postRepository.GetPostsWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value);
 
             var data = _mapper.Map<List<PostDTO>>(posts);
@@ -77,7 +87,6 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
 
                 List<Guid> categoryIds = headings.Select(x => x.CategoryId).ToList();
                 List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));
-
                 
                 foreach (var post in data)
                 {
