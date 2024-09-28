@@ -33,6 +33,7 @@ public class UpdateSectionCommandHandler : IRequestHandler<UpdateSectionCommand,
         if(section is not null)
         {
             section.Name = request.Name;
+            section.OrderIndex = request.OrderIndex;
 
             await _sectionRepository.UpdateAsync(section);
 

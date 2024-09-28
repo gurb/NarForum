@@ -30,6 +30,7 @@ namespace BlazorUI.Pages.Sections
 
             RefreshStateService.RefreshSectionList += Refresh;
             Sections = await SectionService.GetSections();
+            Sections = Sections.OrderBy(x => x.OrderIndex).ToList();
             Categories = await CategoryService.GetSectionCategories();
             Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
         }
@@ -37,6 +38,7 @@ namespace BlazorUI.Pages.Sections
         private async void Refresh()
         {
             Sections = await SectionService.GetSections();
+            Sections = Sections.OrderBy(x => x.OrderIndex).ToList();
             Categories = await CategoryService.GetSectionCategories();
             Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
             await InvokeAsync(StateHasChanged);

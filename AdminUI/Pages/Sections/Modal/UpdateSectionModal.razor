@@ -11,6 +11,10 @@
                 <InputText id="Name" class="form-control" @bind-Value="@Model.Name"></InputText>
                 <ValidationMessage For="@(() => Model.Name)" />
             </div>
+            <div class="form-group">
+                <label asp-for="OrderIndex" class="control-label">Order Index</label>
+                <InputNumber id="OrderIndex" class="form-control" @bind-Value="@Model.OrderIndex"></InputNumber>
+            </div>
         </EditForm>
     }
 </Modal>
@@ -50,6 +54,7 @@
             {
                 Id = Model.Id,
                 Name = Model.Name,
+                OrderIndex = Model.OrderIndex
             };
 
             var response = await SectionService.UpdateSection(section);
