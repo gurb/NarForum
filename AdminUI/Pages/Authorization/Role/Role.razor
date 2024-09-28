@@ -46,12 +46,17 @@
 
 
 <AddRoleModal @ref="addRoleModal" Callback="RefreshRoles"></AddRoleModal>
+<DetailRoleModal @ref=detailRoleModal Model="SelectedModel"></DetailRoleModal>
+
 
 <ConfirmModal @ref=deleteRoleModal Callback="DeleteRole" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this role?"></ConfirmModal>
 
 @code {
 
     AddRoleModal? addRoleModal;
+    RoleVM? SelectedModel;
+    DetailRoleModal? detailRoleModal;
+
 
     ConfirmModal? deleteRoleModal;
     RoleVM? deleteThisRole;
@@ -99,7 +104,8 @@
 
     protected async Task DetailRole(RoleVM role)
     {
-
+        SelectedModel = role;
+        detailRoleModal?.ShowModal();
     }
 
 
