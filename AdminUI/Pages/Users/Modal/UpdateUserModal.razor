@@ -1,0 +1,108 @@
+﻿@using AdminUI.Models.User
+@using AdminUI.Services.UI
+
+<Modal @ref="modal" ModalTitle="Update Heading" Callback="@HandleUpdate">
+    @if (Model is not null)
+    {
+        <EditForm Model="@Model" OnValidSubmit="HandleUpdate">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">First Name</label>
+                <InputText id="FirstName" class="form-control" @bind-Value="@Model.FirstName"></InputText>
+                <ValidationMessage For="@(() => Model.FirstName)" />
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Last Name</label>
+                <InputText id="LastName" class="form-control" @bind-Value="@Model.LastName"></InputText>
+                <ValidationMessage For="@(() => Model.LastName)" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Username" class="control-label">Username</label>
+                <InputText id="Username" class="form-control" @bind-Value="@Model.UserName"></InputText>
+                <ValidationMessage For="@(() => Model.UserName)" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <InputText id="Email" class="form-control" @bind-Value="@Model.Email"></InputText>
+                <ValidationMessage For="@(() => Model.Email)" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Username" class="control-label">Description</label>
+                <InputText id="Username" class="form-control" @bind-Value="@Model.Description"></InputText>
+                <ValidationMessage For="@(() => Model.Description)" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Password</label>
+                <InputText id="Password" class="form-control" @bind-Value="@newPassword"></InputText>
+                <ValidationMessage For="@(() => newPassword)" />
+            </div>
+
+        </EditForm>
+    }
+</Modal>
+
+@code {
+    Modal? modal;
+
+    [Parameter]
+    public UserInfoVM? Model { get; set; }
+
+    private string? newPassword;
+
+    [Inject]
+    private IUserService? UserService { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    public void ShowModal()
+    {
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        modal?.CloseModal();
+    }
+
+    protected async Task HandleUpdate()
+    {
+        if (Model is not null && UserService is not null)
+        {
+            UpdateUserRequestVM request = new UpdateUserRequestVM
+            {
+                Id = Model.Id,
+                Description = Model.Description,
+                FirstName = Model.FirstName,
+                LastName = Model.LastName,
+                Email = Model.Email,
+                UserName = Model.UserName,
+            };
+
+            if(!string.IsNullOrEmpty(newPassword))
+            {
+                request.IsChangePassword = true;
+                request.Password = newPassword;
+            }
+            
+            var response = await UserService.UpdateUser(request);
+
+            if (response.IsSuccess)
+            {
+                // updated
+                if (Callback.HasDelegate)
+                {
+                    await Callback.InvokeAsync();
+                }
+
+                CloseModal();
+            }
+        }
+    }
+}

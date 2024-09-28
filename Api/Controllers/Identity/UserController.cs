@@ -39,5 +39,17 @@ namespace Api.Controllers.Identity
             request.Dir = dir;
             return await _userService.ChangeUserSettings(request);
         }
+
+        [HttpPost("UpdateUser")]
+        public async Task<ApiResponse> UpdateUser([FromBody] UpdateUserRequest request)
+        {
+            return await _userService.UpdateUser(request);
+        }
+
+        [HttpPost("BlockUser")]
+        public async Task<ApiResponse> BlockUser([FromBody] string? userId)
+        {
+            return await _userService.BlockUser(userId);
+        }
     }
 }

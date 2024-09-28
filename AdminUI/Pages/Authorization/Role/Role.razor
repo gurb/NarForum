@@ -35,6 +35,7 @@
                     <td class="align-middle">@role.Name</td>
                     <td class="align-middle">@role.NormalizedName</td>
                     <td class="text-end align-middle">
+                        <button type="button" class="btn btn-warning" @onclick="() => UpdateRole(role)"><i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-primary" @onclick="() => DetailRole(role)"><i class="bi bi-card-text"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DeleteRoleModal(role)"><i class="bi bi-trash"></i></button>
                     </td>
@@ -44,10 +45,9 @@
     </tbody>
 </table>
 
-
 <AddRoleModal @ref="addRoleModal" Callback="RefreshRoles"></AddRoleModal>
+<UpdateRoleModal @ref=updateRoleModal Model="SelectedModel" Callback="RefreshRoles"></UpdateRoleModal>
 <DetailRoleModal @ref=detailRoleModal Model="SelectedModel"></DetailRoleModal>
-
 
 <ConfirmModal @ref=deleteRoleModal Callback="DeleteRole" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this role?"></ConfirmModal>
 
@@ -56,6 +56,7 @@
     AddRoleModal? addRoleModal;
     RoleVM? SelectedModel;
     DetailRoleModal? detailRoleModal;
+    UpdateRoleModal? updateRoleModal;
 
 
     ConfirmModal? deleteRoleModal;
@@ -108,6 +109,12 @@
         detailRoleModal?.ShowModal();
     }
 
+    private void UpdateRole(RoleVM role)
+    {
+        SelectedModel = role;
+
+        updateRoleModal?.ShowModal();
+    }
 
     protected async Task DeleteRoleModal(RoleVM role)
     {

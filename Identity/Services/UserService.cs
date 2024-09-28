@@ -4,12 +4,14 @@ using Application.Extensions.Core;
 using Application.Models;
 using Application.Models.Identity.User;
 using Application.Models.Persistence.Image;
+using Garnet.server.ACL;
 using Identity.DatabaseContext;
 using Identity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Identity.Services
 {
@@ -68,6 +70,8 @@ namespace Identity.Services
                     Description = user.Description,
                     PostCounter = 100,
                     HeadingCounter = 10,
+                    IsBlocked = user.IsBlocked,
+                    Email = user.Email,
                 };
             }
             else
@@ -124,8 +128,10 @@ namespace Identity.Services
                         RegisterDate = x.RegisterDate,
                         Description = x.Description,
                         PostCounter = 100,
-                        HeadingCounter = 10
-                    }
+                        HeadingCounter = 10,
+                        IsBlocked = x.IsBlocked,
+                        Email = x.Email,
+                }
                 ).ToListAsync();
             
             dto.Users = users;
@@ -209,9 +215,9 @@ namespace Identity.Services
                             var anyUser = await _identityDbContext
                                 .Users
                                 .AnyAsync
-                                    (x => x.UserName == request.UserName ||
+                                    (x => x.Id != user.Id && (x.UserName == request.UserName ||
                                      x.UserName.ToLower() == request.UserName.ToLower() ||
-                                     x.UserName.ToUpper() == request.UserName.ToUpper());
+                                     x.UserName.ToUpper() == request.UserName.ToUpper()));
 
                             if (anyUser)
                             {
@@ -244,6 +250,99 @@ namespace Identity.Services
                 }
             }
             catch(Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+
+
+        public async Task<ApiResponse> UpdateUser(UpdateUserRequest request)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
+
+                if(updateUser != null)
+                {
+                    if(request.UserName != updateUser.UserName)
+                    {
+                        var anyUsername = await _identityDbContext.Users.AnyAsync(x => x.Id != request.Id && x.UserName.ToLower() == request.UserName.ToLower());
+
+                        if(anyUsername)
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "The username already exist";
+                            return response;
+                        }
+                        
+                        updateUser.UserName = request.UserName;
+                    }
+
+                    if(request.IsChangePassword && request.Password != null)
+                    {
+                        var hasher = new PasswordHasher<ForumUser>();
+                        updateUser.PasswordHash = hasher.HashPassword(null, request.Password);
+                    }
+
+                    updateUser.FirstName = request.FirstName;
+                    updateUser.LastName = request.LastName;
+                    updateUser.Email = request.Email;
+                    updateUser.Description = request.Description;
+
+                    _identityDbContext.Users.Update(updateUser);
+                    await _identityDbContext.SaveChangesAsync();
+                    response.Message = "Updated user";
+
+                }
+
+            }
+            catch (Exception ex) 
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        public async Task<ApiResponse> BlockUser(string? UserId)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == UserId);
+
+                if (updateUser != null)
+                {
+                    updateUser.IsBlocked = !updateUser.IsBlocked;
+
+                    _identityDbContext.Users.Update(updateUser);
+                    await _identityDbContext.SaveChangesAsync();
+
+                    if(updateUser.IsBlocked)
+                    {
+                        response.Message = "Blocked user";
+                    }
+                    else
+                    {
+                        response.Message = "Unblocked user";
+                    }
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.Message = "User not found";
+                }
+
+            }
+            catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;

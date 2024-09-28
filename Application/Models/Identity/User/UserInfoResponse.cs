@@ -12,8 +12,10 @@ namespace Application.Models.Identity.User
         public string UserName { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public DateTime RegisterDate { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Email { get; set; }
+        public bool IsBlocked { get; set; }
         public int PostCounter { get; set; }
         public int HeadingCounter { get; set; }
     }

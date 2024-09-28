@@ -204,3 +204,7 @@ thead th {
 .forum-table td {
     font-size:14px;
 }
+
+.blocked-user-bg {
+    background: #ff00001a;
+}

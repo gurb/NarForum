@@ -6,6 +6,7 @@ using AdminUI.Services.Base;
 using AdminUI.Services.Common;
 using AdminUI.Models.Section;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using AdminUI.Models;
 
 namespace AdminUI.Services;
 
@@ -15,6 +16,12 @@ public class UserService : BaseHttpService, IUserService
     public UserService(IClient client, IMapper mapper, LocalStorageService localStorage) : base(client, localStorage)
     {
         _mapper = mapper;
+    }
+
+    public async Task<ApiResponseVM> BlockUser(string? userId)
+    {
+        var response = await _client.BlockUserAsync(userId);
+        return _mapper.Map<ApiResponseVM>(response);
     }
 
     public async Task<UserInfoVM> GetUserInfo(string userName)
@@ -38,6 +45,13 @@ public class UserService : BaseHttpService, IUserService
         var data = _mapper.Map<UsersPaginationVM>(usersPagination);
 
         return data;
+    }
+
+    public async Task<ApiResponseVM> UpdateUser(UpdateUserRequestVM request)
+    {
+        var req = _mapper.Map<UpdateUserRequest>(request);
+        var response = await _client.UpdateUserAsync(req);
+        return _mapper.Map<ApiResponseVM>(response);
     }
 }
 

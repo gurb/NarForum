@@ -1,4 +1,5 @@
-﻿using AdminUI.Models.User;
+﻿using AdminUI.Models;
+using AdminUI.Models.User;
 
 namespace AdminUI.Contracts
 {
@@ -7,5 +8,8 @@ namespace AdminUI.Contracts
         Task<UserInfoVM> GetUserInfo(string userName);
 
         Task<UsersPaginationVM> GetWithPagination(UsersPaginationQueryVM paramQuery);
+
+        Task<ApiResponseVM> UpdateUser(UpdateUserRequestVM request);
+        Task<ApiResponseVM> BlockUser(string? userId);
     }
 }

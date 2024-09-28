@@ -23,10 +23,18 @@
         {
             @foreach (var user in Users!)
             {
-                <tr>
-                    <td scope="row" class="align-middle">@user.UserName</td>
+                <tr class="@(user.IsBlocked ? "blocked-user-bg" : "")">
+                    <td scope="row" class="align-middle ">
+                        @if(user.IsBlocked)
+                        {
+                            <i class="bi bi-ban"></i>@(" ")                             
+                        }
+                        @user.UserName
+                    </td>
                     <td scope="row" class="align-middle">@user.RegisterDate</td>
                     <td class="text-end align-middle">
+                        <button type="button" class="btn btn-dark" @onclick="() => BlockUser(user)"><i class="bi bi-ban"></i></button>
+                        <button type="button" class="btn btn-warning" @onclick="() => UpdateUser(user)"><i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-primary" @onclick="() => DetailUser(user)"><i class="bi bi-card-text"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DeleteUser(user)"><i class="bi bi-trash"></i></button>
                     </td>
@@ -42,6 +50,7 @@
     <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
 }
 
+<UpdateUserModal @ref=updateUserModal Model="SelectedModel" Callback="RefreshList"></UpdateUserModal>
 <DetailUserModal @ref=detailUserModal Model="SelectedModel" Callback="RefreshList"></DetailUserModal>
 
 @code {
@@ -64,6 +73,7 @@
 
 
     DetailUserModal? detailUserModal;
+    UpdateUserModal? updateUserModal;
     private UserInfoVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
@@ -115,6 +125,21 @@
 
         detailUserModal?.ShowModal();
     }
+
+    protected void UpdateUser(UserInfoVM user)
+    {
+        SelectedModel = user;
+
+        updateUserModal?.ShowModal();
+    }
+
+    protected async Task BlockUser(UserInfoVM user)
+    {
+        var response = await UserService.BlockUser(user.Id);
+
+        await RefreshList();
+    }
+
 
     protected async Task DeleteUser(UserInfoVM heading)
     {

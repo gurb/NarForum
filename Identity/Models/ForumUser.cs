@@ -9,4 +9,5 @@ public class ForumUser: IdentityUser
     public DateTime RegisterDate { get; set; }
     public DateTime LastOnlineTime { get; set; }
     public string? Description { get; set; }
+    public bool IsBlocked { get; set; }
 }

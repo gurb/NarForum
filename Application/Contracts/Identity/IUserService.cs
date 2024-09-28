@@ -18,5 +18,7 @@ namespace Application.Contracts.Identity
 
         public Task<ApiResponse> ChangeUserSettings(ChangeUserSettingsRequest request);
 
+        public Task<ApiResponse> UpdateUser(UpdateUserRequest request);
+        public Task<ApiResponse> BlockUser(string? UserId);
     }
 }
