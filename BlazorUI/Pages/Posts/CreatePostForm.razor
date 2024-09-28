@@ -149,11 +149,11 @@
 
 	protected async override Task OnAfterRenderAsync(bool firstRender)
 	{
-		await base.OnAfterRenderAsync(firstRender);
 		if (firstRender)
 		{
 			module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Posts/CreatePostForm.razor.js");
 		}
+		await base.OnAfterRenderAsync(firstRender);
 	}
 
 	protected async Task ContentKeyDown(KeyboardEventArgs e)
