@@ -1,4 +1,5 @@
 ﻿@page "/user/list"
+@using AdminUI.Pages.Users.Modal
 
 <h3>User List</h3>
 
@@ -41,6 +42,8 @@
     <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
 }
 
+<DetailUserModal @ref=detailUserModal Model="SelectedModel" Callback="RefreshList"></DetailUserModal>
+
 @code {
     [Parameter]
     public int PageIndex { get; set; } = 1;
@@ -58,6 +61,10 @@
     private int CurrentPage = 1;
 
     private bool isLoaded { get; set; }
+
+
+    DetailUserModal? detailUserModal;
+    private UserInfoVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
@@ -102,9 +109,11 @@
         await RefreshList();
     }
 
-    protected async Task DetailUser(UserInfoVM user)
+    protected void DetailUser(UserInfoVM user)
     {
+        SelectedModel = user;
 
+        detailUserModal?.ShowModal();
     }
 
     protected async Task DeleteUser(UserInfoVM heading)

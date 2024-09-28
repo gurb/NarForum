@@ -1,4 +1,5 @@
 ﻿@page "/category/list"
+@using AdminUI.Pages.Category.Modal
 
 <h3>Category List</h3>
 
@@ -41,7 +42,7 @@
                     <td class="align-middle">@category.Description</td>
                     <td class="align-middle">@category.ActiveDate</td>
                     <td class="text-end align-middle">
-                        <button type="button" class="btn btn-warning" @onclick="() => DetailCategory(category)"><i class="bi bi-pencil-square"></i></button>
+                        <button type="button" class="btn btn-warning" @onclick="() => UpdateCategory(category)"><i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-primary" @onclick="() => DetailCategory(category)"><i class="bi bi-card-text"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DeleteCategory(category)"><i class="bi bi-trash"></i></button>
                     </td>
@@ -55,6 +56,10 @@
 {
     <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
 }
+
+<UpdateCategoryModal @ref=updateCategoryModal Model="SelectedModel" Callback="RefreshList"></UpdateCategoryModal>
+<DetailCategoryModal @ref=detailCategoryModal Model="SelectedModel"></DetailCategoryModal>
+
 
 
 @code {
@@ -74,6 +79,10 @@
     private bool isLoaded { get; set; }
 
     CategoriesPaginationQueryVM query = new CategoriesPaginationQueryVM();
+
+    UpdateCategoryModal? updateCategoryModal;
+    DetailCategoryModal? detailCategoryModal;
+    private CategoryVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
@@ -119,10 +128,20 @@
         await RefreshList();
     }
 
-    protected async Task DetailCategory(CategoryVM category)
+    private void UpdateCategory(CategoryVM categoryVM)
     {
+        SelectedModel = categoryVM;
 
+        updateCategoryModal?.ShowModal();
     }
+
+    private void DetailCategory(CategoryVM categoryVM)
+    {
+        SelectedModel = categoryVM;
+
+        detailCategoryModal?.ShowModal();
+    }
+
 
     protected async Task DeleteCategory(CategoryVM category)
     {

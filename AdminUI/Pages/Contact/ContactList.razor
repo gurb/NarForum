@@ -1,6 +1,7 @@
 ﻿@page "/contact/list"
 @using AdminUI.Models.Contact
 @using AdminUI.Pages.Contact.Filter
+@using AdminUI.Pages.Contact.Modal
 <h3>Reports</h3>
 
 <ContactFilter QueryModel="query" Callback="RefreshListFilter"></ContactFilter>
@@ -45,7 +46,7 @@
 {
     <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
 }
-
+<DetailContactModal @ref=detailContactModal Model="SelectedModel" Callback="RefreshList"></DetailContactModal>
 
 @code {
     [Parameter]
@@ -65,6 +66,9 @@
     private bool isLoaded { get; set; }
 
     GetContactsWithPaginationQueryVM query = new GetContactsWithPaginationQueryVM();
+
+    DetailContactModal? detailContactModal;
+    private ContactVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
@@ -110,9 +114,11 @@
         await RefreshList();
     }
 
-    protected async Task DetailReport(ContactVM blog)
+    protected async Task DetailReport(ContactVM contact)
     {
+        SelectedModel = contact;
 
+        detailContactModal?.ShowModal();
     }
 
     protected async Task DeleteReport(ContactVM report)

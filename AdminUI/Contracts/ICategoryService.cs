@@ -1,4 +1,5 @@
-﻿using AdminUI.Models.Category;
+﻿using AdminUI.Models;
+using AdminUI.Models.Category;
 using AdminUI.Services.Base;
 
 namespace AdminUI.Contracts
@@ -16,5 +17,6 @@ namespace AdminUI.Contracts
         // commands
         Task<ApiResponse<Guid>> CreateCategory(CategoryVM post);
         Task RemoveCategory(RemoveCategoryCommandVM category);
+        Task<ApiResponseVM> UpdateCategory(UpdateCategoryCommandVM category);
     }
 }

@@ -3,6 +3,7 @@ using AdminUI.Contracts;
 using AdminUI.Models.Category;
 using AdminUI.Services.Base;
 using AdminUI.Services.Common;
+using AdminUI.Models;
 
 namespace AdminUI.Services
 {
@@ -87,6 +88,14 @@ namespace AdminUI.Services
         {
             RemoveCategoryCommand command = _mapper.Map<RemoveCategoryCommand>(category);
             await _client.RemoveCategoryAsync(command);
+        }
+
+        public async Task<ApiResponseVM> UpdateCategory(UpdateCategoryCommandVM category)
+        {
+            var updateCategoryCommand = _mapper.Map<UpdateCategoryCommand>(category);
+            var data = await _client.UpdateCategoryAsync(updateCategoryCommand);
+
+            return _mapper.Map<ApiResponseVM>(data);
         }
     }
 }

@@ -111,5 +111,12 @@ namespace AdminUI.Services
             var response = await _client.PinHeadingAsync(pinCommand);
             return _mapper.Map<ApiResponseVM>(response);
         }
+
+        public async Task<ApiResponseVM> UpdateHeading(UpdateHeadingCommandVM command)
+        {
+            UpdateHeadingCommand updateHeading = _mapper.Map<UpdateHeadingCommand>(command);
+            var response = await _client.UpdateHeadingAsync(updateHeading);
+            return _mapper.Map<ApiResponseVM>(response);
+        }
     }
 }

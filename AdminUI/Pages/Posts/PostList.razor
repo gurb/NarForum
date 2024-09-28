@@ -1,4 +1,5 @@
 ﻿@page "/post/list"
+@using AdminUI.Pages.Posts.Modal
 
 <h3>Post</h3>
 
@@ -54,6 +55,7 @@
     <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
 }
 
+<DetailPostModal @ref=detailPostModal Model="SelectedModel" Callback="RefreshList"></DetailPostModal>
 
 @code {
     [Parameter]
@@ -72,6 +74,9 @@
     private int CurrentPage = 1;
 
     private bool isLoaded { get; set; }
+
+    DetailPostModal? detailPostModal;
+    private PostVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
@@ -118,9 +123,11 @@
         await RefreshList();
     }
 
-    protected async Task DetailPost(PostVM post)
+    protected void DetailPost(PostVM post)
     {
+        SelectedModel = post;
 
+        detailPostModal?.ShowModal();
     }
 
     protected async Task DeletePost(PostVM post)

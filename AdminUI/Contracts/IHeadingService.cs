@@ -21,5 +21,7 @@ namespace AdminUI.Contracts
         Task RemoveHeading(RemoveHeadingCommandVM heading);
         Task<ApiResponseVM> LockHeading(LockHeadingCommandVM command);
         Task<ApiResponseVM> PinHeading(PinHeadingCommandVM command);
+        Task<ApiResponseVM> UpdateHeading(UpdateHeadingCommandVM command);
+
     }
 }

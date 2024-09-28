@@ -1,4 +1,5 @@
 ﻿@page "/section/list"
+@using AdminUI.Pages.Sections.Modal
 
 <h3>Section List</h3>
 
@@ -33,13 +34,12 @@
                         </div>
                     </td>
                     <td class="text-end align-middle">
-                        <button type="button" class="btn btn-warning" @onclick="() => DetailSection(sec)"><i class="bi bi-pencil-square"></i></button>
+                        <button type="button" class="btn btn-warning" @onclick="() => UpdateSection(sec)"><i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-primary" @onclick="() => DetailSection(sec)"><i class="bi bi-card-text"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DeleteSection(sec)"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
             }
-
         }
 
     </tbody>
@@ -50,6 +50,10 @@
 {
     <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
 }
+
+<DetailSectionModal @ref=detailSectionModal Model="SelectedModel" Callback="RefreshList"></DetailSectionModal>
+<UpdateSectionModal @ref=updateSectionModal Model="SelectedModel" Callback="RefreshList"></UpdateSectionModal>
+
 
 @code {
     [Parameter]
@@ -68,6 +72,10 @@
     private int CurrentPage = 1;
 
     private bool isLoaded { get; set; }
+
+    UpdateSectionModal? updateSectionModal;
+    DetailSectionModal? detailSectionModal;
+    private SectionVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
@@ -114,7 +122,16 @@
 
     protected async Task DetailSection(SectionVM sec)
     {
+        SelectedModel = sec;
 
+        detailSectionModal?.ShowModal();
+    }
+
+    private void UpdateSection(SectionVM sec)
+    {
+        SelectedModel = sec;
+
+        updateSectionModal?.ShowModal();
     }
 
     protected async Task DeleteSection(SectionVM sec)

@@ -40,12 +40,15 @@ namespace AdminUI.MappingProfiles
             CreateMap<SectionsPaginationDTO, SectionPaginationVM>().ReverseMap();
             CreateMap<RemoveSectionCommand, RemoveSectionCommandVM>().ReverseMap();
             CreateMap<GetSectionsWithPaginationQuery, SectionPaginationQueryVM>().ReverseMap();
+            CreateMap<UpdateSectionCommand, SectionVM>().ReverseMap();
+
 
             CreateMap<CategoryDTO, CategoryVM>().ReverseMap();
             CreateMap<CreateCategoryCommand, CategoryVM>().ReverseMap();
             CreateMap<CategoriesPaginationDTO, CategoriesPaginationVM>().ReverseMap();
             CreateMap<GetCategoriesWithPaginationQuery, CategoriesPaginationQueryVM>().ReverseMap();
             CreateMap<RemoveCategoryCommand, RemoveCategoryCommandVM>().ReverseMap();
+            CreateMap<UpdateCategoryCommand, UpdateCategoryCommandVM>().ReverseMap();
 
             CreateMap<HeadingDTO, HeadingVM>().ReverseMap();
             CreateMap<HeadingsPaginationDTO, HeadingsPaginationVM>().ReverseMap();
@@ -54,6 +57,7 @@ namespace AdminUI.MappingProfiles
             CreateMap<RemoveHeadingCommand, RemoveHeadingCommandVM>().ReverseMap();
             CreateMap<PinHeadingCommand, PinHeadingCommandVM>().ReverseMap();
             CreateMap<LockHeadingCommand, LockHeadingCommandVM>().ReverseMap();
+            CreateMap<UpdateHeadingCommand, UpdateHeadingCommandVM>().ReverseMap();
 
             CreateMap<UserInfoResponse, UserInfoVM>().ReverseMap();
             CreateMap<GetUsersWithPaginationQuery, UsersPaginationQueryVM>().ReverseMap();

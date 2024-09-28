@@ -1,0 +1,69 @@
+﻿@using AdminUI.Models.Section
+@using AdminUI.Services.UI
+<Modal @ref="modal" ModalTitle="Update Section" Callback="@HandleUpdate">
+    @if (Model is not null)
+    {
+        <EditForm Model="@Model" OnValidSubmit="HandleUpdate">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Name</label>
+                <InputText id="Name" class="form-control" @bind-Value="@Model.Name"></InputText>
+                <ValidationMessage For="@(() => Model.Name)" />
+            </div>
+        </EditForm>
+    }
+</Modal>
+
+@code {
+    Modal? modal;
+
+    [Parameter]
+    public SectionVM? Model { get; set; }
+
+    [Inject]
+    private ISectionService? SectionService { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    public void ShowModal()
+    {
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        modal?.CloseModal();
+    }
+
+    protected async Task HandleUpdate()
+    {
+        if (Model is not null && SectionService is not null)
+        {
+            SectionVM section = new SectionVM
+            {
+                Id = Model.Id,
+                Name = Model.Name,
+            };
+
+            var response = await SectionService.UpdateSection(section);
+
+            if (response.IsSuccess)
+            {
+                // updated
+                if (Callback.HasDelegate)
+                {
+                    await Callback.InvokeAsync();
+                }
+
+                CloseModal();
+            }
+        }
+    }
+}

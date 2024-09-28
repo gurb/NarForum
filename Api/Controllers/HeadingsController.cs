@@ -2,6 +2,7 @@
 using Application.Features.Heading.Commands.LockHeading;
 using Application.Features.Heading.Commands.PinHeading;
 using Application.Features.Heading.Commands.RemoveHeading;
+using Application.Features.Heading.Commands.UpdateHeading;
 using Application.Features.Heading.Queries;
 using Application.Features.Heading.Queries.GetHeading;
 using Application.Features.Heading.Queries.GetHeadings;
@@ -131,6 +132,13 @@ namespace Api.Controllers
         {
             var response = await _mediator.Send(command);
             return Ok(response);
+        }
+
+        [HttpPost("UpdateHeading")]
+        public async Task<ApiResponse> UpdateHeading(UpdateHeadingCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return response;
         }
 
         [HttpPost("LockHeading")]

@@ -1,0 +1,64 @@
+﻿<Modal @ref="modal" ModalTitle="Detail Post">
+    @if (Model is not null)
+    {
+        <table class="table table-bordered table-hover caption-top forum-table">
+            <thead>
+                <tr>
+                    <th style="width:50%">Field</th>
+                    <th style="width:50%">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="align-middle">Id</td>
+                    <td class="align-middle">@Model.Id</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">Title</td>
+                    <td class="align-middle">@Model.HeadingTitle</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">Category</td>
+                    <td class="align-middle">@Model.CategoryName</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">User</td>
+                    <td class="align-middle">@Model.UserName</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">User Id</td>
+                    <td class="align-middle">@Model.UserId</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">Content</td>
+                    <td class="align-middle">@((MarkupString)Model.Content)</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</Modal>
+
+@code {
+    Modal? modal;
+
+    [Parameter]
+    public PostVM? Model { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    public void ShowModal()
+    {
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        modal?.CloseModal();
+    }
+}

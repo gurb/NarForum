@@ -4,6 +4,7 @@ using AdminUI.Models.Section;
 using AdminUI.Services.Base;
 using AdminUI.Services.Common;
 using AdminUI.Models.Category;
+using AdminUI.Models;
 
 namespace AdminUI.Services;
 
@@ -56,5 +57,15 @@ public class SectionService : BaseHttpService, ISectionService
     {
         RemoveSectionCommand command = _mapper.Map<RemoveSectionCommand>(section);
         await _client.RemoveSectionAsync(command);
+    }
+
+    public async Task<ApiResponseVM> UpdateSection(SectionVM section)
+    {
+        var updateSectionCommand = _mapper.Map<UpdateSectionCommand>(section);
+        var response = await _client.UpdateSectionAsync(updateSectionCommand);
+
+        var responseVM = _mapper.Map<ApiResponseVM>(response);
+
+        return responseVM;
     }
 }
