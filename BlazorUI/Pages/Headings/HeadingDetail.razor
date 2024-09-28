@@ -41,22 +41,29 @@ else
                 </h1>
             </div>
             <div class="col-sm-1 heading-control">
-                @if (Heading.IsLock)
-                {
-                    <i class="bi bi-lock-fill" @onclick="() => LockHeading(Heading)"></i>
-                }
-                else
-                {
-                    <i class="bi bi-lock" @onclick="() => LockHeading(Heading)"></i>
-                }
-                @if (Heading.IsPin)
-                {
-                    <i class="bi bi-pin-fill" @onclick="() => PinHeading(Heading)"></i>
-                }
-                else
-                {
-                    <i class="bi bi-pin" @onclick="() => PinHeading(Heading)"></i>
-                }
+                <AuthorizeView>
+                    <Authorized>
+                        @if (Heading.IsLock)
+                        {
+                            <i class="bi bi-lock-fill" @onclick="() => LockHeading(Heading)"></i>
+                        }
+                        else
+                        {
+                            <i class="bi bi-lock" @onclick="() => LockHeading(Heading)"></i>
+                        }
+                        @if (Heading.IsPin)
+                        {
+                            <i class="bi bi-pin-fill" @onclick="() => PinHeading(Heading)"></i>
+                        }
+                        else
+                        {
+                            <i class="bi bi-pin" @onclick="() => PinHeading(Heading)"></i>
+                        }
+                    </Authorized>
+                    <NotAuthorized>
+
+                    </NotAuthorized>
+                </AuthorizeView>
             </div>
         </div>
 
@@ -82,11 +89,18 @@ else
     <Pagination MinVersion=min768 TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
     @if(Heading.IsLock)
     {
-        <p>The heading is locked by moderators and not accept new posts.</p>        
+        <p class="lock-message-for-heading">The heading is locked by moderators and not accept new posts.</p>
     }
     else
     {
-        <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingGuid" Callback="RefreshPosts"></CreatePostForm>
+        <AuthorizeView>
+            <Authorized>
+                <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingGuid" Callback="RefreshPosts"></CreatePostForm>
+            </Authorized>
+            <NotAuthorized>
+                <p class="login-message-for-heading">You have to login to post this heading.</p>
+            </NotAuthorized>
+        </AuthorizeView>
     }
 }
 

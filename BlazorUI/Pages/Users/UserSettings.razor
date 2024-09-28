@@ -2,92 +2,101 @@
 @inject IConfiguration Configuration
 @inject HttpClient Http
 
-<div class="row">
-    <div class="col-6">
-        <h1 class="user-settings-title">User Settings</h1>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-4">
-        <div class="d-flex flex-column align-items-center text-center">
-            @* <span class="font-weight-bold">@Model.UserName</span> *@
-            <span> </span>
-            <div class="user-profile-no-image">
-                @if (imageExist && imageUrl is not null && request.IsChangeImage == false)
-                {
-                    <img class="profile-image-user" src="@imageUrl" alt="User Profile Image" />
-                }
-                else if (request.ProfileImageBase64 is not null && request.IsChangeImage)
-                {
-                    <img class="profile-image-user" src="data:image/png;base64, @request.ProfileImageBase64" alt="User Profile Image" />
-                }
-                else
-                {
-                    <span class="no-image-user"><i class="bi bi-person-fill"></i></span>
-                }
+<AuthorizeView>
+    <Authorized>
+        <div class="row">
+            <div class="col-6">
+                <h1 class="user-settings-title">User Settings</h1>
             </div>
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <button class="user-settings-button float-none w-100 mt-3 mb-2">
-                        <InputFile class="unvisible-input-file" OnChange="LoadFile"></InputFile><i class="bi bi-image"></i> Update
-                    </button>
-                </div>
-                <div class="col-sm-12">
-                    <button class="user-settings-button float-none w-100"><i class="bi bi-trash"></i> Remove</button>
-                </div>
-            </div>
-
         </div>
-    </div>
-    <div class="col-sm-8 user-profile-info">
-        <form @onsubmit=OnSaveChanges>
-            <div class="mb-3">
-                <label for="exampleInputUserName" class="form-label">UserName</label>
-                <input type="text" @bind-value=request.UserName class="form-control" id="exampleInputUserName" aria-describedby="userNameHelp">
-                <div id="userNameHelp" class="form-text">Change your username if it is not taken</div>
-            </div>
-            <div class="form-check mb-3">
-                <input class="form-check-input" @bind=request.IsChangePassword type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Change Password
-                </label>
-            </div>
-            @if(request.IsChangePassword)
-            {
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">New Password</label>
-                    <input type="password" @bind-value=request.NewPassword class="form-control" id="exampleInputPassword1">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="d-flex flex-column align-items-center text-center">
+                    @* <span class="font-weight-bold">@Model.UserName</span> *@
+                    <span> </span>
+                    <div class="user-profile-no-image">
+                        @if (imageExist && imageUrl is not null && request.IsChangeImage == false)
+                        {
+                            <img class="profile-image-user" src="@imageUrl" alt="User Profile Image" />
+                        }
+                        else if (request.ProfileImageBase64 is not null && request.IsChangeImage)
+                        {
+                            <img class="profile-image-user" src="data:image/png;base64, @request.ProfileImageBase64" alt="User Profile Image" />
+                        }
+                        else
+                        {
+                            <span class="no-image-user"><i class="bi bi-person-fill"></i></span>
+                        }
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button class="user-settings-button float-none w-100 mt-3 mb-2">
+                                <InputFile class="unvisible-input-file" OnChange="LoadFile"></InputFile><i class="bi bi-image"></i> Update
+                            </button>
+                        </div>
+                        <div class="col-sm-12">
+                            <button class="user-settings-button float-none w-100"><i class="bi bi-trash"></i> Remove</button>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
-                    <input type="password" @bind-value=request.ConfirmPassword class="form-control" id="exampleInputPassword1">
-                    @if (request.NewPassword != request.ConfirmPassword)
+            </div>
+            <div class="col-sm-8 user-profile-info">
+                <form @onsubmit=OnSaveChanges>
+                    <div class="mb-3">
+                        <label for="exampleInputUserName" class="form-label">UserName</label>
+                        <input type="text" @bind-value=request.UserName class="form-control" id="exampleInputUserName" aria-describedby="userNameHelp">
+                        <div id="userNameHelp" class="form-text">Change your username if it is not taken</div>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" @bind=request.IsChangePassword type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Change Password
+                        </label>
+                    </div>
+                    @if (request.IsChangePassword)
                     {
-                        <div class="alert alert-danger mt-2" role="alert">
-                            New password not equal with confirm password.
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">New Password</label>
+                            <input type="password" @bind-value=request.NewPassword class="form-control" id="exampleInputPassword1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+                            <input type="password" @bind-value=request.ConfirmPassword class="form-control" id="exampleInputPassword1">
+                            @if (request.NewPassword != request.ConfirmPassword)
+                            {
+                                <div class="alert alert-danger mt-2" role="alert">
+                                    New password not equal with confirm password.
+                                </div>
+                            }
                         </div>
                     }
-                </div>
-            }
-            else
-            {
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">New Password</label>
-                    <input type="password" @bind-value=request.NewPassword class="form-control" id="exampleInputPassword1" disabled>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
-                    <input type="password" @bind-value=request.ConfirmPassword class="form-control" id="exampleInputPassword1" disabled>
-                </div>
-            }
-            
-            <div class="mb-3 text-end">
-                <button type="submit" class="user-settings-button"><i class="bi bi-floppy-fill"></i> Save Changes</button>
+                    else
+                    {
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">New Password</label>
+                            <input type="password" @bind-value=request.NewPassword class="form-control" id="exampleInputPassword1" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+                            <input type="password" @bind-value=request.ConfirmPassword class="form-control" id="exampleInputPassword1" disabled>
+                        </div>
+                    }
+
+                    <div class="mb-3 text-end">
+                        <button type="submit" class="user-settings-button"><i class="bi bi-floppy-fill"></i> Save Changes</button>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <BlazorUI.Pages.ErrorPages.Page401></BlazorUI.Pages.ErrorPages.Page401>
+    </NotAuthorized>
+</AuthorizeView>
+
+
 
 
 @code {

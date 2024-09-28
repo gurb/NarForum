@@ -3,7 +3,14 @@
 <div class="row category-card-body align-items-center">
     <div class="col-sm-6" style="display: flex;align-items: center;">
         <i class="bi bi-journals category-normal-icon" style="font-size:1.5em;margin-right:20px;"></i>
-        <i class="bi bi-pencil-square category-edit-button" style="font-size:1.5em;margin-right:20px;cursor:pointer" @onclick=UpdateCategory></i>
+        <AuthorizeView>
+            <Authorized>
+                <i class="bi bi-pencil-square category-edit-button" style="font-size:1.5em;margin-right:20px;cursor:pointer" @onclick=UpdateCategory></i>
+            </Authorized>
+            <NotAuthorized>
+                <i class="bi bi-journals category-edit-button" style="font-size:1.5em;margin-right:20px;"></i>
+            </NotAuthorized>
+        </AuthorizeView>
         <div>
             <a href="@url" class="link-category-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.Name </a>
             <p class="category-card-description">@Model.Description</p>
