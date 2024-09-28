@@ -50,8 +50,8 @@
                     <td class="align-middle">@heading.UserName</td>
                     <td class="align-middle">@heading.ActiveDate</td>
                     <td class="text-end align-middle">
-                        <button type="button" class="btn btn-secondary" @onclick="() => DetailHeading(heading)"><i class="bi bi-pin-fill"></i></button>
-                        <button type="button" class="btn btn-secondary" @onclick="() => DetailHeading(heading)"><i class="bi bi-lock-fill"></i></button>
+                        <button type="button" class="btn btn-secondary" @onclick="() => PinHeading(heading)"><i class="bi bi-pin-fill"></i></button>
+                        <button type="button" class="btn btn-secondary" @onclick="() => LockHeading(heading)"><i class="bi bi-lock-fill"></i></button>
                         <button type="button" class="btn btn-warning" @onclick="() => UpdateHeading(heading)"><i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-primary" @onclick="() => DetailHeading(heading)"><i class="bi bi-card-text"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DeleteHeading(heading)"><i class="bi bi-trash"></i></button>
@@ -125,7 +125,7 @@
     {
         query.PageIndex = 1;
         CurrentPage = 1;
-        
+
         await RefreshList();
     }
 
@@ -144,11 +144,42 @@
         detailHeadingModal?.ShowModal();
     }
 
+    protected async Task PinHeading(HeadingVM heading)
+    {
+        PinHeadingCommandVM command = new PinHeadingCommandVM
+        {
+            Id = heading.Id
+        };
+
+        var response = await HeadingService.PinHeading(command);
+
+        if (response.IsSuccess)
+        {
+            await RefreshList();
+        }
+    }
+
+    protected async Task LockHeading(HeadingVM heading)
+    {
+        LockHeadingCommandVM command = new LockHeadingCommandVM
+        {
+            Id = heading.Id
+        };
+
+        var response = await HeadingService.LockHeading(command);
+
+        if(response.IsSuccess)
+        {
+            await RefreshList();
+        }
+    }
+
     private void UpdateHeading(HeadingVM heading)
     {
         SelectedModel = heading;
 
         updateHeadingModal?.ShowModal();
+
     }
 
     protected async Task DeleteHeading(HeadingVM heading)
