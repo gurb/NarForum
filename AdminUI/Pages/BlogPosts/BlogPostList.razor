@@ -44,7 +44,7 @@
                     }
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-warning" @onclick="() => DetailBlogPost(blogPost)"><i class="bi bi-pencil-square"></i></button>
-                        <button type="button" class="btn btn-danger" @onclick="() => DetailBlogPost(blogPost)"><i class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteBlogPost(blogPost)"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
             }
@@ -57,6 +57,9 @@
 {
     <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
 }
+
+<ConfirmModal @ref=deleteBlogPostModal Callback="DeleteBlogPostCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this blog post?"></ConfirmModal>
+
 
 
 @code {
@@ -80,6 +83,9 @@
     private bool isLoaded { get; set; }
 
     GetBlogPostsWithPaginationQueryVM query = new GetBlogPostsWithPaginationQueryVM();
+
+    ConfirmModal? deleteBlogPostModal;
+    private BlogPostVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
@@ -131,14 +137,30 @@
         NavigationManager.NavigateTo($"blog/update/post/{blog.Title.ToFriendlyUrl()}/{blog.Id}");
     }
 
-    protected async Task DeleteCategory(BlogPostVM blogPost)
-    {
-        RemoveBlogPostCommandVM command = new RemoveBlogPostCommandVM
-        {
-            Id = blogPost.Id.Value
-        };
 
-        await BlogPostService.RemoveBlogPost(command);
+
+    private void DeleteBlogPost(BlogPostVM blogPost)
+    {
+        SelectedModel = blogPost;
+        deleteBlogPostModal?.ShowModal();
+    }
+
+    protected async Task DeleteBlogPostCallback()
+    {
+        if (SelectedModel is not null)
+        {
+            RemoveBlogPostCommandVM command = new RemoveBlogPostCommandVM
+            {
+                Id = SelectedModel.Id
+            };
+
+            var response = await BlogPostService.RemoveBlogPost(command);
+            if (response.IsSuccess)
+            {
+                await RefreshList();
+                deleteBlogPostModal?.CloseModal();
+            }
+        }
     }
 
     protected void DirectCreateBlogPost()

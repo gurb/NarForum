@@ -70,6 +70,7 @@
 
 <UpdateHeadingModal @ref=updateHeadingModal Model="SelectedModel" Callback="RefreshList"></UpdateHeadingModal>
 <DetailHeadingModal @ref=detailHeadingModal Model="SelectedModel" Callback="RefreshList"></DetailHeadingModal>
+<ConfirmModal @ref=deleteHeadingModal Callback="DeleteHeadingCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this heading?"></ConfirmModal>
 
 @code {
     [Parameter]
@@ -91,6 +92,7 @@
 
     UpdateHeadingModal? updateHeadingModal;
     DetailHeadingModal? detailHeadingModal;
+    ConfirmModal? deleteHeadingModal;
     private HeadingVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
@@ -182,13 +184,24 @@
 
     }
 
-    protected async Task DeleteHeading(HeadingVM heading)
+    private void DeleteHeading(HeadingVM heading)
     {
-        RemoveHeadingCommandVM command = new RemoveHeadingCommandVM
-        {
-            HeadingId = heading.Id
-        };
+        SelectedModel = heading;
+        deleteHeadingModal?.ShowModal();
+    }
 
-        await HeadingService.RemoveHeading(command);
+    protected async Task DeleteHeadingCallback()
+    {
+        if (SelectedModel is not null)
+        {
+            RemoveHeadingCommandVM command = new RemoveHeadingCommandVM
+            {
+                HeadingId = SelectedModel.Id
+            };
+
+            await HeadingService.RemoveHeading(command);
+            await RefreshList();
+            deleteHeadingModal?.CloseModal();
+        }
     }
 }

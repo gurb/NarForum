@@ -25,6 +25,8 @@ namespace Application.Features.Section.Queries.GetSectionsWithPagination
 
             var predicate = PredicateBuilder.True<Domain.Section>();
 
+            predicate = predicate.And(x => x.IsActive);
+
             categories = await _sectionRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value);
             var data = _mapper.Map<List<SectionDTO>>(categories);
 

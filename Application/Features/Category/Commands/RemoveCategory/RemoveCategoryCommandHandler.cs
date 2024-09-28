@@ -39,8 +39,6 @@ namespace Application.Features.Category.Commands.RemoveCategory
                 var message = ex.Message;
             }
             return Guid.Empty;
-
-            // return record id
         }
     }
 }

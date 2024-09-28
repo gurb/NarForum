@@ -33,7 +33,7 @@
                     <td class="align-middle">@staticPage.Title</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-warning" @onclick="() => DetailStaticPage(staticPage)"><i class="bi bi-pencil-square"></i></button>
-                        <button type="button" class="btn btn-danger" @onclick="() => DetailStaticPage(staticPage)"><i class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteStaticPage(staticPage)"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
             }
@@ -47,6 +47,7 @@
     <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
 }
 
+<ConfirmModal @ref=deleteStaticPageModal Callback="DeleteStaticPageCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this static page?"></ConfirmModal>
 
 @code {
     [Parameter]
@@ -69,6 +70,9 @@
     private bool isLoaded { get; set; }
 
     GetStaticPagesWithPaginationQueryVM query = new GetStaticPagesWithPaginationQueryVM();
+
+    ConfirmModal? deleteStaticPageModal;
+    private StaticPageVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
@@ -132,5 +136,30 @@
     protected void DirectCreateStaticPage()
     {
         NavigationManager.NavigateTo("pages/create/staticpage");
+    }
+
+    private void DeleteStaticPage(StaticPageVM staticPage)
+    {
+        SelectedModel = staticPage;
+        deleteStaticPageModal?.ShowModal();
+    }
+
+    protected async Task DeleteStaticPageCallback()
+    {
+        if (SelectedModel is not null)
+        {
+            RemoveStaticPageCommandVM command = new RemoveStaticPageCommandVM
+            {
+                Id = SelectedModel.Id
+            };
+
+            var response = await PageService.RemoveStaticPage(command);
+            if(response.IsSuccess)
+            {
+                await RefreshList();
+                deleteStaticPageModal?.CloseModal();
+            }
+
+        }
     }
 }

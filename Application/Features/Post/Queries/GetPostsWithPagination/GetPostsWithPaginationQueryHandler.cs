@@ -37,6 +37,8 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
 
             var predicate = PredicateBuilder.True<Domain.Post>();
 
+            predicate = predicate.And(x => x.IsActive);
+
             if(request.PostId != null)
             {
                 predicate = predicate.And(x => x.Id == request.PostId);

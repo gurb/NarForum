@@ -24,6 +24,8 @@ namespace Application.Features.Category.Queries.GetCategoriesWithPagination
 
             var predicate = PredicateBuilder.True<Domain.Category>();
 
+            predicate = predicate.And(x => x.IsActive);
+
             if(!String.IsNullOrEmpty(request.Name))
             {
                 predicate = predicate.And(x => x.Name.ToLower().Contains(request.Name.ToLower()));

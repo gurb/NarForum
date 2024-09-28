@@ -23,6 +23,8 @@ namespace Application.Features.Report.Queries.GetReportsWithPagination
 
             var predicate = PredicateBuilder.True<Domain.Report>();
 
+            predicate = predicate.And(x => x.IsActive);
+
             if (request.HeadingId != null)
             {
                 predicate = predicate.And(x => x.HeadingId == request.HeadingId);

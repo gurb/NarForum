@@ -20,7 +20,9 @@ public class GetStaticPagesWithPaginationQueryHandler : IRequestHandler<GetStati
     { 
         var predicate = PredicateBuilder.True<Domain.StaticPage>();
 
-        if(request.SearchTitle != null)
+        predicate = predicate.And(x => x.IsActive);
+
+        if (request.SearchTitle != null)
         {
             predicate = predicate.And(x => x.Title.ToLower().Contains(request.SearchTitle.ToLower()));
         }

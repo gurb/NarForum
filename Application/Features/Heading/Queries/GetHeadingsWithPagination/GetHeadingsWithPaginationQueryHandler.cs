@@ -34,7 +34,9 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
 
             var predicate = PredicateBuilder.True<Domain.Heading>();
 
-            if(request.CategoryId is not null)
+            predicate = predicate.And(x => x.IsActive);
+
+            if (request.CategoryId is not null)
             {
 				predicate = predicate.And(x => x.CategoryId == request.CategoryId);
 			}

@@ -21,6 +21,8 @@ public class GetStaticPagesQueryHandler : IRequestHandler<GetStaticPagesQuery, L
 
         var predicate = PredicateBuilder.True<Domain.StaticPage>();
 
+        predicate = predicate.And(x => x.IsActive);
+
         var staticPages = await _pageRepository.GetAllAsync(predicate);
 
         var data = _mapper.Map<List<StaticPageDTO>>(staticPages);

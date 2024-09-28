@@ -34,7 +34,7 @@
                     <td class="align-middle">@report.PostId</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-primary" @onclick="() => DetailReport(report)"><i class="bi bi-card-text"></i></button>
-                        <button type="button" class="btn btn-danger" @onclick="() => DetailReport(report)"><i class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteReport(report)"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
             }
@@ -49,6 +49,7 @@
 }
 <DetailReportModal @ref=detailReportModal Model="SelectedModel" Callback="RefreshList"></DetailReportModal>
 
+<ConfirmModal @ref=deleteReportModal Callback="DeleteReportCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this report?"></ConfirmModal>
 
 @code {
     [Parameter]
@@ -70,6 +71,7 @@
     GetReportsWithPaginationQueryVM query = new GetReportsWithPaginationQueryVM();
 
     DetailReportModal? detailReportModal;
+    ConfirmModal? deleteReportModal;
     private ReportVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
@@ -122,13 +124,28 @@
         detailReportModal?.ShowModal();
     }
 
-    protected async Task DeleteReport(ReportVM report)
+    private void DeleteReport(ReportVM report)
     {
-        RemoveReportCommandVM command = new RemoveReportCommandVM
-        {
-            Id = report.Id
-        };
+        SelectedModel = report;
+        deleteReportModal?.ShowModal();
+    }
 
-        await ReportService.RemoveReport(command);
+
+    protected async Task DeleteReportCallback()
+    {
+        if (SelectedModel is not null)
+        {
+            RemoveReportCommandVM command = new RemoveReportCommandVM
+            {
+                Id = SelectedModel.Id
+            };
+
+            var response = await ReportService.RemoveReport(command);
+            if(response.IsSuccess)
+            {
+                await RefreshList();
+                deleteReportModal?.CloseModal();
+            }
+        }
     }
 }

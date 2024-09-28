@@ -59,8 +59,7 @@
 
 <UpdateCategoryModal @ref=updateCategoryModal Model="SelectedModel" Callback="RefreshList"></UpdateCategoryModal>
 <DetailCategoryModal @ref=detailCategoryModal Model="SelectedModel"></DetailCategoryModal>
-
-
+<ConfirmModal @ref=deleteCategoryModal Callback="DeleteCategoryCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this category?"></ConfirmModal>
 
 @code {
     [Parameter]
@@ -82,6 +81,7 @@
 
     UpdateCategoryModal? updateCategoryModal;
     DetailCategoryModal? detailCategoryModal;
+    ConfirmModal? deleteCategoryModal;
     private CategoryVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
@@ -142,14 +142,24 @@
         detailCategoryModal?.ShowModal();
     }
 
-
-    protected async Task DeleteCategory(CategoryVM category)
+    private void DeleteCategory(CategoryVM categoryVM)
     {
-        RemoveCategoryCommandVM command = new RemoveCategoryCommandVM
-        {
-            CategoryId = category.Id
-        };
+        SelectedModel = categoryVM;
+        deleteCategoryModal?.ShowModal();
+    }
 
-        await CategoryService.RemoveCategory(command);
+    protected async Task DeleteCategoryCallback()
+    {
+        if(SelectedModel is not null)
+        {
+            RemoveCategoryCommandVM command = new RemoveCategoryCommandVM
+                {
+                    CategoryId = SelectedModel.Id
+                };
+
+            await CategoryService.RemoveCategory(command);
+            await RefreshList();
+            deleteCategoryModal?.CloseModal();
+        }
     }
 }

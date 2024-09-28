@@ -56,6 +56,7 @@
 }
 
 <DetailPostModal @ref=detailPostModal Model="SelectedModel" Callback="RefreshList"></DetailPostModal>
+<ConfirmModal @ref=deletePostModal Callback="DeletePostCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this post?"></ConfirmModal>
 
 @code {
     [Parameter]
@@ -76,6 +77,7 @@
     private bool isLoaded { get; set; }
 
     DetailPostModal? detailPostModal;
+    ConfirmModal? deletePostModal;
     private PostVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
@@ -130,13 +132,24 @@
         detailPostModal?.ShowModal();
     }
 
-    protected async Task DeletePost(PostVM post)
+    private void DeletePost(PostVM post)
     {
-        RemovePostCommandVM command = new RemovePostCommandVM
-        {
-            PostId = post.Id
-        };
+        SelectedModel = post;
+        deletePostModal?.ShowModal();
+    }
 
-        await PostService.RemovePost(command);
+    protected async Task DeletePostCallback()
+    {
+        if (SelectedModel is not null)
+        {
+            RemovePostCommandVM command = new RemovePostCommandVM
+            {
+                PostId = SelectedModel.Id
+            };
+
+            await PostService.RemovePost(command);
+            await RefreshList();
+            deletePostModal?.CloseModal();
+        }
     }
 }

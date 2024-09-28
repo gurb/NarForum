@@ -32,8 +32,8 @@
                     <td scope="row" class="align-middle">@contact.Email</td>
                     <td class="align-middle">@contact.NameSurname</td>
                     <td class="text-end align-middle">
-                        <button type="button" class="btn btn-primary" @onclick="() => DetailReport(contact)"><i class="bi bi-card-text"></i></button>
-                        <button type="button" class="btn btn-danger" @onclick="() => DetailReport(contact)"><i class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailContact(contact)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteContact(contact)"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
             }
@@ -47,6 +47,7 @@
     <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
 }
 <DetailContactModal @ref=detailContactModal Model="SelectedModel" Callback="RefreshList"></DetailContactModal>
+<ConfirmModal @ref=deleteContactModal Callback="DeleteContactCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this contact?"></ConfirmModal>
 
 @code {
     [Parameter]
@@ -68,6 +69,7 @@
     GetContactsWithPaginationQueryVM query = new GetContactsWithPaginationQueryVM();
 
     DetailContactModal? detailContactModal;
+    ConfirmModal? deleteContactModal;
     private ContactVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
@@ -114,20 +116,35 @@
         await RefreshList();
     }
 
-    protected async Task DetailReport(ContactVM contact)
+    private void DetailContact(ContactVM contact)
     {
         SelectedModel = contact;
 
         detailContactModal?.ShowModal();
     }
 
-    protected async Task DeleteReport(ContactVM report)
+    private void DeleteContact(ContactVM contact)
     {
-        RemoveContactCommandVM command = new RemoveContactCommandVM
-        {
-            Id = report.Id
-        };
+        SelectedModel = contact;
+        deleteContactModal?.ShowModal();
+    }
 
-        await ContactService.RemoveContact(command);
+    protected async Task DeleteContactCallback()
+    {
+        if (SelectedModel is not null)
+        {
+            RemoveContactCommandVM command = new RemoveContactCommandVM
+            {
+                Id = SelectedModel.Id
+            };
+
+            var response = await ContactService.RemoveContact(command);
+
+            if(response.IsSuccess)
+            {
+                await RefreshList();
+                deleteContactModal?.CloseModal();
+            }
+        }
     }
 }

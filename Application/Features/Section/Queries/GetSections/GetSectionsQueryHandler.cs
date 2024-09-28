@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Persistence;
+using Application.Extensions.Core;
 using Application.Features.Post.Queries.GetAllPosts;
 using AutoMapper;
 using MediatR;
@@ -21,7 +22,10 @@ public class GetSectionsQueryHandler: IRequestHandler<GetSectionsQuery, List<Sec
         // query the database
         try
         {
-            var sections = await _sectionRepository.GetAsync();
+            var predicate = PredicateBuilder.True<Domain.Section>();
+            predicate = predicate.And(x => x.IsActive);
+
+            var sections = await _sectionRepository.GetAllAsync(predicate);
             var data = _mapper.Map<List<SectionDTO>>(sections);
 
             // return list of DTOs

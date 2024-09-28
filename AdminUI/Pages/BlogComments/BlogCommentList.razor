@@ -29,7 +29,7 @@
                     <td class="align-middle">@blogComment.Content</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-primary" @onclick="() => DetailBlogComment(blogComment)"><i class="bi bi-card-text"></i></button>
-                        <button type="button" class="btn btn-danger" @onclick="() => DetailBlogComment(blogComment)"><i class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteBlogComment(blogComment)"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
             }
@@ -43,6 +43,7 @@
     <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
 }
 
+<ConfirmModal @ref=deleteBlogCommentModal Callback="DeleteBlogCommentCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this blog comment?"></ConfirmModal>
 
 @code {
     [Parameter]
@@ -62,6 +63,9 @@
     private bool isLoaded { get; set; }
 
     GetBlogCommentsWithPaginationQueryVM query = new GetBlogCommentsWithPaginationQueryVM();
+
+    ConfirmModal? deleteBlogCommentModal;
+    private BlogCommentVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
@@ -112,13 +116,30 @@
 
     }
 
-    protected async Task DeleteBlogComment(BlogCommentVM blogComment)
+    private void DeleteBlogComment(BlogCommentVM blogComment)
     {
-        RemoveBlogCommentCommandVM command = new RemoveBlogCommentCommandVM
+        SelectedModel = blogComment;
+        deleteBlogCommentModal?.ShowModal();
+
+
+    }
+
+    protected async Task DeleteBlogCommentCallback()
+    {
+        if(SelectedModel is not null)
+        {
+            RemoveBlogCommentCommandVM command = new RemoveBlogCommentCommandVM
             {
-                Id = blogComment.Id
+                Id = SelectedModel.Id
             };
 
-        await BlogCommentService.RemoveBlogComment(command);
+            var response = await BlogCommentService.RemoveBlogComment(command);
+            if (response.IsSuccess)
+            {
+                await RefreshList();
+                deleteBlogCommentModal?.CloseModal();
+            }
+        }
+        
     }
 }

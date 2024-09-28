@@ -53,7 +53,7 @@
 
 <DetailSectionModal @ref=detailSectionModal Model="SelectedModel" Callback="RefreshList"></DetailSectionModal>
 <UpdateSectionModal @ref=updateSectionModal Model="SelectedModel" Callback="RefreshList"></UpdateSectionModal>
-
+<ConfirmModal @ref=deleteSectionModal Callback="DeleteSectionCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this section?"></ConfirmModal>
 
 @code {
     [Parameter]
@@ -75,6 +75,7 @@
 
     UpdateSectionModal? updateSectionModal;
     DetailSectionModal? detailSectionModal;
+    ConfirmModal? deleteSectionModal;
     private SectionVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
@@ -136,11 +137,23 @@
 
     protected async Task DeleteSection(SectionVM sec)
     {
-        RemoveSectionCommandVM command = new RemoveSectionCommandVM
-        {
-            SectionId = sec.Id
-        };
-
-        await SectionService.RemoveSection(command);
+        SelectedModel = sec;
+        deleteSectionModal?.ShowModal();
     }
+
+    protected async Task DeleteSectionCallback()
+    {
+        if (SelectedModel is not null)
+        {
+            RemoveSectionCommandVM command = new RemoveSectionCommandVM
+            {
+                SectionId = SelectedModel.Id
+            };
+
+            await SectionService.RemoveSection(command);
+            await RefreshList();
+            deleteSectionModal?.CloseModal();
+        }
+    }
+
 }
