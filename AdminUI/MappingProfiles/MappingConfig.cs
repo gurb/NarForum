@@ -64,6 +64,8 @@ namespace AdminUI.MappingProfiles
             CreateMap<GetUsersWithPaginationQuery, UsersPaginationQueryVM>().ReverseMap();
             CreateMap<UsersPaginationDTO, UsersPaginationVM>().ReverseMap();
             CreateMap<UpdateUserRequest, UpdateUserRequestVM>().ReverseMap();
+            CreateMap<ResetPasswordRequest, ResetPasswordRequestVM>().ReverseMap();
+
 
             CreateMap<LikeDTO, LikeVM>().ReverseMap();
             CreateMap<AddLikeCommand, LikeVM>().ReverseMap();

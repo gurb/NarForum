@@ -15,6 +15,8 @@ public class UserService : BaseHttpService, IUserService
         _mapper = mapper;
     }
 
+    
+
     public async Task<ApiResponseVM> ChangeUserSettings(ChangeUserSettingsRequestVM request)
     {
         var req = _mapper.Map<ChangeUserSettingsRequest>(request);
@@ -22,6 +24,8 @@ public class UserService : BaseHttpService, IUserService
 
         return _mapper.Map<ApiResponseVM>(response);
     }
+
+    
 
     public async Task<UserInfoVM> GetUserInfo(string userName)
     {
@@ -51,5 +55,35 @@ public class UserService : BaseHttpService, IUserService
         return data;
     }
 
-    
+    public async Task<ApiResponseVM> CreateResetPasswordRequest(ResetPasswordRequestVM request)
+    {
+        var req = _mapper.Map<ResetPasswordRequest>(request);
+        var response = await _client.CreateResetPasswordRequestAsync(req);
+
+        return _mapper.Map<ApiResponseVM>(response);
+    }
+
+    public async Task<ApiResponseVM> CheckResetPasswordRequest(Guid? Id)
+    {
+        var response = await _client.CheckResetPasswordRequestAsync(Id);
+        return _mapper.Map<ApiResponseVM>(response);
+    }
+
+    public async Task<ApiResponseVM> ChangeUserPassword(Guid? Id, string? newPassword, string? confirmPassword)
+    {
+        var response = await _client.ChangeUserPasswordAsync(Id, newPassword, confirmPassword);
+        return _mapper.Map<ApiResponseVM>(response);
+    }
+
+    public async Task<ApiResponseVM> CreateConfirmRequest()
+    {
+        var response = await _client.CreateConfirmRequestAsync();
+        return _mapper.Map<ApiResponseVM>(response);
+    }
+
+    public async Task<ApiResponseVM> VerifyEmailAddress(Guid? Id)
+    {
+        var response = await _client.VerifyEmailAddressAsync(Id);
+        return _mapper.Map<ApiResponseVM>(response);
+    }
 }

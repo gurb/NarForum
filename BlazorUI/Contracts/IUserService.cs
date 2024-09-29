@@ -10,5 +10,12 @@ namespace BlazorUI.Contracts
 
         Task<ApiResponseVM> ChangeUserSettings(ChangeUserSettingsRequestVM request);
 
+        public Task<ApiResponseVM> CreateResetPasswordRequest(ResetPasswordRequestVM request);
+        public Task<ApiResponseVM> CheckResetPasswordRequest(Guid? Id);
+        public Task<ApiResponseVM> ChangeUserPassword(Guid? Id, string? password, string? confirmPassword);
+
+        public Task<ApiResponseVM> CreateConfirmRequest();
+
+        public Task<ApiResponseVM> VerifyEmailAddress(Guid? Id);
     }
 }

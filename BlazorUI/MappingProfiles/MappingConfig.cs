@@ -118,6 +118,7 @@ namespace BlazorUI.MappingProfiles
             CreateMap<ImageBase64, ImageBase64VM>().ReverseMap();
 
             CreateMap<ChangeUserSettingsRequestVM, ChangeUserSettingsRequest>().ReverseMap();
+            CreateMap<ResetPasswordRequest, ResetPasswordRequestVM>().ReverseMap();
 
             CreateMap<ReportVM, ReportDTO>().ReverseMap();
             CreateMap<ReportsPaginationVM, ReportsPaginationDTO>().ReverseMap();
