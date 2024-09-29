@@ -4,14 +4,14 @@ using Application.Extensions.Core;
 using Application.Models;
 using Application.Models.Identity.User;
 using Application.Models.Persistence.Image;
-using Garnet.server.ACL;
+using Azure.Core;
 using Identity.DatabaseContext;
 using Identity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Identity.Services
 {
@@ -21,13 +21,15 @@ namespace Identity.Services
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly ForumIdentityDbContext _identityDbContext;
         private readonly IImageService _imageService;
+        private readonly IEmailSender _emailSender;
 
-        public UserService(UserManager<ForumUser> userManager, IHttpContextAccessor contextAccessor, ForumIdentityDbContext identityDbContext, IImageService imageService)
+        public UserService(UserManager<ForumUser> userManager, IHttpContextAccessor contextAccessor, ForumIdentityDbContext identityDbContext, IImageService imageService, IEmailSender emailSender)
         {
             _userManager = userManager;
             _contextAccessor = contextAccessor;
             _identityDbContext = identityDbContext;
             _imageService = imageService;
+            _emailSender = emailSender;
         }
 
         public string GetUserId()
@@ -47,6 +49,7 @@ namespace Identity.Services
                 UserName = currentUser.UserName,
                 Id = currentUser.Id,
                 RegisterDate = currentUser.RegisterDate,
+                EmailConfirmed = currentUser.EmailConfirmed,
             };
 
             return response;
@@ -346,6 +349,359 @@ namespace Identity.Services
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        public async Task<ApiResponse> CreateResetPasswordRequest(ResetPasswordRequest request)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                if(string.IsNullOrEmpty(request.Email))
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Email is null or empty";
+                    return response;
+                }
+
+                var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
+
+                if(updateUser != null)
+                {
+                    PasswordRequest passwordRequest = new PasswordRequest();
+                    passwordRequest.Email = updateUser.Email;
+                    passwordRequest.UserId = updateUser.Id;
+                    passwordRequest.UserName = updateUser.UserName;
+
+                    await _identityDbContext.PasswordRequests.AddAsync(passwordRequest);
+                    await _identityDbContext.SaveChangesAsync();
+
+                    var resetPasswordMessage = $"We've received a request to reset your password.\n\n" +
+                                               $"If you did not make the request, just ignore this message. Otherwise, you can reset your password.\n\n" +
+                                               $"Click the following link to reset password: https://localhost:7212/reset-password/{passwordRequest.Id}";
+
+
+                    if(passwordRequest.Email != null)
+                    {
+                        await _emailSender.SendMail(passwordRequest.Email, "gurbforum", "Resetting your gurbforum account password!", resetPasswordMessage);
+                    }
+
+                    response.Message = "Maybe we sent :)";
+                    return response;
+                }
+                else
+                {
+                    response.Message = "Maybe we sent :)";
+                    return response;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        // if user did not confirm mail address, the user could send verify email address message again.
+        public async Task<ApiResponse> CreateConfirmRequest()
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                var currentUser = await GetCurrentUser();
+
+                if(currentUser.EmailConfirmed)
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Already confirmed your email address";
+
+                    return response;
+                }
+                else
+                {
+                    var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == currentUser.Id);
+
+                    if (updateUser != null)
+                    {
+                        ConfirmRequest confirmRequest = new ConfirmRequest();
+                        confirmRequest.Email = updateUser.Email;
+                        confirmRequest.UserName = updateUser.UserName;
+                        confirmRequest.UserId = currentUser.Id;
+
+                        await _identityDbContext.ConfirmRequests.AddAsync(confirmRequest);
+                        await _identityDbContext.SaveChangesAsync();
+
+                        var verifyEmailMessage = $"Dear {updateUser.UserName},\n\n" +
+                                                   $"Thank you for signing up for gurbforum.com. We're excited to have you on board.\n\n" +
+                                                   $"Please confirm that you want to use this as your gurbforum account email address. Once it's done you will be able to use our forum" +
+                                                   $"Click the following link to confirm your email address: https://localhost:7212/verify-email-address/{confirmRequest.Id}";
+                        
+                        if(confirmRequest.Email != null)
+                        {
+                            await _emailSender.SendMail(confirmRequest.Email, "gurbforum", "[gurbforum] Verify your email address!", verifyEmailMessage);
+                        }
+                    }
+                    else
+                    {
+                        response.IsSuccess = false;
+                        response.Message = "user not found";
+
+                        return response;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
+
+        // it will be used for after success user registration
+        public async Task<ApiResponse> CreateConfirmRequestWithUserId(string? UserId)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == UserId);
+
+                if (updateUser != null)
+                {
+                    ConfirmRequest confirmRequest = new ConfirmRequest();
+                    confirmRequest.Email = updateUser.Email;
+                    confirmRequest.UserName = updateUser.UserName;
+                    confirmRequest.UserId = updateUser.Id;
+
+                    await _identityDbContext.ConfirmRequests.AddAsync(confirmRequest);
+                    await _identityDbContext.SaveChangesAsync();
+
+                    var verifyEmailMessage = $"Dear {updateUser.UserName},\n\n" +
+                                                $"Thank you for signing up for gurbforum.com. We're excited to have you on board.\n\n" +
+                                                $"Please confirm that you want to use this as your gurbforum account email address. Once it's done you will be able to use our forum" +
+                                                $"Click the following link to confirm your email address: https://localhost:7212/confirm-email-address/{confirmRequest.Id}";
+
+                    if (confirmRequest.Email != null)
+                    {
+                        await _emailSender.SendMail(confirmRequest.Email, "gurbforum", "[gurbforum] Verify your email address!", verifyEmailMessage);
+                    }
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.Message = "user not found";
+
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
+        public async Task<ApiResponse> CheckResetPasswordRequest(Guid? Id)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                if(Id != null)
+                {
+                    PasswordRequest? passwordRequest = await _identityDbContext.PasswordRequests.AsNoTracking().FirstOrDefaultAsync(x => x.Id == Id);
+
+                    if(passwordRequest != null)
+                    {
+                        if(passwordRequest.IsChanged)
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "Password is already changed";
+                            return response;
+                        }
+                        if (!passwordRequest.IsValid)
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "Password reset operation is not valid anymore";
+                            return response;
+                        }
+                        if(passwordRequest.IsValid && !passwordRequest.IsChanged)
+                        {
+                            response.Message = "Password can be changed";
+                            return response;
+                        }
+                    }
+                    else
+                    {
+                        response.IsSuccess = false;
+                        response.Message = "Not found a reset password request";
+                    }
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Id is null";
+                }
+            }
+            catch(Exception ex)
+            {
+                response.Message = ex.Message;
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
+        public async Task<ApiResponse> ChangeUserPassword(Guid? Id, string? newPassword, string? confirmPassword)
+        {
+            ApiResponse response = new ApiResponse();
+
+            if(!string.IsNullOrEmpty(newPassword))
+            {
+                response.IsSuccess = false;
+                response.Message = "New password is empty";
+                return response;
+            }
+
+            if (!string.IsNullOrEmpty(confirmPassword))
+            {
+                response.IsSuccess = false;
+                response.Message = "Confirm password is empty";
+                return response;
+            }
+
+            if (newPassword != confirmPassword)
+            {
+                response.IsSuccess = false;
+                response.Message = "Two passwords are not equal";
+                return response;
+            }
+
+
+            try
+            {
+                if (Id != null)
+                {
+                    PasswordRequest? passwordRequest = await _identityDbContext.PasswordRequests.FirstOrDefaultAsync(x => x.Id == Id);
+                    
+                    if(passwordRequest != null)
+                    {
+                        if (!passwordRequest.IsChanged && passwordRequest.IsValid)
+                        {
+                            var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == UserId);
+
+                            if (updateUser != null) 
+                            {
+                                var hasher = new PasswordHasher<ForumUser>();
+                                updateUser.PasswordHash = hasher.HashPassword(null, newPassword);
+
+                                _identityDbContext.Users.Update(updateUser);
+
+                                passwordRequest.IsChanged = true;
+                                passwordRequest.IsValid = false;
+
+                                _identityDbContext.PasswordRequests.Update(passwordRequest);
+
+                                await _identityDbContext.SaveChangesAsync();
+                                response.Message = "User password is changed successfully";
+                            }
+                            else
+                            {
+                                response.IsSuccess = false;
+                                response.Message = "User not found";
+                                return response;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        response.IsSuccess = false;
+                        response.Message = "Not found a reset password request";
+                    }
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Id is null.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.IsSuccess = false;
+            }
+
+            return response;
+        }
+
+        public async Task<ApiResponse> VerifyEmailAddress(Guid? Id)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                ConfirmRequest? confirmRequest = await _identityDbContext.ConfirmRequests.FirstOrDefaultAsync(x => x.Id == Id);
+
+                if(confirmRequest != null)
+                {
+                    if(confirmRequest.IsValid && !confirmRequest.IsVerified)
+                    {
+                        var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == confirmRequest.UserId);
+
+                        if(updateUser != null)
+                        {
+                            if(!updateUser.EmailConfirmed)
+                            {
+                                updateUser.EmailConfirmed = true;
+
+                                _identityDbContext.Users.Update(updateUser);
+
+                                confirmRequest.IsValid = false;
+                                confirmRequest.IsVerified = true;
+                                response.Message = "User's email address is verified successfully";
+                            }
+                            else
+                            {
+                                confirmRequest.IsValid = false;
+                                confirmRequest.IsVerified = false;
+
+                                response.IsSuccess = false;
+                                response.Message = "User's mail is already verified";
+                            }
+
+                            _identityDbContext.ConfirmRequests.Update(confirmRequest);
+                            await _identityDbContext.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "Not found user";
+                        }
+                    }
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Not found confirm request in the records";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.IsSuccess = false;
             }
 
             return response;

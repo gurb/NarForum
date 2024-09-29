@@ -1,4 +1,6 @@
-﻿using BlazorUI.Contracts;
+﻿using AutoMapper;
+using BlazorUI.Contracts;
+using BlazorUI.Models;
 using BlazorUI.Providers;
 using BlazorUI.Services.Base;
 using BlazorUI.Services.Common;
@@ -8,11 +10,13 @@ namespace BlazorUI.Services;
 
 public class AuthenticationService : BaseHttpService, IAuthenticationService
 {
+    private readonly IMapper _mapper;
     private readonly AuthenticationStateProvider _authenticationStateProvider;
 
-    public AuthenticationService(IClient client, LocalStorageService localStorage, AuthenticationStateProvider authenticationStateProvider) : base(client, localStorage)
+    public AuthenticationService(IClient client, LocalStorageService localStorage, IMapper mapper, AuthenticationStateProvider authenticationStateProvider) : base(client, localStorage)
     {
         _authenticationStateProvider = authenticationStateProvider;
+        _mapper = mapper;
     }
 
     public async Task<bool> AuthenticateAsync(string email, string password)
@@ -46,16 +50,12 @@ public class AuthenticationService : BaseHttpService, IAuthenticationService
         await ((ApiAuthenticationStateProvider)_authenticationStateProvider).LoggedOut();
     }
 
-    public async Task<bool> RegisterAsync(string firstName, string lastName, string userName, string email, string password)
+    public async Task<ApiResponseVM> RegisterAsync(string firstName, string lastName, string userName, string email, string password)
     {
         RegistrationRequest registrationRequest = new RegistrationRequest() { FirstName = firstName, LastName = lastName, UserName = userName, Email = email, Password = password };
 
         var response = await _client.RegisterAsync(registrationRequest);
 
-        if (!string.IsNullOrEmpty(response.UserId))
-        {
-            return true;
-        }
-        return false;
+        return _mapper.Map<ApiResponseVM>(response);
     }
 }

@@ -1,32 +1,47 @@
 ﻿@page "/login"
 
-<h3>Login</h3>
-@if (string.IsNullOrEmpty(Message) == false)
-{
-    <div class="alert alert-danger">
-        @Message
-    </div>
-}
+<main class="form-signin">
+    @if (string.IsNullOrEmpty(Message) == false)
+    {
+        <div class="alert alert-danger">
+            @Message
+        </div>
+    }
 
-<div class="row">
-    <div class="col-md-4">
-        <EditForm Model="@Model" OnValidSubmit="HandleLogin">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+    <EditForm Model="@Model" OnValidSubmit="HandleLogin">
+        @* <Logo LogoVM="LogoVM" LogoId="forum-logo-login"></Logo> *@
+        <h1 class="h5 mb-3 fw-normal text-center">Please sign in</h1>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-            <div class="form-group">
-                <label class="control-label">Email</label>
-                <InputText id="userName" class="form-control" @bind-Value="@Model.Email"></InputText>
-                <ValidationMessage For="@(() => Model.Email)" />
-            </div>
-            <div class="form-group">
-                <label class="control-label">Password</label>
-                <InputText type="password" id="password" class="form-control" @bind-Value="@Model.Password"></InputText>
-                <ValidationMessage For="@(() => Model.Password)" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
-            </div>
-        </EditForm>
-    </div>
-</div>
+        <div class="form-group">
+            <label class="control-label">Email</label>
+            <InputText id="userName" class="form-control" @bind-Value="@Model.Email"></InputText>
+            <ValidationMessage For="@(() => Model.Email)" />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Password</label>
+            <InputText type="password" id="password" class="form-control" @bind-Value="@Model.Password"></InputText>
+            <ValidationMessage For="@(() => Model.Password)" />
+        </div>
+
+        <div class="checkbox mb-3 mt-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <div class="mb-3 mt-3">
+            <label>
+                <a class="link-primary" href="reset-password">Forgot password?</a>
+            </label>
+        </div>
+        <div class="mb-3 mt-3">
+            <label>
+                You don't have account? <a class="link-primary" href="register">Register</a>
+            </label>
+        </div>
+        <button class="w-100 btn btn-forum mt-2 fw-normal" type="submit">Sign in</button>
+        <p class="mt-5 mb-3 text-muted">© 2024–@(DateTime.UtcNow.Year.ToString())</p>
+    </EditForm>
+   
+</main>

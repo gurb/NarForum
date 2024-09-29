@@ -20,4 +20,7 @@ public class RegisterVM
     [Required]
     [DataType(DataType.Password)]
     public string Password { get; set; }
+
+    [Required]
+    public bool IsAcceptUserTermsAndPolicy { get; set; }
 }

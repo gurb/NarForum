@@ -53,7 +53,7 @@ public class AuthenticationService : BaseHttpService, IAuthenticationService
 
         var response = await _client.RegisterAsync(registrationRequest);
 
-        if (!string.IsNullOrEmpty(response.UserId))
+        if (response.IsSuccess)
         {
             return true;
         }

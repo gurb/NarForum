@@ -21,5 +21,5 @@ public class RegistrationRequest
     [Required]
     [MinLength(6)]
     public string Password { get; set; }
-    public DateTimeOffset DateTime { get; set; }
+    public DateTime DateTime { get; set; }
 }

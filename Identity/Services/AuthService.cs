@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Identity;
 using Application.Exceptions;
+using Application.Models;
 using Application.Models.Identity;
 using Identity.Models;
 using Microsoft.AspNetCore.Http;
@@ -17,17 +18,20 @@ public class AuthService : IAuthService
     private readonly UserManager<ForumUser> _userManager;
     private readonly SignInManager<ForumUser> _signInManager;
     private readonly JwtSettings _jwtSettings;
+    private readonly IUserService _userService;
 
     public AuthService(
         UserManager<ForumUser> userManager, 
-        IOptions<JwtSettings> jwtSettings, 
-        SignInManager<ForumUser> signInManager
+        IOptions<JwtSettings> jwtSettings,
+        SignInManager<ForumUser> signInManager,
+        IUserService userService
         )
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _jwtSettings = jwtSettings.Value;
-    }
+        _userService = userService;
+     }
 
     public async Task<AuthResponse> Login(AuthRequest request)
     {
@@ -96,36 +100,53 @@ public class AuthService : IAuthService
     }
 
 
-    public async Task<RegistrationResponse> Register(RegistrationRequest request)
+    public async Task<ApiResponse> Register(RegistrationRequest request)
     {
-        var user = new ForumUser
-        {
-            Email = request.Email,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            UserName = request.UserName,
-            EmailConfirmed = true,
-        };
+        ApiResponse response = new ApiResponse();
 
-        var result = await _userManager.CreateAsync(user, request.Password);
-
-        if(result.Succeeded)
+        try
         {
-            await _userManager.AddToRoleAsync(user, "User");
-            return new RegistrationResponse
+            var user = new ForumUser
             {
-                UserId = user.Id,
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                UserName = request.UserName,
+                EmailConfirmed = false,
             };
-        } 
-        else
-        {
-            StringBuilder str = new StringBuilder();
-            foreach (var err in result.Errors)
+
+            var result = await _userManager.CreateAsync(user, request.Password);
+
+            if(result.Succeeded)
             {
-                str.AppendFormat($"- {0}\n", err.Description);
+                response.Message = "User registered successfully";
+
+                var sendVerifyMailResponse = await _userService.CreateConfirmRequestWithUserId(user.Id);
+
+                if(!sendVerifyMailResponse.IsSuccess)
+                {
+                    // failed to send verify mail address message to registered user.
+                }
+
+                return response;
             }
-            throw new BadRequestException(str.ToString());
+            else
+            {
+                foreach(var error in result.Errors)
+                {
+                    response.Message += error.Description + "\n"; 
+                }
+
+                response.IsSuccess = false;
+                return response;
+            }
+        }
+        catch (Exception ex) 
+        {
+            response.Message = ex.Message;
+            response.IsSuccess = false;
         }
 
+        return response;
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using BlazorUI.Services.Common;
 using Microsoft.AspNetCore.Components.Authorization;
 using BlazorUI.Services.UI;
+using BlazorUI.Models.Logo;
 
 namespace BlazorUI.Pages;
 
@@ -27,6 +28,8 @@ public partial class Login: IAsyncDisposable
 
     [Inject]
     public RefreshStateService RefreshStateService { get; set; }
+
+    LogoVM LogoVM { get; set; } = new LogoVM();
 
     public Login()
     {

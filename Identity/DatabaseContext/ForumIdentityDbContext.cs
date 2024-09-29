@@ -18,6 +18,8 @@ namespace Identity.DatabaseContext
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Chat> Chats { get; set; }
+        public DbSet<PasswordRequest> PasswordRequests { get; set; }
+        public DbSet<ConfirmRequest> ConfirmRequests { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -36,12 +36,12 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<RegistrationResponse> RegisterAsync(RegistrationRequest body);
+        System.Threading.Tasks.Task<ApiResponse> RegisterAsync(RegistrationRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<RegistrationResponse> RegisterAsync(RegistrationRequest body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ApiResponse> RegisterAsync(RegistrationRequest body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -1304,7 +1304,7 @@ namespace AdminUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<RegistrationResponse> RegisterAsync(RegistrationRequest body)
+        public virtual System.Threading.Tasks.Task<ApiResponse> RegisterAsync(RegistrationRequest body)
         {
             return RegisterAsync(body, System.Threading.CancellationToken.None);
         }
@@ -1312,7 +1312,7 @@ namespace AdminUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<RegistrationResponse> RegisterAsync(RegistrationRequest body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ApiResponse> RegisterAsync(RegistrationRequest body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1357,7 +1357,7 @@ namespace AdminUI.Services.Base
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<RegistrationResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -13449,15 +13449,6 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
         public System.DateTime DateTime { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class RegistrationResponse
-    {
-
-        [System.Text.Json.Serialization.JsonPropertyName("userId")]
-        public string UserId { get; set; }
 
     }
 

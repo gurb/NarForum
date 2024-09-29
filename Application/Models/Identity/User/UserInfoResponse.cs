@@ -16,7 +16,10 @@ namespace Application.Models.Identity.User
         public string? LastName { get; set; }
         public string? Email { get; set; }
         public bool IsBlocked { get; set; }
+
         public int PostCounter { get; set; }
         public int HeadingCounter { get; set; }
+
+        public bool EmailConfirmed { get; set; }
     }
 }

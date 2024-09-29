@@ -21,7 +21,7 @@ namespace Api.Controllers.Identity
         }
 
         [HttpPost("GetUserInfo")]
-        public async Task<UserInfoResponse> Register(UserInfoRequest request)
+        public async Task<UserInfoResponse> GetUserInfo(UserInfoRequest request)
         {
             return await _userService.GetUserInfo(request);
         }
@@ -50,6 +50,38 @@ namespace Api.Controllers.Identity
         public async Task<ApiResponse> BlockUser([FromBody] string? userId)
         {
             return await _userService.BlockUser(userId);
+        }
+
+        [HttpPost("CreateResetPasswordRequest")]
+        public async Task<ApiResponse> CreateResetPasswordRequest([FromBody] ResetPasswordRequest request)
+        {
+            return await _userService.CreateResetPasswordRequest(request);
+        }
+
+        [HttpPost("CheckResetPasswordRequest")]
+        public async Task<ApiResponse> CheckResetPasswordRequest(Guid? Id)
+        {
+            return await _userService.CheckResetPasswordRequest(Id);
+        }
+
+
+        [HttpPost("ChangeUserPassword")]
+        public async Task<ApiResponse> ChangeUserPassword(Guid? Id, string? password, string? confirmPassword)
+        {
+            return await _userService.ChangeUserPassword(Id, password, confirmPassword);
+        }
+
+
+        [HttpPost("CreateConfirmRequest")]
+        public async Task<ApiResponse> CreateConfirmRequest()
+        {
+            return await _userService.CreateConfirmRequest();
+        }
+
+        [HttpPost("VerifyEmailAddress")]
+        public async Task<ApiResponse> VerifyEmailAddress(Guid? Id)
+        {
+            return await _userService.VerifyEmailAddress(Id);
         }
     }
 }

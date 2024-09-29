@@ -20,5 +20,15 @@ namespace Application.Contracts.Identity
 
         public Task<ApiResponse> UpdateUser(UpdateUserRequest request);
         public Task<ApiResponse> BlockUser(string? UserId);
+
+
+        public Task<ApiResponse> CreateResetPasswordRequest(ResetPasswordRequest request);
+        public Task<ApiResponse> CheckResetPasswordRequest(Guid? Id);
+        public Task<ApiResponse> ChangeUserPassword(Guid? Id, string? password, string? confirmPassword);
+
+
+        public Task<ApiResponse> CreateConfirmRequest();
+        public Task<ApiResponse> CreateConfirmRequestWithUserId(string? UserId);
+        public Task<ApiResponse> VerifyEmailAddress(Guid? Id);
     }
 }

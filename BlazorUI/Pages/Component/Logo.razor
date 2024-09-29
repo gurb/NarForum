@@ -4,7 +4,7 @@
 @if(LogoVM is not null) {
     @if (isExistLogo)
     {
-        <img id="@LogoId" src="@logoUrl" alt="@LogoVM.AltText" />
+        <img id="@LogoId" class="@Class" src="@logoUrl" alt="@LogoVM.AltText" />
     }
     else if(LogoVM.Text is not null)
     {
@@ -18,6 +18,9 @@
 
     [Parameter]
     public string? LogoId { get; set; } = "forum-logo";
+
+    [Parameter]
+    public string? Class { get; set; } = "";
 
     bool isExistLogo { get; set; }
     string logoUrl { get; set; }

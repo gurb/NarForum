@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Identity;
+using Application.Models;
 using Application.Models.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace Api.Controllers.Identity
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<RegistrationResponse>> Register(RegistrationRequest request)
+        public async Task<ActionResult<ApiResponse>> Register(RegistrationRequest request)
         {
             return Ok(await _authenticationService.Register(request));
         }
