@@ -41,6 +41,13 @@ namespace Application.Features.SmtpSetting.Commands.UpdateSmtpSettings
 				else
 				{
 					var data = _mapper.Map<Domain.SmtpSettings>(settings);
+
+					settings.Password = request.Password;
+					settings.Port = request.Port;
+					settings.Timeout = request.Timeout;
+					settings.Username = request.Username;
+					settings.Server = request.Server;
+
 					await _settingsService.UpdateAsync(data);
 					response.Message = "SMTP settings is updated";
 				}

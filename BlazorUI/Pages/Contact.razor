@@ -41,8 +41,7 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group form-margin">
-                    @* <label for="contactMessage" class="form-label">Example textarea</label> *@
-                    <InputTextArea id="contactMessage" class="form-control" placeholder="Message" @bind-Value="@Message" rows="4" required></InputTextArea>
+                    <InputTextArea id="contactMessage" class="form-control" placeholder="Message" @bind-Value="@Model.Message" rows="4" required></InputTextArea>
                     <div class="invalid-feedback">
                         Please enter message
                     </div>

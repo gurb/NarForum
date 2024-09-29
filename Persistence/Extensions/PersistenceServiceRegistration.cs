@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.DatabaseContext;
 using Persistence.Repositories;
+using Persistence.Services;
 
 namespace Persistence.Extensions
 {
@@ -42,6 +43,8 @@ namespace Persistence.Extensions
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
+
+            services.AddScoped<IEmailSender, EmailSender>();
 
             return services;
         }
