@@ -30,8 +30,10 @@ namespace Persistence.DatabaseContext
         public DbSet<UploadFile> UploadFiles { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+		public DbSet<SmtpSettings> SmtpSettings { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // find all configurations file from assembly and apply
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ForumDbContext).Assembly);

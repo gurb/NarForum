@@ -15,6 +15,7 @@ using BlazorUI.Models.Message;
 using BlazorUI.Models.Post;
 using BlazorUI.Models.Report;
 using BlazorUI.Models.Section;
+using BlazorUI.Models.SmtpSettings;
 using BlazorUI.Models.StaticPage;
 using BlazorUI.Models.TrackingLog;
 using BlazorUI.Models.User;
@@ -111,6 +112,7 @@ namespace BlazorUI.MappingProfiles
             CreateMap<LogoDTO, LogoVM>().ReverseMap();
 
             CreateMap<ForumSettingsDTO, ForumSettingsVM>().ReverseMap();
+            CreateMap<SmtpSettingsDTO, SmtpSettingsVM>().ReverseMap();
 
             CreateMap<UploadImageRequest, UploadImageRequestVM>().ReverseMap();
             CreateMap<ImageBase64, ImageBase64VM>().ReverseMap();

@@ -21,6 +21,7 @@ using AdminUI.Models.ForumSettings;
 using AdminUI.Models.Image;
 using AdminUI.Models.Report;
 using AdminUI.Models.Contact;
+using AdminUI.Models.SmtpSettings;
 
 
 namespace AdminUI.MappingProfiles
@@ -144,6 +145,9 @@ namespace AdminUI.MappingProfiles
 
             CreateMap<ForumSettingsDTO, ForumSettingsVM>().ReverseMap();
             CreateMap<UpdateForumSettingsCommand, UpdateForumSettingsCommandVM>().ReverseMap();
+
+            CreateMap<SmtpSettingsDTO, SmtpSettingsVM>().ReverseMap();
+            CreateMap<UpdateSmtpSettingsCommand, UpdateSmtpSettingsCommandVM>().ReverseMap();
 
             CreateMap<UploadImageRequest, UploadImageRequestVM>().ReverseMap();
             CreateMap<ImageBase64, ImageBase64VM>().ReverseMap();

@@ -37,6 +37,7 @@ namespace Persistence.Extensions
             services.AddScoped<IPageRepository, PageRepository>();
             services.AddScoped<ILogoService, LogoService>();
             services.AddScoped<IForumSettingsService, ForumSettingsService>();
+            services.AddScoped<ISmtpSettingsService, SmtpSettingsService>();
 
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IReportRepository, ReportRepository>();
