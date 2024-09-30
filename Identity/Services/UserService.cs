@@ -4,12 +4,10 @@ using Application.Extensions.Core;
 using Application.Models;
 using Application.Models.Identity.User;
 using Application.Models.Persistence.Image;
-using Azure.Core;
 using Identity.DatabaseContext;
 using Identity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -381,7 +379,7 @@ namespace Identity.Services
 
                     var resetPasswordMessage = $"We've received a request to reset your password.\n\n" +
                                                $"If you did not make the request, just ignore this message. Otherwise, you can reset your password.\n\n" +
-                                               $"Click the following link to reset password: https://localhost:7212/reset-password/{passwordRequest.Id}";
+                                               $"Click the following link to reset password: https://localhost:7212/change-password/{passwordRequest.Id}";
 
 
                     if(passwordRequest.Email != null)
@@ -489,7 +487,7 @@ namespace Identity.Services
                     var verifyEmailMessage = $"Dear {updateUser.UserName},\n\n" +
                                                 $"Thank you for signing up for gurbforum.com. We're excited to have you on board.\n\n" +
                                                 $"Please confirm that you want to use this as your gurbforum account email address. Once it's done you will be able to use our forum" +
-                                                $"Click the following link to confirm your email address: https://localhost:7212/confirm-email-address/{confirmRequest.Id}";
+                                                $"Click the following link to confirm your email address: https://localhost:7212/verify-email-address/{confirmRequest.Id}";
 
                     if (confirmRequest.Email != null)
                     {

@@ -1,0 +1,66 @@
+﻿@page "/verify-email-address/{Id}"
+<main class="form-signin">
+    @if (string.IsNullOrEmpty(ErrorMessage) == false)
+    {
+        <div class="alert alert-danger">
+            @ErrorMessage
+        </div>
+    }
+
+    @if(IsVerified)
+    {
+        <div class="row">
+            <div class="verified-mail-message-container">
+                <h2><i class="bi bi-check-circle-fill"></i> Thank you, your email address is verified.</h2>
+                <p>Restricted features have been removed. Now you can start to use the forum.</p>
+            </div>
+        </div>
+    }
+
+</main>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+    private string? Message { get; set; }
+
+    private string? ErrorMessage { get; set; }
+
+    private bool IsVerified { get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        Guid verifyId;
+        var checkId = Guid.TryParse(Id, out verifyId);
+
+        if(checkId)
+        {
+            if(UserService is not null)
+            {
+                var response = await UserService.VerifyEmailAddress(verifyId);
+
+                if(response.IsSuccess)
+                {
+                    ErrorMessage = string.Empty;
+                    IsVerified = true;
+                }
+                else
+                {
+                    ErrorMessage = response.Message;
+                    Message = string.Empty;
+                }
+            }
+        }
+        else
+        {
+            ErrorMessage = "Request id is invalid";
+            Message = string.Empty;
+        }
+        await base.OnParametersSetAsync();
+    }
+
+}

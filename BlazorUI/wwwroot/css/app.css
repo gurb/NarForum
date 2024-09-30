@@ -967,3 +967,10 @@ h3.blog-comment-form-title {
     padding: 15px;
     margin: auto;
 }
+
+.reset-password-request-container {
+    background: #ccc;
+    text-align:center;
+    padding: 10px;
+    border-radius: 10px;
+}
