@@ -67,8 +67,8 @@ namespace Application.Features.Post.Commands.CreatePost
 
             if (heading != null)
             {
-                await _headingRepository.UpdateHeadingWhenCreatePost(heading.Id, post.UserName, post.Id);
-                await _categoryRepository.UpdateCategoryWhenCreatePost(heading.CategoryId, post.UserName, heading.Id, post.Id);
+                await _headingRepository.UpdateHeadingWhenCreatePost(heading.Id, post.UserName, post.UserId.Value, post.Id);
+                await _categoryRepository.UpdateCategoryWhenCreatePost(heading.CategoryId, post.UserName, post.UserId.Value, heading.Id, post.Id);
                 await _headingRepository.IncreasePostCounter(post.HeadingId!);
                 await _categoryRepository.IncreasePostCounter(post.HeadingId);
 

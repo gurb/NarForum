@@ -8,6 +8,6 @@ namespace Application.Contracts.Persistence
         Task<Category> GetByIntId(int id);
         Task IncreaseHeadingCounter(Guid categoryId);
         Task IncreasePostCounter(Guid HeadingId);
-        Task UpdateCategoryWhenCreatePost(Guid categoryId, string lastUserName, Guid lastHeadingId, Guid lastPostId);
+        Task UpdateCategoryWhenCreatePost(Guid categoryId, string lastUserName, Guid lastUserId, Guid lastHeadingId, Guid lastPostId);
     }
 }

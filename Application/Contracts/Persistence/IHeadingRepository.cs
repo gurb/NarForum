@@ -15,6 +15,6 @@ namespace Application.Contracts.Persistence
         int GetHeadingsCountByUserName(string userName);
 
         Task IncreasePostCounter(Guid HeadingId);
-        Task UpdateHeadingWhenCreatePost(Guid headingId, string lastUserName, Guid lastPostId);
+        Task UpdateHeadingWhenCreatePost(Guid headingId, string lastUserName, Guid lastUserId, Guid lastPostId);
     }
 }

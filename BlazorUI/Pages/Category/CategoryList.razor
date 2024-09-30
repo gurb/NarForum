@@ -2,6 +2,9 @@
 @page "/category/{CategoryName}-{CategoryId:int}/{PageIndex:int}"
 @using BlazorUI.Pages.Category.Modal
 
+@inject HttpClient Http
+@inject IConfiguration Configuration
+
 <MediaQuery Width=768 @bind-Value=min768></MediaQuery>
 
 
@@ -189,6 +192,11 @@ else
         return "";
     }
 
+    private string GetImageUrl(string userId)
+    {
+        return $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userId}";
+    }
+
     // Pagination variables
     private int PageSize = 10; // Number of items per page
     private int TotalPages = 1;
@@ -238,6 +246,7 @@ else
 
         HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
         Headings = headingsPagination.Headings;
+        await CheckUserImageProfile();
         TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
         await SetBreadcrumb(Model.CategoryId);
@@ -268,6 +277,7 @@ else
 
             HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
             Headings = headingsPagination.Headings;
+            await CheckUserImageProfile();
             TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
             isLoading = false;
@@ -293,6 +303,7 @@ else
 
             HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
             Headings = headingsPagination.Headings;
+            await CheckUserImageProfile();
             TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
             isLoading = false;
@@ -311,6 +322,7 @@ else
 
             HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
             Headings = headingsPagination.Headings;
+            await CheckUserImageProfile();
             TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
 
             isLoading = false;
@@ -345,5 +357,47 @@ else
         SelectedModel = categoryVM;
 
         updateCategoryModal?.ShowModal();
+    }
+
+
+    private async Task CheckUserImageProfile()
+    {
+        if (Headings is not null && Headings.Count > 0)
+        {
+            foreach (var heading in Headings)
+            {
+                if (heading.LastUserId is not null)
+                {
+                    string imageUrl = GetImageUrl(heading.LastUserId.ToString());
+
+                    bool isExist = await UrlExists(imageUrl);
+                    if (isExist)
+                    {
+                        heading.UserProfileImageUrl = imageUrl;
+                    }
+                    else
+                    {
+                        heading.UserProfileImageUrl = null;
+                    }
+                }
+                else
+                {
+
+                }
+            }
+        }
+    }
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

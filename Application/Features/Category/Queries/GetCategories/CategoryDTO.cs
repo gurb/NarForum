@@ -28,6 +28,7 @@ namespace Application.Features.Category.Queries.GetCategories
         public int? LastCategoryId { get; set; }
 		public string? LastHeadingTitle { get; set; }
         public string? LastUserName { get; set; }
+        public Guid? LastUserId { get; set; }
         public DateTime? ActiveDate { get; set; }
     }
 }

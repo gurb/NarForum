@@ -21,11 +21,11 @@ namespace Application.Features.Category.Queries.GetCategories
         public async Task<List<CategoryDTO>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
             // query the database
-            var allCategories = await _categoryRepository.GetAsync();
+            var allCategories = await _categoryRepository.GetAllAsync(x => x.IsActive);
             var categories = new List<Domain.Category>(allCategories);
             var categorieLastHeadingIds = categories.Select(x => x.LastHeadingId).ToList();
 
-            var headings = await _headingRepository.GetAllAsync(x => categorieLastHeadingIds.Contains(x.Id));
+            var headings = await _headingRepository.GetAllAsync(x => categorieLastHeadingIds.Contains(x.Id) && x.IsActive);
 
 
             if(request.ParentCategoryId != null)
@@ -67,6 +67,7 @@ namespace Application.Features.Category.Queries.GetCategories
                     }
                    
                     category.LastHeadingTitle = heading.Title;
+                    category.LastUserId = heading.UserId;
                 }
             }
 

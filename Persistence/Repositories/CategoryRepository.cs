@@ -15,12 +15,12 @@ namespace Persistence.Repositories
 
         public async Task<Category> GetByName(string name)
         {
-            return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
+            return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower() && x.IsActive);
         }
 
         public async Task<Category> GetByIntId(int id)
         {
-            return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.CategoryId == id);
+            return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.CategoryId == id && x.IsActive);
         }
 
         public async Task IncreasePostCounter(Guid HeadingId)
@@ -73,32 +73,33 @@ namespace Persistence.Repositories
             }
         }
 
-        public async Task UpdateCategoryWhenCreatePost(Guid categoryId, string lastUserName, Guid lastHeadingId, Guid lastPostId)
+        public async Task UpdateCategoryWhenCreatePost(Guid categoryId, string lastUserName, Guid lastUserId, Guid lastHeadingId, Guid lastPostId)
         {
             List<Domain.Category> categoryList = new List<Category>();
             var categories = await _context.Categories.Where(x => x.IsActive).ToListAsync();
-            await IterateUpdateCategoryWhenCreatePost(categoryId, lastUserName, lastHeadingId, lastPostId, categoryList, categories);
+            await IterateUpdateCategoryWhenCreatePost(categoryId, lastUserName, lastUserId, lastHeadingId, lastPostId, categoryList, categories);
 
             _context.UpdateRange(categoryList);
             await _context.SaveChangesAsync();
         }
 
-        private async Task IterateUpdateCategoryWhenCreatePost(Guid? categoryId, string lastUserName, Guid lastHeadingId, Guid lastPostId, List<Domain.Category> list, List<Domain.Category> allCategories)
+        private async Task IterateUpdateCategoryWhenCreatePost(Guid? categoryId, string lastUserName, Guid lastUserId, Guid lastHeadingId, Guid lastPostId, List<Domain.Category> list, List<Domain.Category> allCategories)
         {
-            var category =  allCategories.FirstOrDefault(x => x.Id == categoryId);
+            var category =  allCategories.FirstOrDefault(x => x.Id == categoryId && x.IsActive);
 
             if (category != null)
             {
                 category.LastHeadingId = lastHeadingId;
                 category.LastPostId = lastPostId;
                 category.LastUserName = lastUserName;
+                category.LastUserId = lastUserId;
                 category.ActiveDate = DateTime.UtcNow;
 
                 list.Add(category);
 
                 if(category.ParentCategoryId != null)
                 {
-                    await IterateUpdateCategoryWhenCreatePost(category.ParentCategoryId, lastUserName, lastHeadingId, lastPostId, list, allCategories);
+                    await IterateUpdateCategoryWhenCreatePost(category.ParentCategoryId, lastUserName, lastUserId, lastHeadingId, lastPostId, list, allCategories);
                 }
             }
         }

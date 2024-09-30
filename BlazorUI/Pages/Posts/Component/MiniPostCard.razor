@@ -11,9 +11,17 @@
             }
             else
             {
-                <span class="no-image-user-profile-post me-3">
-                    @Username.ToUpper()[0]
-                </span>
+                @if(Post.UserId != null) {
+                    <span class="no-image-user-profile-post me-3" style="background:#@(Post.UserId.Value.ToString("N").Substring(0,6));">
+                        @Username.ToUpper()[0]
+                    </span>
+                }
+                else
+                {
+                    <span class="no-image-user-profile-post me-3">
+                        @Username.ToUpper()[0]
+                    </span>
+                }
             }
             <span class="custom-mini-post-user-area">
                 <a href="/user/@Username" class="fw-semibold text-decoration-none custom-mini-post-username">@(Username != null ? Username : "User")</a>
@@ -56,11 +64,14 @@
             }
             @Post.UnlikeCounter
         </button>
-        <button type="button"
-                @onclick="reply"
-                class="btn btn-link btn-sm text-decoration-none">
-            <i class="bi bi-reply"></i> Reply
-        </button>
+        @if (!Heading.IsLock)
+        {
+            <button type="button"
+                    @onclick="reply"
+                    class="btn btn-link btn-sm text-decoration-none">
+                <i class="bi bi-reply"></i> Reply
+            </button>
+        }
         <button type="button"
                 @onclick="report"
                 class="btn btn-link btn-sm text-decoration-none post-report-button">
@@ -119,7 +130,8 @@
     [Parameter]
     public PostVM Post { get; set; }
 
-
+    [Parameter]
+    public HeadingVM Heading { get; set; }
     protected async Task like()
     {
         await LikeCallback.InvokeAsync(PostId);

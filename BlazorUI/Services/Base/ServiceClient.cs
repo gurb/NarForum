@@ -12745,6 +12745,9 @@ namespace BlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("lastUserName")]
         public string LastUserName { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("lastUserId")]
+        public System.Guid? LastUserId { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("activeDate")]
         public System.DateTime? ActiveDate { get; set; }
 
@@ -13608,6 +13611,9 @@ namespace BlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("lastUserName")]
         public string LastUserName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("lastUserId")]
+        public System.Guid? LastUserId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("activeDate")]
         public System.DateTime? ActiveDate { get; set; }

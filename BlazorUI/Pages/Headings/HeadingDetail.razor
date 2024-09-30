@@ -74,6 +74,7 @@ else
     {
         @* <PostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></PostCard> *@
         <MiniPostCard Post="post"
+                      Heading="Heading"
                       Id="@post.Id"
                       PostId="@post.Id"
                       Content="@post.Content"
@@ -385,6 +386,8 @@ else
             string quoteContent = "- Removed -";
             PostVM? quotePost;
 
+            string quoteUsername = "Alıntı";
+
             if(QuotePosts != null && QuotePosts.Count() > 0)
             {
                 quotePost = QuotePosts.FirstOrDefault(x => x.Id == postId);
@@ -392,10 +395,11 @@ else
                 if(quotePost != null)
                 {
                     quoteContent = DeleteQuoteTagsInQuote(quotePost.Content);
+                    quoteUsername = quotePost.UserName;
                 }
             }
 
-            string newTag = $"<blockquote author-quote='Alıntı' post-id='{postId}' class='quote-box'>{quoteContent}</blockquote>";
+            string newTag = $"<blockquote author-quote='{quoteUsername}' post-id='{postId}' class='quote-box'>{quoteContent}</blockquote>";
 
             displayContent = displayContent.Replace(match.Value, newTag);
         }

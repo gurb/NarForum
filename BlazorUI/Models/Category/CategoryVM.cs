@@ -19,6 +19,8 @@
         public Guid? LastPostId { get; set; }
         public string? LastHeadingTitle { get; set; }
         public string? LastUserName { get; set; }
+        public Guid? LastUserId { get; set; }
         public DateTime? ActiveDate { get; set; }
+        public string? UserProfileImageUrl { get; set; }
     }
 }

@@ -66,8 +66,8 @@ namespace Application.Features.Heading.Commands.CreateHeading
 
                 await _HeadingRepository.UpdateAsync(Heading);
 
-                await _HeadingRepository.UpdateHeadingWhenCreatePost(Heading.Id, headingPost.UserName, headingPost.Id);
-                await _CategoryRepository.UpdateCategoryWhenCreatePost(Heading.CategoryId, headingPost.UserName, Heading.Id, headingPost.Id);
+                await _HeadingRepository.UpdateHeadingWhenCreatePost(Heading.Id, headingPost.UserName, headingPost.UserId.Value, headingPost.Id);
+                await _CategoryRepository.UpdateCategoryWhenCreatePost(Heading.CategoryId, headingPost.UserName, headingPost.UserId.Value, Heading.Id, headingPost.Id);
             }
 
             if (Heading.Id != null && category != null)

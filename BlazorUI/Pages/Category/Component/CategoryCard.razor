@@ -25,11 +25,39 @@
             @Model.PostCounter
         </div>
         <div class="col-sm-4 last-post-summary">
-            <small class="last-post-heading"><a href="@lastHeadingUrl">@Model.LastHeadingTitle</a></small>
-            <br />
-            <small class="last-post-username">by <a href="@userUrl">@Model.LastUserName</a></small>
-            <br />
-            <small class="last-post-date">@Model.ActiveDate</small>
+            <div class="d-flex flex-start">
+                <a class="me-3 no-image-user-profile-link" href="@userUrl">
+                    @if (@Model.UserProfileImageUrl is not null)
+                    {
+                        <span class="image-user-profile-heading-card">
+                            <img width="35" height="35" src="@Model.UserProfileImageUrl">
+                        </span>
+                    }
+                    else
+                    {
+                        @if(Model.LastUserId is null)
+                        {
+                            <span class="no-image-user-profile-heading-card">
+                                ?
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="no-image-user-profile-heading-card" style="background:#@(Model.LastUserId.Value.ToString("N").Substring(0,6));">
+                                @Model.LastUserName.ToUpper()[0]
+                            </span>
+                        }
+                    }
+                    
+                </a>
+                <div class="flex-grow-1 flex-shrink-1">
+                    <small class="last-post-heading"><a href="@lastHeadingUrl">@Model.LastHeadingTitle</a></small>
+                    <br />
+                    <small class="last-post-username">by <a href="@userUrl">@Model.LastUserName</a></small>
+                    <br />
+                    <small class="last-post-date">@Model.ActiveDate</small>
+                </div>
+            </div>
         </div>
     }
 </div>

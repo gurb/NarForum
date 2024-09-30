@@ -83,7 +83,7 @@ namespace Persistence.Repositories
             }
         }
 
-        public async Task UpdateHeadingWhenCreatePost(Guid headingId, string lastUserName, Guid lastPostId)
+        public async Task UpdateHeadingWhenCreatePost(Guid headingId, string lastUserName, Guid lastUserId, Guid lastPostId)
         {
             var heading = await _context.Headings.FirstOrDefaultAsync(x => x.Id == headingId);
 
@@ -92,6 +92,7 @@ namespace Persistence.Repositories
                 heading.LastPostId = lastPostId;
                 heading.ActiveDate = DateTime.UtcNow;
                 heading.LastUserName = lastUserName;
+                heading.LastUserId = lastUserId;
 
                 _context.Update(heading);
                 _context.Entry(heading).State = EntityState.Modified;

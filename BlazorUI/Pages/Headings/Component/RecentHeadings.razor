@@ -21,12 +21,12 @@
                         if (heading.UserId is not null && isImageAvailables.ContainsKey(heading.UserId.Value) && isImageAvailables[heading.UserId.Value])
                         {
                             <span class=image-user-profile>
-                                <img width="50" height="50" src="@GetImageUrl(heading.UserId.Value)" />
+                                <img width="35" height="35" src="@GetImageUrl(heading.UserId.Value)" />
                             </span>
                         }
                         else
                         {
-                            <span class=no-image-user-profile>
+                            <span class=no-image-user-profile style="background:#@(heading.UserId.Value.ToString("N").Substring(0,6));">
                                 @heading.UserName.ToUpper()[0]
                             </span>
                         }  
