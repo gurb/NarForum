@@ -58,5 +58,44 @@ namespace Persistence.Services
             }
             
         }
+
+        public async Task SendMailToClient(string toMail, string toName, string subject, string message)
+        {
+            try
+            {
+                if (settings == null)
+                {
+                    settings = await _settingsService.GetAsync();
+
+                    if (settings != null)
+                    {
+                        _client = new SmtpClient(settings.Server, settings.Port)
+                        {
+                            Credentials = new NetworkCredential(settings.Username, settings.Password),
+                            EnableSsl = true
+                        };
+                    }
+                }
+
+                if (_client != null && settings != null)
+                {
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress(settings.Username, "GurbForum"),
+                        Subject = subject,
+                        Body = message,
+                        IsBodyHtml = false,
+                    };
+
+                    mailMessage.To.Add(toMail);
+
+                    await _client.SendMailAsync(mailMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 }

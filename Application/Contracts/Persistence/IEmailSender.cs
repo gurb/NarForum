@@ -9,5 +9,6 @@ namespace Application.Contracts.Persistence
     public interface IEmailSender
     {
         public Task SendMail(string mail, string senderName, string subject, string message);
+        public Task SendMailToClient(string toMail, string toName, string subject, string message);
     }
 }

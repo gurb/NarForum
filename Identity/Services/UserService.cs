@@ -384,7 +384,7 @@ namespace Identity.Services
 
                     if(passwordRequest.Email != null)
                     {
-                        await _emailSender.SendMail(passwordRequest.Email, "gurbforum", "Resetting your gurbforum account password!", resetPasswordMessage);
+                        await _emailSender.SendMailToClient(passwordRequest.Email, "gurbforum", "Resetting your gurbforum account password!", resetPasswordMessage);
                     }
 
                     response.Message = "Maybe we sent :)";
@@ -443,7 +443,7 @@ namespace Identity.Services
                         
                         if(confirmRequest.Email != null)
                         {
-                            await _emailSender.SendMail(confirmRequest.Email, "gurbforum", "[gurbforum] Verify your email address!", verifyEmailMessage);
+                            await _emailSender.SendMailToClient(confirmRequest.Email, "gurbforum", "[gurbforum] Verify your email address!", verifyEmailMessage);
                         }
                     }
                     else
@@ -491,7 +491,7 @@ namespace Identity.Services
 
                     if (confirmRequest.Email != null)
                     {
-                        await _emailSender.SendMail(confirmRequest.Email, "gurbforum", "[gurbforum] Verify your email address!", verifyEmailMessage);
+                        await _emailSender.SendMailToClient(confirmRequest.Email, "gurbforum", "[gurbforum] Verify your email address!", verifyEmailMessage);
                     }
                 }
                 else
@@ -566,14 +566,14 @@ namespace Identity.Services
         {
             ApiResponse response = new ApiResponse();
 
-            if(!string.IsNullOrEmpty(newPassword))
+            if(string.IsNullOrEmpty(newPassword))
             {
                 response.IsSuccess = false;
                 response.Message = "New password is empty";
                 return response;
             }
 
-            if (!string.IsNullOrEmpty(confirmPassword))
+            if (string.IsNullOrEmpty(confirmPassword))
             {
                 response.IsSuccess = false;
                 response.Message = "Confirm password is empty";
@@ -598,7 +598,7 @@ namespace Identity.Services
                     {
                         if (!passwordRequest.IsChanged && passwordRequest.IsValid)
                         {
-                            var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == UserId);
+                            var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == passwordRequest.UserId);
 
                             if (updateUser != null) 
                             {

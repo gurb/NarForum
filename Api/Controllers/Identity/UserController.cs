@@ -52,19 +52,21 @@ namespace Api.Controllers.Identity
             return await _userService.BlockUser(userId);
         }
 
+        [AllowAnonymous]
         [HttpPost("CreateResetPasswordRequest")]
         public async Task<ApiResponse> CreateResetPasswordRequest([FromBody] ResetPasswordRequest request)
         {
             return await _userService.CreateResetPasswordRequest(request);
         }
 
+        [AllowAnonymous]
         [HttpPost("CheckResetPasswordRequest")]
         public async Task<ApiResponse> CheckResetPasswordRequest(Guid? Id)
         {
             return await _userService.CheckResetPasswordRequest(Id);
         }
 
-
+        [AllowAnonymous]
         [HttpPost("ChangeUserPassword")]
         public async Task<ApiResponse> ChangeUserPassword(Guid? Id, string? password, string? confirmPassword)
         {
@@ -78,6 +80,7 @@ namespace Api.Controllers.Identity
             return await _userService.CreateConfirmRequest();
         }
 
+        [AllowAnonymous]
         [HttpPost("VerifyEmailAddress")]
         public async Task<ApiResponse> VerifyEmailAddress(Guid? Id)
         {

@@ -839,8 +839,13 @@ span.heading-card-status {
 
 .image-user-profile img {
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
+    border-radius: 10%;
+}
+
+.image-user-profile-post img {
+    border-radius: 10%;
 }
 
 .image-user-profile-blog-comment {
@@ -971,6 +976,13 @@ h3.blog-comment-form-title {
 .reset-password-request-container {
     background: #ccc;
     text-align:center;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.verified-mail-message-container {
+    background: #ccc;
+    text-align: center;
     padding: 10px;
     border-radius: 10px;
 }
