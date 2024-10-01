@@ -88,6 +88,8 @@ namespace AdminUI.MappingProfiles
             CreateMap<RemoveRoleRequest, RemoveRoleRequestVM>().ReverseMap();
             CreateMap<UserRoleResponse, UserRoleResponseVM>().ReverseMap();
             CreateMap<UserRoleResponse, RoleVM>().ReverseMap();
+            CreateMap<GetApiUserRoleRequest, GetApiUserRoleRequestVM>().ReverseMap();
+            CreateMap<ApiUserRoleResponse, ApiUserRoleResponseVM>().ReverseMap();
 
             CreateMap<ApiResponse, ApiResponseVM>().ReverseMap();
 

@@ -21,5 +21,8 @@ namespace Application.Models.Identity.User
         public int HeadingCounter { get; set; }
 
         public bool EmailConfirmed { get; set; }
+
+        public string? Role { get; set; }
+        public string? Rank { get; set; }
     }
 }

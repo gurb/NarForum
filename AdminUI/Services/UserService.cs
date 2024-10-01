@@ -36,6 +36,16 @@ public class UserService : BaseHttpService, IUserService
         return data;
     }
 
+    public async Task<ApiUserRoleResponseVM> GetApiUserRole(GetApiUserRoleRequestVM request)
+    {
+        var req = _mapper.Map<GetApiUserRoleRequest>(request);
+
+        var role = await _client.GetUserRoleAsync(req);
+        var data = _mapper.Map<ApiUserRoleResponseVM>(role);
+
+        return data;
+    }
+
     public async Task<UsersPaginationVM> GetWithPagination(UsersPaginationQueryVM paramQuery)
     {
         GetUsersWithPaginationQuery query = _mapper.Map<GetUsersWithPaginationQuery>(paramQuery);

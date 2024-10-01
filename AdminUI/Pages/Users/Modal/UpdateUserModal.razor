@@ -1,9 +1,11 @@
-﻿@using AdminUI.Models.User
+﻿@using AdminUI.Models.Authorization.Role
+@using AdminUI.Models.User
 @using AdminUI.Services.UI
 
-<Modal @ref="modal" ModalTitle="Update Heading" Callback="@HandleUpdate">
+<Modal @ref="modal" ModalTitle="Update User" Callback="@HandleUpdate">
     @if (Model is not null)
     {
+        <p>Role id: @roleId</p>
         <EditForm Model="@Model" OnValidSubmit="HandleUpdate">
             <DataAnnotationsValidator />
             <ValidationSummary />
@@ -33,6 +35,19 @@
                 <ValidationMessage For="@(() => Model.Description)" />
             </div>
             <div class="form-group">
+                <label for="state" class="form-label">Role</label>
+                <InputSelect class="form-select" aria-label="Default select example" @bind-Value="@roleId">
+                    @if (roleId is null)
+                    {
+                        <option>Choose a role</option>
+                    }
+                    @foreach(var role in Roles!)
+                    {
+                        <option value="@role.Id">@role.Name</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="form-group">
                 <label asp-for="Password" class="control-label">Password</label>
                 <InputText id="Password" class="form-control" @bind-Value="@newPassword"></InputText>
                 <ValidationMessage For="@(() => newPassword)" />
@@ -48,17 +63,42 @@
     [Parameter]
     public UserInfoVM? Model { get; set; }
 
+    [Parameter]
+    public List<RoleVM>? Roles { get; set; }
+
     private string? newPassword;
 
     [Inject]
     private IUserService? UserService { get; set; }
 
+
     [Parameter]
     public EventCallback<int> Callback { get; set; }
 
-    protected override void OnInitialized()
-    {
+    private string? roleId;
 
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (UserService is not null && Model is not null)
+        {
+            var request = new GetApiUserRoleRequestVM
+            {
+                Id = Model.Id,
+            };
+            var response = await UserService.GetApiUserRole(request);
+
+            if (response.IsSuccess)
+            {
+                roleId = response.RoleId;
+            }
+            else
+            {
+                roleId = null;
+            }
+        }
+
+        await base.OnParametersSetAsync();
     }
 
     public void ShowModal()
@@ -69,6 +109,7 @@
     public void CloseModal()
     {
         modal?.CloseModal();
+        roleId = null;
     }
 
     protected async Task HandleUpdate()
@@ -84,6 +125,16 @@
                 Email = Model.Email,
                 UserName = Model.UserName,
             };
+
+            if (roleId is not null && Roles is not null)
+            {
+                request.RoleId = roleId;
+                var role = Roles.FirstOrDefault(x => x.Id == roleId);
+                if(role is not null)
+                {
+                    request.RoleName = role.Name;
+                }
+            }
 
             if(!string.IsNullOrEmpty(newPassword))
             {

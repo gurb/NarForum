@@ -5,6 +5,7 @@ using Application.Models;
 using Application.Models.Identity.User;
 using Application.Models.Persistence.Image;
 using Azure.Core;
+using Garnet.server.ACL;
 using Identity.DatabaseContext;
 using Identity.Models;
 using Microsoft.AspNetCore.Http;
@@ -74,6 +75,7 @@ namespace Identity.Services
                     HeadingCounter = 10,
                     IsBlocked = user.IsBlocked,
                     Email = user.Email,
+                    Role = user.Role,
                 };
             }
             else
@@ -168,6 +170,7 @@ namespace Identity.Services
                         HeadingCounter = 10,
                         IsBlocked = x.IsBlocked,
                         Email = x.Email,
+                        Role = x.Role,
                 }
                 ).ToListAsync();
             
@@ -331,6 +334,33 @@ namespace Identity.Services
                     updateUser.LastName = request.LastName;
                     updateUser.Email = request.Email;
                     updateUser.Description = request.Description;
+
+                    if(request.RoleId != null)
+                    {
+                        var userRole = await _identityDbContext.UserRoles.FirstOrDefaultAsync(x => x.UserId == updateUser.Id);
+
+                        if (userRole != null) 
+                        {
+                            _identityDbContext.UserRoles.Remove(userRole);
+                            userRole = new IdentityUserRole<string>
+                            {
+                                RoleId = request.RoleId,
+                                UserId = updateUser.Id,
+                            };
+                            
+                            await _identityDbContext.UserRoles.AddAsync(userRole);
+                        }
+                        else
+                        {
+                            userRole = new IdentityUserRole<string>
+                            {
+                                RoleId = request.RoleId,
+                                UserId = updateUser.Id,
+                            };
+                            await _identityDbContext.UserRoles.AddAsync(userRole);
+                        }
+                        updateUser.Role = request.RoleName;
+                    }
 
                     _identityDbContext.Users.Update(updateUser);
                     await _identityDbContext.SaveChangesAsync();
@@ -740,7 +770,5 @@ namespace Identity.Services
 
             return response;
         }
-
-
     }
 }

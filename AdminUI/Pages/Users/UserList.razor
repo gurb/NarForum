@@ -1,4 +1,5 @@
 ﻿@page "/user/list"
+@using AdminUI.Models.Authorization.Role
 @using AdminUI.Pages.Users.Modal
 
 <h3>User List</h3>
@@ -10,6 +11,7 @@
     <thead>
         <tr>
             <th scope="col">Name</th>
+            <th scope="col">Role</th>
             <th scope="col">Register Date</th>
             <th scope="col" style="width:20%">Action</th>
         </tr>
@@ -31,6 +33,7 @@
                         }
                         @user.UserName
                     </td>
+                    <td scope="row" class="align-middle">@user.Role</td>
                     <td scope="row" class="align-middle">@user.RegisterDate</td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-dark" @onclick="() => BlockUser(user)"><i class="bi bi-ban"></i></button>
@@ -50,7 +53,7 @@
     <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
 }
 
-<UpdateUserModal @ref=updateUserModal Model="SelectedModel" Callback="RefreshList"></UpdateUserModal>
+<UpdateUserModal @ref=updateUserModal Model="SelectedModel" Roles="Roles" Callback="RefreshList"></UpdateUserModal>
 <DetailUserModal @ref=detailUserModal Model="SelectedModel" Callback="RefreshList"></DetailUserModal>
 
 @code {
@@ -59,8 +62,13 @@
 
     public List<UserInfoVM>? Users { get; set; }
 
+    public List<RoleVM> Roles { get; set; } = new List<RoleVM>();
+
     [Inject]
     public IUserService UserService { get; set; }
+
+    [Inject]
+    public IRoleService RoleService { get; set; }
 
     UsersPaginationQueryVM query = new UsersPaginationQueryVM();
 
@@ -75,6 +83,18 @@
     DetailUserModal? detailUserModal;
     UpdateUserModal? updateUserModal;
     private UserInfoVM? SelectedModel { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var response = await RoleService.GetRoles();
+        if(response.UserRoles is not null && response.UserRoles.Count > 0)
+        {
+            Roles = response.UserRoles;
+        }
+
+        await base.OnInitializedAsync();
+    }
+
 
     protected async override Task OnParametersSetAsync()
     {

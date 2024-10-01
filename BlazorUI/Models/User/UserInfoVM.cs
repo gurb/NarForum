@@ -14,6 +14,9 @@
         public bool IsBlocked { get; set; }
         public bool EmailConfirmed { get; set; }
 
+        public string? Role { get; set; }
+        public string? Rank { get; set; }
+
         // not in database
         public string? UserProfileImageUrl { get; set; }
     }
