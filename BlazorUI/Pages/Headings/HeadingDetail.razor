@@ -43,21 +43,27 @@ else
             <div class="col-sm-1 heading-control">
                 <AuthorizeView>
                     <Authorized>
-                        @if (Heading.IsLock)
+                        @if (AuthExtension.IsAuth("FORUM_HEADING_LOCK"))
                         {
-                            <i class="bi bi-lock-fill" @onclick="() => LockHeading(Heading)"></i>
+                            @if (Heading.IsLock)
+                            {
+                                <i class="bi bi-lock-fill" @onclick="() => LockHeading(Heading)"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-lock" @onclick="() => LockHeading(Heading)"></i>
+                            }
                         }
-                        else
+                        @if (AuthExtension.IsAuth("FORUM_HEADING_PIN"))
                         {
-                            <i class="bi bi-lock" @onclick="() => LockHeading(Heading)"></i>
-                        }
-                        @if (Heading.IsPin)
-                        {
-                            <i class="bi bi-pin-fill" @onclick="() => PinHeading(Heading)"></i>
-                        }
-                        else
-                        {
-                            <i class="bi bi-pin" @onclick="() => PinHeading(Heading)"></i>
+                            @if (Heading.IsPin)
+                            {
+                                <i class="bi bi-pin-fill" @onclick="() => PinHeading(Heading)"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-pin" @onclick="() => PinHeading(Heading)"></i>
+                            }
                         }
                     </Authorized>
                     <NotAuthorized>

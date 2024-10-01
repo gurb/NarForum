@@ -27,7 +27,6 @@ else
 {
     <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 
-
     <div class="row category-header">
         <div class="col-6">
             <h1>@(Model != null ? @Model.Name : "")</h1>
@@ -36,12 +35,18 @@ else
             <ul class="list-group list-group-horizontal">
                 <AuthorizeView>
                     <Authorized>
-                        <li class="list-group-item">
-                            <button @onclick="CreateHeading" class="btn btn-forum fw-normal"><i class="bi bi-file-earmark-plus"></i> Create Heading</button>
-                        </li>
-                        <li class="list-group-item">
-                            <button @onclick="OpenModal" class="btn btn-forum fw-normal"><i class="bi bi-journal-plus"></i> Add Category</button>
-                        </li>
+                        @if (AuthExtension.IsAuth("FORUM_HEADING_CREATE"))
+                        {
+                            <li class="list-group-item">
+                                <button @onclick="CreateHeading" class="btn btn-forum fw-normal"><i class="bi bi-file-earmark-plus"></i> Create Heading</button>
+                            </li>
+                        }
+                        @if (AuthExtension.IsAuth("FORUM_CATEGORY_CREATE"))
+                        {
+                            <li class="list-group-item">
+                                <button @onclick="OpenModal" class="btn btn-forum fw-normal"><i class="bi bi-journal-plus"></i> Add Category</button>
+                            </li>
+                        }
                     </Authorized>
                     <NotAuthorized>
 
@@ -135,12 +140,12 @@ else
 
 }
 
-@if(Model != null)
+@if (Model != null && AuthExtension.IsAuth("FORUM_CATEGORY_CREATE"))
 {
     <AddCategoryModal @ref="addCategoryModal" ParentCategoryVM="@Model" Callback="RefreshCategories"></AddCategoryModal>
 }
 
-@if(SelectedModel is not null)
+@if(SelectedModel is not null && AuthExtension.IsAuth("FORUM_CATEGORY_UPDATE"))
 {
     <UpdateCategoryModal @ref=updateCategoryModal Model="SelectedModel" Callback="RefreshCategories"></UpdateCategoryModal>
 }

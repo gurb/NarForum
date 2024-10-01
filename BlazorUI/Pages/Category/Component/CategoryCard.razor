@@ -5,7 +5,14 @@
         <i class="bi bi-journals category-normal-icon" style="font-size:1.5em;margin-right:20px;"></i>
         <AuthorizeView>
             <Authorized>
-                <i class="bi bi-pencil-square category-edit-button" style="font-size:1.5em;margin-right:20px;cursor:pointer" @onclick=UpdateCategory></i>
+                @if(AuthExtension.IsAuth("FORUM_CATEGORY_UPDATE"))
+                {
+                    <i class="bi bi-pencil-square category-edit-button" style="font-size:1.5em;margin-right:20px;cursor:pointer" @onclick=UpdateCategory></i>
+                }
+                else
+                {
+                    <i class="bi bi-journals category-edit-button" style="font-size:1.5em;margin-right:20px;"></i>
+                }
             </Authorized>
             <NotAuthorized>
                 <i class="bi bi-journals category-edit-button" style="font-size:1.5em;margin-right:20px;"></i>

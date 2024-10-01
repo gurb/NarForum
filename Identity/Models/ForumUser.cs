@@ -10,4 +10,6 @@ public class ForumUser: IdentityUser
     public DateTime LastOnlineTime { get; set; }
     public string? Description { get; set; }
     public bool IsBlocked { get; set; }
+    public string? Role { get; set; }
+    public string? Rank { get; set; }
 }
