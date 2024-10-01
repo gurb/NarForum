@@ -6,6 +6,7 @@ using BlazorUI.Services.Common;
 using Microsoft.AspNetCore.Components.Authorization;
 using BlazorUI.Services.UI;
 using BlazorUI.Models.Logo;
+using BlazorUI.Services;
 
 namespace BlazorUI.Pages;
 
@@ -13,6 +14,8 @@ public partial class Login: IAsyncDisposable
 {
     public LoginVM Model { get; set; }
 
+    [Inject]
+    public AuthorizationService? AuthorizationService { get; set; }
     [Inject]
     public NavigationManager NavigationManager { get; set; }
     public string Message { get; set; }
@@ -56,6 +59,11 @@ public partial class Login: IAsyncDisposable
             if (user.Identity.IsAuthenticated)
             {
                 username = user.Identity.Name;
+
+                if(AuthorizationService is not null)
+                {
+                    await AuthorizationService.SetPermissions(username);
+                }
             }
 
             hubConnection = new HubConnectionBuilder()

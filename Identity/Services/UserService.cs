@@ -4,6 +4,7 @@ using Application.Extensions.Core;
 using Application.Models;
 using Application.Models.Identity.User;
 using Application.Models.Persistence.Image;
+using Azure.Core;
 using Identity.DatabaseContext;
 using Identity.Models;
 using Microsoft.AspNetCore.Http;
@@ -78,6 +79,41 @@ namespace Identity.Services
             else
             {
                 response = new UserInfoResponse();
+            }
+
+            return response;
+        }
+
+        public async Task<ApiUserRoleResponse> GetUserRole(GetApiUserRoleRequest request)
+        {
+            var user = await _identityDbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.Id);
+
+            ApiUserRoleResponse response = new ApiUserRoleResponse();
+
+            if (user is not null)
+            {
+                var userRole = await _identityDbContext.UserRoles.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == request.Id);
+
+                if(userRole is not null)
+                {
+                    response.RoleId = userRole.RoleId;
+                    return response;
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.Message = "user role not found";
+                }
+            }
+            else
+            {
+                response = new ApiUserRoleResponse
+                {
+                    IsSuccess = false,
+                    Message = "user not found",
+                    RoleId = null
+                };
+
             }
 
             return response;
@@ -704,5 +740,7 @@ namespace Identity.Services
 
             return response;
         }
+
+
     }
 }

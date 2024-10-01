@@ -7,6 +7,7 @@ namespace BlazorUI.Contracts
     {
         Task<UserInfoVM> GetUserInfo(string userName);
         Task<UsersPaginationVM> GetUsersByUsernameWithPagination(string? userName, int pageIndex, int pageSize);
+        Task<ApiUserRoleResponseVM> GetApiUserRole(GetApiUserRoleRequestVM request);
 
         Task<ApiResponseVM> ChangeUserSettings(ChangeUserSettingsRequestVM request);
 

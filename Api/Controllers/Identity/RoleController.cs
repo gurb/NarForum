@@ -41,6 +41,5 @@ namespace Api.Controllers.Identity
         {
             return await _roleService.GetRoles();
         }
-
     }
 }

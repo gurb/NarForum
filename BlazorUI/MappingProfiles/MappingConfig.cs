@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlazorUI.Models;
+using BlazorUI.Models.Authorization;
 using BlazorUI.Models.BlogCategory;
 using BlazorUI.Models.BlogComment;
 using BlazorUI.Models.BlogPost;
@@ -48,6 +49,8 @@ namespace BlazorUI.MappingProfiles
 
             CreateMap<UserInfoResponse, UserInfoVM>().ReverseMap();
             CreateMap<UsersPaginationDTO, UsersPaginationVM>().ReverseMap();
+            CreateMap<GetApiUserRoleRequest, GetApiUserRoleRequestVM>().ReverseMap();
+            CreateMap<ApiUserRoleResponse, ApiUserRoleResponseVM>().ReverseMap();
 
             CreateMap<LikeDTO, LikeVM>().ReverseMap();
             CreateMap<AddLikeCommand, LikeVM>().ReverseMap();
@@ -65,7 +68,6 @@ namespace BlazorUI.MappingProfiles
             CreateMap<GetMessageResponse, GetMessageResponseVM>().ReverseMap();
             CreateMap<GetChatResponse, GetChatResponseVM>().ReverseMap();
             CreateMap<UserDTO, UserVM>().ReverseMap();
-
 
             CreateMap<BlogCategoryVM, BlogCategoryDTO>().ReverseMap();
             CreateMap<CreateBlogCategoryCommandVM, CreateBlogCategoryCommand>().ReverseMap();
@@ -135,6 +137,9 @@ namespace BlazorUI.MappingProfiles
             CreateMap<GetContactQueryVM, GetContactQuery>().ReverseMap();
             CreateMap<GetContactsQueryVM, GetContactsQuery>().ReverseMap();
             CreateMap<GetContactsWithPaginationQueryVM, GetContactsWithPaginationQuery>().ReverseMap();
+
+            CreateMap<GetPermissionsResponse, GetPermissionsResponseVM>().ReverseMap();
+            CreateMap<PermissionDTO, PermissionVM>().ReverseMap();
         }
     }
 }

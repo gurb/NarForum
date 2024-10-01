@@ -16,6 +16,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddTransient<JwtAuthorizationMessageHandler>();
 builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:44342")).AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
 
+
 //builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<LocalStorageService>();
 builder.Services.AddScoped<RefreshStateService>();
@@ -44,10 +45,11 @@ builder.Services.AddScoped<ISmtpSettingsService, SmtpSettingsService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IContactService, ContactService>();
-
+builder.Services.AddScoped<IPermissionService, PermissionService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+builder.Services.AddScoped<AuthorizationService>();
 
 //builder.Services.AddSingleton(sp =>
 //{

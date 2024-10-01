@@ -15,8 +15,6 @@ public class UserService : BaseHttpService, IUserService
         _mapper = mapper;
     }
 
-    
-
     public async Task<ApiResponseVM> ChangeUserSettings(ChangeUserSettingsRequestVM request)
     {
         var req = _mapper.Map<ChangeUserSettingsRequest>(request);
@@ -24,8 +22,6 @@ public class UserService : BaseHttpService, IUserService
 
         return _mapper.Map<ApiResponseVM>(response);
     }
-
-    
 
     public async Task<UserInfoVM> GetUserInfo(string userName)
     {
@@ -35,6 +31,16 @@ public class UserService : BaseHttpService, IUserService
         };
         var userInfo = await _client.GetUserInfoAsync(request);
         var data = _mapper.Map<UserInfoVM>(userInfo);
+
+        return data;
+    }
+
+    public async Task<ApiUserRoleResponseVM> GetApiUserRole(GetApiUserRoleRequestVM request)
+    {
+        var req = _mapper.Map<GetApiUserRoleRequest>(request);
+
+        var role = await _client.GetUserRoleAsync(req);
+        var data = _mapper.Map<ApiUserRoleResponseVM>(role);
 
         return data;
     }
@@ -86,4 +92,6 @@ public class UserService : BaseHttpService, IUserService
         var response = await _client.VerifyEmailAddressAsync(Id);
         return _mapper.Map<ApiResponseVM>(response);
     }
+
+
 }

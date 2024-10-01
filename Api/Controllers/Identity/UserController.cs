@@ -26,6 +26,8 @@ namespace Api.Controllers.Identity
             return await _userService.GetUserInfo(request);
         }
 
+       
+
         [HttpPost("GetUsersWithPagination")]
         public async Task<UsersPaginationDTO> GetUsersWithPagination(GetUsersWithPaginationQuery request)
         {
@@ -85,6 +87,13 @@ namespace Api.Controllers.Identity
         public async Task<ApiResponse> VerifyEmailAddress(Guid? Id)
         {
             return await _userService.VerifyEmailAddress(Id);
+        }
+
+
+        [HttpPost("GetUserRole")]
+        public async Task<ApiUserRoleResponse> GetUserRole([FromBody] GetApiUserRoleRequest request)
+        {
+            return await _userService.GetUserRole(request);
         }
     }
 }

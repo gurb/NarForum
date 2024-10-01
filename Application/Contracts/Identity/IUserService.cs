@@ -11,6 +11,7 @@ namespace Application.Contracts.Identity
 
         public string GetUserId();
         public Task<UserInfoResponse> GetUserInfo(UserInfoRequest request);
+        public Task<ApiUserRoleResponse> GetUserRole(GetApiUserRoleRequest UserId);
 
         public Task<UserInfoResponse> GetCurrentUser();
         public Task<List<UserInfoResponse>> GetUserIdsByName(List<string> userNames);

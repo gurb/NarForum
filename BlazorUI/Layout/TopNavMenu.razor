@@ -158,6 +158,9 @@
                 Model = await UserService.GetUserInfo(UserName);
                 await CheckUserImageProfile();
             }
+
+            RefreshStateService.OpenChatBox += OpenChatBox;
+            RefreshStateService.ConnectChatHubWhenLogin = ConnectChatHubWhenLogin;
         }
 
         await base.OnParametersSetAsync();

@@ -21,7 +21,10 @@ else
             <div class="container-fluid">
                 <div class="row">
                     <div class="col">
-                        <a @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Section</a>
+                        @if(AuthExtension.IsAuth("FORUM_SECTION_CREATE"))
+                        {
+                            <a @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Section</a>
+                        }
                     </div>
                 </div>
             </div>
