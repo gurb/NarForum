@@ -36,8 +36,10 @@ else
             <SectionCard Model="sec" Name='@sec.Name' Categories="Categories != null ? Categories?.Where(x => x.SectionId == sec.Id).ToList() : null"></SectionCard>
         }
     </div>
-
-    <AddSectionModal @ref="addSectionModal" Callback="Refresh"></AddSectionModal>
+    @if (AuthExtension.IsAuth("FORUM_SECTION_CREATE"))
+    {
+        <AddSectionModal @ref="addSectionModal" Callback="Refresh"></AddSectionModal>
+    }
 }
 
 <MediaQuery Width=768 @bind-Value=min768></MediaQuery>

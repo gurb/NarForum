@@ -445,6 +445,15 @@ else
 
     protected async Task LikePost(Guid PostId)
     {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("login");
+            return;
+        }
+
         LikeVM newLike = new LikeVM
         {
             PostId = PostId,
@@ -481,6 +490,15 @@ else
 
     protected async Task UnLikePost(Guid PostId)
     {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if(!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("login");
+            return;
+        }
+
         LikeVM newLike = new LikeVM
         {
             PostId = PostId,
@@ -516,6 +534,15 @@ else
 
     protected async Task AddFavorite(Guid PostId)
     {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("login");
+            return;
+        }
+
         FavoriteVM newFavorite = new FavoriteVM
         {
             PostId = PostId,
@@ -543,6 +570,16 @@ else
 
     protected async Task AddReply(PostVM post)
     {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("login");
+            return;
+        }
+
+
         CreateModel.Content += $"\n[Quote](PostId={post.Id})[/Quote]";
 
         // var postContent = await PostService.Get

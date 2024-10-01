@@ -40,7 +40,9 @@ namespace Identity.Configurations
             builder.HasData(
                 new PermissionDefinition { Id = "6d4df87c-cf17-4db4-90e1-590b68e07e50", Name = "FORUM_HEADING_CREATE", DisplayName = "Create Heading", ParentPermissionDefinitionId = "336e4081-f40d-4e45-bcc5-adb0c04d016f" },
                 new PermissionDefinition { Id = "4b35a46b-0ee0-48f5-a44f-b1317c4e3af2", Name = "FORUM_HEADING_UPDATE", DisplayName = "Update Heading", ParentPermissionDefinitionId = "336e4081-f40d-4e45-bcc5-adb0c04d016f" },
-                new PermissionDefinition { Id = "f3311407-5848-4682-98ae-3a02701f1211", Name = "FORUM_HEADING_DELETE", DisplayName = "Delete Heading", ParentPermissionDefinitionId = "336e4081-f40d-4e45-bcc5-adb0c04d016f" }
+                new PermissionDefinition { Id = "f3311407-5848-4682-98ae-3a02701f1211", Name = "FORUM_HEADING_DELETE", DisplayName = "Delete Heading", ParentPermissionDefinitionId = "336e4081-f40d-4e45-bcc5-adb0c04d016f" },
+                new PermissionDefinition { Id = "3b68baff-2a60-4899-9e04-e66d7885de41", Name = "FORUM_HEADING_PIN", DisplayName = "Pin Heading", ParentPermissionDefinitionId = "336e4081-f40d-4e45-bcc5-adb0c04d016f" },
+                new PermissionDefinition { Id = "b79b4860-25b1-44cd-8d74-9c46f0f308c6", Name = "FORUM_HEADING_LOCK", DisplayName = "Lock Heading", ParentPermissionDefinitionId = "336e4081-f40d-4e45-bcc5-adb0c04d016f" }
             );
 
             // FORUM_SECTION children

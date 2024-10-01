@@ -8,7 +8,10 @@
     <div class="col-12 text-end">
         <AuthorizeView>
             <Authorized>
-                <a href="/" @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</a>
+                @if(AuthExtension.IsAuth("FORUM_CATEGORY_CREATE")) 
+                {
+                    <a href="/" @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Category</a>
+                }
             </Authorized>
         </AuthorizeView>
     </div>
@@ -31,9 +34,12 @@
             Last Post
             <AuthorizeView>
                 <Authorized>
-                    <span style="float:right;" class="text-end">
-                        <i class="bi bi-pencil-fill" @onclick=UpdateSectionModal></i>
-                    </span>
+                    @if (AuthExtension.IsAuth("FORUM_SECTION_UPDATE"))
+                    {
+                        <span style="float:right;" class="text-end">
+                            <i class="bi bi-pencil-fill" @onclick=UpdateSectionModal></i>
+                        </span>
+                    }
                 </Authorized>
             </AuthorizeView>
             

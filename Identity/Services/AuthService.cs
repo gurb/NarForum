@@ -115,12 +115,16 @@ public class AuthService : IAuthService
                 EmailConfirmed = false,
             };
 
+
             var result = await _userManager.CreateAsync(user, request.Password);
+
 
             if(result.Succeeded)
             {
                 response.Message = "User registered successfully";
 
+                await _userManager.AddToRoleAsync(user, "Member");
+                
                 var sendVerifyMailResponse = await _userService.CreateConfirmRequestWithUserId(user.Id);
 
                 if(!sendVerifyMailResponse.IsSuccess)
