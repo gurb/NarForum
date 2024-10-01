@@ -13,5 +13,8 @@
 
         public bool IsBlocked { get; set; }
         public bool EmailConfirmed { get; set; }
+
+        // not in database
+        public string? UserProfileImageUrl { get; set; }
     }
 }

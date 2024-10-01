@@ -725,6 +725,19 @@ span.heading-card-status {
     float: left;
 }
 
+.no-image-user-profile-top-nav-menu {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #512DA8;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+    line-height: 32px;
+    float: left;
+}
+
 .image-user-profile-post {
     display: inline-block;
     width: 45px;
@@ -1028,4 +1041,16 @@ h3.blog-comment-form-title {
 
 .w-30 {
     width: 30%;
+}
+
+.btn-login {
+    background: #3189efd9;
+    color: #fff;
+    padding: 5px 10px;
+}
+
+.btn-register {
+    background: #3189efd9;
+    color: #fff;
+    padding: 5px 10px;
 }

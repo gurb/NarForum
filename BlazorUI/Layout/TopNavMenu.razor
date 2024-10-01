@@ -1,7 +1,8 @@
 ﻿@using BlazorUI.Services.Common
 @using BlazorUI.Services.UI
 @using Microsoft.AspNetCore.SignalR.Client;
-
+@inject HttpClient Http
+@inject IConfiguration Configuration
 @implements IAsyncDisposable;
 
 <header class="p-3 mb-3 border-bottom top-nav-menu-wrapper sticky-top">
@@ -12,101 +13,58 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ms-lg-4">
-                <li><a href="#" class="nav-link px-2 text-white top-nav-menu-link">Forum</a></li>
-                <li><a href="#" class="nav-link px-2 text-white top-nav-menu-link">Blog</a></li>
-                <li><a href="#" class="nav-link px-2 text-white top-nav-menu-link">Get Forum Software</a></li>
+                <li><a href="/" class="nav-link px-2 text-white top-nav-menu-link">Forum</a></li>
+                <li><a href="blog" class="nav-link px-2 text-white top-nav-menu-link">Blog</a></li>
+                <li><a href="#" class="nav-link px-2 text-white top-nav-menu-link">Buy Now</a></li>
                 <li><a href="#" class="nav-link px-2 text-white top-nav-menu-link">FAQs</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+            @* <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                 <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-            </form>
-            <a @onclick=ShowChat class="d-block link-light text-decoration-none  mb-3 mb-lg-0 me-lg-3">
-                <i class="bi bi-chat-fill"></i>
-            </a>
-            <a class="d-block link-light text-decoration-none  mb-3 mb-lg-0 me-lg-3">
-                <i class="bi bi-bell-fill"></i>
-            </a>
-            <div class="dropdown text-end">
-                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-                </a>
-                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="#">New project...</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Sign out</a></li>
-                </ul>
-            </div>
+            </form> *@
+
+            <AuthorizeView>
+                    <NotAuthorized>
+                        <div class="col-md-3 text-end">
+                            <button @onclick="GoToLogin" class="btn btn-login me-2 fw-normal">Login</button>
+                            <button @onclick="GoToRegister"  class="btn btn-register fw-normal">Register</button>
+                        </div>
+                    </NotAuthorized>
+                    <Authorized>
+                    <a @onclick=ShowChat class="d-block link-light text-decoration-none  mb-3 mb-lg-0 me-lg-4 me-lg-0 mt-lg-0 me-md-5 mt-md-3 me-sm-5 me-5">
+                            <i class="bi bi-chat-fill"></i>
+                        </a>
+                        <a class="d-block link-light text-decoration-none  mb-3 mb-lg-0 me-lg-4 me-lg-0 me-md-5 mt-lg-0 mt-md-3 me-sm-5 me-5">
+                            <i class="bi bi-bell-fill"></i>
+                        </a>
+                        <div class="dropdown text-end">
+                            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                @if (Model is not null && Model.UserProfileImageUrl is not null)
+                                {
+                                    <img src="@Model.UserProfileImageUrl" alt="@Model.UserName" width="32" height="32" class="rounded-circle">
+                                }
+                                else
+                                {
+                                    @if (Model is not null && Model.Id is not null)
+                                    {
+                                        <span class="no-image-user-profile-top-nav-menu" style="background:#@(Model.Id.Substring(0,6));">
+                                            @Model.UserName.ToUpper()[0]
+                                        </span>
+                                    }
+                                }
+                            </a>
+                            <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                                <li><a class="dropdown-item" href="/user/@(@UserName)"><i class="bi bi-person"></i> User Profile</a></li>
+                                <li><a class="dropdown-item" href="/user/settings"><i class="bi bi-gear"></i> User Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" @onclick="Logout"><i class="bi bi-box-arrow-right"></i> Sign out</a></li>
+                            </ul>
+                        </div>
+                    </Authorized>
+            </AuthorizeView>
         </div>
     </div>
 </header>
-
-
-<nav class="navbar navbar-expand-lg navbar-light top-nav-menu-wrapper sticky-top">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <Logo LogoVM="logo"></Logo>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll top-nav-left-menu" style="--bs-scroll-height: 100px;">
-                <li class="nav-item top-nav-menu-item">
-                    <a class="nav-link top-nav-menu-link" aria-current="page" href="/">Forum</a>
-                </li>
-                <li class="nav-item top-nav-menu-item">
-                    <a class="nav-link top-nav-menu-link" href="blog">Blog</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ms-auto top-nav-menu">
-                <AuthorizeView>
-                    <NotAuthorized>
-                        <li class="nav-item">
-                            <button @onclick="GoToLogin" class="btn btn-success">Login</button>
-                        </li>
-                        <li class="nav-item">
-                            <button @onclick="GoToRegister" class="btn btn-primary">Register</button>
-                        </li>
-                    </NotAuthorized>
-                    <Authorized>
-                        <li class="nav-item">
-                            <button @onclick=ShowChat type="button" class="btn btn-link nav-link">
-                                <i class="bi bi-chat"></i>
-                            </button>
-                        </li>
-                        <li class="nav-item d-flex align-items-center justify-content-center">
-                            <div class="dropdown text-end">
-                                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-                                </a>
-                                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> User Settings</a></li>
-                                    @*<li><a class="dropdown-item" href="#">Settings</a></li>
-                                    <li><a class="dropdown-item" href="#">Profile</a></li> *@
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" @onclick="Logout"><i class="bi bi-box-arrow-right"></i> Sign out</a></li>
-                                </ul>
-                                @* <button type="button" class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
-                                <img src="images/profile.png" alt="user" width="25" class="rounded-circle">
-                                <span>@UserName</span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> User Settings</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" @onclick="Logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
-                                </ul> *@
-                            </div>
-                            
-                        </li>
-                    </Authorized>
-                </AuthorizeView>
-            </ul>
-        </div>
-    </div>
-</nav>
 
 @if(showChat)
 {
@@ -156,7 +114,10 @@
 
     private HubConnection? hubConnection;
 
-
+    private string GetImageUrl(string userId)
+    {
+        return $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userId}";
+    }
 
     protected async override Task OnInitializedAsync()
     {
@@ -169,17 +130,65 @@
         var authState = await authenticationStateTask;
         var user = authState.User;
 
+
         if (user.Identity.IsAuthenticated)
         {
             UserName = user.Identity.Name;
             await ConnectChatHubWhenLogin();
+            Model = await UserService.GetUserInfo(UserName);
+            await CheckUserImageProfile();
         }
 
         RefreshStateService.OpenChatBox += OpenChatBox;
         RefreshStateService.ConnectChatHubWhenLogin = ConnectChatHubWhenLogin;
 
-        // Model = await UserService.GetUserInfo(UserName);
     }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if(Model is null)
+        {
+            var authState = await authenticationStateTask;
+            var user = authState.User;
+
+            if (user.Identity.IsAuthenticated)
+            {
+                UserName = user.Identity.Name;
+                await ConnectChatHubWhenLogin();
+                Model = await UserService.GetUserInfo(UserName);
+                await CheckUserImageProfile();
+            }
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    private async Task CheckUserImageProfile()
+    {
+        if (Model is not null)
+        {
+
+            if (Model.Id is not null)
+            {
+                string imageUrl = GetImageUrl(Model.Id.ToString());
+
+                bool isExist = await UrlExists(imageUrl);
+                if (isExist)
+                {
+                    Model.UserProfileImageUrl = imageUrl;
+                }
+                else
+                {
+                    Model.UserProfileImageUrl = null;
+                }
+            }
+            else
+            {
+
+            }
+        }
+    }
+
 
     protected void GoToLogin()
     {
@@ -195,6 +204,7 @@
     {
         NavigationManager.NavigateTo("login/", true);
         await AuthenticationService.Logout();
+        Model = null;
     }
 
     private async void ShowChat()
@@ -215,7 +225,6 @@
         await InvokeAsync(StateHasChanged);
     }
 
-
     private async Task ConnectChatHubWhenLogin()
     {
         var authState = await authenticationStateTask;
@@ -226,9 +235,6 @@
             UserName = user.Identity.Name;
 
             var selfUser = await UserService.GetUserInfo(UserName!);
-
-            
-
 
             string token = await localStorage.GetItem("token");
 
@@ -280,5 +286,18 @@
         }
     }
 
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }
 
