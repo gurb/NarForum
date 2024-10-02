@@ -1,0 +1,105 @@
+﻿@using GurbForumUser.Client.Models.Report
+@inject IUserService? userService;
+@inject IReportService? reportService;
+
+
+<Modal @ref="modal" ModalTitle="Report Message" Callback="@SendReportMessage" ModalButtonText="Send Report Message" MaxWidth="none">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Title</label>
+        <InputText id="Name" class="form-control" @bind-Value="@request.Title"></InputText>
+    </div>
+    <div class="form-group form-margin">
+        <label for="exampleFormControlTextarea1">Example textarea</label>
+        <InputTextArea id="Post" class="form-control" @bind-Value="@request.Message"></InputTextArea>
+    </div>
+</Modal>
+
+
+@code {
+    [Parameter]
+    public PostVM? PostVM { get; set; }
+
+    Modal? modal;
+
+    CreateReportCommandVM? request { get; set; }
+
+    string? userId;
+
+    public void ShowModal()
+    {
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        modal?.CloseModal();
+    }
+
+    [Parameter]
+    public EventCallback<List<string>> Callback { get; set; }
+
+    protected override void OnInitialized()
+    {
+        request = new CreateReportCommandVM();
+        base.OnInitialized();
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        await base.OnInitializedAsync();
+    }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if(PostVM is not null)
+        {
+            request.PostId = PostVM.Id;
+            request.HeadingId = PostVM.HeadingId;
+            if (PostVM.HeadingIndex is not null)
+            {
+                request.HeadingIndex = PostVM.HeadingIndex.Value;
+            }
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    protected async Task SendReportMessage()
+    {
+        if(request is not null && reportService is not null)
+        {
+            if(PostVM is null)
+            {
+                return;
+            }
+
+            if(request.Title is null)
+            {
+                return;
+            }
+
+            if (request.Message is null)
+            {
+                return;
+            }
+
+            if (request.PostId is null)
+            {
+                return;
+            }
+
+            if (request.HeadingId is null)
+            {
+                return;
+            }
+
+            var response = await reportService.CreateReport(request);
+
+            if(response.IsSuccess)
+            {
+                
+            }
+        }
+    }
+}

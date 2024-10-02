@@ -1,0 +1,175 @@
+﻿@page "/blog"
+@page "/blog/{PageIndex:int}"
+@page "/blog/{CategoryName}"
+@page "/blog/{CategoryName}/{PageIndex:int}"
+@using GurbForumUser.Client.Models.BlogCategory
+@using GurbForumUser.Client.Models.BlogPost
+@using GurbForumUser.Client.Models.BlogComment
+@using GurbForumUser.Client.Pages.Blog.Component
+
+
+
+@if (isLoading)
+{
+    <SkeletonBreadcrumb></SkeletonBreadcrumb>
+    <div class="row blog-list-header">
+        <div class="col-6">
+            <h1 class="blog-heading skeleton skeleton-h1"></h1>
+        </div>
+    </div>
+
+    <SkeletonBlogPostCard></SkeletonBlogPostCard>
+    <SkeletonBlogPostCard></SkeletonBlogPostCard>
+    <SkeletonBlogPostCard></SkeletonBlogPostCard>
+    <SkeletonBlogPostCard></SkeletonBlogPostCard>
+}
+else
+{
+
+    <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
+
+    <div class="row blog-list-header">
+        @if(CategoryName is null)
+        {
+            <div class="col-6">
+                <h1 class="blog-heading">Blog</h1>
+            </div>
+        }
+        else
+        {
+            <div class="col-6">
+                <h1 class="blog-heading">@CategoryName.Replace("-", " ").ToTitleCase()</h1>
+            </div>
+        }
+
+    </div>
+
+    if(BlogPosts is not null && BlogPosts.Count > 0)
+    {
+        <div class="blog-post-grid">
+        @for (int i = 0; i < BlogPosts.Count; i++)
+        {
+            var blogPost = BlogPosts[i];
+            if (i % 2 == 0)
+            {
+                <BlogPostCard BlogPostVM="blogPost"></BlogPostCard>
+            }
+            else
+            {
+                // Index tek ise
+                <BlogPostCard BlogPostVM="blogPost"></BlogPostCard>
+                
+            }
+        }
+        <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+
+        </div>
+    }
+    else
+    {
+        <p>Not Found Blog Posts</p>
+    }
+
+}
+
+
+@code {
+    [Inject]
+    public IBlogCategoryService? BlogCategoryService { get; set; }
+    [Inject]
+    public IBlogPostService? BlogPostService { get; set; }
+    [Inject]
+    public IBlogCommentService? BlogCommentService { get; set; }
+
+    [Parameter]
+    public string? CategoryName { get; set; }
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
+
+    private string getBaseUrl()
+    {
+        if(CategoryName is not null)
+        {
+            return $"blog/{CategoryName}/";
+        }
+        else
+        {
+            return $"blog/";
+        }
+    }
+
+    private GetBlogPostsWithPaginationQueryVM? query {get; set;}
+
+    private BlogCategoryVM? Model { get; set; }
+
+    public List<BlogPostVM>? BlogPosts { get; set; }
+
+    bool isLoading = true;
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        if (PageIndex == 0) PageIndex = 1;
+
+        if(CategoryName is not null)
+        {
+            string categoryName = CategoryName.Replace("-", " ");
+
+            GetBlogCategoryQueryVM request = new GetBlogCategoryQueryVM
+            {
+                Name = categoryName
+            };
+
+            Model = await BlogCategoryService.GetBlogCategory(request);
+        }
+        else
+        {
+            Model = null;
+        }
+
+        CurrentPage = PageIndex;
+
+        query = new GetBlogPostsWithPaginationQueryVM
+        {
+            BlogCategoryId = Model != null ? Model.Id : null,
+            PageIndex = PageIndex,
+            PageSize = PageSize,
+            IsInclude = true
+        };
+
+        if(BlogPostService is not null)
+        {
+            BlogPostsPaginationVM blogPostsPagination = await BlogPostService.GetBlogPostsWithPagination(query);
+            BlogPosts = blogPostsPagination.BlogPosts;
+            TotalPages = (int)Math.Ceiling((double)blogPostsPagination.TotalCount / PageSize);
+
+            await SetBreadcrumb();
+        }
+
+        isLoading = false;
+
+        await base.OnParametersSetAsync();
+    }
+
+    private List<BreadcrumbItem> BreadcrumbItems { get; set; }
+
+    protected async Task SetBreadcrumb()
+    {
+        BreadcrumbItems = new List<BreadcrumbItem>();
+        BreadcrumbItems.Add(new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" });
+        BreadcrumbItems.Add(new BreadcrumbItem { Text = "Blog", HrefLink = $"/blog" });
+        if(Model is not null)
+        {
+            BreadcrumbItems.Add(new BreadcrumbItem { Text = Model.Name, HrefLink = $"/blog/{Model.Name.ToFriendlyUrl()}" });
+        }
+        BreadcrumbItems.Last().IsCurrentPage = true;
+
+        await InvokeAsync(StateHasChanged);
+    }
+}

@@ -1,0 +1,80 @@
+﻿.chat-box {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40%;
+    height: 50%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 1050; /* Ensure it's above other elements */
+}
+
+.chat-header {
+    background-color: #34485f;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.chat-body {
+    flex: 1;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    overflow-y: auto;
+}
+
+.chat-footer {
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    display: flex;
+}
+
+.chat-list {
+    grid-column: 1;
+    overflow-y: auto;
+}
+
+.chat-list li:hover {
+    background: aliceblue;
+    cursor:pointer;
+}
+
+.chat-area {
+    grid-column: 2;
+    overflow-y: auto;
+}
+
+.chat-history-list {
+}
+
+.chat-history-list li {
+    border: none;
+    margin-bottom: 5px;
+}
+
+.message-balloon {
+    border-radius: 5px;
+    padding: 10px 10px;
+}
+
+.receiver-message {
+    float: left;
+    background: #d1d1d1;
+}
+
+.owner-message {
+    float: right;
+    background: #f1f1f1;
+}
+
+.chat-footer input {
+    flex: 1;
+    margin-right: 10px;
+}

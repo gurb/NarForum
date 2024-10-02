@@ -1,0 +1,139 @@
+﻿@page "/create-heading"
+@page "/create-heading/{CategoryName}-{CategoryId:int}"
+@using System.Text.RegularExpressions
+
+@if(CategoryName != null)
+{
+    <p>Create Heading for @CategoryName</p>
+}
+else
+{
+    <p>Create Heading</p>
+}
+
+<EditForm Model="@Model" OnValidSubmit="HandleCreateHeading">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group form-margin">
+        <label asp-for="Title" class="control-label">Select Category</label>
+        <InputSelect class="form-select" aria-label="Default select example" @bind-Value="@Model.CategoryId" @onchange="OnChangeCategory">
+            @if(categories != null)
+            {
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            } else
+            {
+                <option disabled value="0">Loading...</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => Model.Title)" />
+    </div>
+
+    <div class="form-group form-margin">
+        <label asp-for="Title" class="control-label">Heading Title</label>
+        <InputText id="Title" class="form-control" @bind-Value="@Model.Title"></InputText>
+        <ValidationMessage For="@(() => Model.Title)" />
+    </div>
+
+    <div class="form-group form-margin">
+        <CreatePostForm @ref=createPostForm Model="CreateModel"></CreatePostForm>
+    </div>
+
+    <div class="form-group text-end">
+        <input type="submit" value="Create" class="btn btn-forum fw-normal w-20 mt-3" />
+    </div>
+</EditForm>
+
+
+@code {
+    private CategoryVM? parentCategory;
+
+    private List<CategoryVM>? categories;
+
+    public HeadingVM Model { get; set; }
+    public PostVM PostModel { get; set; }
+
+    [Parameter]
+    public string? CategoryName { get; set; }
+    [Parameter]
+    public int CategoryId { get; set; }
+
+    [Inject]
+    public IHeadingService? HeadingService { get; set; }
+    [Inject]
+    public ICategoryService? CategoryService { get; set; }
+
+    [Inject]
+    public NavigationManager? NavigationManager { get; set; }
+
+    CreatePostForm? createPostForm;
+    public PostVM CreateModel { get; set; } = new PostVM();
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = new HeadingVM();
+        PostModel = new PostVM();
+        categories = await CategoryService.GetCategories();
+
+        if(CategoryName != null)
+        {
+            parentCategory = categories.FirstOrDefault(x => x.CategoryId == CategoryId);
+            Model.CategoryId = parentCategory != null ? parentCategory.Id : Guid.Empty;
+        }
+        else
+        {
+            Model.CategoryId = categories.FirstOrDefault().Id;
+            CategoryName = categories.FirstOrDefault().Name;
+        }
+    }
+
+    private void OnChangeCategory()
+    {
+        parentCategory = categories.FirstOrDefault(x => x.Id == Model.CategoryId);
+        CategoryName = parentCategory.Name;
+    }
+
+    protected async Task HandleCreateHeading()
+    {
+        HeadingVM? heading;
+
+        Model.Content = GenerateContentFromDisplayContent(CreateModel.DisplayContent);
+
+        heading = new HeadingVM
+        {
+            Title = Model.Title,
+            CategoryId = Model.CategoryId,
+            Content = Model.Content
+        };
+
+        var result = await HeadingService.CreateHeading(heading);
+
+        NavigationManager.NavigateTo($"/category/{CategoryName.ToFriendlyUrl()}-{CategoryId}");
+    }
+
+    private string GenerateContentFromDisplayContent(string displayContent)
+    {
+        string content = displayContent;
+
+        // Regex quoteRegex = new Regex(@"<blockquote author-quote=""([^""]*)"" post-id=""(\d+)"" class=""quote-box"">(.*?)<\/blockquote>");
+        // Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
+        Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""]([0-9a-fA-F-]{36})['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
+
+        MatchCollection matches = quoteRegex.Matches(content);
+
+        foreach (Match match in matches)
+        {
+            string userName = match.Groups[1].Value;
+            string postId = match.Groups[2].Value;
+            string quoteContent = match.Groups[3].Value;
+
+            string newQuote = $"[Quote](PostId={postId})[/Quote]";
+
+            content = content.Replace(match.Value, newQuote);
+        }
+
+        return content;
+    }
+}

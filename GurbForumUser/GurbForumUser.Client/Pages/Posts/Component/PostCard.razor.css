@@ -1,0 +1,40 @@
+﻿
+
+.post-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom:25px;
+    height:auto;
+}
+
+
+.post-card-user-info {
+
+}
+
+.post-card-content {
+    font-size:0.9em;
+}
+
+
+.post-card-user-image {
+    height: 70px;
+    width: 70px;
+    background-color: #bbb;
+    border-radius: 50%;
+    padding: 1em;
+}
+
+.post-card-user-name {
+    font-weight: 600;
+    text-align: center;
+    padding: 0.5em;
+    font-size:0.9em;
+}
+
+.post-card-user-post-number {
+    font-size: 0.7em;
+    text-align: center;
+    padding:0.5em;
+}
+

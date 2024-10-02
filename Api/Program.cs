@@ -24,12 +24,13 @@ builder.Services.AddControllers();
 builder.Services.AddWebSockets(o => { 
     o.AllowedOrigins.Add("https://localhost:7058");
     o.AllowedOrigins.Add("https://localhost:7212");
+    o.AllowedOrigins.Add("http://localhost:5081/");
 });
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("all", builder => builder
-        .WithOrigins("https://localhost:7058", "https://localhost:7212")
+        .WithOrigins("https://localhost:7058", "https://localhost:7212", "http://localhost:5081/")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()  // Eğer credential (kimlik doğrulama) kullanılıyorsa ekleyin.

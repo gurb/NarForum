@@ -1,0 +1,22 @@
+﻿<div class="row post-card-link-body">
+    <div class="col-4">
+        <a href="@url" class="link-post-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.HeadingTitle</a>
+    </div>
+
+</div>
+
+@code {
+    
+
+    [Parameter]
+    public PostVM Model { get; set; }
+
+    [Parameter]
+    public string CategoryName { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    string url { get { return $"/category/{Model.CategoryName}/{Model.HeadingId.EncodeGuidToBase64Url()}/{Model.HeadingTitle.ToFriendlyUrl()}/{Model.PageIndex}/{Model.Id}"; } }
+}
+

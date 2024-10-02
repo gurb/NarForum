@@ -1,0 +1,21 @@
+﻿<div class="row current-category-card-body">
+    <div class="col-6">
+        Sub Categories
+    </div>
+    @if (min768)
+    {
+        <div class="col-1">
+            Headings
+        </div>
+        <div class="col-1">
+            Posts
+        </div>
+        <div class="col-4">
+            Last Post
+        </div>
+    }
+</div>
+@code {
+    [Parameter]
+    public bool min768 { get; set; } = true;
+}

@@ -1,0 +1,681 @@
+﻿@page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/"
+@page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}"
+@page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}/{PostId:guid}"
+@using System.Text.RegularExpressions
+
+@inject HttpClient Http
+@inject IConfiguration Configuration
+@inject IJSRuntime JS
+
+@implements IAsyncDisposable
+
+@inject RefreshStateService refreshStateService;
+
+@if(isLoading)
+{
+    <SkeletonBreadcrumb></SkeletonBreadcrumb>
+    <SkeletonH1 ClassName="@("heading-title")"></SkeletonH1>
+    <SkeletonCustomMiniPost></SkeletonCustomMiniPost>
+    <SkeletonCustomMiniPost></SkeletonCustomMiniPost>
+}
+else
+{
+    <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
+    @if(Heading is not null)
+    {
+        <div class="row">
+            <div class="col-sm-11 heading-merge">
+                <span class="heading-status">
+                    @if (Heading.IsPin)
+                    {
+                        <i class="bi bi-pin-fill me-1"></i>
+                    }
+                    @if (Heading.IsLock)
+                    {
+                        <i class="bi bi-lock-fill me-1"></i>
+                    }
+                </span>
+                <h1 class="heading-title">
+                    
+                    @Heading.Title
+                </h1>
+            </div>
+            <div class="col-sm-1 heading-control">
+                <AuthorizeView>
+                    <Authorized>
+                        @if (AuthExtension.IsAuth("FORUM_HEADING_LOCK"))
+                        {
+                            @if (Heading.IsLock)
+                            {
+                                <i class="bi bi-lock-fill" @onclick="() => LockHeading(Heading)"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-lock" @onclick="() => LockHeading(Heading)"></i>
+                            }
+                        }
+                        @if (AuthExtension.IsAuth("FORUM_HEADING_PIN"))
+                        {
+                            @if (Heading.IsPin)
+                            {
+                                <i class="bi bi-pin-fill" @onclick="() => PinHeading(Heading)"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-pin" @onclick="() => PinHeading(Heading)"></i>
+                            }
+                        }
+                    </Authorized>
+                    <NotAuthorized>
+
+                    </NotAuthorized>
+                </AuthorizeView>
+            </div>
+        </div>
+
+    }
+
+    <Pagination MinVersion=min768 TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    @foreach (var post in Posts)
+    {
+        @* <PostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></PostCard> *@
+        <MiniPostCard Post="post"
+                      Heading="Heading"
+                      Id="@post.Id"
+                      PostId="@post.Id"
+                      Content="@post.Content"
+                      Username="@post.UserName"
+                      IsOP='Heading!.UserName == post.UserName'
+                      LikeCallback="(postId) => LikePost(postId)"
+                      UnLikeCallback="(postId) => UnLikePost(postId)"
+                      AddFavoriteCallback="(postId) => AddFavorite(postId)"
+                      OpenChatCallback="(postId) => OpenChatBoxWithUsername(post.UserName)"
+                      ReportCallback="(post) => OpenReportModel(post)"
+                      ReplyCallback="(post) => AddReply(post)"></MiniPostCard>
+    }
+    <Pagination MinVersion=min768 TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    @if(Heading.IsLock)
+    {
+        <p class="lock-message-for-heading">The heading is locked by moderators and not accept new posts.</p>
+    }
+    else
+    {
+        <AuthorizeView>
+            <Authorized>
+                <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingGuid" Callback="RefreshPosts"></CreatePostForm>
+            </Authorized>
+            <NotAuthorized>
+                <p class="login-message-for-heading">You have to login to post this heading.</p>
+            </NotAuthorized>
+        </AuthorizeView>
+    }
+}
+
+
+<AddReportModal @ref=reportModal PostVM="ReportPostVM"></AddReportModal>
+
+<MediaQuery Width=768 @bind-Value=min768></MediaQuery>
+
+@code {
+    private bool isLoading { get; set; } = true;
+
+    AddReportModal? reportModal;
+
+    [Parameter]
+    public string CategoryName { get; set; }
+    [Parameter]
+    public int CategoryId { get; set; }
+
+    [Parameter]
+    public string? FriendlyUrl { get; set; }
+
+    [Parameter]
+    public string? HeadingId { get; set; }
+
+    private Guid HeadingGuid { get; set; }
+
+    [Parameter]
+    public Guid PostId { get; set; }
+
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
+
+    [Inject]
+    public IPostService PostService { get; set; }
+
+    [Inject]
+    public IHeadingService? HeadingService { get; set; }
+
+    [Inject]
+    public ICategoryService CategoryService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public ILikeService LikeService { get; set; }
+
+    [Inject]
+    public IFavoriteService FavoriteService { get; set; }
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+    [Inject]
+    public ITrackingLogService? TrackingLogService { get; set; }
+
+    HeadingVM? Heading { get; set; }
+
+    UserInfoVM CurrentUser { get; set; }
+
+    public List<PostVM>? Posts { get; private set; }
+    public List<PostVM>? QuotePosts { get; private set; }
+
+    public PostVM CreateModel { get; set; }
+
+    private List<BreadcrumbItem> BreadcrumbItems { get; set; }
+
+    private bool min768 { get; set; }
+
+    public List<LikeVM>? Likes { get; private set; }
+    public List<FavoriteVM>? Favorites { get; private set; }
+
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    PostVM? ReportPostVM { get; set; }
+
+    private string getBaseUrl()
+    {
+        return $"category/{CategoryName}/{HeadingId}/{FriendlyUrl}/";
+    }
+
+    private string GetImageUrl(string userId)
+    {
+        return $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userId}";
+    }
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    private IJSInProcessObjectReference? module;
+
+    private string? CurrentUsername { get; set; }
+
+    CreatePostForm? child;
+
+    protected async Task SetBreadcrumb()
+    {
+        var parentCategories = await CategoryService.GetParentCategoriesByIntId(CategoryId);
+        parentCategories = parentCategories.OrderBy(x => x.CategoryId).ToList();
+
+        BreadcrumbItems = new List<BreadcrumbItem>();
+        BreadcrumbItems.Add(new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" });
+        foreach (var parent in parentCategories)
+        {
+            BreadcrumbItems.Add(new BreadcrumbItem { Text = parent.Name, HrefLink = $"/category/{parent.Name.ToFriendlyUrl()}-{parent.CategoryId}/" });
+        }
+        BreadcrumbItems.Add(new BreadcrumbItem { Text = Heading!.Title, IsCurrentPage = true });
+    }
+
+    private void SetFavorites()
+    {
+        if (Posts == null || Favorites == null)
+            return;
+
+        foreach (var post in Posts)
+        {
+            var favorite = Favorites.FirstOrDefault(x => x.PostId == post.Id && x.UserName == CurrentUsername);
+
+            if(favorite != null)
+            {
+                post.IsFavorite = true;
+            }
+            else
+            {
+                post.IsFavorite = false;
+            }
+        }
+    }
+
+    private void SetLikes()
+    {
+        if (Posts == null || Likes == null)
+            return;
+
+        foreach (var post in Posts)
+        {
+            post.LikeCounter = Likes.Where(x => x.PostId == post.Id && x.IsLike == true).Count();
+            post.UnlikeCounter = Likes.Where(x => x.PostId == post.Id && x.IsLike == false).Count();
+            var like = Likes.FirstOrDefault(x => x.PostId == post.Id && x.UserName == CurrentUsername);
+            if(like != null)
+            {
+                post.IsLike = like.IsLike;
+            }
+            else
+            {
+                post.IsLike = null;
+            }
+        }
+    }
+
+    private async Task CheckUserImageProfile()
+    {
+        if (Posts is not null && Posts.Count > 0)
+        {
+            foreach (var post in Posts)
+            {
+                if (post.UserId is not null)
+                {
+                    string imageUrl = GetImageUrl(post.UserId.ToString());
+
+                    bool isExist = await UrlExists(imageUrl);
+                    if (isExist)
+                    {
+                        post.UserProfileImageUrl = imageUrl;
+                    }
+                }
+                else
+                {
+
+                }
+            }
+        }
+    }
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        var cookiePolicyAccepted = await JS.InvokeAsync<string>("GetCookiePolicyAccepted");
+
+        if (TrackingLogService is not null && HeadingId is not null && cookiePolicyAccepted == "true")
+        {
+            module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Headings/HeadingDetail.razor.js");
+
+            AddTrackingLogCommandVM command = new AddTrackingLogCommandVM
+            {
+                Type = Models.Enums.TrackingTypeVM.HEADING,
+                TargetId = HeadingId.DecodeBase64UrlToGuid(),
+                URL = getBaseUrl(),
+                Browser = await module.InvokeAsync<string>("GetBrowserName")
+            };
+
+            await TrackingLogService.AddTrackingLog(command);
+        }
+    }
+
+
+    protected async override Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        CreateModel = new PostVM();
+
+        if (PageIndex == 0) PageIndex = 1;
+
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            CurrentUsername = user.Identity.Name;
+        }
+
+        CurrentPage = PageIndex;
+
+        HeadingGuid = HeadingId.DecodeBase64UrlToGuid();
+
+        Heading = await HeadingService.GetHeadingById(HeadingGuid);
+        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingGuid, PageIndex, PageSize);
+        Posts = postPagination.Posts;
+        await CheckUserImageProfile();
+        QuotePosts = postPagination.QuotePosts;
+
+        ConfigureDisplayPosts(Posts);
+
+        Likes = await LikeService.GetLikesByHeadingId(HeadingGuid);
+
+        if(CurrentUsername != null)
+        {
+            Favorites = await FavoriteService.GetFavoritesByHeadingIdAndUserName(HeadingGuid, CurrentUsername);
+        }
+
+        SetLikes();
+        SetFavorites();
+
+        await ScrollToEntry();
+        TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
+
+        await SetBreadcrumb();
+
+        isLoading = false;
+        await InvokeAsync(StateHasChanged);
+
+    }
+
+    private void ConfigureDisplayPosts(List<PostVM>? posts)
+    {
+        if (posts == null) return;
+        if (posts.Count == 0) return;
+
+        foreach (var post in posts)
+        {
+            post.DisplayContent = GenerateDisplayContent(post.Content);
+        }
+    }
+
+    private string GenerateDisplayContent(string content)
+    {
+        string displayContent = content;
+
+        // Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=(\d+)\)\[\/Quote\]");
+        Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=([0-9a-fA-F-]{36})\)\[\/Quote\]");
+        MatchCollection matches = quoteRegex.Matches(displayContent);
+
+        foreach (Match match in matches)
+        {
+            Guid postId = new Guid(match.Groups[1].Value);
+
+            string quoteContent = "- Removed -";
+            PostVM? quotePost;
+
+            string quoteUsername = "Alıntı";
+
+            if(QuotePosts != null && QuotePosts.Count() > 0)
+            {
+                quotePost = QuotePosts.FirstOrDefault(x => x.Id == postId);
+
+                if(quotePost != null)
+                {
+                    quoteContent = DeleteQuoteTagsInQuote(quotePost.Content);
+                    quoteUsername = quotePost.UserName;
+                }
+            }
+
+            string newTag = $"<blockquote author-quote='{quoteUsername}' post-id='{postId}' class='quote-box'>{quoteContent}</blockquote>";
+
+            displayContent = displayContent.Replace(match.Value, newTag);
+        }
+
+        return displayContent;
+    }
+
+    private async Task ScrollToEntry()
+    {
+        StateHasChanged();
+        await JSRun();
+    }
+
+    protected async Task JSRun()
+    {
+        if (!string.IsNullOrEmpty(PostId.ToString()))
+        {
+            module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Headings/HeadingDetail.razor.js");
+            await module.InvokeAsync<string>("BlazorScrollToId", PostId);
+        }
+    }
+
+    protected async Task RefreshPosts()
+    {
+        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingGuid, 1, PageSize);
+        Posts = postPagination.Posts;
+        await CheckUserImageProfile();
+        QuotePosts = postPagination.QuotePosts;
+
+        ConfigureDisplayPosts(Posts);
+        await ScrollToEntry();
+        TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+
+    protected async Task LikePost(Guid PostId)
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("login");
+            return;
+        }
+
+        LikeVM newLike = new LikeVM
+        {
+            PostId = PostId,
+            HeadingId = Heading!.Id,
+            IsLike = true
+        };
+
+        var post = Posts.FirstOrDefault(x => x.Id == PostId);
+
+        if (post != null)
+        {
+            if (post.IsLike == true)
+            {
+                post.IsLike = null;
+                post.LikeCounter--;
+            }
+            else if(post.IsLike == false)
+            {
+                post.IsLike = true;
+                post.LikeCounter++;
+                post.UnlikeCounter--;
+            }
+            else if(post.IsLike == null)
+            {
+                post.IsLike = true;
+                post.LikeCounter++;
+            }
+
+        }
+        await InvokeAsync(StateHasChanged);
+
+        await LikeService.AddLike(newLike);
+    }
+
+    protected async Task UnLikePost(Guid PostId)
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if(!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("login");
+            return;
+        }
+
+        LikeVM newLike = new LikeVM
+        {
+            PostId = PostId,
+            HeadingId = Heading!.Id,
+            IsLike = false
+        };
+
+        var post = Posts.FirstOrDefault(x => x.Id == PostId);
+
+        if (post != null)
+        {
+            if(post.IsLike == false)
+            {
+                post.IsLike = null;
+                post.UnlikeCounter--;
+            }
+            else if (post.IsLike == true)
+            {
+                post.IsLike = false;
+                post.UnlikeCounter++;
+                post.LikeCounter--;
+            }
+            else if (post.IsLike == null)
+            {
+                post.IsLike = false;
+                post.UnlikeCounter++;
+            }
+        }
+        await InvokeAsync(StateHasChanged);
+
+        await LikeService.AddLike(newLike);
+    }
+
+    protected async Task AddFavorite(Guid PostId)
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("login");
+            return;
+        }
+
+        FavoriteVM newFavorite = new FavoriteVM
+        {
+            PostId = PostId,
+            HeadingId = Heading!.Id,
+        };
+
+        var post = Posts.FirstOrDefault(x => x.Id == PostId);
+
+        if(post != null)
+        {
+            post.IsFavorite = !post.IsFavorite;
+        }
+
+        await InvokeAsync(StateHasChanged);
+        await FavoriteService.AddFavorite(newFavorite);
+    }
+
+    protected async Task OpenChatBoxWithUsername(string userName)
+    {
+        if (refreshStateService != null)
+        {
+            await refreshStateService.OpenChatBox!.Invoke(userName);
+        }
+    }
+
+    protected async Task AddReply(PostVM post)
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("login");
+            return;
+        }
+
+
+        CreateModel.Content += $"\n[Quote](PostId={post.Id})[/Quote]";
+
+        // var postContent = await PostService.Get
+        string handledPost = DeleteQuoteTagsInQuote(post.Content);
+        CreateModel.DisplayContent += $"\n<blockquote author-quote='Alıntı' post-id='{post.Id}' class='quote-box'>{handledPost}</blockquote>\n<div>reply..</div>";
+
+        await child.SetContenteditable();
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    private string DeleteQuoteTagsInQuote(string content)
+    {
+        string newContent = content;
+
+        // Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=(\d+)\)\[\/Quote\]");
+        Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=([0-9a-fA-F-]{36})\)\[\/Quote\]");
+        Regex quoteRegex4 = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""]([0-9a-fA-F-]{36})['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
+        // Regex quoteRegex4 = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
+        MatchCollection matches = quoteRegex.Matches(newContent);
+        MatchCollection matches4 = quoteRegex4.Matches(newContent);
+
+        foreach (Match match in matches)
+        {
+            string postId = match.Groups[1].Value;
+
+            newContent = newContent.Replace(match.Value, string.Empty);
+        }
+
+        foreach (Match match in matches4)
+        {
+            string postId = match.Groups[1].Value;
+
+            newContent = newContent.Replace(match.Value, string.Empty);
+        }
+
+        return newContent;
+    }
+
+    private async Task OpenReportModel(PostVM postVM)
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            ReportPostVM = postVM;
+            reportModal?.ShowModal();
+        }
+        else
+        {
+            NavigationManager.NavigateTo("login");
+        }
+    }
+
+    private async Task PinHeading(HeadingVM heading)
+    {
+        if (HeadingService is not null)
+        {
+            PinHeadingCommandVM command = new PinHeadingCommandVM
+            {
+                Id = heading.Id
+            };
+
+            var response = await HeadingService.PinHeading(command);
+
+            if (response.IsSuccess)
+            {
+                Heading = await HeadingService.GetHeadingById(HeadingGuid);
+            }
+        }
+    }
+
+    private async Task LockHeading(HeadingVM heading)
+    {
+        if(HeadingService is not null)
+        {
+            LockHeadingCommandVM command = new LockHeadingCommandVM
+            {
+                Id = heading.Id
+            };
+
+            var response = await HeadingService.LockHeading(command);
+
+            if(response.IsSuccess)
+            {
+                Heading = await HeadingService.GetHeadingById(HeadingGuid);
+            }
+        }
+    }
+
+
+}

@@ -1,0 +1,31 @@
+﻿
+<div class="row post-card">
+    <div class="col-2 post-card-user-info">
+            <div class="container-fluid">
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="post-card-user-image"></div>
+                </div>
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="post-card-user-name ">@Username</div>
+                </div>
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="post-card-user-post-number">100 Posts</div>
+                </div>
+        </div>
+    </div>
+    <div class="col-10 post-card-content">
+        @Content
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Username { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Content { get; set; } = string.Empty;
+}

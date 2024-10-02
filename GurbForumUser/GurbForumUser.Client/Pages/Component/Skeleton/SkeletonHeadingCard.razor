@@ -1,0 +1,22 @@
+﻿<div class="row heading-card-body align-items-center">
+    <div class="col-sm-6 heading-text-area">
+        @* <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i> *@
+        <div class="skeleton skeleton-text skeleton-w5"></div>
+    </div>
+    @if (ShowNumber)
+    {
+        <div class="col-sm-2">
+            <div class="skeleton skeleton-text skeleton-w3"></div>
+        </div>
+    }
+    <div class="col-sm-4 last-post-summary">
+        <small class="last-post-username skeleton skeleton-text skeleton-w1 skeleton-he5"></small>
+        <br />
+        <small class="last-post-date"><div class="skeleton skeleton-text skeleton-w1 skeleton-he5"></div></small>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public bool ShowNumber { get; set; } = true;
+}

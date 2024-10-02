@@ -1,0 +1,48 @@
+﻿@inject HttpClient Http
+@inject IConfiguration Configuration
+
+@if(LogoVM is not null) {
+    @if (isExistLogo)
+    {
+        <img id="@LogoId" class="@Class" src="@logoUrl" alt="@LogoVM.AltText" />
+    }
+    else if(LogoVM.Text is not null)
+    {
+        @LogoVM.Text
+    }
+}
+
+@code {
+    [Parameter]
+    public LogoVM? LogoVM { get; set; }
+
+    [Parameter]
+    public string? LogoId { get; set; } = "forum-logo";
+
+    [Parameter]
+    public string? Class { get; set; } = "";
+
+    bool isExistLogo { get; set; }
+    string logoUrl { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        logoUrl = $"{Configuration["ApiBaseUrl"]}/file/images/logo";
+        isExistLogo = await UrlExists(logoUrl);
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}

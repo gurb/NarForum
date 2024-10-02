@@ -1,0 +1,56 @@
+﻿.pagination-min {
+    justify-content: center;
+}
+
+.page-item {
+    font-size: 11px;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+    background: #eee;
+    cursor: pointer;
+}
+
+.page-item a {
+    background: transparent;
+    border: none;
+    color: black;
+}
+
+.page-item-number {
+    margin-right: 0px;
+}
+
+.page-item-right-input {
+    background: #fff;
+    margin-left: auto;
+    user-select: none;
+}
+
+.page-input-dropdown {
+    padding:7px;
+}
+
+.page-input-dropdown-item {
+}
+
+.page-input-box {
+    font-size: 0.9rem;
+}
+
+.page-input-button {
+    font-size: 0.9rem;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #34485f;
+    border-color: #434343;
+}
+
+.page-item-number:last-child {
+}
+
+.page-item-next {
+    margin-left: 5px;
+}

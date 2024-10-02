@@ -1,0 +1,310 @@
+﻿@using GurbForumUser.Client.Services.Common
+@using GurbForumUser.Client.Services.UI
+@using Microsoft.AspNetCore.SignalR.Client;
+@inject HttpClient Http
+@inject IConfiguration Configuration
+@implements IAsyncDisposable;
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+<header class="p-3 mb-3 border-bottom top-nav-menu-wrapper sticky-top">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                <Logo LogoVM="logo"></Logo>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ms-lg-4">
+                <li><a href="/" class="nav-link px-2 text-white top-nav-menu-link">Forum</a></li>
+                <li><a href="blog" class="nav-link px-2 text-white top-nav-menu-link">Blog</a></li>
+                <li><a href="#" class="nav-link px-2 text-white top-nav-menu-link">Buy Now</a></li>
+                <li><a href="#" class="nav-link px-2 text-white top-nav-menu-link">FAQs</a></li>
+            </ul>
+
+            @* <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            </form> *@
+
+            <AuthorizeView>
+                    <NotAuthorized>
+                        <div class="col-md-3 text-end">
+                            <button @onclick="GoToLogin" class="btn btn-login me-2 fw-normal">Login</button>
+                            <button @onclick="GoToRegister"  class="btn btn-register fw-normal">Register</button>
+                        </div>
+                    </NotAuthorized>
+                    <Authorized>
+                    <a @onclick=ShowChat class="d-block link-light text-decoration-none  mb-3 mb-lg-0 me-lg-4 me-lg-0 mt-lg-0 me-md-5 mt-md-3 me-sm-5 me-5">
+                            <i class="bi bi-chat-fill"></i>
+                        </a>
+                        <a class="d-block link-light text-decoration-none  mb-3 mb-lg-0 me-lg-4 me-lg-0 me-md-5 mt-lg-0 mt-md-3 me-sm-5 me-5">
+                            <i class="bi bi-bell-fill"></i>
+                        </a>
+                        <div class="dropdown text-end">
+                            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                @if (Model is not null && Model.UserProfileImageUrl is not null)
+                                {
+                                    <img src="@Model.UserProfileImageUrl" alt="@Model.UserName" width="32" height="32" class="rounded-circle">
+                                }
+                                else
+                                {
+                                    @if (Model is not null && Model.Id is not null)
+                                    {
+                                        <span class="no-image-user-profile-top-nav-menu" style="background:#@(Model.Id.Substring(0,6));">
+                                            @Model.UserName.ToUpper()[0]
+                                        </span>
+                                    }
+                                }
+                            </a>
+                            <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                                <li><a class="dropdown-item" href="/user/@(@UserName)"><i class="bi bi-person"></i> User Profile</a></li>
+                                <li><a class="dropdown-item" href="/user/settings"><i class="bi bi-gear"></i> User Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" @onclick="Logout"><i class="bi bi-box-arrow-right"></i> Sign out</a></li>
+                            </ul>
+                        </div>
+                    </Authorized>
+            </AuthorizeView>
+        </div>
+    </div>
+</header>
+
+@if(showChat)
+{
+    <ChatBox OpenCreateChatBox=openCreateChat UserName=@createChatUserName HubConnection=@hubConnection></ChatBox>
+}
+
+
+@code {
+    UserInfoVM? Model;
+
+    ChatBox? chatBox;
+    private string? createChatUserName;
+    private bool openCreateChat;
+
+    [CascadingParameter]
+
+
+
+    public string UserName { get; set; }
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+    [Inject]
+    public RefreshStateService RefreshStateService { get; set; }
+
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Inject]
+    private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IAuthenticationService AuthenticationService { get; set; }
+
+    [Inject]
+    LocalStorageService localStorage { get; set; }
+
+    [Inject]
+    ILogoService? logoService { get; set; }
+
+    private bool showChat;
+
+    private LogoVM? logo;
+
+
+    // hub ---------------------------------------------------------------
+
+    private HubConnection? hubConnection;
+
+    private string GetImageUrl(string userId)
+    {
+        return $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userId}";
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        if(logoService is not null)
+        {
+            logo = await logoService.GetLogo();
+        }
+
+
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+
+        if (user.Identity.IsAuthenticated)
+        {
+            UserName = user.Identity.Name;
+            await ConnectChatHubWhenLogin();
+            Model = await UserService.GetUserInfo(UserName);
+            await CheckUserImageProfile();
+        }
+
+        RefreshStateService.OpenChatBox += OpenChatBox;
+        RefreshStateService.ConnectChatHubWhenLogin = ConnectChatHubWhenLogin;
+
+    }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if(Model is null)
+        {
+            var authState = await authenticationStateTask;
+            var user = authState.User;
+
+            if (user.Identity.IsAuthenticated)
+            {
+                UserName = user.Identity.Name;
+                await ConnectChatHubWhenLogin();
+                Model = await UserService.GetUserInfo(UserName);
+                await CheckUserImageProfile();
+            }
+
+            RefreshStateService.OpenChatBox += OpenChatBox;
+            RefreshStateService.ConnectChatHubWhenLogin = ConnectChatHubWhenLogin;
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    private async Task CheckUserImageProfile()
+    {
+        if (Model is not null)
+        {
+
+            if (Model.Id is not null)
+            {
+                string imageUrl = GetImageUrl(Model.Id.ToString());
+
+                bool isExist = await UrlExists(imageUrl);
+                if (isExist)
+                {
+                    Model.UserProfileImageUrl = imageUrl;
+                }
+                else
+                {
+                    Model.UserProfileImageUrl = null;
+                }
+            }
+            else
+            {
+
+            }
+        }
+    }
+
+
+    protected void GoToLogin()
+    {
+        NavigationManager.NavigateTo("login/");
+    }
+
+    protected void GoToRegister()
+    {
+        NavigationManager.NavigateTo("register/");
+    }
+
+    protected async void Logout()
+    {
+        NavigationManager.NavigateTo("login/", true);
+        await AuthenticationService.Logout();
+        Model = null;
+    }
+
+    private async void ShowChat()
+    {
+        showChat = !showChat;
+
+        openCreateChat = false;
+        createChatUserName = null;
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task OpenChatBox(string userName) {
+        showChat = true;
+        openCreateChat = true;
+        createChatUserName = userName;
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ConnectChatHubWhenLogin()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            UserName = user.Identity.Name;
+
+            var selfUser = await UserService.GetUserInfo(UserName!);
+
+            string token = await localStorage.GetItem("token");
+
+            hubConnection = new HubConnectionBuilder()
+            .WithUrl(
+                $"https://localhost:44342/chat",
+                o =>
+                {
+                    o.AccessTokenProvider = () => Task.FromResult<string?>(token);
+                    o.Url = new Uri($"https://localhost:44342/chat?username={UserName}&userId={selfUser.Id}");
+                    o.SkipNegotiation = true;
+                    o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+                }
+            ).Build();
+
+            hubConnection.Closed += async (error) =>
+            {
+                if (error != null)
+                {
+                    // hata meydana gelirse yeniden bağlamı işini burada yap
+                }
+                else
+                {
+                    // kapat
+                    await hubConnection.StopAsync();
+                }
+            };
+
+            hubConnection.On<string, string>("ReceiveChatRequest", async (fromUser, message) =>
+            {
+                if (message != null)
+                {
+
+                }
+                await InvokeAsync(StateHasChanged);
+            });
+
+            await hubConnection.StartAsync();
+        }
+    }
+
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection != null)
+        {
+            await hubConnection.StopAsync();
+            await hubConnection.DisposeAsync();
+        }
+    }
+
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}
+

@@ -1,0 +1,49 @@
+﻿@if (Sections == null)
+{
+    <SkeletonSectionCard min768=min768></SkeletonSectionCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonSectionCard min768=min768></SkeletonSectionCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonSectionCard min768=min768></SkeletonSectionCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+    <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
+}
+else
+{
+    <AuthorizeView>
+        <Authorized>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        @if(AuthExtension.IsAuth("FORUM_SECTION_CREATE"))
+                        {
+                            <a @onclick="OpenModal" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Section</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </Authorized>
+    </AuthorizeView>
+    <div class="container-fluid">
+        @foreach (var sec in Sections)
+        {
+            <SectionCard Model="sec" Name='@sec.Name' Categories="Categories != null ? Categories?.Where(x => x.SectionId == sec.Id).ToList() : null"></SectionCard>
+        }
+    </div>
+    @if (AuthExtension.IsAuth("FORUM_SECTION_CREATE"))
+    {
+        <AddSectionModal @ref="addSectionModal" Callback="Refresh"></AddSectionModal>
+    }
+}
+
+<MediaQuery Width=768 @bind-Value=min768></MediaQuery>
+
+@code {
+    public bool min768 { get; set; } = true;
+}

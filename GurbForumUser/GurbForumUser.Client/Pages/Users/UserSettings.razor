@@ -1,0 +1,221 @@
+﻿@page "/user/settings"
+@inject IConfiguration Configuration
+@inject HttpClient Http
+
+<AuthorizeView>
+    <Authorized>
+        <div class="row">
+            <div class="col-6">
+                <h1 class="user-settings-title">User Settings</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="d-flex flex-column align-items-center text-center">
+                    @* <span class="font-weight-bold">@Model.UserName</span> *@
+                    <span> </span>
+                    <div class="user-profile-no-image">
+                        @if (imageExist && imageUrl is not null && request.IsChangeImage == false)
+                        {
+                            <img class="profile-image-user" src="@imageUrl" alt="User Profile Image" />
+                        }
+                        else if (request.ProfileImageBase64 is not null && request.IsChangeImage)
+                        {
+                            <img class="profile-image-user" src="data:image/png;base64, @request.ProfileImageBase64" alt="User Profile Image" />
+                        }
+                        else
+                        {
+                            <span class="no-image-user"><i class="bi bi-person-fill"></i></span>
+                        }
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button class="user-settings-button float-none w-100 mt-3 mb-2">
+                                <InputFile class="unvisible-input-file" OnChange="LoadFile"></InputFile><i class="bi bi-image"></i> Update
+                            </button>
+                        </div>
+                        <div class="col-sm-12">
+                            <button class="user-settings-button float-none w-100"><i class="bi bi-trash"></i> Remove</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-8 user-profile-info">
+                <form @onsubmit=OnSaveChanges>
+                    <div class="mb-3">
+                        <label for="exampleInputUserName" class="form-label">UserName</label>
+                        <input type="text" @bind-value=request.UserName class="form-control" id="exampleInputUserName" aria-describedby="userNameHelp">
+                        <div id="userNameHelp" class="form-text">Change your username if it is not taken</div>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" @bind=request.IsChangePassword type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Change Password
+                        </label>
+                    </div>
+                    @if (request.IsChangePassword)
+                    {
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">New Password</label>
+                            <input type="password" @bind-value=request.NewPassword class="form-control" id="exampleInputPassword1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+                            <input type="password" @bind-value=request.ConfirmPassword class="form-control" id="exampleInputPassword1">
+                            @if (request.NewPassword != request.ConfirmPassword)
+                            {
+                                <div class="alert alert-danger mt-2" role="alert">
+                                    New password not equal with confirm password.
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">New Password</label>
+                            <input type="password" @bind-value=request.NewPassword class="form-control" id="exampleInputPassword1" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+                            <input type="password" @bind-value=request.ConfirmPassword class="form-control" id="exampleInputPassword1" disabled>
+                        </div>
+                    }
+
+                    <div class="mb-3 text-end">
+                        <button type="submit" class="user-settings-button"><i class="bi bi-floppy-fill"></i> Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <GurbForumUser.Client.Pages.ErrorPages.Page401></GurbForumUser.Client.Pages.ErrorPages.Page401>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+
+@code {
+    [Inject]
+    public IUserService? UserService { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationStateTask { get; set; }
+
+    private List<IBrowserFile> loadedFiles = new();
+    private long maxFileSize = 1024 * 5;
+    private int maxFiles = 1;
+    private bool isLoading;
+
+    private string? imageUrl { get; set; }
+    bool imageExist;
+
+    ChangeUserSettingsRequestVM? request { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        request = new ChangeUserSettingsRequestVM();
+
+        if (UserService is not null)
+        {
+            if (authenticationStateTask is not null)
+            {
+                var authState = await authenticationStateTask;
+
+                if (authState is not null)
+                {
+                    var user = authState.User;
+
+                    if (user is not null && user.Identity is not null && user.Identity.IsAuthenticated)
+                    {
+                        request.UserName = user.Identity.Name;
+
+                        var userInfo = await UserService.GetUserInfo(request.UserName);
+
+                        if(userInfo is not null)
+                        {
+                            imageUrl = $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userInfo.Id}";
+
+                            imageExist = await UrlExists(imageUrl);
+                        }
+                    }
+                }
+            }
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LoadFile(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+
+        loadedFiles.Clear();
+
+        foreach (var file in e.GetMultipleFiles(maxFiles))
+        {
+            try
+            {
+                loadedFiles.Add(file);
+            }
+            catch (Exception ex)
+            {
+            //
+            }
+        }
+
+        if (loadedFiles.Count > 0)
+        {
+            var file = loadedFiles.FirstOrDefault();
+            if (file is not null)
+            {
+                await using MemoryStream fs = new MemoryStream();
+                await file.OpenReadStream(maxAllowedSize: 1048576).CopyToAsync(fs);
+                byte[] somBytes = GetBytes(fs);
+                request.ProfileImageBase64 = Convert.ToBase64String(somBytes, 0, somBytes.Length);
+                request.FileName = e.File.Name;
+                request.ContentType = e.File.ContentType;
+
+                request.IsChangeImage = true;
+            }
+        }
+
+        isLoading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+    
+
+    public static byte[] GetBytes(Stream stream)
+    {
+        var bytes = new byte[stream.Length];
+        stream.Seek(0, SeekOrigin.Begin);
+        stream.ReadAsync(bytes, 0, bytes.Length);
+        stream.Dispose();
+        return bytes;
+    }
+
+    protected async Task OnSaveChanges()
+    {
+        if(UserService is not null && request is not null)
+        {
+            await UserService.ChangeUserSettings(request);
+        }
+    }
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}

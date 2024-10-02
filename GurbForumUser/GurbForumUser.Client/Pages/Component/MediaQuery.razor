@@ -1,0 +1,48 @@
+﻿@inject IJSRuntime JS;
+@implements IAsyncDisposable
+
+@code {
+    private IJSInProcessObjectReference? module;
+
+    [Parameter]
+    public int Width { get; set; }
+    [Parameter]
+    public bool Value{ get; set; }
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+
+
+    protected async override Task OnAfterRenderAsync(bool firstRender) {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Component/MediaQuery.razor.js");
+            await module.InvokeVoidAsync("RegisterChangeCallback", DotNetObjectReference.Create(this));
+            await module.InvokeVoidAsync("MinWidthPx", Width);
+
+            bool value = await module.InvokeAsync<bool>("CheckQuery");
+            await ValueChanged.InvokeAsync(value);
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnResize()
+    {
+        if(module is not null)
+        {
+            bool value = await module.InvokeAsync<bool>("CheckQuery");
+            await ValueChanged.InvokeAsync(value);
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+}

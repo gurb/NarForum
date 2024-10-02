@@ -1,0 +1,103 @@
+﻿@using Microsoft.Net.Http.Headers
+@using System.Text.RegularExpressions
+@{
+    Boolean isBot = false;
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+    var userAgent = HttpContextAccessor?.HttpContext?.Request.Headers[HeaderNames.UserAgent];
+    if (userAgent.HasValue)
+    {
+        var agent = userAgent.ToString();
+        if (!string.IsNullOrWhiteSpace(agent))
+        {
+            isBot = Regex.IsMatch(
+                agent,
+                @"bot|crawler|baiduspider|80legs|ia_archiver|voyager|curl|wget|yahoo! slurp|mediapartners-google",
+                RegexOptions.IgnoreCase
+            );
+        }
+        else
+        {
+            isBot = false;
+        }
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="GurbForumUser.styles.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            window.deleteElementById = function (id) {
+                var element = document.getElementById(id);
+                element.parentNode.removeChild(element);
+            }
+        })();
+    </script>
+    @if (isBot)
+    {
+        <HeadOutlet @rendermode="new InteractiveWebAssemblyRenderMode(prerender: true)" />
+    }
+    else
+    {
+        <HeadOutlet @rendermode="new InteractiveWebAssemblyRenderMode(prerender: false)" />
+    }
+    @* <HeadOutlet @rendermode="InteractiveWebAssembly" /> *@
+</head>
+
+<body class="d-flex flex-column h-100">
+    <div id="app" class="h-100">
+    <CascadingValue Value="isBot">
+        @if (isBot)
+        {
+            <Routes @rendermode="new InteractiveWebAssemblyRenderMode(prerender: true)" />
+        }
+        else
+        {
+            <Routes @rendermode="new InteractiveWebAssemblyRenderMode(prerender: false)" />
+            @* <div id="webassembly-loading-spinner">
+                <p>Loading...</p>
+            </div> *@
+        }
+    </CascadingValue>
+    </div>
+
+    @* <Routes @rendermode="InteractiveWebAssembly" /> *@
+    @* <script src="_framework/blazor.web.js"></script> *@
+    @if (!isBot)
+    {
+        <script src="_framework/blazor.web.js"></script>
+
+        <script>
+            function SetCookiePolicyAccepted() {
+                localStorage.setItem('CookiePolicyAccepted', "true");
+            }
+
+            function SetCookiePolicyRejected() {
+                localStorage.setItem('CookiePolicyAccepted', "false");
+            }
+
+            function GetCookiePolicyAccepted() {
+                const cookiePolicy = localStorage.getItem('CookiePolicyAccepted');
+                if (cookiePolicy === "true" || cookiePolicy === "false") {
+                    return cookiePolicy;
+                }
+                else {
+                    return null;
+                }
+            }
+
+        </script>
+    }
+</body>
+
+</html>

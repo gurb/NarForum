@@ -1,0 +1,688 @@
+﻿@using GurbForumUser.Client.Models.Garnet
+@using GurbForumUser.Client.Models.Message
+@using Microsoft.AspNetCore.SignalR.Client
+@using System.Text.Json
+<div class="chat-box">
+    <div class="chat-header">
+        <div class="row">
+            <div class="col-sm-3">
+
+            </div>
+            <div class="col-sm-6 text-center">
+                Chat
+            </div>
+            <div class="col-sm-3 text-end">
+                <button type="button" class="btn btn-light pb-0 pt-0" @onclick="CreateChat"><i class="bi bi-send-plus"></i> Create Chat</button>
+            </div>
+        </div>
+    </div>
+    <div class="chat-body">
+        <div class="chat-list">
+            <ul class="list-group">
+                @foreach(var chat in Chats)
+                {
+                    <li class="list-group-item" @onclick="()=>OpenChatVM(chat)">
+                        @chat.Subject
+                        @if(@chat.Status == Models.Enums.ChatStatusVM.Pending) {
+                            <span style="float:right;"><i class="bi bi-clock-history"></i></span>
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="chat-area">
+            @if( OpenCreateChatBox && SelfUserId is not null)
+            {
+                @if (showUserEmpty)
+                {
+                    <div class="alert alert-warning p-2 m-2" role="alert">
+                        You have to select one user to send request!
+                    </div>
+                }
+                @if (showTextEmpty)
+                {
+                    <div class="alert alert-warning p-2 m-2" role="alert">
+                        Message field is cannot be empty!
+                    </div>
+                }
+                @if (showSubjectEmpty)
+                {
+                    <div class="alert alert-warning p-2 m-2" role="alert">
+                        Subject field is cannot be empty!
+                    </div>
+                }
+                
+                <SelectBox @ref=@selectBox Heading="Select User" SearchText="@searchSelectBox" Labels=UserLabels Placeholder="Search username..." SearchLabelCallback="RefreshUserLabels" SelectCallback="UserSelected"></SelectBox>
+                <div class="card p-2 m-2">
+                    <div class="form-group mb-2">
+                        <input type="text" class="form-control" @bind="@chatRequestSubject" placeholder="Subject">
+                    </div>
+                    <div class="form-group mb-2">
+                        <textarea class="form-control" rows="3" @bind="@chatRequestMessage" placeholder="Message"></textarea>
+                    </div>
+                    <div class="form-group mb-2">
+                        <button type="button" class="btn btn-primary w-100 text-center" @onclick="SendChatRequest"><i class="bi bi-send-exclamation-fill"></i> Send a request</button>
+                    </div>
+                </div>
+            }
+            else if (openSelectedChat && selectedChatVM is not null && selectedChatVM.Status == Models.Enums.ChatStatusVM.Pending)
+            {
+                <div class="card p-2 m-2">
+                    <div class="form-group mb-2">
+                        <span class="message-balloon receiver-message w-100">
+                            <h6>@selectedChatVM.Subject</h6>
+                        </span>
+                    </div>
+                    <div class="form-group mb-2">
+                        <span class="message-balloon receiver-message w-100">
+                            @selectedChatVM.Message
+                        </span>
+                    </div>
+                    @if (selectedChatVM.Receiver is not null && SelfUsername == selectedChatVM.Receiver.UserName)
+                    {
+                        <div class="form-group mb-2">
+                            <button type="button" class="btn btn-success w-100 text-center" @onclick='()=>AcceptChatRequest(true)'><i class="bi bi-send-exclamation-fill"></i> Accept the request</button>
+                        </div>
+                        <div class="form-group mb-2">
+                            <button type="button" class="btn btn-danger w-100 text-center" @onclick='()=>AcceptChatRequest(false)'><i class="bi bi-send-exclamation-fill"></i> Reject the request</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group mb-2">
+                            <span class="message-balloon receiver-message w-100">
+                                Waiting for response...
+                            </span>
+                        </div>
+                    }
+                </div>
+            }
+            else if (openSelectedChat && selectedChatVM is not null && selectedChatVM.Status == Models.Enums.ChatStatusVM.Approved)
+            {
+                @if (showMessageEmpty)
+                {
+                    <div class="alert alert-warning p-2 m-2" role="alert">
+                        You can't send message as empty!
+                    </div>
+                }
+                @if(selectedChatVM != null && ChatDict.ContainsKey(selectedChatVM.Id!))
+                {
+                    <ul class="list-group chat-history-list">
+                        @foreach(var message in ChatDict[selectedChatVM.Id!])
+                        {
+                            @if (message.OwnerId == SelfUserId)
+                            {
+                                <li class="list-group-item">
+                                    <div class="message-area">
+                                        <span class="message-balloon owner-message">
+                                            @message.Text
+                                        </span>
+                                    </div>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="list-group-item">
+                                    <div class="message-area">
+                                        <span class="message-balloon receiver-message">
+                                            @message.Text
+                                        </span>
+                                    </div>
+                                </li>
+                            }
+
+                        }
+                    </ul>
+                }
+
+                
+            }
+            else if (openSelectedChat && selectedChatVM is not null && selectedChatVM.Status == Models.Enums.ChatStatusVM.Rejected) 
+            {
+                <div class="alert alert-danger p-2 m-2" role="alert">
+                    Chat request was rejected!
+                </div>
+            }
+            else
+            {
+                
+            }
+        </div>
+    </div>
+    <div class="chat-footer">
+        @if (!OpenCreateChatBox && selectedChatVM is not null && selectedChatVM.Status == Models.Enums.ChatStatusVM.Approved)
+        {
+            <input type="text" @bind=@messageText class="form-control" placeholder="Mesajınızı yazın...">
+            <button class="btn btn-primary" @onclick="SendMessage"><i class="bi bi-send-fill"></i></button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public bool OpenCreateChatBox { get; set; }
+
+    [Parameter]
+    public HubConnection? HubConnection { get; set; }
+
+    [Parameter]
+    public string? UserName { get; set; }
+
+    private List<SelectLabel> UserLabels = new List<SelectLabel>();
+
+    private List<ChatVM> Chats = new List<ChatVM>();
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+    [Inject]
+    public IMessageService MessageService { get; set; }
+
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Inject]
+    private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+    private SelectBox? selectBox;
+    private string? searchSelectBox;
+
+    private bool showUserEmpty;
+    private bool showSubjectEmpty;
+    private bool showTextEmpty;
+    private bool showMessageEmpty;
+
+    private string? SelfUsername;
+    private string? SelfUserId;
+
+    private string chatRequestSubject = string.Empty;
+
+    private string chatRequestMessage = string.Empty;
+
+    private string messageText = string.Empty;
+
+    private bool IsHubConnectionSetted = false;
+
+    private ChatVM? selectedChatVM;
+    private List<MessageVM>? selectedMessageList;
+
+    Dictionary<string, List<MessageVM>> ChatDict = new Dictionary<string, List<MessageVM>>();
+
+    private bool openSelectedChat = false;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            SelfUsername = user.Identity.Name;
+            var selfUser = await UserService.GetUserInfo(SelfUsername!);
+
+            if(selfUser is not null)
+            {
+                SelfUserId = selfUser.Id;
+            }
+        }
+
+    }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        searchSelectBox = UserName;
+
+        await RefreshUserLabels(searchSelectBox);
+
+        var selectedUserLabel = UserLabels.FirstOrDefault(x => x.Text == searchSelectBox);
+
+        if(selectedUserLabel is not null)
+        {
+            selectedUserLabel.IsSelect = true;
+            showUserEmpty = false;
+        }
+
+        if(SelfUserId is not null)
+        {
+            GetChatResponseVM chatResponseFromApi = await MessageService.GetChats(SelfUserId);
+
+            Chats = chatResponseFromApi.Chats;
+
+            string?[]? chatIds = Chats.Select(x => x.Id).ToArray();
+
+            if(chatIds is not null && chatIds.Length > 0)
+            {
+                GetMessageResponseVM messageResponseFromApi = await MessageService.GetMessages(chatIds!);
+
+                if(messageResponseFromApi.Messages is not null && messageResponseFromApi.Messages.Count > 0)
+                {
+
+                    foreach (var msg in messageResponseFromApi.Messages)
+                    {
+                        if (!ChatDict.ContainsKey(msg.ChatId))
+                        {
+                            ChatDict.Add(msg.ChatId, new List<MessageVM>());
+                        }
+
+                        if (msg != null)
+                        {
+                            bool isExist = ChatDict[msg.ChatId].Any(x => x.Id == msg.Id);
+
+                            if (isExist)
+                            {
+                                var message = ChatDict[msg.ChatId].FirstOrDefault(x => x.Id == msg.Id);
+
+                                if (message is not null)
+                                {
+                                    // message.Status = chatResponseVM.Status;
+                                }
+                            }
+                            else
+                            {
+                                ChatDict[msg.ChatId].Add(msg);
+                            }
+                        }
+                    }
+
+                    foreach (var chat in ChatDict)
+                    {
+                        ChatDict[chat.Key] = ChatDict[chat.Key].OrderBy(x => x.DateTime).ToList();
+                    }
+
+                }
+
+
+            }
+        }
+
+        if(HubConnection is not null && !IsHubConnectionSetted)
+        {
+            IsHubConnectionSetted = true;
+
+            HubConnection.On<string, string>("ReceiveChatRequest", async (fromUser, chatRequest) =>
+            {
+                if (chatRequest != null)
+                {
+                    ChatVM? chatRequestVM = JsonSerializer.Deserialize<ChatVM>(chatRequest);
+
+                    if(chatRequestVM is not null)
+                    {
+                        Chats.Add(chatRequestVM);
+                    }
+                }
+                await InvokeAsync(StateHasChanged);
+            });
+
+            HubConnection.On<string, string>("ReceiveChatHistory", async (fromUser, chatHistoryResponse) =>
+            {
+                if (chatHistoryResponse != null)
+                {
+                    HashScanResultVM? chatHistoryVM = JsonSerializer.Deserialize<HashScanResultVM>(chatHistoryResponse);
+
+                    if (chatHistoryVM != null && chatHistoryVM.Hash is not null)
+                    {
+                        foreach(var value in chatHistoryVM.Hash)
+                        {
+                            ChatVM? chatResponseVM = JsonSerializer.Deserialize<ChatVM>(value.Value);
+
+                            if(chatResponseVM != null)
+                            {
+                                bool isExist = Chats.Any(x => x.Id == chatResponseVM.Id);
+                                if (isExist)
+                                {
+                                    var chat = Chats.FirstOrDefault(x => x.Id == chatResponseVM.Id);
+
+                                    if (chat is not null)
+                                    {
+                                        chat.Status = chatResponseVM.Status;
+                                    }
+                                }
+                                else
+                                {
+                                    Chats.Add(chatResponseVM);
+                                }
+                            }
+                        }
+                    }
+                }
+                await InvokeAsync(StateHasChanged);
+            });
+
+            HubConnection.On<string, string>("ReceiveMessageHistory", async (fromUser, messageHistoryResponse) =>
+            {
+                if (messageHistoryResponse != null)
+                {
+                    HashScanResultVM? messageHistoryVM = JsonSerializer.Deserialize<HashScanResultVM>(messageHistoryResponse);
+
+                    if (messageHistoryVM != null && messageHistoryVM.Hash is not null)
+                    {
+                        foreach (var value in messageHistoryVM.Hash)
+                        {
+                            MessageVM? messageResponseVM = JsonSerializer.Deserialize<MessageVM>(value.Value);
+
+                            if (messageResponseVM == null) return;
+
+                            if (!ChatDict.ContainsKey(messageResponseVM.ChatId))
+                            {
+                                ChatDict.Add(messageResponseVM.ChatId, new List<MessageVM>());
+                            }
+
+                            if (messageResponseVM != null)
+                            {
+
+                                bool isExist = ChatDict[messageResponseVM.ChatId].Any(x => x.Id == messageResponseVM.Id);
+
+                                if (isExist)
+                                {
+                                    var message = ChatDict[messageResponseVM.ChatId].FirstOrDefault(x => x.Id == messageResponseVM.Id);
+
+                                    if (message is not null)
+                                    {
+                                        // message.Status = chatResponseVM.Status;
+                                    }
+                                }
+                                else
+                                {
+                                    ChatDict[messageResponseVM.ChatId].Add(messageResponseVM);
+                                }
+                            }
+                        }
+                        foreach (var chat in ChatDict)
+                        {
+                            ChatDict[chat.Key] = ChatDict[chat.Key].OrderBy(x => x.DateTime).ToList();
+                        }
+                    }
+                }
+                await InvokeAsync(StateHasChanged);
+            });
+
+            HubConnection.On<string, string>("ReceiveChatResponse", async (fromUser, chatResponse) =>
+            {
+                if (chatResponse != null)
+                {
+                    if(chatResponse.Length == 1)
+                    {
+                        
+                    }
+
+
+                    ChatVM? chatResponseVM = JsonSerializer.Deserialize<ChatVM>(chatResponse);
+
+                    if(chatResponseVM != null)
+                    {
+                        bool isExist = Chats.Any(x => x.Id == chatResponseVM.Id);
+
+                        if (isExist)
+                        {
+                            var chat = Chats.FirstOrDefault(x => x.Id == chatResponseVM.Id);
+
+                            if(chat is not null)
+                            {
+                                chat.Status = chatResponseVM.Status;
+                            }
+                        }
+                        else
+                        {
+                            Chats.Add(chatResponseVM);
+                        }
+                    }
+                }
+                await InvokeAsync(StateHasChanged);
+            });
+
+            HubConnection.On<string, string>("ReceiveMessage", async (fromUser, messageResponse) =>
+            {
+                if (messageResponse != null)
+                {
+                    MessageVM? messageResponseVM = JsonSerializer.Deserialize<MessageVM>(messageResponse);
+
+                    if (messageResponseVM == null) return;
+
+                    if(!ChatDict.ContainsKey(messageResponseVM.ChatId))
+                    {
+                        ChatDict.Add(messageResponseVM.ChatId, new List<MessageVM>());
+                    }
+
+                    if (messageResponseVM != null)
+                    {
+
+                        bool isExist = ChatDict[messageResponseVM.ChatId].Any(x => x.Id == messageResponseVM.Id);
+
+                        if (isExist)
+                        {
+                            var message = ChatDict[messageResponseVM.ChatId].FirstOrDefault(x => x.Id == messageResponseVM.Id);
+
+                            if (message is not null)
+                            {
+                                // message.Status = chatResponseVM.Status;
+                            }
+                        }
+                        else
+                        {
+                            ChatDict[messageResponseVM.ChatId].Add(messageResponseVM);
+                        }
+                    }
+                }
+                await InvokeAsync(StateHasChanged);
+            });
+        }
+
+        if(HubConnection is not null)
+        {
+            await HubConnection.SendAsync("GetChatHistory");
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    protected async Task RefreshUserLabels(string? userName)
+    {
+        var userPaginationDto = await UserService.GetUsersByUsernameWithPagination(userName, 1, 5);
+
+        if (userPaginationDto != null && userPaginationDto.TotalCount > 0 && userPaginationDto.Users != null)
+        {
+            UserLabels = userPaginationDto.Users.Where(x => x.UserName != SelfUsername).Select(x => new SelectLabel
+            {
+                IsSelect = false,
+                Text = x.UserName,
+                Id = x.Id,
+            })
+            .ToList();
+        }
+        else
+        {
+            UserLabels.Clear();
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task UserSelected()
+    {
+        if (selectBox is not null)
+        {
+            if (selectBox.SelectedLabelText is not null)
+            {
+                showUserEmpty = false;
+                UserName = selectBox.SelectedLabelText;
+                searchSelectBox = UserName;
+            }
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task SendChatRequest()
+    {
+        if(selectBox is not null)
+        {
+            if(string.IsNullOrEmpty(chatRequestMessage))
+            {
+                showTextEmpty = true;
+                return;
+            }
+            else
+            {
+                showTextEmpty = false;
+            }
+
+            if (string.IsNullOrEmpty(chatRequestSubject))
+            {
+                showSubjectEmpty = true;
+                return;
+            }
+            else
+            {
+                showSubjectEmpty = false;
+            }
+
+
+            if(selectBox.SelectedLabelText is null)
+            {
+                showUserEmpty = true;
+                return;
+            }
+            else
+            {
+                showUserEmpty = false;
+
+                // send
+
+                if (HubConnection is not null && selectBox.SelectedLabel is not null)
+                {
+                    ChatVM chatRequest = new ChatVM
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Subject = chatRequestSubject,
+                        Message = chatRequestMessage,
+                        Status = Models.Enums.ChatStatusVM.Pending,
+                        Receiver = new UserVM { UserName = selectBox.SelectedLabelText, Id = selectBox.SelectedLabel.Id },
+                        ReceiverId = selectBox.SelectedLabel.Id,
+                        Creator = new UserVM { UserName = SelfUsername, Id = SelfUserId },
+                        CreatorId = SelfUserId,
+                    };
+
+                    Chats.Add(chatRequest);
+
+                    await HubConnection.SendAsync("SendChatRequest", chatRequest.Id, selectBox.SelectedLabelText, chatRequest.ReceiverId, chatRequestSubject, chatRequestMessage);
+                }
+
+            }
+
+            searchSelectBox = selectBox.SearchText;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task SendMessage()
+    {
+        if (string.IsNullOrEmpty(messageText))
+        {
+            showMessageEmpty = true;
+            return;
+        }
+        else
+        {
+            showMessageEmpty = false;
+        }
+
+        if (HubConnection is not null && selectedChatVM is not null && selectedChatVM.Id is not null)
+        {
+            MessageVM messageVM = new MessageVM
+            {
+                Id = Guid.NewGuid().ToString(),
+                Text = messageText,
+                Owner = new UserVM { UserName = SelfUsername, Id = SelfUserId },
+                OwnerId = SelfUserId,
+                DateTime = DateTime.UtcNow,
+                ChatId = selectedChatVM.Id
+            };
+
+            if (!ChatDict.ContainsKey(selectedChatVM.Id))
+            {
+                ChatDict.Add(selectedChatVM.Id, new List<MessageVM>());
+                ChatDict[selectedChatVM.Id].Add(messageVM);
+            }
+            else
+            {
+                ChatDict[selectedChatVM.Id].Add(messageVM);
+            }
+
+            if (selectedChatVM.Receiver is not null && selectedChatVM.Creator is not null)
+            {
+                if(selectedChatVM.Receiver.UserName == SelfUsername)
+                {
+                    await HubConnection.SendAsync("SendMessage", selectedChatVM.Id, messageVM.Id, selectedChatVM.Creator.UserName, messageVM.Text);
+                }
+                else
+                {
+                    await HubConnection.SendAsync("SendMessage", selectedChatVM.Id, messageVM.Id, selectedChatVM.Receiver.UserName, messageVM.Text);
+                }
+            }
+
+        }
+    }
+
+    protected async Task OpenChatVM(ChatVM chatVM)
+    {
+        selectedChatVM = chatVM;
+
+        openSelectedChat = true;
+        OpenCreateChatBox = false;
+        showUserEmpty = true;
+        searchSelectBox = null;
+        UserName = null;
+
+        UserLabels.Clear();
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task AcceptChatRequest(bool isAccept)
+    {
+        if(selectedChatVM is not null)
+        {
+            if(isAccept)
+            {
+                openSelectedChat = true;
+                selectedChatVM.Status = Models.Enums.ChatStatusVM.Approved;
+            }
+            else
+            {
+                openSelectedChat = false;
+                selectedChatVM.Status = Models.Enums.ChatStatusVM.Rejected;
+            }
+            OpenCreateChatBox = false;
+            searchSelectBox = null;
+            UserName = null;
+            UserLabels.Clear();
+
+            if (HubConnection is not null && selectedChatVM.Creator is not null)
+            {
+                var chatRequestString = JsonSerializer.Serialize(selectedChatVM);
+
+                await HubConnection.SendAsync("AcceptChatRequest", selectedChatVM.Id, selectedChatVM.Creator.UserName, isAccept, chatRequestString);
+            }
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    protected async Task CreateChat()
+    {
+        if(OpenCreateChatBox)
+        {
+            return;
+        }
+
+        OpenCreateChatBox = true;
+        showUserEmpty = true;
+        searchSelectBox = null;
+        UserName = null;
+
+        UserLabels.Clear();
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+}

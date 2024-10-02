@@ -1,0 +1,141 @@
+﻿@page "/user/{UserName}"
+@inject HttpClient Http
+@inject IConfiguration Configuration
+
+@if (@Model == null)
+{
+    
+}
+else
+{
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="d-flex flex-column align-items-center text-center">
+                    @* <span class="font-weight-bold">@Model.UserName</span> *@
+                    <span> </span>
+                    @if(imageExist)
+                    {
+                        <div class="user-profile-user-image">
+                            <img class="rounded-circle" width="128" height="128" src="@imageUrl">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="user-profile-no-image">
+                            <span class="no-image-user"><i class="bi bi-person-fill"></i></span>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-sm-8 user-profile-info">
+                <AuthorizeView>
+                    <Authorized>
+                        @if(IsAuthenticated)
+                        {
+                            <h3>@Model.UserName <span @onclick=OpenUserSettings class="user-settings-button"><i class="bi bi-gear-fill"></i> Settings</span></h3>
+                        }
+                        else
+                        {
+                            <h3>@Model.UserName</h3>
+                        }
+                </Authorized>
+                    <NotAuthorized>
+                        <h3>@Model.UserName</h3>
+                    </NotAuthorized>
+                </AuthorizeView>
+            
+                <small>Member Since @Model.RegisterDate</small>
+                <br />
+                <small>@Model.HeadingCounter Headings</small>
+                <br />
+                <small>@Model.PostCounter Posts</small>
+            </div>
+        </div>
+        <div class="row user-profile-entries">
+            <div class="col-sm-6 user-profile-headings">
+                <UserHeadings UserInfo="Model"></UserHeadings>
+            </div>
+            <div class="col-sm-6 user-profile-posts">
+                <UserPosts UserInfo="Model"></UserPosts>
+            </div>
+        </div>
+
+
+}
+
+@code {
+    UserInfoVM? Model;
+
+    [Parameter]
+    public string UserName { get; set; }
+
+    [Inject]
+    public IUserService? UserService { get; set; }
+
+    [CascadingParameter] 
+    private Task<AuthenticationState>? authenticationStateTask { get; set; }
+
+    [Inject]
+    public NavigationManager? navigationManager { get; set; }
+
+    private bool IsAuthenticated { get; set; }
+
+    private string? imageUrl { get; set; }
+    bool imageExist;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if(UserService is not null)
+        {
+            if(authenticationStateTask is not null)
+            {
+                var authState = await authenticationStateTask;
+
+                if (authState is not null)
+                {
+                    var user = authState.User;
+
+                    if (user is not null && user.Identity is not null && user.Identity.IsAuthenticated)
+                    {
+                        if (UserName == user.Identity.Name)
+                        {
+                            IsAuthenticated = true;
+                        }
+
+                        var userInfo = await UserService.GetUserInfo(UserName);
+
+                        if (userInfo is not null)
+                        {
+                            imageUrl = $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userInfo.Id}";
+
+                            imageExist = await UrlExists(imageUrl);
+                        }
+                    }
+                }
+            }
+
+            Model = await UserService.GetUserInfo(UserName);
+        }
+    }
+
+    private async Task OpenUserSettings()
+    {
+        if(navigationManager is not null)
+        {
+            navigationManager.NavigateTo("user/settings");
+        }
+    }
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}

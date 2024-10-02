@@ -1,0 +1,66 @@
+﻿<h3 class="user-posts">Posts</h3>
+
+@if (Posts != null)
+{
+    @foreach (var post in Posts)
+    {
+            @* <PostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></PostCard> *@
+            <PostCardLink Model="post"></PostCardLink>
+    }
+    <Pagination UseCallback=true TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" PageChanged="OnPageChanged"/>
+}
+
+@code {
+    [Parameter]
+    public UserInfoVM UserInfo { get; set; }
+
+    [Inject]
+    public IPostService PostService { get; set; }
+
+    public List<PostVM>? Posts { get; set; }
+
+
+    private string getBaseUrl()
+    {
+        return $"category/";
+    }
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    protected async override Task OnInitializedAsync()
+    {
+        PostsPaginationVM postsPagination = await PostService.GetPostsByUserNameWithPagination(UserInfo.UserName, 1, PageSize);
+        Posts = postsPagination.Posts;
+        TotalPages = (int)Math.Ceiling((double)postsPagination.TotalCount / PageSize);
+        DefinePageIndexOfPosts();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void DefinePageIndexOfPosts()
+    {
+        foreach (var post in Posts)
+        {
+            if(post.HeadingIndex == 0)
+            {
+                post.PageIndex = 1;
+            }
+            else
+            {
+                post.PageIndex = ((int)((double)post.HeadingIndex! / PageSize)) + 1;
+            }
+        }
+    }
+
+    private async Task OnPageChanged(int page)
+    {
+        CurrentPage = page;
+        PostsPaginationVM postsPagination = await PostService.GetPostsByUserNameWithPagination(UserInfo.UserName, page, PageSize);
+        Posts = postsPagination.Posts;
+        TotalPages = (int)Math.Ceiling((double)postsPagination.TotalCount / PageSize);
+        DefinePageIndexOfPosts();
+        await InvokeAsync(StateHasChanged); // Refreshing the UI
+    }
+}
