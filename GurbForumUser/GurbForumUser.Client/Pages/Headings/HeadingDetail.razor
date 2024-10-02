@@ -11,6 +11,16 @@
 
 @inject RefreshStateService refreshStateService;
 
+@if(Heading is not null)
+{
+    <MetaTags PageTitle="@Heading.Title"
+              PageDescription="@Heading.Content"
+              CategoryTitle="@Heading.CategoryName"
+              CanonicalUrl="getBaseUrl()"
+              Author="@Heading.UserName"></MetaTags>
+}
+
+
 @if(isLoading)
 {
     <SkeletonBreadcrumb></SkeletonBreadcrumb>
@@ -300,6 +310,11 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        if(JS is not IJSInProcessRuntime)
+        {
+            return;
+        }
+
         var cookiePolicyAccepted = await JS.InvokeAsync<string>("GetCookiePolicyAccepted");
 
         if (TrackingLogService is not null && HeadingId is not null && cookiePolicyAccepted == "true")
@@ -421,6 +436,11 @@ else
 
     protected async Task JSRun()
     {
+        if (JS is not IJSInProcessRuntime)
+        {
+            return;
+        }
+
         if (!string.IsNullOrEmpty(PostId.ToString()))
         {
             module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Headings/HeadingDetail.razor.js");

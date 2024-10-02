@@ -1,0 +1,152 @@
+﻿@inject NavigationManager navigation;
+
+@if(CategoryTitle is not null)
+{
+    <PageTitle>
+        @PageTitle | @CategoryTitle
+    </PageTitle>
+}
+else if(PreTitle is not null)
+{
+    <PageTitle>
+        @PreTitle | @PageTitle
+    </PageTitle>
+}
+else if (PostTitle is not null)
+{
+    <PageTitle>
+        @PageTitle | @PostTitle
+    </PageTitle>
+}
+else
+{
+    <PageTitle>
+        @PageTitle
+    </PageTitle>
+}
+
+<HeadContent>
+    <meta name="description" content="@Description"/>
+    @if (CategoryTitle is not null)
+    {
+        <meta property="og:title" content="@PageTitle | @CategoryTitle" />
+    }
+    else if (PreTitle is not null)
+    {
+        <meta property="og:title" content="@PreTitle | @PageTitle" />
+    }
+    else if (PostTitle is not null)
+    {
+        <meta property="og:title" content="@PageTitle | @PostTitle" />
+    }
+    else
+    {
+        <meta property="og:title" content="@PageTitle" />
+    }
+    <meta property="og:description" content="@Description" />
+    @if(ImageUrl is not null)
+    {
+        <meta property="og:image" content="@ImageUrl" />
+    }
+    @if (CanonicalUrl is not null)
+    {
+        <meta property="og:url" content="@CanonicalUrl" />
+    }
+    @if (Author is not null)
+    {
+        <meta property="og:site_name" content="@Author" />
+    }
+
+    @if (CanonicalUrl is not null)
+    {
+        <link rel="canonical" href="@CanonicalUrl" hreflang="@HrefLang" />
+    }
+    @if (AlternateUrl is not null)
+    {
+        <link rel="alternate" href="@AlternateUrl" hreflang="@HrefLang" />
+    }
+    
+    <meta http-equiv="content-language" content="@ContentLanguage" />
+
+    @if(NoIndex)
+    {
+        <meta name="robots" content="noindex">
+    }
+    @if (NoFollow)
+    {
+        <meta name="robots" content="nofollow">
+    }
+</HeadContent>
+
+
+
+@code {
+    [Parameter]
+    public string? PageTitle { get; set; }
+
+    [Parameter]
+    public string? CategoryTitle { get; set; }
+
+    [Parameter]
+    public string? PreTitle { get; set; }
+
+    [Parameter]
+    public string? PostTitle { get; set; }
+
+    [Parameter]
+    public string? ImageUrl { get; set; }
+
+    [Parameter]
+    public string? CanonicalUrl { get; set; }
+
+    [Parameter]
+    public string? AlternateUrl { get; set; }
+
+    [Parameter]
+    public string? Author { get; set; }
+
+    [Parameter]
+    public bool NoIndex { get; set; }
+    [Parameter]
+    public bool NoFollow { get; set; }
+
+    [Parameter]
+    public string? HrefLang { get; set; } = "en";
+
+    [Parameter]
+    public string? ContentLanguage { get; set; } = "en";
+
+    [Parameter]
+    public string? PageDescription { get; set; }
+
+    private string? Description 
+    { 
+        get
+        {
+            if(PageDescription is not null && PageDescription.Length > 155)
+            {
+                return $"{PageDescription.Substring(0, 152)}..."; 
+            }
+            else
+            {
+                return PageDescription;
+            }
+        } 
+    }
+
+
+    protected override void OnParametersSet()
+    {
+        if(CanonicalUrl is null)
+        {
+            CanonicalUrl = navigation.Uri;
+        }
+
+        if (Author is null)
+        {
+            Author = "GurbForum";
+        }
+
+        base.OnParametersSet();
+    }
+}
