@@ -67,6 +67,14 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
 
             var data = _mapper.Map<List<PostDTO>>(posts);
 
+            if(data != null && data.Count > 0)
+            {
+                for (int i = 0; i < data.Count; i++)
+                {
+                    data[i].HeadingIndex = i;
+                }
+            }
+
             if(request.HeadingId != null)
             {
                 // get quotes bounded with post
@@ -89,7 +97,7 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
 
                 List<Guid> categoryIds = headings.Select(x => x.CategoryId).ToList();
                 List<Domain.Category> categories = await _categoryRepository.GetAllAsync(x => categoryIds.Contains(x.Id));
-                
+
                 foreach (var post in data)
                 {
                     var heading = headings.FirstOrDefault(x => x.Id == post.HeadingId);
@@ -105,6 +113,7 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
                             post.CategoryIntId = category.CategoryId;
                         }
                     }
+            
                 }
             }
 

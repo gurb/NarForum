@@ -43,6 +43,12 @@ public partial class Login: IAsyncDisposable
         Model = new LoginVM();
     }
 
+    protected async override Task OnInitializedAsync()
+    {
+        
+    }
+
+
     protected async Task HandleLogin()
     {
         if (await AuthenticationService.AuthenticateAsync(Model.Email, Model.Password))

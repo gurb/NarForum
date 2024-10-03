@@ -7,6 +7,7 @@
 @using GurbForumUser.Client.Models.BlogComment
 @using GurbForumUser.Client.Pages.Blog.Component
 
+@inject IConfiguration Configuration
 
 
 @if (isLoading)
@@ -25,6 +26,12 @@
 }
 else
 {
+
+    <MetaTags PageTitle="Blog"
+              PageDescription="@($"{Configuration["SiteName"]} blog list")"
+              PostTitle="@(Configuration["SiteName"])"
+              ContentType="article"
+              CanonicalUrl="@($"{Configuration["BaseUrl"]}/blog/")" />
 
     <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 

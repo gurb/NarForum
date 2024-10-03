@@ -2,9 +2,17 @@
 
 @using GurbForumUser.Client.Models.BlogPost
 @using GurbForumUser.Client.Pages.Blog.Component
-
+@using System.Text.RegularExpressions
+@inject IConfiguration Configuration
 @if (BlogPostVM is not null)
 {
+    <MetaTags 
+        PageTitle="@BlogPostVM.Title"
+        PageDescription="@ArrangeContent(BlogPostVM.Content)"
+        ContentType="article"
+        PostTitle="@Configuration["SiteName"]"
+        CanonicalUrl="@($"{Configuration["BaseUrl"]}/blog/{Title}-{BlogPostId}")" />
+
     <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 
     <div class="col-sm-12 blog-post-detail-container">
@@ -77,5 +85,11 @@
         }
 
         await base.OnParametersSetAsync();
+    }
+
+    public string ArrangeContent(string content)
+    {
+        string textOnly = Regex.Replace(content, "<.*?>", String.Empty);
+        return textOnly;
     }
 }

@@ -16,23 +16,20 @@ else
         @foreach(var comment in BlogComments)
         {
             <div class="d-flex flex-start mt-4">
-
-                @if (comment.UserProfileImageUrl is not null)
-                {
-                    <span class="image-user-profile-blog-comment shadow-1-strong me-3">
-                        <img src="@comment.UserProfileImageUrl" alt="avatar" width="65"
-                             height="65" />
-                    </span>
-                    
-                }
-                else
-                {
-                    <span class="no-image-user-profile-blog-comment shadow-1-strong me-3">
-                        @comment.UserName.ToUpper()[0]
-                    </span>
-                }
                 <div class="flex-grow-1 flex-shrink-1">
-                    <div>
+                    <div class="blog-comment-area">
+                        @if (comment.UserProfileImageUrl is not null)
+                        {
+                            <img class="blog-comment-img" src="@comment.UserProfileImageUrl" alt="avatar" width="50"
+                                    height="50" />
+                        }
+                        else
+                        {
+                            <span class="no-image-user-profile-blog-comment shadow-1-strong me-3">
+                                @comment.UserName.ToUpper()[0]
+                            </span>
+                        }
+
                         <div class="d-flex justify-content-between align-items-center">
                             <p class="mb-1">
                                 @comment.UserName <span class="small">- 2 hours ago</span>

@@ -1,4 +1,5 @@
 ﻿@inject NavigationManager navigation;
+@inject IConfiguration Configuration;
 
 @if(CategoryTitle is not null)
 {
@@ -27,6 +28,19 @@ else
 
 <HeadContent>
     <meta name="description" content="@Description"/>
+    
+    @*------------- og:site_name begin -------------*@
+    @if (SiteName is not null)
+    {
+        <meta property="og:site_name" content="@SiteName" />
+    }
+    @*------------- og:site_name end -------------*@
+
+    <meta property="og:type" content="@ContentType">
+    <meta property="og:locale" content="@Locale">
+    
+
+    @*------------- og:title begin -------------*@
     @if (CategoryTitle is not null)
     {
         <meta property="og:title" content="@PageTitle | @CategoryTitle" />
@@ -43,35 +57,68 @@ else
     {
         <meta property="og:title" content="@PageTitle" />
     }
+    @*------------- og:title end -------------*@
+
+
+    @*------------- og:description begin -------------*@
     <meta property="og:description" content="@Description" />
+    @*------------- og:description end -------------*@
+
+    
+    @*------------- og:image begin -------------*@
     @if(ImageUrl is not null)
     {
         <meta property="og:image" content="@ImageUrl" />
     }
+    @*------------- og:image end -------------*@
+
+    @*------------- og:url begin -------------*@
     @if (CanonicalUrl is not null)
     {
         <meta property="og:url" content="@CanonicalUrl" />
     }
-    @if (Author is not null)
-    {
-        <meta property="og:site_name" content="@Author" />
-    }
+    @*------------- og:url end -------------*@
 
+
+    @*------------- canonical begin -------------*@
     @if (CanonicalUrl is not null)
     {
         <link rel="canonical" href="@CanonicalUrl" hreflang="@HrefLang" />
     }
+    @*------------- canonical end -------------*@
+
+
+    @*------------- alternate begin -------------*@
     @if (AlternateUrl is not null)
     {
         <link rel="alternate" href="@AlternateUrl" hreflang="@HrefLang" />
     }
+    @*------------- alternate end -------------*@
     
     <meta http-equiv="content-language" content="@ContentLanguage" />
 
+    <meta name="apple-mobile-web-app-title" content="@SiteName">
+    <meta name="application-name" content="@SiteName">
+
+
+    @if (IsHomepage)
+    {
+        <meta name="homepage" content="True" />
+    }
+    else
+    {
+        <meta name="homepage" content="False" />
+    }
+
+    @*------------- no index begin -------------*@
     @if(NoIndex)
     {
         <meta name="robots" content="noindex">
     }
+    @*------------- no index end -------------*@
+
+
+    @*------------- nofollow begin -------------*@
     @if (NoFollow)
     {
         <meta name="robots" content="nofollow">
@@ -81,6 +128,11 @@ else
 
 
 @code {
+    [Parameter]
+    public string? ContentType { get; set; }
+    [Parameter]
+    public string? Locale { get; set; }
+
     [Parameter]
     public string? PageTitle { get; set; }
 
@@ -103,7 +155,7 @@ else
     public string? AlternateUrl { get; set; }
 
     [Parameter]
-    public string? Author { get; set; }
+    public string? SiteName { get; set; }
 
     [Parameter]
     public bool NoIndex { get; set; }
@@ -111,13 +163,16 @@ else
     public bool NoFollow { get; set; }
 
     [Parameter]
-    public string? HrefLang { get; set; } = "en";
+    public string? HrefLang { get; set; }
 
     [Parameter]
-    public string? ContentLanguage { get; set; } = "en";
+    public string? ContentLanguage { get; set; }
 
     [Parameter]
     public string? PageDescription { get; set; }
+
+    [Parameter]
+    public bool IsHomepage { get; set; }
 
     private string? Description 
     { 
@@ -142,9 +197,24 @@ else
             CanonicalUrl = navigation.Uri;
         }
 
-        if (Author is null)
+        if (SiteName is null)
         {
-            Author = "GurbForum";
+            SiteName = Configuration["SiteName"];
+        }
+
+        if (Locale is null)
+        {
+            Locale = Configuration["Locale"];
+        }
+
+        if(HrefLang is null)
+        {
+            HrefLang = Configuration["HrefLang"];
+        }
+
+        if (ContentLanguage is null)
+        {
+            ContentLanguage = Configuration["HrefLang"];
         }
 
         base.OnParametersSet();

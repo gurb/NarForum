@@ -1,6 +1,7 @@
-﻿<div class="row post-card-link-body">
-    <div class="col-4">
-        <a href="@url" class="link-post-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.HeadingTitle</a>
+﻿<div class="row post-card-link-body align-items-center">
+    <div class="col-sm-12 post-link-text-area">
+        <i class="bi bi-sticky" style="font-size:1.5em;margin-right:20px;"></i> 
+        <a href="@url" class="link-post-primary link-post-primary-color link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">@Model.HeadingTitle</a>
     </div>
 
 </div>
@@ -17,6 +18,6 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
-    string url { get { return $"/category/{Model.CategoryName.ToFriendlyUrl()}-{Model.}/{Model.HeadingId.EncodeGuidToBase64Url()}/{Model.HeadingTitle.ToFriendlyUrl()}/{Model.PageIndex}/{Model.Id}"; } }
+    string url { get { return $"/category/{Model.CategoryName.ToFriendlyUrl()}-{Model.CategoryIntId}/{Model.HeadingId.EncodeGuidToBase64Url()}/{Model.HeadingTitle.ToFriendlyUrl()}/{Model.PageIndex}/post-{Model.HeadingIndex}"; } }
 }
 

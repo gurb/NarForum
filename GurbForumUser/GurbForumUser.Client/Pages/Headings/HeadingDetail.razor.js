@@ -1,5 +1,9 @@
-﻿export function BlazorScrollToId(id) {
+﻿console.log("---------------yüklendi");
+export function BlazorScrollToId(id) {
+    console.log("---------------divvvvv");
     const element = document.getElementById(id);
+    console.log("---------------");
+    console.log(element);
     if (element instanceof HTMLElement) {
         element.scrollIntoView({
             behavior: "smooth",

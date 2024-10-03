@@ -1,4 +1,4 @@
-﻿<article id="@Id" class="card mb-4 custom-mini-post">
+﻿<article id="@($"post-{HeadingIndex}")" class="card mb-4 custom-mini-post">
     <header class="card-header border-0 bg-transparent align-items-center">
         @* <img src="https://via.placeholder.com/30x30"
              class="rounded-circle me-2 custom-mini-post-image align-items-center" /> *@
@@ -99,6 +99,9 @@
 
     [Parameter]
     public Guid PostId { get; set; }
+
+    [Parameter]
+    public int? HeadingIndex { get; set; }
 
     [Parameter]
     public Guid Id { get; set; } = Guid.Empty;

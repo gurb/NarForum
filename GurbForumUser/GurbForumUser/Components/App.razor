@@ -35,14 +35,14 @@
     <link rel="stylesheet" href="GurbForumUser.styles.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script>
+    @* <script>
         (function () {
             window.deleteElementById = function (id) {
                 var element = document.getElementById(id);
                 element.parentNode.removeChild(element);
             }
         })();
-    </script>
+    </script> *@
     @if (isBot)
     {
         <HeadOutlet @rendermode="new InteractiveWebAssemblyRenderMode(prerender: true)" />

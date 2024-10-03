@@ -549,7 +549,26 @@ span.heading-card-status {
     overflow: hidden;
 }
 
+.link-post-primary {
+    text-decoration: none;
+    display: inline-block;
+    text-overflow: ellipsis;
+    width: calc(80%);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.link-post-primary-color {
+    color: #34485f!important;
+}
+
 .heading-text-area {
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+}
+
+.post-link-text-area {
     display: flex;
     vertical-align: middle;
     align-items: center;
@@ -686,18 +705,7 @@ span.heading-card-status {
     line-height: 35px;
 }
 
-.no-image-user-profile-blog-comment {
-    opacity: .6;
-    display: block;
-    width: 65px;
-    height: 65px;
-    border-radius: 0.25rem;
-    background: #512DA8;
-    font-size: 32.5px;
-    color: #fff;
-    text-align: center;
-    line-height: 65px;
-}
+
 
 .no-image-user-profile-post {
     display: inline-block;
@@ -1053,4 +1061,58 @@ h3.blog-comment-form-title {
     background: #3189efd9;
     color: #fff;
     padding: 5px 10px;
+}
+
+i.bi.bi-file-earmark-text, i.bi.bi-file-earmark-lock2, i.bi.bi-journals, i.bi.bi-sticky {
+    text-shadow: 2px 2px #00000029;
+}
+
+.no-image-user-profile-blog-comment {
+    opacity: .6;
+    display: block;
+    border-radius: 0.25rem;
+    background: #512DA8;
+    font-size: 25px;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+    position: absolute;
+    left: 0;
+    top: 20px;
+    width: 50px;
+    height: 50px;
+}
+
+.blog-comment-img {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 0.25rem;
+    background:#ccc;
+}
+
+.blog-comment-area {
+    position: absolute;
+    position: relative;
+    padding: 10px 0 10px 70px;
+}
+
+.blog-post-detail-heading {
+    margin-bottom: 2rem;
+}
+
+.no-image-user-profile-comment-form {
+    opacity: .6;
+    display: block;
+    width: 35px;
+    height: 35px;
+    border-radius: 0.25rem;
+    background: #512DA8;
+    font-size: 17.5px;
+    color: #fff;
+    text-align: center;
+    line-height: 35px;
+    margin-right: 10px;
 }

@@ -4,11 +4,11 @@
 
 @if(CategoryName != null)
 {
-    <p>Create Heading for @CategoryName</p>
+    <h1 class="heading-title">Create Heading for @GetCategoryName(Model.CategoryId)</h1>
 }
 else
 {
-    <p>Create Heading</p>
+    <h1 class="heading-title">Create Heading</h1>
 }
 
 <EditForm Model="@Model" OnValidSubmit="HandleCreateHeading">
@@ -16,7 +16,7 @@ else
     <ValidationSummary />
     <div class="form-group form-margin">
         <label asp-for="Title" class="control-label">Select Category</label>
-        <InputSelect class="form-select" aria-label="Default select example" @bind-Value="@Model.CategoryId" @onchange="OnChangeCategory">
+        <InputSelect class="form-select" aria-label="Default select example" @bind-Value="@Model.CategoryId">
             @if(categories != null)
             {
                 @foreach (var category in categories)
@@ -71,6 +71,12 @@ else
     CreatePostForm? createPostForm;
     public PostVM CreateModel { get; set; } = new PostVM();
 
+    private string GetCategoryName(Guid? categoryId)
+    {
+        if (categoryId is null) return "";
+        return categories?.FirstOrDefault(x => x.Id == categoryId)?.Name;
+    }
+
     protected async override Task OnInitializedAsync()
     {
         Model = new HeadingVM();
@@ -89,11 +95,7 @@ else
         }
     }
 
-    private void OnChangeCategory()
-    {
-        parentCategory = categories.FirstOrDefault(x => x.Id == Model.CategoryId);
-        CategoryName = parentCategory.Name;
-    }
+
 
     protected async Task HandleCreateHeading()
     {

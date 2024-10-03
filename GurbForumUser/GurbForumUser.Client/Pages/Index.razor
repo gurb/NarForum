@@ -1,10 +1,13 @@
 ﻿@page "/"
 @using GurbForumUser.Client.Models.Section
 @using GurbForumUser.Client.Pages.Sections;
+@inject IConfiguration Configuration;
 
 <MetaTags 
     PageTitle="Homepage"
-    PageDescription="GurbForum is a forum software and also it's a forum website about the forum software."
+    PageDescription="@(Configuration["Description"])"
+    IsHomepage=true
+    ContentType="website"
     PostTitle="GurbForum"
     ></MetaTags>
 

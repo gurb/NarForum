@@ -1,6 +1,7 @@
 ﻿@page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/"
 @page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}"
-@page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}/{PostId:guid}"
+@* @page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}/{PostId:guid}" *@
+@page "/category/{CategoryName}-{CategoryId:int}/{HeadingId}/{FriendlyUrl}/{PageIndex:int}/{JumpPost}"
 @using System.Text.RegularExpressions
 
 @inject HttpClient Http
@@ -15,9 +16,10 @@
 {
     <MetaTags PageTitle="@Heading.Title"
               PageDescription="@Heading.Content"
+              ContentType="article"
               CategoryTitle="@Heading.CategoryName"
-              CanonicalUrl="getBaseUrl()"
-              Author="@Heading.UserName"></MetaTags>
+              CanonicalUrl="@($"{Configuration["BaseUrl"]}/category/{CategoryName}-{CategoryId}/{HeadingId}/{FriendlyUrl}")"
+              SiteName="@($"{Configuration["SiteName"]}")"></MetaTags>
 }
 
 
@@ -91,6 +93,7 @@ else
         @* <PostCard Id="@post.Id.ToString()" Content="@post.Content" Username="@post.UserName"></PostCard> *@
         <MiniPostCard Post="post"
                       Heading="Heading"
+                      HeadingIndex="post.HeadingIndex"
                       Id="@post.Id"
                       PostId="@post.Id"
                       Content="@post.Content"
@@ -122,12 +125,14 @@ else
 }
 
 
+
 <AddReportModal @ref=reportModal PostVM="ReportPostVM"></AddReportModal>
 
 <MediaQuery Width=768 @bind-Value=min768></MediaQuery>
 
 @code {
     private bool isLoading { get; set; } = true;
+    private bool parameterSet = false;
 
     AddReportModal? reportModal;
 
@@ -142,10 +147,16 @@ else
     [Parameter]
     public string? HeadingId { get; set; }
 
+    [Parameter]
+    public string? JumpPost { get; set; }
+
     private Guid HeadingGuid { get; set; }
 
     [Parameter]
     public Guid PostId { get; set; }
+
+    [Parameter]
+    public int? HeadingIndex { get; set; }
 
     [Parameter]
     public int PageIndex { get; set; } = 1;
@@ -371,15 +382,29 @@ else
         SetLikes();
         SetFavorites();
 
-        await ScrollToEntry();
+
         TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
 
         await SetBreadcrumb();
 
         isLoading = false;
+        parameterSet = true;
         await InvokeAsync(StateHasChanged);
 
+        if (parameterSet && JumpPost is not null)
+        {
+            await ScrollToEntry();
+            parameterSet = false; // Bayrağı sıfırlayın
+        }
+
     }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+       
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
 
     private void ConfigureDisplayPosts(List<PostVM>? posts)
     {
@@ -430,7 +455,6 @@ else
 
     private async Task ScrollToEntry()
     {
-        StateHasChanged();
         await JSRun();
     }
 
@@ -441,11 +465,8 @@ else
             return;
         }
 
-        if (!string.IsNullOrEmpty(PostId.ToString()))
-        {
-            module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Headings/HeadingDetail.razor.js");
-            await module.InvokeAsync<string>("BlazorScrollToId", PostId);
-        }
+        module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Headings/HeadingDetail.razor.js");
+        await module.InvokeAsync<string>("BlazorScrollToId", JumpPost);
     }
 
     protected async Task RefreshPosts()

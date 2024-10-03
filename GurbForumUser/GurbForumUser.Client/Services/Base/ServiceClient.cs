@@ -13940,6 +13940,9 @@ namespace GurbForumUser.Client.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("categoryName")]
         public string CategoryName { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("categoryIntId")]
+        public int? CategoryIntId { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("headingTitle")]
         public string HeadingTitle { get; set; }
 

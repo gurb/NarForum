@@ -25,6 +25,14 @@
 }
 else
 {
+    <MetaTags PageTitle="@Model.Name"
+              PageDescription="@Model.Description"
+              PostTitle="@(Configuration["SiteName"])"
+              ContentType="article"
+              CanonicalUrl="@($"{Configuration["BaseUrl"]}/category/{CategoryName}-{CategoryId}")"
+              SiteName="@($"{Configuration["SiteName"]}")" />
+
+
     <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 
     <div class="row category-header">

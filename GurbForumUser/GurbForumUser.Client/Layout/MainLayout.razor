@@ -1,4 +1,10 @@
-﻿@inherits LayoutComponentBase
+﻿@using GurbForumUser.Client.Services
+@inherits LayoutComponentBase
+
+@if(!isBot)
+{
+    @inject AuthorizationService authorizationService;
+}
 
 <div class="page h-100">
     @* <div class="sidebar">
@@ -68,6 +74,30 @@
     [CascadingParameter]
     public bool isBot { get; set; }
     private ErrorBoundary? _errorBoundary;
+
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        if(!isBot)
+        {
+            var authState = await authenticationStateTask;
+            var user = authState.User;
+            string username = string.Empty;
+            if (user.Identity.IsAuthenticated)
+            {
+                username = user.Identity.Name;
+
+                if (authorizationService is not null)
+                {
+                    await authorizationService.SetPermissions(username);
+                }
+            }
+
+            await base.OnInitializedAsync();
+        }
+        
+    }
 
     protected override void OnParametersSet()
     {
