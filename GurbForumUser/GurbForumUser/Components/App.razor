@@ -23,7 +23,7 @@
 }
 
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en" class="h-100" data-theme="light">
 
 <head>
     <meta charset="utf-8" />
@@ -94,6 +94,10 @@
                 else {
                     return null;
                 }
+            }
+
+            function setTheme(theme) {
+                document.querySelector("html").setAttribute("data-theme", theme);
             }
 
         </script>

@@ -1,5 +1,16 @@
+[data-theme="light"] {
+    --color-bg: #ffffff;
+    --color-fg: #000000;
+}
+
+[data-theme="dark"] {
+    --color-bg: #000000;
+    --color-fg: #ffffff;
+}
+
 html, body {
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    background-color: var(--color-bg);
 }
 
 h1:focus {

@@ -83,7 +83,7 @@ namespace Identity.Extensions
 
             services.AddHostedService<TrackBackgroundService>();
             services.AddHostedService<ChatBackgroundService>();
-
+            services.AddHostedService<NotificationBackgroundService>();
 
             return services;
         }

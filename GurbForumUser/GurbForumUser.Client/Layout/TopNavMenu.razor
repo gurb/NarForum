@@ -3,10 +3,12 @@
 @using Microsoft.AspNetCore.SignalR.Client;
 @inject HttpClient Http
 @inject IConfiguration Configuration
+@inject IJSRuntime _jSRuntime
+@inject LocalStorageService LocalStorage
 @implements IAsyncDisposable;
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
 
-<header class="p-3 mb-3 border-bottom top-nav-menu-wrapper sticky-top">
+<header class="p-3 mb-3 top-nav-menu-wrapper sticky-top">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
@@ -57,6 +59,16 @@
                             <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                                 <li><a class="dropdown-item" href="/user/@(@UserName)"><i class="bi bi-person"></i> User Profile</a></li>
                                 <li><a class="dropdown-item" href="/user/settings"><i class="bi bi-gear"></i> User Settings</a></li>
+                                <li><a class="dropdown-item" @onclick="ChangeThemeType">
+                                    @if(themeType == "light")
+                                    {
+                                        <i class="bi bi-moon"></i>@(" Dark Theme")
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-sun"></i>@(" Light Theme")
+                                    }
+                                </a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" @onclick="Logout"><i class="bi bi-box-arrow-right"></i> Sign out</a></li>
                             </ul>
@@ -113,6 +125,8 @@
 
     private LogoVM? logo;
 
+    private string themeType;
+
 
     // hub ---------------------------------------------------------------
 
@@ -146,6 +160,7 @@
         RefreshStateService.OpenChatBox += OpenChatBox;
         RefreshStateService.ConnectChatHubWhenLogin = ConnectChatHubWhenLogin;
 
+        await ChangeThemeJS();
     }
 
     protected async override Task OnParametersSetAsync()
@@ -304,6 +319,53 @@
         catch
         {
             return false;
+        }
+    }
+
+    private async Task ChangeThemeType()
+    {
+        if(localStorage is not null)
+        {
+            bool isExist = await localStorage.ContainsKey("theme");
+            if (!isExist)
+            {
+                await localStorage.AddItem("theme", "dark");
+            }
+            else
+            {
+                string theme = await localStorage.GetItem("theme");
+                if(theme == "light")
+                {
+                    await localStorage.AddItem("theme", "dark");
+                }
+                if (theme == "dark")
+                {
+                    await localStorage.AddItem("theme", "light");
+                }
+            }
+
+            await ChangeThemeJS();
+        }
+    }
+
+
+    private async Task ChangeThemeJS()
+    {
+        if (_jSRuntime is not IJSInProcessRuntime)
+        {
+            return;
+        }
+        bool isExist = await localStorage.ContainsKey("theme");
+        if (!isExist)
+        {
+            themeType = "light";
+            await _jSRuntime.InvokeAsync<string>("setTheme", themeType);
+        }
+        else
+        {
+            string theme = await localStorage.GetItem("theme");
+            await _jSRuntime.InvokeAsync<string>("setTheme", theme);
+            themeType = theme;
         }
     }
 }

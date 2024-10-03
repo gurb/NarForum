@@ -74,6 +74,10 @@ app.MapHub<ChatHub>("chat", o => {
     o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
 });
 
+app.MapHub<NotificationHub>("notification", o => {
+    o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+});
+
 app.UseCors("all");
 app.UseWebSockets();
 
