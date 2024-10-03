@@ -7,6 +7,7 @@ using GurbForumUser.Client.Services.Base;
 using GurbForumUser.Client.Services.Common;
 using GurbForumUser.Client.Services.UI;
 using GurbForumUser.Components;
+using GurbForumUser.Extensions;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using System.Reflection;
@@ -84,6 +85,8 @@ else
 }
 
 app.UseHttpsRedirection();
+
+app.UseRobotsMiddleware();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
