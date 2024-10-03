@@ -102,6 +102,7 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
                         if (category != null)
                         {
                             post.CategoryName = category.Name;
+                            post.CategoryIntId = category.CategoryId;
                         }
                     }
                 }

@@ -1,67 +1,80 @@
-﻿<div class="row heading-card-body align-items-center @(Model.IsPin ? " heading-pin-bg" : "")">
-    <div class="col-sm-6 heading-text-area">
-        @if (Model.IsPin && !Model.IsLock)
-        {
-            <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i>
-            <i class="bi bi-pin-angle-fill me-1 mt-1 heading-pin" style="font-size:1.2em;margin-right:10px;"></i>
-        }
-        else if (!Model.IsPin && Model.IsLock)
-        {
-            <i class="bi bi-file-earmark-lock2" style="font-size:1.5em;margin-right:20px;"></i>
-        }
-        else if (Model.IsPin && Model.IsLock)
-        {
-            <i class="bi bi-file-earmark-lock2" style="font-size:1.5em;margin-right:20px;"></i>
-            <i class="bi bi-pin-angle-fill me-1 mt-1 heading-pin" style="font-size:1.2em;margin-right:10px;"></i>
-        }
-        else
-        {
-            <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i>
-        }
-        
-        <a href="@url" class="link-heading-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">
-            @Model.Title
-        </a>
-    </div>
-    @if(ShowNumber)
+﻿<div class="row heading-card-body align-items-center @((Model.IsPin && !IsBasic) ? " heading-pin-bg" : "")">
+
+    @if(IsBasic)
     {
-        <div class="col-sm-2">
-            @Model.PostCounter
+        <div class="col-sm-12 heading-text-area">
+            <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i>
+            <a href="@url" class="link-heading-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">
+                @Model.Title
+            </a>
         </div>
     }
-    <div class="col-sm-4 last-post-summary">
-        <div class="d-flex flex-start">
-            <a class="me-3 no-image-user-profile-link" href="@userUrl">
-                @if (@Model.UserProfileImageUrl is not null)
-                {
-                    <span class="image-user-profile-heading-card">
-                        <img width="35" height="35" src="@Model.UserProfileImageUrl">
-                    </span>
-                }
-                else
-                {
-                    @if (Model.LastUserId is null)
+    else
+    {
+        <div class="col-sm-6 heading-text-area">
+            @if (Model.IsPin && !Model.IsLock)
+            {
+                <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i>
+                <i class="bi bi-pin-angle-fill me-1 mt-1 heading-pin" style="font-size:1.2em;margin-right:10px;"></i>
+            }
+            else if (!Model.IsPin && Model.IsLock)
+            {
+                <i class="bi bi-file-earmark-lock2" style="font-size:1.5em;margin-right:20px;"></i>
+            }
+            else if (Model.IsPin && Model.IsLock)
+            {
+                <i class="bi bi-file-earmark-lock2" style="font-size:1.5em;margin-right:20px;"></i>
+                <i class="bi bi-pin-angle-fill me-1 mt-1 heading-pin" style="font-size:1.2em;margin-right:10px;"></i>
+            }
+            else
+            {
+                <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i>
+            }
+
+            <a href="@url" class="link-heading-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">
+                @Model.Title
+            </a>
+        </div>
+        @if (ShowNumber)
+        {
+            <div class="col-sm-2">
+                @Model.PostCounter
+            </div>
+        }
+        <div class="col-sm-4 last-post-summary">
+            <div class="d-flex flex-start">
+                <a class="me-3 no-image-user-profile-link" href="@userUrl">
+                    @if (@Model.UserProfileImageUrl is not null)
                     {
-                        <span class="no-image-user-profile-heading-card">
-                            ?
+                        <span class="image-user-profile-heading-card">
+                            <img width="35" height="35" src="@Model.UserProfileImageUrl">
                         </span>
                     }
                     else
                     {
-                        <span class="no-image-user-profile-heading-card" style="background:#@(Model.LastUserId.Value.ToString("N").Substring(0,6));">
-                            @Model.LastUserName.ToUpper()[0]
-                        </span>
+                        @if (Model.LastUserId is null)
+                        {
+                            <span class="no-image-user-profile-heading-card">
+                                ?
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="no-image-user-profile-heading-card" style="background:#@(Model.LastUserId.Value.ToString("N").Substring(0,6));">
+                                @Model.LastUserName.ToUpper()[0]
+                            </span>
+                        }
                     }
-                }
-            </a>
-            <div class="flex-grow-1 flex-shrink-1">
-                <small class="last-post-username">by <a href="@userUrl">@Model.LastUserName</a></small>
-                <br />
-                <small class="last-post-date">@Model.ActiveDate</small>
+                </a>
+                <div class="flex-grow-1 flex-shrink-1">
+                    <small class="last-post-username">by <a href="@userUrl">@Model.LastUserName</a></small>
+                    <br />
+                    <small class="last-post-date">@Model.ActiveDate</small>
+                </div>
             </div>
+
         </div>
-         
-    </div>
+    }
 </div>
 
 
@@ -78,6 +91,9 @@
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
+
+    [Parameter]
+    public bool IsBasic { get; set; }
 
     string url 
     { 

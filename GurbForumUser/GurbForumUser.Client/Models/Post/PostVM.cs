@@ -9,6 +9,7 @@
         public Guid? UserId { get; set; }
 
         public string? CategoryName { get; set; }
+        public int? CategoryIntId { get; set; }
         public string? HeadingTitle { get; set; }
         public int? HeadingIndex { get; set; }
         public int? PageIndex { get; set; }

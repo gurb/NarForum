@@ -85,6 +85,7 @@ else
 
     protected async override Task OnParametersSetAsync()
     {
+        Model = null;
         if(UserService is not null)
         {
             if(authenticationStateTask is not null)

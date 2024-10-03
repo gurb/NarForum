@@ -17,6 +17,6 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
-    string url { get { return $"/category/{Model.CategoryName}/{Model.HeadingId.EncodeGuidToBase64Url()}/{Model.HeadingTitle.ToFriendlyUrl()}/{Model.PageIndex}/{Model.Id}"; } }
+    string url { get { return $"/category/{Model.CategoryName.ToFriendlyUrl()}-{Model.}/{Model.HeadingId.EncodeGuidToBase64Url()}/{Model.HeadingTitle.ToFriendlyUrl()}/{Model.PageIndex}/{Model.Id}"; } }
 }
 

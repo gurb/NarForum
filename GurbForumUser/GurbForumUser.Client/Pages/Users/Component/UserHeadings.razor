@@ -4,7 +4,7 @@
 {
     @foreach (var heading in Headings)
     {
-        <HeadingCard Model="heading"></HeadingCard>
+        <HeadingCard Model="heading" CategoryUrl="@(heading.CategoryName.ToFriendlyUrl() + "-" + heading.CategoryIntId)" IsBasic=true></HeadingCard>
     }
     @* <Pagination TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" /> *@
     <Pagination UseCallback=true TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" PageChanged="OnPageChanged" />

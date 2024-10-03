@@ -16,6 +16,7 @@ namespace Application.Features.Post.Queries.GetAllPosts
         public DateTime DateCreate { get; set; }
 
         public string? CategoryName { get; set; }
+        public int? CategoryIntId { get; set; }
         public string? HeadingTitle { get; set; }
         public int? HeadingIndex { get; set; }
     }
