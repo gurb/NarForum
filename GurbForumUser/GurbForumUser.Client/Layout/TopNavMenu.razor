@@ -132,6 +132,10 @@
 
     private HubConnection? hubConnection;
 
+    private HubConnection? hubNotificationConnection;
+
+
+
     private string GetImageUrl(string userId)
     {
         return $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userId}";
@@ -298,6 +302,57 @@
         }
     }
 
+    private async Task ConnectNotificationHubWhenLogin()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            UserName = user.Identity.Name;
+
+            var selfUser = await UserService.GetUserInfo(UserName!);
+
+            string token = await localStorage.GetItem("token");
+
+            hubNotificationConnection = new HubConnectionBuilder()
+            .WithUrl(
+                $"https://localhost:44342/notification",
+                o =>
+                {
+                    o.AccessTokenProvider = () => Task.FromResult<string?>(token);
+                    o.Url = new Uri($"https://localhost:44342/notification?username={UserName}&userId={selfUser.Id}");
+                    o.SkipNegotiation = true;
+                    o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+                }
+            ).Build();
+
+            hubNotificationConnection.Closed += async (error) =>
+            {
+                if (error != null)
+                {
+                    // hata meydana gelirse yeniden bağlamı işini burada yap
+                }
+                else
+                {
+                    // kapat
+                    await hubNotificationConnection.StopAsync();
+                }
+            };
+
+            hubNotificationConnection.On<string>("ReceiveMessage", async (message) =>
+            {
+                if (message != null)
+                {
+
+                }
+                await InvokeAsync(StateHasChanged);
+            });
+
+            await hubNotificationConnection.StartAsync();
+        }
+    }
+
 
     public async ValueTask DisposeAsync()
     {
@@ -305,6 +360,11 @@
         {
             await hubConnection.StopAsync();
             await hubConnection.DisposeAsync();
+        }
+        if (hubNotificationConnection != null)
+        {
+            await hubNotificationConnection.StopAsync();
+            await hubNotificationConnection.DisposeAsync();
         }
     }
 
@@ -369,4 +429,3 @@
         }
     }
 }
-
