@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Application.Models.Enums
 {
-    public enum UploadImageType
+    public enum NotificationType
     {
-        UserProfile,
-        Gallery,
-        GeneralUse,
-        Logo,
+        General,
+        RepliedHeading,
+        RepliedPost,
     }
 }

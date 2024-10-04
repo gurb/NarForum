@@ -1,8 +1,12 @@
-﻿using Application.Contracts.Identity;
+﻿using Application.Contracts.Hubs;
+using Application.Contracts.Identity;
 using Application.Contracts.Persistence;
 using Application.Exceptions;
+using Application.Models.Identity.Message;
+using Application.Models.Identity.Notification;
 using AutoMapper;
 using MediatR;
+using Newtonsoft.Json;
 
 namespace Application.Features.Post.Commands.CreatePost
 {
@@ -16,12 +20,15 @@ namespace Application.Features.Post.Commands.CreatePost
 
         private readonly IQuoteRepository _quoteRepository;
 
+        private readonly IGarnetCacheService _cache;
+
         public CreatePostCommandHandler(IMapper mapper, 
             IPostRepository postRepository, 
             IUserService userService, 
             IHeadingRepository headingRepository, 
             ICategoryRepository categoryRepository, 
-            IQuoteRepository quoteRepository)
+            IQuoteRepository quoteRepository,
+            IGarnetCacheService cache)
         {
             _mapper = mapper;
             _postRepository = postRepository;
@@ -29,6 +36,7 @@ namespace Application.Features.Post.Commands.CreatePost
             _headingRepository = headingRepository;
             _categoryRepository = categoryRepository;
             _quoteRepository = quoteRepository;
+            _cache = cache;
         }
 
         public async Task<Guid> Handle(CreatePostCommand request, CancellationToken cancellationToken)
@@ -72,8 +80,13 @@ namespace Application.Features.Post.Commands.CreatePost
                 await _headingRepository.IncreasePostCounter(post.HeadingId!);
                 await _categoryRepository.IncreasePostCounter(post.HeadingId);
 
+                if(post.UserId is not null)
+                {
+                    await SendNotificationForHeading(heading.Id, heading.Title, user.UserName, user.Id, post.UserName, post.UserId.ToString());
+                }
+
                 // add quotes
-                if(request.QuotePostIds != null)
+                if (request.QuotePostIds != null)
                 {
                     var quotes = new List<Domain.Quote>();
 
@@ -82,6 +95,8 @@ namespace Application.Features.Post.Commands.CreatePost
                         var quote = new Domain.Quote();
                         quote.QuotePostId = quoteId;
                         quote.PostId = post.Id;
+
+                        await SendNotificationForReply(heading.Id, heading.Title, user.UserName, user.Id, post.UserName, post.UserId.ToString());
                         
                         quotes.Add(quote);
                     }
@@ -93,5 +108,50 @@ namespace Application.Features.Post.Commands.CreatePost
             // return record id
             return post.Id;
         }
+
+
+        public async Task SendNotificationForHeading(Guid? headingId, string? headingTitle, string? username, string? userId, string ownerHeading, string? ownerHeadingId)
+        {
+            NotificationDTO notification = new NotificationDTO
+            {
+                Id = Guid.NewGuid().ToString(),
+                Message = $"There is a new post for your {headingTitle} by {username}",
+                HeadingId = headingId,
+                Creator = new UserDTO { UserName = username },
+                CreatorId = userId,
+                Receiver = new UserDTO { UserName = ownerHeading },
+                ReceiverId = ownerHeadingId,
+                Type = Application.Models.Enums.NotificationType.RepliedHeading,
+                DateTime = DateTime.UtcNow,
+                IsRead = false,
+            };
+
+            var notificationRequest = JsonConvert.SerializeObject(notification);
+
+            await _cache.AddHashSet("notifications", $"{ownerHeading}:{notification.Id}", notificationRequest);
+        }
+
+        public async Task SendNotificationForReply(Guid? headingId, string? headingTitle, string? username, string? userId, string ownerPost, string? ownerPostId)
+        {
+            NotificationDTO notification = new NotificationDTO
+            {
+                Id = Guid.NewGuid().ToString(),
+                Message = $"There is a reply for your post at {headingTitle} by {username}",
+                HeadingId = headingId,
+                HeadingIndex = 0,
+                Creator = new UserDTO { UserName = username },
+                CreatorId = userId,
+                Receiver = new UserDTO { UserName = ownerPost },
+                ReceiverId = ownerPostId,
+                Type = Application.Models.Enums.NotificationType.RepliedPost,
+                DateTime = DateTime.UtcNow,
+                IsRead = false,
+            };
+
+            var notificationRequest = JsonConvert.SerializeObject(notification);
+
+            await _cache.AddHashSet("notifications", $"{ownerPost}:{notification.Id}", notificationRequest);
+        }
+
     }
 }
