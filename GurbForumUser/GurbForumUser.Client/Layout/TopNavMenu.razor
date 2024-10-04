@@ -1,4 +1,5 @@
-﻿@using GurbForumUser.Client.Services.Common
+﻿@using GurbForumUser.Client.Models.Notification
+@using GurbForumUser.Client.Services.Common
 @using GurbForumUser.Client.Services.UI
 @using Microsoft.AspNetCore.SignalR.Client;
 @using System.Text.Json
@@ -40,6 +41,7 @@
                         </a>
                         <a class="d-block link-light text-decoration-none  mb-3 mb-lg-0 me-lg-4 me-lg-0 me-md-5 mt-lg-0 mt-md-3 me-sm-5 me-5">
                             <i class="bi bi-bell-fill"></i>
+                            <span class="notification-badge">5</span>
                         </a>
                         <div class="dropdown text-end">
                             <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -128,6 +130,9 @@
 
     private string themeType;
 
+    List<NotificationVM> notificationList = new List<NotificationVM>();
+    bool isNotify;
+    int notifyCount;
 
     // hub ---------------------------------------------------------------
 
@@ -180,6 +185,7 @@
             {
                 UserName = user.Identity.Name;
                 await ConnectChatHubWhenLogin();
+                await ConnectNotificationHubWhenLogin();
                 Model = await UserService.GetUserInfo(UserName);
                 await CheckUserImageProfile();
             }
@@ -346,11 +352,22 @@
             {
                 if (notifications != null && notifications.Count > 0)
                 {
+                    notificationList.Clear();
                     foreach (var notification in notifications)
                     {
                         NotificationVM? notificationVM = JsonSerializer.Deserialize<NotificationVM>(notification);
+                        if(notificationVM is not null)
+                        {
+                            notificationList.Add(notificationVM);
+
+                            if (notificationVM.IsRead == false)
+                            {
+                                notifyCount += 1;
+                            }
+                        }
                     }
                 }
+                isNotify = true;
                 await InvokeAsync(StateHasChanged);
             });
 
