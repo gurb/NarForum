@@ -49,11 +49,12 @@
                             <div class="list-group">
                                 @foreach(var notification in notificationList)
                                 {
-                                    <a href="#" class="list-group-item list-group-item-action">
+                                    <a @onclick=@(() => OpenNotificationDetail(notification)) class="list-group-item list-group-item-action">
                                         <div class="d-flex w-100 justify-content-between">
                                             <small class="text-muted">@notification.DateTime</small>
                                         </div>
                                         <p class="mb-1">@notification.Message</p>
+                                        <i @onclick=@((e) => RemoveNotification(notification)) @onclick:stopPropagation class="bi bi-x notification-delete-button"></i>
                                         @* <small class="text-muted">And some muted small print.</small> *@
                                     </a>
                                 }
@@ -393,7 +394,7 @@
                         }
                     }
                 }
-                
+
                 await InvokeAsync(StateHasChanged);
             });
 
@@ -531,12 +532,12 @@
         }
     }
 
-    private async Task ReadNotification()
+    private async Task OpenNotificationDetail(NotificationVM notification)
     {
-        
+
     }
 
-    private async Task RemoveNotification()
+    private async Task RemoveNotification(NotificationVM notification)
     {
         
     }

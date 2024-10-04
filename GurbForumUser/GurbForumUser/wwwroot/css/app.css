@@ -1149,3 +1149,16 @@ i.bi.bi-file-earmark-text, i.bi.bi-file-earmark-lock2, i.bi.bi-journals, i.bi.bi
 .notication-bell-button {
     user-select: none;
 }
+
+.notification-delete-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 1.1rem;
+}
+
+.notification-delete-button:hover {
+    color: #ccc;
+    padding:3px;
+    border-radius: 0.5rem;
+}
