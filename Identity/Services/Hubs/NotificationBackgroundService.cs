@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Identity.Services.Hubs
 {
@@ -52,7 +53,9 @@ namespace Identity.Services.Hubs
                                 {
                                     notificationMessages.Add(notification.Value);
                                 }
-                                await _hubContext.Clients.Client(userConnection).ReceiveNotification(notificationMessages);
+
+                                var notificationMessagesString = JsonConvert.SerializeObject(notificationMessages);
+                                await _hubContext.Clients.Client(userConnection).ReceiveNotification(notificationMessagesString);
                             }
                         }
                     }

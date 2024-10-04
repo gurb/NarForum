@@ -40,8 +40,26 @@
                             <i class="bi bi-chat-fill"></i>
                         </a>
                         <a class="d-block link-light text-decoration-none  mb-3 mb-lg-0 me-lg-4 me-lg-0 me-md-5 mt-lg-0 mt-md-3 me-sm-5 me-5">
-                            <i class="bi bi-bell-fill"></i>
-                            <span class="notification-badge">5</span>
+                        <i class="bi bi-bell-fill notication-bell-button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
+                            @if(isNotify)
+                            {
+                                <span class="notification-badge">@notifyCount</span>
+                            }
+                        <ul class="dropdown-menu notification-dropdown">
+                            <div class="list-group">
+                                @foreach(var notification in notificationList)
+                                {
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <small class="text-muted">@notification.DateTime</small>
+                                        </div>
+                                        <p class="mb-1">@notification.Message</p>
+                                        @* <small class="text-muted">And some muted small print.</small> *@
+                                    </a>
+                                }
+                            </div>
+                        </ul>
+                            
                         </a>
                         <div class="dropdown text-end">
                             <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -139,8 +157,7 @@
     private HubConnection? hubConnection;
 
     private HubConnection? hubNotificationConnection;
-
-
+    private HubConnection? hubTrackConnection;
 
     private string GetImageUrl(string userId)
     {
@@ -154,16 +171,15 @@
             logo = await logoService.GetLogo();
         }
 
-
         var authState = await authenticationStateTask;
         var user = authState.User;
-
 
         if (user.Identity.IsAuthenticated)
         {
             UserName = user.Identity.Name;
             await ConnectChatHubWhenLogin();
             await ConnectNotificationHubWhenLogin();
+            await ConnectTrackHubWhenLogin();
             Model = await UserService.GetUserInfo(UserName);
             await CheckUserImageProfile();
         }
@@ -186,6 +202,7 @@
                 UserName = user.Identity.Name;
                 await ConnectChatHubWhenLogin();
                 await ConnectNotificationHubWhenLogin();
+                await ConnectTrackHubWhenLogin();
                 Model = await UserService.GetUserInfo(UserName);
                 await CheckUserImageProfile();
             }
@@ -348,26 +365,35 @@
                 }
             };
 
-            hubNotificationConnection.On<List<string>>("ReceiveMessage", async (notifications) =>
+            hubNotificationConnection.On<string>("ReceiveNotification", async (notifications) =>
             {
-                if (notifications != null && notifications.Count > 0)
+                if (notifications != null)
                 {
                     notificationList.Clear();
-                    foreach (var notification in notifications)
+                    List<string>? notificationsAsString = JsonSerializer.Deserialize<List<string>>(notifications);
+                    notifyCount = 0;
+                    if (notificationsAsString is not null && notificationsAsString.Count > 0)
                     {
-                        NotificationVM? notificationVM = JsonSerializer.Deserialize<NotificationVM>(notification);
-                        if(notificationVM is not null)
+                        foreach (var notification in notificationsAsString)
                         {
-                            notificationList.Add(notificationVM);
-
-                            if (notificationVM.IsRead == false)
+                            NotificationVM? notificationVM = JsonSerializer.Deserialize<NotificationVM>(notification);
+                            if(notificationVM is not null)
                             {
+                                notificationList.Add(notificationVM);
                                 notifyCount += 1;
                             }
                         }
+                        if (notifyCount > 0)
+                        {
+                            isNotify = true;
+                        }
+                        else
+                        {
+                            isNotify = false;
+                        }
                     }
                 }
-                isNotify = true;
+                
                 await InvokeAsync(StateHasChanged);
             });
 
@@ -375,6 +401,55 @@
         }
     }
 
+    private async Task ConnectTrackHubWhenLogin()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            UserName = user.Identity.Name;
+
+            var selfUser = await UserService.GetUserInfo(UserName!);
+
+            string group = "forum";
+
+            string token = await localStorage.GetItem("token");
+
+            hubTrackConnection = new HubConnectionBuilder()
+             .WithUrl(
+                 $"https://localhost:44342/track",
+                 o =>
+                 {
+                     o.AccessTokenProvider = () => Task.FromResult<string?>(token);
+                     o.Url = new Uri($"https://localhost:44342/track?username={UserName}&group={group}");
+                     o.SkipNegotiation = true;
+                     o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+                 }
+             )
+             .Build();
+
+            hubTrackConnection.Closed += async (error) =>
+            {
+                if (error != null)
+                {
+                    // hata meydana gelirse yeniden bağlamı işini burada yap
+                }
+                else
+                {
+                    // kapat
+                    await hubTrackConnection.StopAsync();
+                }
+            };
+
+            await hubTrackConnection.StartAsync();
+
+            if (RefreshStateService.ConnectChatHubWhenLogin != null)
+            {
+                await RefreshStateService.ConnectChatHubWhenLogin.Invoke();
+            }
+        }
+    }
 
     public async ValueTask DisposeAsync()
     {
@@ -387,6 +462,11 @@
         {
             await hubNotificationConnection.StopAsync();
             await hubNotificationConnection.DisposeAsync();
+        }
+        if (hubTrackConnection != null)
+        {
+            await hubTrackConnection.StopAsync();
+            await hubTrackConnection.DisposeAsync();
         }
     }
 
@@ -449,5 +529,15 @@
             await _jSRuntime.InvokeAsync<string>("setTheme", theme);
             themeType = theme;
         }
+    }
+
+    private async Task ReadNotification()
+    {
+        
+    }
+
+    private async Task RemoveNotification()
+    {
+        
     }
 }

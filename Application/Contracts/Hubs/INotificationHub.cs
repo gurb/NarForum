@@ -8,6 +8,6 @@ namespace Application.Contracts.Hubs
 {
     public interface INotificationHub
     {
-        Task ReceiveNotification(List<string> message);
+        Task ReceiveNotification(string message);
     }
 }
