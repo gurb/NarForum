@@ -38,6 +38,86 @@ namespace Identity.Hubs
             await base.OnConnectedAsync();
         }
 
+
+        public async Task RemoveNotification(string? notificationId)
+        {
+            var httpContext = Context.GetHttpContext();
+            if (httpContext != null)
+            {
+                string? userName = httpContext.Request.Query["username"];
+                string? userId = httpContext.Request.Query["userId"];
+                await _cache.RemoveFieldHashSet("notifications", $"{userName}:{notificationId}");
+
+                var userConnectionId = await _cache.GetValueAsync($"notification:connection:{userName}");
+
+                if (!string.IsNullOrEmpty(userConnectionId))
+                {
+                    if (userConnectionId is not null && userName is not null)
+                    {
+                        await SendNotifications(userConnectionId, userName);
+                    }
+                }
+            }
+        }
+
+        public async Task ReadNotification(string? notificationId)
+        {
+            var httpContext = Context.GetHttpContext();
+            if (httpContext != null)
+            {
+                string? userName = httpContext.Request.Query["username"];
+                string? userId = httpContext.Request.Query["userId"];
+
+                string? notificationString = await _cache.GetHashSet("notifications", $"{userName}:{notificationId}");
+
+                if(notificationString is not null)
+                {
+                    NotificationDTO? notification = JsonConvert.DeserializeObject<NotificationDTO>(notificationString);
+
+                    if (notification is not null)
+                    {
+                        notification.IsRead = true;
+
+                        notificationString = JsonConvert.SerializeObject(notification);
+
+                        await _cache.AddHashSet("notifications", $"{userName}:{notificationId}", notificationString);
+
+                        var userConnectionId = await _cache.GetValueAsync($"notification:connection:{userName}");
+
+                        if(userConnectionId is not null && userName is not null)
+                        {
+                            await SendNotifications(userConnectionId, userName);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private async Task SendNotifications(string userConnectionId, string userName)
+        {
+            Dictionary<string, string>? notifications = await _cache.GetAllHashSet("notifications");
+
+            if (notifications is not null && notifications.Count > 0)
+            {
+                var filteredNotifications = notifications.Where(x => x.Key.StartsWith(userName))
+                        .ToDictionary(x => x.Key, x => x.Value);
+
+                if (filteredNotifications is not null && filteredNotifications.Count > 0)
+                {
+                    List<string> notificationMessages = new List<string>();
+                    foreach (var notification in filteredNotifications)
+                    {
+                        notificationMessages.Add(notification.Value);
+                    }
+
+                    var notificationMessagesString = JsonConvert.SerializeObject(notificationMessages);
+                    await Clients.Client(userConnectionId).ReceiveNotification(notificationMessagesString);
+                }
+            }
+        }
+
+
         public async Task SendNotificationForHeading(Guid? headingId, string? headingTitle, string ownerHeading, string? ownerHeadingId)
         {
             var httpContext = Context.GetHttpContext();
