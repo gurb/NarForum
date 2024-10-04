@@ -38,7 +38,6 @@ namespace Identity.Extensions
             services.AddTransient<IPermissionService, PermissionService>();
             services.AddScoped<IMessageService, MessageService>();
 
-
             services.Configure<GarnetConfiguration>(configuration.GetSection("Garnet"));
             services.AddSingleton<IGarnetCacheService, GarnetCacheService>();
 
@@ -71,7 +70,8 @@ namespace Identity.Extensions
                         if (!string.IsNullOrEmpty(accessToken) && 
                             (
                                 path.StartsWithSegments("/track") || 
-                                path.StartsWithSegments("/chat")
+                                path.StartsWithSegments("/chat") ||
+                                path.StartsWithSegments("/notification")
                             ))
                         {
                             context.Token = accessToken;
