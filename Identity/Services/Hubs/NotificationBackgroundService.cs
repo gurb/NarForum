@@ -1,6 +1,7 @@
 ﻿using Application.Contracts.Hubs;
 using Application.Contracts.Identity;
 using Identity.Hubs;
+using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -46,10 +47,12 @@ namespace Identity.Services.Hubs
                             
                             if(filteredNotifications is not null && filteredNotifications.Count > 0)
                             {
+                                List<string> notificationMessages = new List<string>();
                                 foreach(var notification in filteredNotifications)
                                 {
-                                    await _hubContext.Clients.Client(userConnection).ReceiveNotification(notification.Value);
+                                    notificationMessages.Add(notification.Value);
                                 }
+                                await _hubContext.Clients.Client(userConnection).ReceiveNotification(notificationMessages);
                             }
                         }
                     }

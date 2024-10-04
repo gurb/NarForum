@@ -7,23 +7,10 @@
 }
 
 <div class="page h-100">
-    @* <div class="sidebar">
-        <NavMenu />
-    </div> *@
-
     <main>
-
-         <TopNavMenu />
-
-@*         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div> *@
-
+        <TopNavMenu />
         <div class="container custom-container">
             <div class="row">
-@*                 <div class="col-sm-2">
-                    
-                </div> *@
                 <div class="col-sm-9">
                     <article>
                         @if(isBot)
@@ -96,7 +83,6 @@
 
             await base.OnInitializedAsync();
         }
-        
     }
 
     protected override void OnParametersSet()

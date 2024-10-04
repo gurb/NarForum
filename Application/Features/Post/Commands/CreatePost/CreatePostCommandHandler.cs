@@ -80,9 +80,9 @@ namespace Application.Features.Post.Commands.CreatePost
                 await _headingRepository.IncreasePostCounter(post.HeadingId!);
                 await _categoryRepository.IncreasePostCounter(post.HeadingId);
 
-                if(post.UserId is not null)
+                if(post.UserId is not null && heading.UserId != post.UserId)
                 {
-                    await SendNotificationForHeading(heading.Id, heading.Title, user.UserName, user.Id, post.UserName, post.UserId.ToString());
+                    await SendNotificationForHeading(heading.Id, heading.Title, user.UserName, user.Id, heading.UserName!, heading.UserId.ToString());
                 }
 
                 // add quotes
@@ -96,8 +96,13 @@ namespace Application.Features.Post.Commands.CreatePost
                         quote.QuotePostId = quoteId;
                         quote.PostId = post.Id;
 
-                        await SendNotificationForReply(heading.Id, heading.Title, user.UserName, user.Id, post.UserName, post.UserId.ToString());
-                        
+                        var quotePost = await _postRepository.GetByIdAsync(quoteId);
+
+                        if(quotePost is not null && quotePost.UserId != post.UserId)
+                        {
+                            await SendNotificationForReply(heading.Id, heading.Title, user.UserName, user.Id, quotePost.UserName!, quotePost.UserId.ToString());
+                        }
+
                         quotes.Add(quote);
                     }
 

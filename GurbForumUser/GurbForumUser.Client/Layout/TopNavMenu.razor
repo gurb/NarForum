@@ -1,6 +1,7 @@
 ﻿@using GurbForumUser.Client.Services.Common
 @using GurbForumUser.Client.Services.UI
 @using Microsoft.AspNetCore.SignalR.Client;
+@using System.Text.Json
 @inject HttpClient Http
 @inject IConfiguration Configuration
 @inject IJSRuntime _jSRuntime
@@ -157,6 +158,7 @@
         {
             UserName = user.Identity.Name;
             await ConnectChatHubWhenLogin();
+            await ConnectNotificationHubWhenLogin();
             Model = await UserService.GetUserInfo(UserName);
             await CheckUserImageProfile();
         }
@@ -340,11 +342,14 @@
                 }
             };
 
-            hubNotificationConnection.On<string>("ReceiveMessage", async (message) =>
+            hubNotificationConnection.On<List<string>>("ReceiveMessage", async (notifications) =>
             {
-                if (message != null)
+                if (notifications != null && notifications.Count > 0)
                 {
-
+                    foreach (var notification in notifications)
+                    {
+                        NotificationVM? notificationVM = JsonSerializer.Deserialize<NotificationVM>(notification);
+                    }
                 }
                 await InvokeAsync(StateHasChanged);
             });
