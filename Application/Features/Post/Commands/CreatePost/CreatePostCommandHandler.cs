@@ -133,7 +133,7 @@ namespace Application.Features.Post.Commands.CreatePost
 
             var notificationRequest = JsonConvert.SerializeObject(notification);
 
-            await _cache.AddHashSet("notifications", $"{ownerHeading}:{notification.Id}", notificationRequest);
+            await _cache.AddHashSet($"notifications:{ownerHeading}", notification.Id, notificationRequest);
         }
 
         public async Task SendNotificationForReply(Guid? headingId, string? headingTitle, string? username, string? userId, string ownerPost, string? ownerPostId)
@@ -155,7 +155,7 @@ namespace Application.Features.Post.Commands.CreatePost
 
             var notificationRequest = JsonConvert.SerializeObject(notification);
 
-            await _cache.AddHashSet("notifications", $"{ownerPost}:{notification.Id}", notificationRequest);
+            await _cache.AddHashSet($"notifications:{ownerPost}", $"{notification.Id}", notificationRequest);
         }
 
     }

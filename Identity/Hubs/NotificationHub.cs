@@ -46,7 +46,7 @@ namespace Identity.Hubs
             {
                 string? userName = httpContext.Request.Query["username"];
                 string? userId = httpContext.Request.Query["userId"];
-                await _cache.RemoveFieldHashSet("notifications", $"{userName}:{notificationId}");
+                await _cache.RemoveFieldHashSet($"notifications:{userName}", $"{notificationId}");
 
                 var userConnectionId = await _cache.GetValueAsync($"notification:connection:{userName}");
 
@@ -60,7 +60,7 @@ namespace Identity.Hubs
             }
         }
 
-        public async Task ReadNotification(string? notificationId)
+        public async Task ClearNotifications()
         {
             var httpContext = Context.GetHttpContext();
             if (httpContext != null)
@@ -68,7 +68,22 @@ namespace Identity.Hubs
                 string? userName = httpContext.Request.Query["username"];
                 string? userId = httpContext.Request.Query["userId"];
 
-                string? notificationString = await _cache.GetHashSet("notifications", $"{userName}:{notificationId}");
+                if(userName is not null)
+                {
+                    await _cache.Clear($"notifications:{userName}");
+                }
+            }
+        }
+
+        public async Task ReadNotification(string? notificationId)
+        {
+            var httpContext = Context.GetHttpContext();
+            if (httpContext != null && notificationId is not null)
+            {
+                string? userName = httpContext.Request.Query["username"];
+                string? userId = httpContext.Request.Query["userId"];
+
+                string? notificationString = await _cache.GetHashSet($"notifications:{userName}", notificationId);
 
                 if(notificationString is not null)
                 {
@@ -80,7 +95,7 @@ namespace Identity.Hubs
 
                         notificationString = JsonConvert.SerializeObject(notification);
 
-                        await _cache.AddHashSet("notifications", $"{userName}:{notificationId}", notificationString);
+                        await _cache.AddHashSet($"notifications:{userName}", $"{notificationId}", notificationString);
 
                         var userConnectionId = await _cache.GetValueAsync($"notification:connection:{userName}");
 
@@ -96,24 +111,18 @@ namespace Identity.Hubs
 
         private async Task SendNotifications(string userConnectionId, string userName)
         {
-            Dictionary<string, string>? notifications = await _cache.GetAllHashSet("notifications");
+            Dictionary<string, string>? notifications = await _cache.GetAllHashSet($"notifications:{userName}");
 
             if (notifications is not null && notifications.Count > 0)
             {
-                var filteredNotifications = notifications.Where(x => x.Key.StartsWith(userName))
-                        .ToDictionary(x => x.Key, x => x.Value);
-
-                if (filteredNotifications is not null && filteredNotifications.Count > 0)
+                List<string> notificationMessages = new List<string>();
+                foreach (var notification in notifications)
                 {
-                    List<string> notificationMessages = new List<string>();
-                    foreach (var notification in filteredNotifications)
-                    {
-                        notificationMessages.Add(notification.Value);
-                    }
-
-                    var notificationMessagesString = JsonConvert.SerializeObject(notificationMessages);
-                    await Clients.Client(userConnectionId).ReceiveNotification(notificationMessagesString);
+                    notificationMessages.Add(notification.Value);
                 }
+
+                var notificationMessagesString = JsonConvert.SerializeObject(notificationMessages);
+                await Clients.Client(userConnectionId).ReceiveNotification(notificationMessagesString);
             }
         }
 
@@ -143,7 +152,7 @@ namespace Identity.Hubs
 
                 var notificationRequest = JsonConvert.SerializeObject(notification);
 
-                await _cache.AddHashSet("notifications", $"{ownerHeading}:{notification.Id}", notificationRequest);
+                await _cache.AddHashSet($"notifications:{ownerHeading}", $"{notification.Id}", notificationRequest);
             }
         }
 
@@ -173,7 +182,7 @@ namespace Identity.Hubs
 
                 var notificationRequest = JsonConvert.SerializeObject(notification);
 
-                await _cache.AddHashSet("notifications", $"{ownerPost}:{notification.Id}", notificationRequest);
+                await _cache.AddHashSet($"notifications:{ownerPost}", $"{notification.Id}", notificationRequest);
             }
         }
 

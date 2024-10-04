@@ -26,9 +26,6 @@ namespace Identity.Services.Hubs
             while(!stoppingToken.IsCancellationRequested &&
                 await timer.WaitForNextTickAsync(stoppingToken))
             {
-                var dateTime = DateTime.UtcNow;
-
-                Dictionary<string, string>? notifications = await _cache.GetAllHashSet("notifications");
                 Dictionary<string, string>? forumActiveUserHashSet = await _cache.GetAllHashSet("forumActiveUsers");
 
                 // if there are online users
@@ -36,27 +33,29 @@ namespace Identity.Services.Hubs
                 {
                     foreach (var activeUser in forumActiveUserHashSet)
                     {
-                        // activeUser.Key equals username of online users 
+                        // activeUser.Key equals username of online users
+                        Dictionary<string, string>? notifications = await _cache.GetAllHashSet($"notifications:{activeUser.Key}");
                         var userConnection = await _cache.GetValueAsync($"notification:connection:{activeUser.Key}");
+                        
                         if(userConnection is not null && notifications is not null)
                         {
                             string ownerHeading = activeUser.Key;
-                            var filteredNotifications = notifications.Where(x => x.Key.StartsWith(ownerHeading))
-                                .ToDictionary(x => x.Key, x => x.Value);
                             
-                            if(filteredNotifications is not null && filteredNotifications.Count > 0)
+                            if(notifications is not null && notifications.Count > 0)
                             {
                                 List<string> notificationMessages = new List<string>();
-                                foreach(var notification in filteredNotifications)
+                                foreach(var notification in notifications)
                                 {
                                     notificationMessages.Add(notification.Value);
                                 }
 
                                 var notificationMessagesString = JsonConvert.SerializeObject(notificationMessages);
                                 await _hubContext.Clients.Client(userConnection).ReceiveNotification(notificationMessagesString);
+                                notifications.Clear();
                             }
                         }
                     }
+                    forumActiveUserHashSet.Clear();
                 }
             }
         }
