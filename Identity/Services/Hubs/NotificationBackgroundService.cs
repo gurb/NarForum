@@ -1,10 +1,8 @@
 ﻿using Application.Contracts.Hubs;
 using Application.Contracts.Identity;
 using Identity.Hubs;
-using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Identity.Services.Hubs
