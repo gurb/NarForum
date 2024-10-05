@@ -18,6 +18,7 @@
     </div>
     <div class="chat-body">
         <div class="chat-list">
+            
             <ul class="list-group">
                 @foreach(var chat in Chats)
                 {
@@ -107,6 +108,14 @@
                 }
                 @if(selectedChatVM != null && ChatDict.ContainsKey(selectedChatVM.Id!))
                 {
+                    @if (selectedChatVM.CreatorId != SelfUserId && selectedChatVM.Creator is not null)
+                    {
+                        <label class="chat-header-username sticky-top">@selectedChatVM.Creator.UserName</label>
+                    }
+                    @if (selectedChatVM.ReceiverId != SelfUserId && selectedChatVM.Receiver is not null)
+                    {
+                        <label class="chat-header-username sticky-top">@selectedChatVM.Receiver.UserName</label>
+                    }
                     <ul class="list-group chat-history-list">
                         @foreach(var message in ChatDict[selectedChatVM.Id!])
                         {
