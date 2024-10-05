@@ -1,7 +1,10 @@
 ﻿using Application.Contracts.Hubs;
 using Application.Contracts.Identity;
+using Application.Features.Category.Queries.GetCategories;
+using Application.Features.Heading.Queries;
 using Application.Models.Identity.Message;
 using Application.Models.Identity.Notification;
+using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
@@ -49,13 +52,10 @@ namespace Identity.Hubs
                 await _cache.RemoveFieldHashSet($"notifications:{userName}", $"{notificationId}");
 
                 var userConnectionId = await _cache.GetValueAsync($"notification:connection:{userName}");
-
-                if (!string.IsNullOrEmpty(userConnectionId))
+               
+                if (userConnectionId is not null && userName is not null)
                 {
-                    if (userConnectionId is not null && userName is not null)
-                    {
-                        await SendNotifications(userConnectionId, userName);
-                    }
+                    await SendNotifications(userConnectionId, userName);
                 }
             }
         }
@@ -71,6 +71,13 @@ namespace Identity.Hubs
                 if(userName is not null)
                 {
                     await _cache.Clear($"notifications:{userName}");
+
+                    var userConnectionId = await _cache.GetValueAsync($"notification:connection:{userName}");
+
+                    if (userConnectionId is not null)
+                    {
+                        await SendNotifications(userConnectionId, userName);
+                    }
                 }
             }
         }
@@ -124,10 +131,14 @@ namespace Identity.Hubs
                 var notificationMessagesString = JsonConvert.SerializeObject(notificationMessages);
                 await Clients.Client(userConnectionId).ReceiveNotification(notificationMessagesString);
             }
+            else
+            {
+                await Clients.Client(userConnectionId).ReceiveNotification(null);
+            }
         }
 
 
-        public async Task SendNotificationForHeading(Guid? headingId, string? headingTitle, string ownerHeading, string? ownerHeadingId)
+        public async Task SendNotificationForHeading(HeadingDTO heading, CategoryDTO category, string ownerHeading, string? ownerHeadingId)
         {
             var httpContext = Context.GetHttpContext();
             if (httpContext != null)
@@ -139,8 +150,9 @@ namespace Identity.Hubs
                 NotificationDTO notification = new NotificationDTO
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Message = $"There is a new post for your {headingTitle} by {userName}",
-                    HeadingId = headingId,
+                    Message = $"There is a new post for your {heading.Title} by {userName}",
+                    Category = category,
+                    Heading  = heading,
                     Creator = new UserDTO { UserName = userName },
                     CreatorId = userId,
                     Receiver = new UserDTO { UserName = ownerHeading },
@@ -156,7 +168,7 @@ namespace Identity.Hubs
             }
         }
 
-        public async Task SendNotificationForReply(Guid? headingId, int? headingIndex, string? headingTitle, string ownerPost, string? ownerPostId)
+        public async Task SendNotificationForReply(HeadingDTO heading, CategoryDTO category, string ownerPost, string? ownerPostId)
         {
             var httpContext = Context.GetHttpContext();
             if (httpContext != null)
@@ -168,9 +180,9 @@ namespace Identity.Hubs
                 NotificationDTO notification = new NotificationDTO
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Message = $"There is a reply for your post at {headingTitle} by {userName}",
-                    HeadingId = headingId,
-                    HeadingIndex = headingIndex,
+                    Message = $"There is a reply for your post at {heading.Title} by {userName}",
+                    Category = category,
+                    Heading = heading,
                     Creator = new UserDTO { UserName = userName },
                     CreatorId = userId,
                     Receiver = new UserDTO { UserName = ownerPost },

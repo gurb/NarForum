@@ -1,4 +1,6 @@
-﻿using GurbForumUser.Client.Models.Enums;
+﻿using GurbForumUser.Client.Models.Category;
+using GurbForumUser.Client.Models.Enums;
+using GurbForumUser.Client.Models.Heading;
 using GurbForumUser.Client.Models.User;
 
 namespace GurbForumUser.Client.Models.Notification
@@ -14,7 +16,8 @@ namespace GurbForumUser.Client.Models.Notification
         public UserInfoVM? Receiver { get; set; }
         public NotificationTypeVM Type { get; set; }
         public DateTime DateTime { get; set; }
-        public Guid? HeadingId { get; set; }
+        public HeadingVM? Heading { get; set; }
+        public CategoryVM? Category { get; set; }
         public int? HeadingIndex { get; set; }
     }
 }

@@ -2,9 +2,12 @@
 using Application.Contracts.Identity;
 using Application.Contracts.Persistence;
 using Application.Exceptions;
+using Application.Features.Category.Queries.GetCategories;
+using Application.Features.Heading.Queries;
 using Application.Models.Identity.Message;
 using Application.Models.Identity.Notification;
 using AutoMapper;
+using Domain;
 using MediatR;
 using Newtonsoft.Json;
 
@@ -17,9 +20,7 @@ namespace Application.Features.Post.Commands.CreatePost
         private readonly IHeadingRepository _headingRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUserService _userService;
-
         private readonly IQuoteRepository _quoteRepository;
-
         private readonly IGarnetCacheService _cache;
 
         public CreatePostCommandHandler(IMapper mapper, 
@@ -52,11 +53,12 @@ namespace Application.Features.Post.Commands.CreatePost
 
             // convert to domain entity object
             var post = _mapper.Map<Domain.Post>(request);
-
+            
             var user = await _userService.GetCurrentUser();
             var lastPost = await _postRepository.GetLastPost(post.HeadingId);
 
-            if(lastPost != null)
+
+            if (lastPost != null)
             {
                 post.HeadingIndex = lastPost.HeadingIndex + 1;
             }
@@ -73,6 +75,7 @@ namespace Application.Features.Post.Commands.CreatePost
             var heading = await _headingRepository.GetByIdAsync(post.HeadingId!);
 
 
+
             if (heading != null)
             {
                 await _headingRepository.UpdateHeadingWhenCreatePost(heading.Id, post.UserName, post.UserId.Value, post.Id);
@@ -80,13 +83,15 @@ namespace Application.Features.Post.Commands.CreatePost
                 await _headingRepository.IncreasePostCounter(post.HeadingId!);
                 await _categoryRepository.IncreasePostCounter(post.HeadingId);
 
-                if(post.UserId is not null && heading.UserId != post.UserId)
+                var category = await _categoryRepository.GetByIdAsync(heading.CategoryId);
+
+                if (post.UserId is not null && heading.UserId != post.UserId && category is not null)
                 {
-                    await SendNotificationForHeading(heading.Id, heading.Title, user.UserName, user.Id, heading.UserName!, heading.UserId.ToString());
+                    await SendNotificationForHeading(heading, category, user.UserName, user.Id, heading.UserName!, heading.UserId.ToString());
                 }
 
                 // add quotes
-                if (request.QuotePostIds != null)
+                if (request.QuotePostIds != null && category is not null)
                 {
                     var quotes = new List<Domain.Quote>();
 
@@ -100,7 +105,7 @@ namespace Application.Features.Post.Commands.CreatePost
 
                         if(quotePost is not null && quotePost.UserId != post.UserId)
                         {
-                            await SendNotificationForReply(heading.Id, heading.Title, user.UserName, user.Id, quotePost.UserName!, quotePost.UserId.ToString());
+                            await SendNotificationForReply(heading, category, user.UserName, user.Id, quotePost.UserName!, quotePost.UserId.ToString());
                         }
 
                         quotes.Add(quote);
@@ -115,13 +120,14 @@ namespace Application.Features.Post.Commands.CreatePost
         }
 
 
-        public async Task SendNotificationForHeading(Guid? headingId, string? headingTitle, string? username, string? userId, string ownerHeading, string? ownerHeadingId)
+        public async Task SendNotificationForHeading(Domain.Heading heading, Domain.Category category, string? username, string? userId, string ownerHeading, string? ownerHeadingId)
         {
             NotificationDTO notification = new NotificationDTO
             {
                 Id = Guid.NewGuid().ToString(),
-                Message = $"There is a new post for your {headingTitle} by {username}",
-                HeadingId = headingId,
+                Message = $"There is a new post for your {heading.Title} by {username}",
+                Heading = new HeadingDTO { Id = heading.Id, Title = heading.Title },
+                Category = new CategoryDTO { Id = category.Id, Name = category.Name },
                 Creator = new UserDTO { UserName = username },
                 CreatorId = userId,
                 Receiver = new UserDTO { UserName = ownerHeading },
@@ -136,13 +142,14 @@ namespace Application.Features.Post.Commands.CreatePost
             await _cache.AddHashSet($"notifications:{ownerHeading}", notification.Id, notificationRequest);
         }
 
-        public async Task SendNotificationForReply(Guid? headingId, string? headingTitle, string? username, string? userId, string ownerPost, string? ownerPostId)
+        public async Task SendNotificationForReply(Domain.Heading heading, Domain.Category category, string? username, string? userId, string ownerPost, string? ownerPostId)
         {
             NotificationDTO notification = new NotificationDTO
             {
                 Id = Guid.NewGuid().ToString(),
-                Message = $"There is a reply for your post at {headingTitle} by {username}",
-                HeadingId = headingId,
+                Message = $"There is a reply for your post at {heading.Title} by {username}",
+                Heading = new HeadingDTO { Id = heading.Id, Title = heading.Title },
+                Category = new CategoryDTO { Id = category.Id, Name = category.Name },
                 HeadingIndex = 0,
                 Creator = new UserDTO { UserName = username },
                 CreatorId = userId,

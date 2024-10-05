@@ -1144,6 +1144,8 @@ i.bi.bi-file-earmark-text, i.bi.bi-file-earmark-lock2, i.bi.bi-journals, i.bi.bi
     color: #eaeaea;
     width: 20%;
     user-select: none;
+    max-height: 500px;
+    overflow-y: scroll;
 }
 
 .notication-bell-button {

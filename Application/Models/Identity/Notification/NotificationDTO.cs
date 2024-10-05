@@ -1,4 +1,6 @@
-﻿using Application.Models.Enums;
+﻿using Application.Features.Category.Queries.GetCategories;
+using Application.Features.Heading.Queries;
+using Application.Models.Enums;
 using Application.Models.Identity.Message;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,8 @@ namespace Application.Models.Identity.Notification
         public UserDTO? Receiver { get; set; }
         public NotificationType Type { get; set; }
         public DateTime DateTime { get; set; }
-        public Guid? HeadingId { get; set; }
+        public HeadingDTO? Heading { get; set; }
+        public CategoryDTO? Category { get; set; }
         public int? HeadingIndex { get; set; }
     }
 }

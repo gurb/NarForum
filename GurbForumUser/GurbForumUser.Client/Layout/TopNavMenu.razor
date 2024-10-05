@@ -54,9 +54,21 @@
                                             <small class="text-muted">@notification.DateTime</small>
                                         </div>
                                         <p class="mb-1">@notification.Message</p>
-                                        <i @onclick=@((e) => RemoveNotification(notification)) @onclick:stopPropagation class="bi bi-x notification-delete-button"></i>
+                                        <i @onclick=@(() => RemoveNotification(notification)) @onclick:stopPropagation class="bi bi-x notification-delete-button"></i>
                                         @* <small class="text-muted">And some muted small print.</small> *@
                                     </a>
+                                }
+                                @if(notificationList.Count == 0)
+                                {
+                                    <div class="d-block text-center">
+                                        <small class="text-muted">There is no any notification.</small>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="d-block text-center">
+                                        <small @onclick=@(() => ClearNotifications()) class="text-muted">Clear notifications</small>
+                                    </div>
                                 }
                             </div>
                         </ul>
@@ -381,7 +393,10 @@
                             if(notificationVM is not null)
                             {
                                 notificationList.Add(notificationVM);
-                                notifyCount += 1;
+                                if(!notificationVM.IsRead)
+                                {
+                                    notifyCount += 1;
+                                }
                             }
                         }
                         if (notifyCount > 0)
@@ -393,6 +408,12 @@
                             isNotify = false;
                         }
                     }
+                }
+                else
+                {
+                    notifyCount = 0;
+                    notificationList.Clear();
+                    isNotify = false;
                 }
 
                 await InvokeAsync(StateHasChanged);
@@ -534,11 +555,34 @@
 
     private async Task OpenNotificationDetail(NotificationVM notification)
     {
+        if(hubNotificationConnection is not null)
+        {
 
+            if (notification.Type == NotificationTypeVM.RepliedHeading && notification.Heading is not null && notification.Category is not null)
+            {
+                var category = notification.Category;
+                var heading = notification.Heading;
+
+                await hubNotificationConnection.SendAsync("ReadNotification", notification.Id);
+
+                NavigationManager.NavigateTo($"category/{category.Name.ToFriendlyUrl()}-{category.CategoryId}/{heading.Id.EncodeGuidToBase64Url()}/{heading.Title.ToFriendlyUrl()}/");
+            }
+        }
     }
 
     private async Task RemoveNotification(NotificationVM notification)
     {
-        
+        if (hubNotificationConnection is not null)
+        {
+            await hubNotificationConnection.SendAsync("RemoveNotification", notification.Id);
+        }
+    }
+
+    private async Task ClearNotifications()
+    {
+        if (hubNotificationConnection is not null)
+        {
+            await hubNotificationConnection.SendAsync("ClearNotifications");
+        }
     }
 }
