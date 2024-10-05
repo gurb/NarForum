@@ -208,3 +208,19 @@ thead th {
 .blocked-user-bg {
     background: #ff00001a;
 }
+
+.form-signin {
+    text-align:center;
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-floating {
+    position: relative;
+}
+
+.vh-90 {
+    height: 90vh;
+}

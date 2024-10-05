@@ -2,6 +2,7 @@ using AdminUI.Contracts;
 using AdminUI.Models;
 using Microsoft.AspNetCore.Components;
 using AdminUI.Models.Authentication;
+using AdminUI.Models.Logo;
 
 namespace AdminUI.Pages;
 
@@ -16,9 +17,13 @@ public partial class Login
     [Inject]
     private IAuthenticationService AuthenticationService { get; set; }
 
+    LogoVM logoVM { get; set; }
+
     public Login()
     {
-
+        logoVM = new LogoVM();
+        logoVM.Text = "NarForum";
+        logoVM.AltText = "NarForum";
     }
 
     protected override void OnInitialized()
