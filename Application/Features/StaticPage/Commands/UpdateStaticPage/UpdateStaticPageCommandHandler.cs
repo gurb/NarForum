@@ -21,6 +21,14 @@ public class UpdateStaticPageCommandHandler: IRequestHandler<UpdateStaticPageCom
 
         try
         {
+            var anyUrl = await _pageRepository.GetStaticPageByUrl(request.Url);
+            if (anyUrl != null && anyUrl.Id != request.Id)
+            {
+                response.IsSuccess = false;
+                response.Message = "There is already defined this url for another page";
+                return response;
+            }
+
             var staticPage = await _pageRepository.GetByIdAsync(request.Id, true);
 
             if (staticPage != null)

@@ -17,6 +17,7 @@
     <thead>
         <tr>
             <th scope="col">Title</th>
+            <th scope="col" style="width:20%">Status</th>
             <th scope="col" style="width:20%">Action</th>
         </tr>
     </thead>
@@ -31,6 +32,16 @@
             {
                 <tr>
                     <td class="align-middle">@staticPage.Title</td>
+                    <td class="align-middle">
+                        @if(staticPage.IsPublished)
+                        {
+                            <span class="badge bg-success">Published</span>
+                        }
+                        @if(staticPage.IsDraft)
+                        {
+                            <span class="badge bg-warning">Draft</span>
+                        }
+                    </td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-warning" @onclick="() => DetailStaticPage(staticPage)"><i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DeleteStaticPage(staticPage)"><i class="bi bi-trash"></i></button>

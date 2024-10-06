@@ -17,6 +17,7 @@
         <tr>
             <th scope="col">Title</th>
             <th scope="col" style="width:20%">Category</th>
+            <th scope="col" style="width:20%">Status</th>
             <th scope="col" style="width:20%">Action</th>
         </tr>
     </thead>
@@ -42,6 +43,16 @@
                     {
                         <td class="align-middle">-</td>
                     }
+                    <td class="align-middle">
+                        @if (blogPost.IsPublished)
+                        {
+                            <span class="badge bg-success">Published</span>
+                        }
+                        @if (blogPost.IsDraft)
+                        {
+                            <span class="badge bg-warning">Draft</span>
+                        }
+                    </td>
                     <td class="text-end align-middle">
                         <button type="button" class="btn btn-warning" @onclick="() => DetailBlogPost(blogPost)"><i class="bi bi-pencil-square"></i></button>
                         <button type="button" class="btn btn-danger" @onclick="() => DeleteBlogPost(blogPost)"><i class="bi bi-trash"></i></button>

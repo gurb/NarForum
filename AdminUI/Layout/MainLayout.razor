@@ -19,9 +19,17 @@
                 <TopNavMenu />
             </Authorized>
         </AuthorizeView>
-        <article class="content px-4">
-            @Body
-        </article>
+        <AuthorizeView>
+            <Authorized>
+                <article class="content px-4">
+                    @Body
+                </article>
+            </Authorized>
+            <NotAuthorized>
+                <AdminUI.Pages.Login></AdminUI.Pages.Login>
+            </NotAuthorized>
+        </AuthorizeView>
+
     </main>
 </div>
 

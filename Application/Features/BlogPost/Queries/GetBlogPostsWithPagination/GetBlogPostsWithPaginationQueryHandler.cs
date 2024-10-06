@@ -30,6 +30,16 @@ public class GetBlogPostsWithPaginationQueryHandler : IRequestHandler<GetBlogPos
             predicate = predicate.And(x => x.Title.ToLower().Contains(request.SearchTitle.ToLower()));
         }
 
+        if(request.Status == Models.Enums.BlogPostStatus.PUBLISHED)
+        {
+            predicate = predicate.And(x => x.IsPublished && !x.IsDraft);
+        }
+
+        if (request.Status == Models.Enums.BlogPostStatus.DRAFT)
+        {
+            predicate = predicate.And(x => x.IsDraft && !x.IsPublished);
+        }
+
         List<Domain.BlogPost> blogPosts;
 
         Dictionary<string, bool> orderFunctions = new Dictionary<string, bool>

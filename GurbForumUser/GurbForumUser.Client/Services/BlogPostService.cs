@@ -51,6 +51,7 @@ namespace GurbForumUser.Client.Services
         public async Task<BlogPostsPaginationVM> GetBlogPostsWithPagination(GetBlogPostsWithPaginationQueryVM request)
         {
             GetBlogPostsWithPaginationQuery query = _mapper.Map<GetBlogPostsWithPaginationQuery>(request);
+            query.Status = (BlogPostStatus)Models.Enums.BlogPostStatusVM.PUBLISHED;
 
             var postsPagination = await _client.GetBlogPostsWithPaginationAsync(query);
 

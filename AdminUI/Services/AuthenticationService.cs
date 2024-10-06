@@ -20,7 +20,7 @@ public class AuthenticationService : BaseHttpService, IAuthenticationService
     {
         try
         {
-            AuthRequest authenticationRequest = new AuthRequest() { Email = email, Password = password };
+            AuthRequest authenticationRequest = new AuthRequest() { Email = email, Password = password, IsAdminPanel = true };
             var authenticationResponse = await _client.LoginAsync(authenticationRequest);
 
             if (authenticationResponse.Token != string.Empty)

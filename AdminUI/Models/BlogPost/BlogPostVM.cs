@@ -14,4 +14,6 @@ public class BlogPostVM
     public string UserName { get; set; } = string.Empty;
     public Guid? UserId { get; set; }
     public int ViewCounter { get; set; }
+    public bool IsDraft { get; set; }
+    public bool IsPublished { get; set; }
 }

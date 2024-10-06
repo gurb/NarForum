@@ -17,4 +17,6 @@ public class BlogPostDTO
 
     public DateTime? DateCreate { get; set; }
 
+    public bool IsDraft { get; set; }
+    public bool IsPublished { get; set; }
 }

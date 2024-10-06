@@ -2,6 +2,7 @@
 using Application.Exceptions;
 using Application.Models;
 using Application.Models.Identity;
+using Application.Models.Identity.User;
 using Identity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -19,18 +20,21 @@ public class AuthService : IAuthService
     private readonly SignInManager<ForumUser> _signInManager;
     private readonly JwtSettings _jwtSettings;
     private readonly IUserService _userService;
+    private readonly IRoleService _roleService;
 
     public AuthService(
         UserManager<ForumUser> userManager, 
         IOptions<JwtSettings> jwtSettings,
         SignInManager<ForumUser> signInManager,
-        IUserService userService
+        IUserService userService,
+        IRoleService roleService
         )
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _jwtSettings = jwtSettings.Value;
         _userService = userService;
+        _roleService = roleService;
      }
 
     public async Task<AuthResponse> Login(AuthRequest request)
@@ -40,6 +44,35 @@ public class AuthService : IAuthService
         if(user == null)
         {
             throw new NotFoundException($"User with {request.Email} not found.", request.Email);
+        }
+
+        if(request.IsAdminPanel)
+        {
+            GetApiUserRoleRequest userRoleRequest = new GetApiUserRoleRequest
+            {
+                Id = user.Id,
+            };
+            var roleResponse = await _roleService.GetRoles();
+            var userRole = await _userService.GetUserRole(userRoleRequest);
+
+            if(userRole is not null && roleResponse.UserRoles is not null && roleResponse.UserRoles.Count > 0)
+            {
+                var role = roleResponse.UserRoles.FirstOrDefault(x => x.Id == userRole.RoleId);
+
+                if(role is not null)
+                {
+                    if(role.Name is not null && 
+                       role.Name.ToLower() == "Administrator".ToLower() ||
+                       role.Name.ToLower() == "Moderator".ToLower())
+                    {
+                        
+                    }
+                    else
+                    {
+                        throw new BadRequestException($"User has not authorize for admin panel.");
+                    }
+                }
+            }
         }
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);

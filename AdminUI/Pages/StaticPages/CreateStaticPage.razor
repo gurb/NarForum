@@ -22,8 +22,7 @@ else
         </div>
     </div>
     <div class="col-sm-3 create-static-page-sidebar">
-        @if (isUpdate)
-        {
+       
             <div class="form-group mb-2 mt-3">
                 <button type="button" class="btn btn-primary w-100 text-center" @onclick=UpdateStaticPage>Update</button>
             </div>
@@ -34,15 +33,25 @@ else
                 <button type="button" class="btn btn-primary w-100 text-center" @onclick=CreateNewStaticPage>Create</button>
             </div>
         }
-        <div class="form-group mb-3">
-            <button type="button" class="btn btn-success w-100 text-center" @onclick=PublishStaticPage>Publish</button>
-        </div>
-        <div class="form-group mb-3">
-            <button type="button" class="btn btn-warning w-100 text-center" @onclick=DraftStaticPage>Draft</button>
-        </div>
+        @if (isUpdate)
+        {
+            @if (CreateModel.IsDraft)
+            {
+                <div class="form-group mb-3">
+                    <button type="button" class="btn btn-success w-100 text-center" @onclick=PublishStaticPage>Publish</button>
+                </div>
+            }
+            @if (CreateModel.IsPublished)
+            {
+                 <div class="form-group mb-3">
+                    <button type="button" class="btn btn-warning w-100 text-center" @onclick=DraftStaticPage>Draft</button>
+                </div>                
+            }
+        }
+        
         <div class="form-group mb-3">
             <label for="exampleInputEmail1">Define Url</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Define url">
+            <input type="text" class="form-control" id="exampleInputEmail1" @bind-value=CreateModel.Url placeholder="Define url">
         </div>
     </div>
 </div>
@@ -101,14 +110,14 @@ else
     {
         if (StaticPageService != null)
         {
-            CreateStaticPageCommandVM blogPost = new CreateStaticPageCommandVM
+            CreateStaticPageCommandVM staticPage = new CreateStaticPageCommandVM
             {
                 Title = CreateModel.Title,
                 Content = CreateModel.Content,
-                Url = CreateModel.Url
+                Url = CreateModel.Url.ToFriendlyUrl()
             };
 
-            ApiResponseVM response = await StaticPageService.CreateStaticPage(blogPost);
+            ApiResponseVM response = await StaticPageService.CreateStaticPage(staticPage);
 
             if (response.IsSuccess)
             {
@@ -136,7 +145,7 @@ else
                 Id = CreateModel.Id,
                 Title = CreateModel.Title,
                 Content = CreateModel.Content,
-                Url = CreateModel.Url
+                Url = CreateModel.Url.ToFriendlyUrl(),
             };
 
             ApiResponseVM response = await StaticPageService.UpdateStaticPage(updateCommand);

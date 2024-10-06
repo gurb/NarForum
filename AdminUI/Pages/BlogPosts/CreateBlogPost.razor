@@ -35,12 +35,22 @@ else
                 <button type="button" class="btn btn-primary w-100 text-center" @onclick=CreateNewBlogPost>Create</button>
             </div>
         }
-        <div class="form-group mb-3">
-            <button type="button" class="btn btn-success w-100 text-center" @onclick=PublishBlogPost>Publish</button>
-        </div>
-        <div class="form-group mb-3">
-            <button type="button" class="btn btn-warning w-100 text-center" @onclick=DraftBlogPost>Draft</button>
-        </div>
+        @if(isUpdate)
+        {
+            @if(CreateModel.IsDraft)
+            {
+                <div class="form-group mb-3">
+                    <button type="button" class="btn btn-success w-100 text-center" @onclick=PublishBlogPost>Publish</button>
+                </div>
+            }
+            @if(CreateModel.IsPublished)
+            {
+                <div class="form-group mb-3">
+                    <button type="button" class="btn btn-warning w-100 text-center" @onclick=DraftBlogPost>Draft</button>
+                </div>
+            }
+        }
+        
         <div class="form-group mb-3">
             <SelectBox @ref=@selectBox 
                 Heading="Select Blog Category" 

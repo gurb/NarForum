@@ -8,5 +8,8 @@
         public string Url { get; set; } = string.Empty;
         public string Author { get; set; } = string.Empty;
         public Guid? UserId { get; set; }
+
+        public bool IsDraft { get; set; }
+        public bool IsPublished { get; set; }
     }
 }

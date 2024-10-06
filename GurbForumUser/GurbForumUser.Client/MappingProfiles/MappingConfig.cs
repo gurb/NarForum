@@ -6,6 +6,7 @@ using GurbForumUser.Client.Models.BlogComment;
 using GurbForumUser.Client.Models.BlogPost;
 using GurbForumUser.Client.Models.Category;
 using GurbForumUser.Client.Models.Contact;
+using GurbForumUser.Client.Models.Enums;
 using GurbForumUser.Client.Models.Favorite;
 using GurbForumUser.Client.Models.ForumSettings;
 using GurbForumUser.Client.Models.Heading;

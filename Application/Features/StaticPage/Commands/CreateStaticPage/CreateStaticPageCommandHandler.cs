@@ -25,7 +25,7 @@ public class CreateStaticPageCommandHandler : IRequestHandler<CreateStaticPageCo
 
         try
         {
-            var anyUrl = _pageRepository.GetStaticPageByUrl(request.Url);
+            var anyUrl = await _pageRepository.GetStaticPageByUrl(request.Url);
             if (anyUrl != null) 
             {
                 response.IsSuccess = false;

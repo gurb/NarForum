@@ -69,6 +69,7 @@
     {
         NavigationManager.NavigateTo("login/", true);
         await AuthenticationService.Logout();
+        Model = null;
     }
 }
 

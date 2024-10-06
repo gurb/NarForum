@@ -12668,6 +12668,9 @@ namespace AdminUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
         public System.DateTime DateTime { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("isAdminPanel")]
+        public bool IsAdminPanel { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -12769,6 +12772,24 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("dateCreate")]
         public System.DateTime? DateCreate { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("isDraft")]
+        public bool IsDraft { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("isPublished")]
+        public bool IsPublished { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public enum BlogPostStatus
+    {
+
+        _0 = 0,
+
+        _1 = 1,
+
+        _2 = 2,
 
     }
 
@@ -13327,6 +13348,9 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("searchTitle")]
         public string SearchTitle { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("status")]
+        public BlogPostStatus Status { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
@@ -14314,6 +14338,12 @@ namespace AdminUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("userId")]
         public System.Guid? UserId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("isDraft")]
+        public bool IsDraft { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("isPublished")]
+        public bool IsPublished { get; set; }
 
     }
 
