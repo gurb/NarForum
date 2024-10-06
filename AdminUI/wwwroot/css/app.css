@@ -224,3 +224,31 @@ thead th {
 .vh-90 {
     height: 90vh;
 }
+
+.unvisible-input-file {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background: pink;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+}
+
+.user-settings-button input[type=file]::-webkit-file-upload-button {
+    opacity: 0;
+    cursor: pointer;
+}
+
+.user-settings-button {
+    float: right;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f1f1f1;
+    cursor: pointer;
+    position: relative;
+}

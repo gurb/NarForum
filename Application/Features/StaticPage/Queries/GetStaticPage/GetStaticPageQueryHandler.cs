@@ -18,11 +18,17 @@ namespace Application.Features.StaticPage.Queries.GetStaticPage
 
         public async Task<StaticPageDTO> Handle(GetStaticPageQuery request, CancellationToken cancellationToken)
         {
-            var staticPage = await _pageRepository.GetByIdAsync(request.Id);
 
-            var data = _mapper.Map<StaticPageDTO>(staticPage);
-
-            return data;
+            Domain.StaticPage? page = null;
+            if(request.Id is not null )
+            {
+                page = await _pageRepository.GetByIdAsync(request.Id.Value);
+            }
+            else if(request.Url is not null)
+            {
+                page = await _pageRepository.GetStaticPageByUrl(request.Url);
+            }
+            return _mapper.Map<StaticPageDTO>(page);
         }
     }
 }

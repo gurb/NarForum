@@ -2,7 +2,7 @@
 
 
 <div class="modal fade @modalClass" id="@ModalId" tabindex="-1" aria-labelledby="biseyLabel" aria-hidden="true" style="display:@modalDisplay; overflow-y: auto;">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:@MaxWidth;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">@ModalTitle</h5>
@@ -37,6 +37,8 @@
 
     [Parameter]
     public string ModalButtonText { get; set; } = "Save";
+    [Parameter]
+    public string MaxWidth { get; set; } = "700px";
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

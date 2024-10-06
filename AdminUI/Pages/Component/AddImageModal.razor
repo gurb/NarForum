@@ -6,7 +6,7 @@
 @inject HttpClient Http
 
 
-<Modal @ref="modal" ModalTitle="Add Image" Callback="@HandleAdd">
+<Modal @ref="modal" ModalTitle="Add Image" Callback="@HandleAdd" ModalButtonText="Add Image or Images" MaxWidth="none">
     @if(Model is not null && Model.IsFromServer)
     {
         <div class="row">

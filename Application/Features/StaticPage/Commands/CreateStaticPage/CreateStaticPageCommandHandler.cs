@@ -25,6 +25,14 @@ public class CreateStaticPageCommandHandler : IRequestHandler<CreateStaticPageCo
 
         try
         {
+            var anyUrl = _pageRepository.GetStaticPageByUrl(request.Url);
+            if (anyUrl != null) 
+            {
+                response.IsSuccess = false;
+                response.Message = "There is already defined this url for another page";
+                return response;
+            }
+
             var staticPage = _mapper.Map<Domain.StaticPage>(request);
             staticPage.IsDraft = true;
 
