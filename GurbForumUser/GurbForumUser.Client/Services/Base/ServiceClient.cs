@@ -13572,7 +13572,10 @@ namespace GurbForumUser.Client.Services.Base
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
-        public System.Guid Id { get; set; }
+        public System.Guid? Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("url")]
+        public string Url { get; set; }
 
     }
 
