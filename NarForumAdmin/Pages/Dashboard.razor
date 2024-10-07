@@ -200,10 +200,10 @@
 
         hubConnection = new HubConnectionBuilder()
             .WithUrl(
-                $"{Configuration["ApiBaseUrl"]}",
+                $"{Configuration["HubBaseUrl"]}/track",
                 o => {
                     o.AccessTokenProvider = () => Task.FromResult<string?>(token);
-                    o.Url = new Uri($"{Configuration["ApiBaseUrl"]}/track?username={username}&group={group}");
+                    o.Url = new Uri($"{Configuration["HubBaseUrl"]}/track?username={username}&group={group}");
                     o.SkipNegotiation = true;
                     o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
                 }
