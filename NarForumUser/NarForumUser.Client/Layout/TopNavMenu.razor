@@ -304,11 +304,11 @@
 
             hubConnection = new HubConnectionBuilder()
             .WithUrl(
-                $"https://localhost:44342/chat",
+                $"{Configuration["HubBaseUrl"]}/chat",
                 o =>
                 {
                     o.AccessTokenProvider = () => Task.FromResult<string?>(token);
-                    o.Url = new Uri($"https://localhost:44342/chat?username={UserName}&userId={selfUser.Id}");
+                    o.Url = new Uri($"{Configuration["HubBaseUrl"]}/chat?username={UserName}&userId={selfUser.Id}");
                     o.SkipNegotiation = true;
                     o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
                 }
@@ -355,11 +355,11 @@
 
             hubNotificationConnection = new HubConnectionBuilder()
             .WithUrl(
-                $"https://localhost:44342/notification",
+                $"{Configuration["HubBaseUrl"]}/notification",
                 o =>
                 {
                     o.AccessTokenProvider = () => Task.FromResult<string?>(token);
-                    o.Url = new Uri($"https://localhost:44342/notification?username={UserName}&userId={selfUser.Id}");
+                    o.Url = new Uri($"{Configuration["HubBaseUrl"]}/notification?username={UserName}&userId={selfUser.Id}");
                     o.SkipNegotiation = true;
                     o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
                 }
@@ -440,11 +440,11 @@
 
             hubTrackConnection = new HubConnectionBuilder()
              .WithUrl(
-                 $"https://localhost:44342/track",
+                 $"{Configuration["HubBaseUrl"]}/track",
                  o =>
                  {
                      o.AccessTokenProvider = () => Task.FromResult<string?>(token);
-                     o.Url = new Uri($"https://localhost:44342/track?username={UserName}&group={group}");
+                     o.Url = new Uri($"{Configuration["HubBaseUrl"]}/track?username={UserName}&group={group}");
                      o.SkipNegotiation = true;
                      o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
                  }

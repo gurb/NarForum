@@ -63,10 +63,6 @@ builder.Services.AddAuthorizationCore();
 
 builder.Services.AddScoped<AuthenticationStateProvider, PrerenderedAuthenticationStateProvider>();
 
-
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

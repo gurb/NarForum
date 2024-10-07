@@ -71,39 +71,6 @@ public partial class Login: IAsyncDisposable
                     await AuthorizationService.SetPermissions(username);
                 }
             }
-
-            //hubConnection = new HubConnectionBuilder()
-            //.WithUrl(
-            //    $"https://localhost:44342/track",
-            //    o => {
-            //        o.AccessTokenProvider = () => Task.FromResult<string?>(token);
-            //        o.Url = new Uri($"https://localhost:44342/track?username={username}&group={group}");
-            //        o.SkipNegotiation = true;
-            //        o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
-            //    }
-            //)
-            //.Build();
-
-
-            //hubConnection.Closed += async (error) =>
-            //{
-            //    if(error != null)
-            //    {
-            //        // hata meydana gelirse yeniden bağlamı işini burada yap
-            //    }
-            //    else
-            //    {
-            //        // kapat
-            //        await hubConnection.StopAsync();
-            //    }
-            //};
-
-            //await hubConnection.StartAsync();
-
-            //if(RefreshStateService.ConnectChatHubWhenLogin != null)
-            //{
-            //    await RefreshStateService.ConnectChatHubWhenLogin.Invoke();
-            //}
         }
         Message = "Username/password combination unknown";
     }
