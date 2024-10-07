@@ -22,6 +22,7 @@ using NarForumAdmin.Models.Image;
 using NarForumAdmin.Models.Report;
 using NarForumAdmin.Models.Contact;
 using NarForumAdmin.Models.SmtpSettings;
+using NarForumAdmin.Models.Enums;
 
 
 namespace NarForumAdmin.MappingProfiles
@@ -173,7 +174,14 @@ namespace NarForumAdmin.MappingProfiles
                 CreateMap<GetContactQueryVM, GetContactQuery>().ReverseMap();
                 CreateMap<GetContactsQueryVM, GetContactsQuery>().ReverseMap();
                 CreateMap<GetContactsWithPaginationQueryVM, GetContactsWithPaginationQuery>().ReverseMap();
-            } 
+
+                CreateMap<ChatStatusVM, ChatStatus>().ReverseMap();
+                CreateMap<ContactTypeVM, ContactType>().ReverseMap();
+                CreateMap<SortTypeVM, SortType>().ReverseMap();
+                CreateMap<Models.Enums.TrackingLogDateType, Services.Base.TrackingLogDateType>().ReverseMap();
+                CreateMap<TrackingTypeVM, TrackingType>().ReverseMap();
+                CreateMap<UploadImageTypeVM, UploadImageType>().ReverseMap();
+            }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex.InnerException);

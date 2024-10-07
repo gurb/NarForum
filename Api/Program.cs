@@ -28,14 +28,14 @@ builder.Services.AddWebSockets(o => {
     o.AllowedOrigins.Add("https://localhost:7058");
     o.AllowedOrigins.Add("https://localhost:7212");
     o.AllowedOrigins.Add("http://localhost:5081/");
-    o.AllowedOrigins.Add("https://narforum.com/");
-    o.AllowedOrigins.Add("https://admin.narforum.com/");
+    o.AllowedOrigins.Add("https://narforum.com");
+    o.AllowedOrigins.Add("https://admin.narforum.com");
 });
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("all", builder => builder
-        .WithOrigins("https://localhost:7058", "https://localhost:7212", "http://localhost:5081/", "https://narforum.com/", "https://admin.narforum.com/")
+        .WithOrigins("https://localhost:7058", "https://localhost:7212", "http://localhost:5081/", "https://narforum.com", "https://admin.narforum.com")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()  // Eğer credential (kimlik doğrulama) kullanılıyorsa ekleyin.
@@ -74,6 +74,8 @@ app.UseHttpsRedirection();
 
 if (app.Environment.IsProduction())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
     try
     {
         using (var scope = app.Services.CreateScope())

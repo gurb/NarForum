@@ -16,6 +16,12 @@
 	  <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
   </ItemGroup>
+	
+	<ItemGroup>
+		<EmbeddedResource Include="./ILLink.Descriptors.xml">
+		<LogicalName>ILLink.Descriptors.xml</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
 
   <ItemGroup>
     <Folder Include="Pages\Authorization\Component\" />

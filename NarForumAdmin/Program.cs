@@ -13,6 +13,15 @@ using System.Reflection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+var assembly = Assembly.GetExecutingAssembly();
+builder.Services.AddAutoMapper(assembly);
+
+builder.Services.AddLogging(logging =>
+{
+    logging.SetMinimumLevel(LogLevel.Debug);
+});
+
+
 builder.Services.AddTransient<JwtAuthorizationMessageHandler>();
 builder.Services.AddHttpClient<IClient, Client>(
     client => client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("ApiBaseUrl")!)).AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
@@ -51,9 +60,17 @@ builder.Services.AddScoped<IContactService, ContactService>();
 
 builder.Services.AddSingleton<AlertService>();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-await builder.Build().RunAsync();
+var host = builder.Build();
+
+AppDomain.CurrentDomain.UnhandledException += (sender, errorArgs) =>
+{
+    var exception = (Exception)errorArgs.ExceptionObject;
+    var logger = host.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(exception, "Error got: {Message}", exception.Message);
+};
+
+
+await host.RunAsync();
