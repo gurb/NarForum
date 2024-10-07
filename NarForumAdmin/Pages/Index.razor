@@ -1,0 +1,15 @@
+﻿@page "/"
+
+@using NarForumAdmin.Models.Section
+
+<PageTitle>Index</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <Dashboard></Dashboard>
+    </Authorized>
+    <NotAuthorized>
+        <Login></Login>
+    </NotAuthorized>
+</AuthorizeView>
+

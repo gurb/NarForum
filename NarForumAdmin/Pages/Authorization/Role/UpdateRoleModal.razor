@@ -1,0 +1,77 @@
+﻿@using NarForumAdmin.Models.Authorization.Role
+
+<Modal @ref="modal" ModalId="addRoleModal" ModalTitle="Update Role" Callback="@HandleRegister">
+    @if(Model is not null)
+    {
+        <EditForm Model="@Model" OnValidSubmit="HandleRegister">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Name</label>
+                <InputText id="Name" class="form-control" @bind-Value="@Model.Name" autocomplete="off" placeholder="Ex: Moderator"></InputText>
+                <ValidationMessage For="@(() => Model.Name)" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Normalized Name</label>
+                <InputText id="Name" class="form-control" @bind-Value="@Model.NormalizedName" autocomplete="off" placeholder="Ex: MODERATOR"></InputText>
+                <ValidationMessage For="@(() => Model.NormalizedName)" />
+            </div>
+        </EditForm>
+    }
+</Modal>
+
+
+@code {
+    Modal? modal;
+
+
+    [Inject]
+    private IRoleService? RoleService { get; set; }
+
+    [Parameter]
+    public RoleVM? Model { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    public void ShowModal()
+    {
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        modal?.CloseModal();
+    }
+
+    protected async Task HandleRegister()
+    {
+        if (Model != null && RoleService != null)
+        {
+            if (String.IsNullOrEmpty(Model.Name) || String.IsNullOrEmpty(Model.NormalizedName))
+            {
+                return;
+            }
+
+            var request = new UpdateRoleRequestVM
+            {
+                Id = Model.Id,
+                Name = Model.Name,
+                NormalizedName = Model.NormalizedName,
+            };
+
+            var result = await RoleService.UpdateRole(request);
+
+            // add toast message
+        }
+
+        await Callback.InvokeAsync();
+        CloseModal();
+    }
+}

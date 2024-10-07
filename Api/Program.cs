@@ -4,6 +4,9 @@ using Persistence.Extensions;
 using Identity.Extensions;
 using Identity.Hubs;
 using Microsoft.AspNetCore.WebSockets;
+using Persistence.DatabaseContext;
+using Microsoft.EntityFrameworkCore;
+using Identity.DatabaseContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,12 +28,14 @@ builder.Services.AddWebSockets(o => {
     o.AllowedOrigins.Add("https://localhost:7058");
     o.AllowedOrigins.Add("https://localhost:7212");
     o.AllowedOrigins.Add("http://localhost:5081/");
+    o.AllowedOrigins.Add("https://narforum.com/");
+    o.AllowedOrigins.Add("https://admin.narforum.com/");
 });
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("all", builder => builder
-        .WithOrigins("https://localhost:7058", "https://localhost:7212", "http://localhost:5081/")
+        .WithOrigins("https://localhost:7058", "https://localhost:7212", "http://localhost:5081/", "https://narforum.com/", "https://admin.narforum.com/")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()  // Eğer credential (kimlik doğrulama) kullanılıyorsa ekleyin.
@@ -66,6 +71,38 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
+
+if (app.Environment.IsProduction())
+{
+    try
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            using (var dbContext = scope.ServiceProvider.GetRequiredService<ForumIdentityDbContext>())
+            {
+                if (dbContext.Database.GetPendingMigrations().Any())
+                {
+                    dbContext.Database.Migrate();
+                }
+            }
+
+            using (var dbContext = scope.ServiceProvider.GetRequiredService<ForumDbContext>())
+            {
+                if (dbContext.Database.GetPendingMigrations().Any())
+                {
+                    dbContext.Database.Migrate();
+                }
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        // Hata kaydını buraya ekleyin
+        throw new InvalidOperationException("Database migration failed.", ex);
+    }
+}
+
+
 app.MapHub<TrackHub>("track", o => { 
     o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
 });
@@ -83,6 +120,7 @@ app.UseWebSockets();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseDeveloperExceptionPage();
 
 app.MapControllers();
 

@@ -1,0 +1,24 @@
+﻿@page "/"
+@using NarForumUser.Client.Models.Section
+@using NarForumUser.Client.Pages.Sections;
+@inject IConfiguration Configuration;
+
+<MetaTags 
+    PageTitle="Homepage"
+    PageDescription="@(Configuration["Description"])"
+    IsHomepage=true
+    ContentType="website"
+    PostTitle="NarForum"
+    ></MetaTags>
+
+<AuthorizeView>
+    <Authorized>
+        <SectionList></SectionList>
+    </Authorized>
+    <NotAuthorized>
+@*      <button class="btn btn-success" @onclick="GoToLogin">Login</button>
+        ||
+        <button class="btn btn-primary" @onclick="GoToRegister">Register</button> *@
+        <SectionList></SectionList>
+    </NotAuthorized>
+</AuthorizeView>

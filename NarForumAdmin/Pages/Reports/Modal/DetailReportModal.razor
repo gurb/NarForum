@@ -1,0 +1,69 @@
+﻿@using NarForumAdmin.Models.Report
+<Modal @ref="modal" ModalTitle="Detail Report">
+    @if (Model is not null)
+    {
+        <table class="table table-bordered table-hover caption-top forum-table">
+            <thead>
+                <tr>
+                    <th style="width:50%">Field</th>
+                    <th style="width:50%">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="align-middle">Id</td>
+                    <td class="align-middle">@Model.Id</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">Sender Username</td>
+                    <td class="align-middle">@Model.UserName</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">Sender User Id</td>
+                    <td class="align-middle">@Model.SenderUserId</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">Message</td>
+                    <td class="align-middle">@Model.Message</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">Heading Id</td>
+                    <td class="align-middle">@Model.HeadingId</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">Post Id</td>
+                    <td class="align-middle">@Model.PostId</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">Heading Index</td>
+                    <td class="align-middle">@Model.HeadingIndex</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</Modal>
+
+@code {
+    Modal? modal;
+
+    [Parameter]
+    public ReportVM? Model { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    public void ShowModal()
+    {
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        modal?.CloseModal();
+    }
+}

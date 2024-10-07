@@ -1,0 +1,159 @@
+﻿@page "/section/list"
+@using NarForumAdmin.Pages.Sections.Modal
+
+<h3>Section List</h3>
+
+<SectionFilter QueryModel="query" Callback="RefreshListFilter"></SectionFilter>
+
+<table class="table table-bordered table-hover caption-top forum-table">
+    <caption>List of users</caption>
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col" style="width:30%">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!isLoaded)
+        {
+            <p>Loading Data...</p>
+        }
+        else
+        {
+            @foreach (var sec in Sections!)
+            {
+                <tr>
+                    <td class="align-middle">
+                        <div class="cell-content">
+                            <div class="flex-fill">
+                                @sec.Id
+                            </div>
+                            <div class="align-middle">
+                                @sec.Name
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-end align-middle">
+                        <button type="button" class="btn btn-warning" @onclick="() => UpdateSection(sec)"><i class="bi bi-pencil-square"></i></button>
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailSection(sec)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteSection(sec)"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+
+@if (isLoaded)
+{
+    <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
+}
+
+<DetailSectionModal @ref=detailSectionModal Model="SelectedModel" Callback="RefreshList"></DetailSectionModal>
+<UpdateSectionModal @ref=updateSectionModal Model="SelectedModel" Callback="RefreshList"></UpdateSectionModal>
+<ConfirmModal @ref=deleteSectionModal Callback="DeleteSectionCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this section?"></ConfirmModal>
+
+@code {
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
+
+    public List<SectionVM>? Sections { get; set; }
+
+    [Inject]
+    public ISectionService SectionService { get; set; }
+
+    SectionPaginationQueryVM query = new SectionPaginationQueryVM();
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    private bool isLoaded { get; set; }
+
+    UpdateSectionModal? updateSectionModal;
+    DetailSectionModal? detailSectionModal;
+    ConfirmModal? deleteSectionModal;
+    private SectionVM? SelectedModel { get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (PageIndex == 0) PageIndex = 1;
+        CurrentPage = PageIndex;
+
+        query = new SectionPaginationQueryVM
+        {
+            PageIndex = PageIndex,
+            PageSize = PageSize
+        };
+
+        SectionPaginationVM sectionPagination = await SectionService.GetSectionsWithPagination(query);
+        Sections = sectionPagination.Sections;
+        TotalPages = (int)Math.Ceiling((double)sectionPagination.TotalCount / PageSize);
+
+        isLoaded = true;
+    }
+
+    protected async Task RefreshList()
+    {
+        SectionPaginationVM sectionPagination = await SectionService.GetSectionsWithPagination(query);
+        Sections = sectionPagination.Sections;
+        TotalPages = (int)Math.Ceiling((double)sectionPagination.TotalCount / PageSize);
+
+        isLoaded = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshListFilter()
+    {
+        query.PageIndex = 1;
+        CurrentPage = 1;
+
+        await RefreshList();
+    }
+
+    protected async Task PageChanged(int currentPage)
+    {
+        query.PageIndex = currentPage;
+        CurrentPage = currentPage;
+        await RefreshList();
+    }
+
+    protected async Task DetailSection(SectionVM sec)
+    {
+        SelectedModel = sec;
+
+        detailSectionModal?.ShowModal();
+    }
+
+    private void UpdateSection(SectionVM sec)
+    {
+        SelectedModel = sec;
+
+        updateSectionModal?.ShowModal();
+    }
+
+    protected async Task DeleteSection(SectionVM sec)
+    {
+        SelectedModel = sec;
+        deleteSectionModal?.ShowModal();
+    }
+
+    protected async Task DeleteSectionCallback()
+    {
+        if (SelectedModel is not null)
+        {
+            RemoveSectionCommandVM command = new RemoveSectionCommandVM
+            {
+                SectionId = SelectedModel.Id
+            };
+
+            await SectionService.RemoveSection(command);
+            await RefreshList();
+            deleteSectionModal?.CloseModal();
+        }
+    }
+
+}

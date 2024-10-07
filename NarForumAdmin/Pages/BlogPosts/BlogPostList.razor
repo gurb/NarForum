@@ -1,0 +1,181 @@
+﻿@page "/blog/posts"
+@using NarForumAdmin.Models.BlogPost
+<div class="row">
+    <div class="col-sm-6">
+        <h3>Blog Posts</h3>
+    </div>
+    <div class="col-sm-6 text-end">
+        <button type="button" class="btn btn-primary" @onclick=DirectCreateBlogPost><i class="bi bi-file-plus-fill"></i> Create Blog Post</button>
+    </div>
+</div>
+
+<BlogPostFilter QueryModel="query" Callback="RefreshListFilter"></BlogPostFilter>
+
+<table class="table table-bordered table-hover caption-top forum-table">
+    <caption>List of Blog Posts</caption>
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col" style="width:20%">Category</th>
+            <th scope="col" style="width:20%">Status</th>
+            <th scope="col" style="width:20%">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!isLoaded)
+        {
+            <p>Loading Data...</p>
+        }
+        else
+        {
+            @foreach (var blogPost in BlogPosts)
+            {
+                <tr>
+                    @* <th scope="row" class="text-end align-middle">@blogPost.Url</th> *@
+                    <td class="align-middle">
+                        <a @onclick="() =>DetailBlogPost(blogPost)">@blogPost.Title</a>
+                    </td>
+                    @if(blogPost.BlogCategory is not null)
+                    {
+                        <td class="align-middle">@blogPost.BlogCategory.Name</td>
+                    }
+                    else
+                    {
+                        <td class="align-middle">-</td>
+                    }
+                    <td class="align-middle">
+                        @if (blogPost.IsPublished)
+                        {
+                            <span class="badge bg-success">Published</span>
+                        }
+                        @if (blogPost.IsDraft)
+                        {
+                            <span class="badge bg-warning">Draft</span>
+                        }
+                    </td>
+                    <td class="text-end align-middle">
+                        <button type="button" class="btn btn-warning" @onclick="() => DetailBlogPost(blogPost)"><i class="bi bi-pencil-square"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteBlogPost(blogPost)"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+@if (isLoaded)
+{
+    <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
+}
+
+<ConfirmModal @ref=deleteBlogPostModal Callback="DeleteBlogPostCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this blog post?"></ConfirmModal>
+
+
+
+@code {
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
+
+
+    public List<BlogPostVM>? BlogPosts { get; set; }
+
+    [Inject]
+    public IBlogPostService BlogPostService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    private bool isLoaded { get; set; }
+
+    GetBlogPostsWithPaginationQueryVM query = new GetBlogPostsWithPaginationQueryVM();
+
+    ConfirmModal? deleteBlogPostModal;
+    private BlogPostVM? SelectedModel { get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (PageIndex == 0) PageIndex = 1;
+        CurrentPage = PageIndex;
+
+        query = new GetBlogPostsWithPaginationQueryVM
+        {
+            PageIndex = PageIndex,
+            PageSize = PageSize,
+            IsInclude = true
+        };
+
+        BlogPostsPaginationVM blogPostsPaginationVM = await BlogPostService.GetBlogPostsWithPagination(query);
+        BlogPosts = blogPostsPaginationVM.BlogPosts;
+        TotalPages = (int)Math.Ceiling((double)blogPostsPaginationVM.TotalCount / PageSize);
+
+        isLoaded = true;
+    }
+
+    protected async Task RefreshList()
+    {
+        BlogPostsPaginationVM blogPostsPaginationVM = await BlogPostService.GetBlogPostsWithPagination(query);
+        BlogPosts = blogPostsPaginationVM.BlogPosts;
+        TotalPages = (int)Math.Ceiling((double)blogPostsPaginationVM.TotalCount / PageSize);
+
+        isLoaded = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshListFilter()
+    {
+        query.PageIndex = 1;
+        CurrentPage = 1;
+
+        await RefreshList();
+    }
+
+
+    protected async Task PageChanged(int currentPage)
+    {
+        query.PageIndex = currentPage;
+        CurrentPage = currentPage;
+        await RefreshList();
+    }
+
+    protected void DetailBlogPost(BlogPostVM blog)
+    {
+        NavigationManager.NavigateTo($"blog/update/post/{blog.Title.ToFriendlyUrl()}/{blog.Id}");
+    }
+
+
+
+    private void DeleteBlogPost(BlogPostVM blogPost)
+    {
+        SelectedModel = blogPost;
+        deleteBlogPostModal?.ShowModal();
+    }
+
+    protected async Task DeleteBlogPostCallback()
+    {
+        if (SelectedModel is not null)
+        {
+            RemoveBlogPostCommandVM command = new RemoveBlogPostCommandVM
+            {
+                Id = SelectedModel.Id
+            };
+
+            var response = await BlogPostService.RemoveBlogPost(command);
+            if (response.IsSuccess)
+            {
+                await RefreshList();
+                deleteBlogPostModal?.CloseModal();
+            }
+        }
+    }
+
+    protected void DirectCreateBlogPost()
+    {
+        NavigationManager.NavigateTo("blog/create/post");
+    }
+}

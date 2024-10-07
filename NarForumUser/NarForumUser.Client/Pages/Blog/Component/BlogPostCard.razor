@@ -1,0 +1,48 @@
+﻿@using NarForumUser.Client.Models.BlogPost
+@using System.Text.RegularExpressions
+
+@if (BlogPostVM is not null)
+{
+    <div class="col-sm-12 blog-post-card">
+        <h3 class="blog-post-card-title"><a href="@blogPostUrl">@BlogPostVM.Title</a></h3>
+        <div class="blog-post-card-content">
+            @ArrangeContent(BlogPostVM.Content).Substring(0, Math.Min(250, ArrangeContent(BlogPostVM.Content).Length))...
+        </div>
+        <div class="blog-post-card-footer">
+            <span class="blog-post-card-author"><i class="bi bi-person-fill"></i>@BlogPostVM.UserName</span>
+            @if(BlogPostVM.BlogCategory is not null)
+            {
+                <span class="blog-post-card-category"><i class="bi bi-square-fill"></i>@BlogPostVM.BlogCategory.Name</span>
+            }
+            else
+            {
+                <span class="blog-post-card-category"><i class="bi bi-square-fill"></i>No Category</span>
+            }
+            <span class="blog-post-card-viewcounter"><i class="bi bi-eye-fill"></i>@BlogPostVM.ViewCounter</span>
+            <span class="blog-post-card-comment"><i class="bi bi-chat-right-fill"></i>@BlogPostVM.ViewCounter</span>
+            <span class="blog-post-card-date"><i class="bi bi-calendar-fill"></i>@BlogPostVM.DateCreate.Value.ToString("dd MMM yyyy")</span>
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public BlogPostVM? BlogPostVM { get; set; }
+
+    private string? blogPostUrl;
+
+    protected override void OnParametersSet()
+    {
+        blogPostUrl = $"blog/{BlogPostVM.Title.ToFriendlyUrl()}-{BlogPostVM.BlogPostId}";
+
+        base.OnParametersSet();
+    }
+
+    public string ArrangeContent(string content)
+    {
+        string textOnly = Regex.Replace(content, "<.*?>", String.Empty);
+        return textOnly;
+    }
+
+}

@@ -1,0 +1,151 @@
+﻿@page "/report/list"
+@using NarForumAdmin.Models.Report
+@using NarForumAdmin.Pages.Reports.Filter
+@using NarForumAdmin.Pages.Reports.Modal
+<h3>Reports</h3>
+
+<ReportFilter QueryModel="query" Callback="RefreshListFilter"></ReportFilter>
+
+<table class="table table-bordered table-hover caption-top forum-table">
+    <caption>List of Reports</caption>
+    <thead>
+        <tr>
+            @* <th scope="col" style="width:70px;">Id</th> *@
+            <th scope="col">Username</th>
+            <th scope="col" style="width:10%">Title</th>
+            <th scope="col" style="width:30%">Message</th>
+            <th scope="col" style="width:20%">Post Id</th>
+            <th scope="col" style="width:20%">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!isLoaded)
+        {
+            <p>Loading Data...</p>
+        }
+        else
+        {
+            @foreach (var report in Reports)
+            {
+                <tr>
+                    <td class="align-middle">@report.UserName</td>
+                    <td class="align-middle">@report.Title</td>
+                    <td class="align-middle">@report.Message</td>
+                    <td class="align-middle">@report.PostId</td>
+                    <td class="text-end align-middle">
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailReport(report)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteReport(report)"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+@if (isLoaded)
+{
+    <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
+}
+<DetailReportModal @ref=detailReportModal Model="SelectedModel" Callback="RefreshList"></DetailReportModal>
+
+<ConfirmModal @ref=deleteReportModal Callback="DeleteReportCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this report?"></ConfirmModal>
+
+@code {
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
+
+
+    public List<ReportVM>? Reports { get; set; }
+
+    [Inject]
+    public IReportService ReportService { get; set; }
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    private bool isLoaded { get; set; }
+
+    GetReportsWithPaginationQueryVM query = new GetReportsWithPaginationQueryVM();
+
+    DetailReportModal? detailReportModal;
+    ConfirmModal? deleteReportModal;
+    private ReportVM? SelectedModel { get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (PageIndex == 0) PageIndex = 1;
+        CurrentPage = PageIndex;
+
+        query = new GetReportsWithPaginationQueryVM
+        {
+            PageIndex = PageIndex,
+            PageSize = PageSize
+        };
+
+        ReportsPaginationVM reportsPaginationVM = await ReportService.GetReportsWithPagination(query);
+        Reports = reportsPaginationVM.Reports;
+        TotalPages = (int)Math.Ceiling((double)reportsPaginationVM.TotalCount / PageSize);
+
+        isLoaded = true;
+    }
+
+    protected async Task RefreshList()
+    {
+        ReportsPaginationVM reportsPaginationVM = await ReportService.GetReportsWithPagination(query);
+        Reports = reportsPaginationVM.Reports;
+        TotalPages = (int)Math.Ceiling((double)reportsPaginationVM.TotalCount / PageSize);
+
+        isLoaded = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshListFilter()
+    {
+        query.PageIndex = 1;
+        CurrentPage = 1;
+
+        await RefreshList();
+    }
+
+    protected async Task PageChanged(int currentPage)
+    {
+        query.PageIndex = currentPage;
+        CurrentPage = currentPage;
+        await RefreshList();
+    }
+
+    protected void DetailReport(ReportVM post)
+    {
+        SelectedModel = post;
+
+        detailReportModal?.ShowModal();
+    }
+
+    private void DeleteReport(ReportVM report)
+    {
+        SelectedModel = report;
+        deleteReportModal?.ShowModal();
+    }
+
+
+    protected async Task DeleteReportCallback()
+    {
+        if (SelectedModel is not null)
+        {
+            RemoveReportCommandVM command = new RemoveReportCommandVM
+            {
+                Id = SelectedModel.Id
+            };
+
+            var response = await ReportService.RemoveReport(command);
+            if(response.IsSuccess)
+            {
+                await RefreshList();
+                deleteReportModal?.CloseModal();
+            }
+        }
+    }
+}

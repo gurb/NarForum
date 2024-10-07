@@ -81,7 +81,7 @@ namespace Persistence.Services
                 {
                     var mailMessage = new MailMessage
                     {
-                        From = new MailAddress(settings.Username, "GurbForum"),
+                        From = new MailAddress(settings.Username, "NarForum"),
                         Subject = subject,
                         Body = message,
                         IsBodyHtml = false,

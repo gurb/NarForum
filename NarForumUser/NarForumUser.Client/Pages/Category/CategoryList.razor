@@ -1,0 +1,416 @@
+﻿@page "/category/{CategoryName}-{CategoryId:int}"
+@page "/category/{CategoryName}-{CategoryId:int}/{PageIndex:int}"
+@using NarForumUser.Client.Pages.Category.Modal
+
+@inject HttpClient Http
+@inject IConfiguration Configuration
+
+<MediaQuery Width=768 @bind-Value=min768></MediaQuery>
+
+
+@if(isLoading)
+{
+    <SkeletonBreadcrumb></SkeletonBreadcrumb>
+    <SkeletonH1></SkeletonH1>
+    <SkeletonCategorySectionCard min768=@min768></SkeletonCategorySectionCard>
+    <SkeletonCategoryCard ShowNumber=@min768></SkeletonCategoryCard>
+    <SkeletonHeadingSectionCard min768=@min768></SkeletonHeadingSectionCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+    <SkeletonHeadingCard ShowNumber=@min768></SkeletonHeadingCard>
+}
+else
+{
+    <MetaTags PageTitle="@Model.Name"
+              PageDescription="@Model.Description"
+              PostTitle="@(Configuration["SiteName"])"
+              ContentType="article"
+              CanonicalUrl="@($"{Configuration["BaseUrl"]}/category/{CategoryName}-{CategoryId}")"
+              SiteName="@($"{Configuration["SiteName"]}")" />
+
+
+    <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
+
+    <div class="row category-header">
+        <div class="col-6">
+            <h1>@(Model != null ? @Model.Name : "")</h1>
+        </div>
+        <div class="col-6 d-flex justify-content-end p-0">
+            <ul class="list-group list-group-horizontal">
+                <AuthorizeView>
+                    <Authorized>
+                        @if (AuthExtension.IsAuth("FORUM_HEADING_CREATE"))
+                        {
+                            <li class="list-group-item">
+                                <button @onclick="CreateHeading" class="btn btn-forum fw-normal"><i class="bi bi-file-earmark-plus"></i> Create Heading</button>
+                            </li>
+                        }
+                        @if (AuthExtension.IsAuth("FORUM_CATEGORY_CREATE"))
+                        {
+                            <li class="list-group-item">
+                                <button @onclick="OpenModal" class="btn btn-forum fw-normal"><i class="bi bi-journal-plus"></i> Add Category</button>
+                            </li>
+                        }
+                    </Authorized>
+                    <NotAuthorized>
+
+                    </NotAuthorized>
+                </AuthorizeView>
+            </ul>
+        </div>
+    </div>
+
+    @if (Categories is not null && Categories.Count > 0)
+    {
+        <div class="row current-category-card-body">
+
+            <div class="col-6">
+                Sub Categories
+            </div>
+            @if (min768)
+            {
+                <div class="col-1">
+                    Headings
+                </div>
+                <div class="col-1">
+                    Posts
+                </div>
+                <div class="col-4">
+                    Last Post
+                </div>
+            }
+        </div>
+    }
+
+    if(Categories is not null)
+    {
+        @foreach (var category in Categories)
+        {
+            <CategoryCard ShowNumber="min768" Model="category" UpdateCallback="(category) => OpenUpdateModal(category)"></CategoryCard>
+        }
+
+        <div class="row current-category-card-body">
+            <div class="col-6">
+                Headings
+            </div>
+            @if (min768)
+            {
+                <div class="col-2">
+                    Posts
+                </div>
+            }
+            <div class="col-4" style="display:flex;align-items:center;justify-content:space-between">
+                Last Post
+
+                <span>
+                    <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <i class="bi bi-funnel"></i>
+                    </span>
+                    <ul class="dropdown-menu page-search-heading-dropdown">
+                        <SearchHeading Query="query" SearchCallback="SearchHeadingCallback"></SearchHeading>
+                    </ul>
+
+                    <span style="float:right;margin-left:10px;font-size:18px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <i class="bi bi-filter-right"></i>
+                    </span>
+
+                    <ul class="dropdown-menu sort-by-dropdown">
+                        <li class="dropdown-item">
+                            <a @onclick="() => SortHeadingList(SortTypeVM.RECENT)">Recent</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a @onclick="() => SortHeadingList(SortTypeVM.MOSTREPLIED)">Most Replied</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a @onclick="() => SortHeadingList(SortTypeVM.OLDEST)">Oldest</a>
+                        </li>
+                    </ul>
+                    <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" @onclick=RefreshList>
+                        <i class="bi bi-repeat"></i>
+                    </span>
+                </span>
+            </div>
+        </div>
+        <Pagination MinVersion="min768" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+        @if (Model is not null)
+        {
+            @foreach (var heading in Headings)
+            {
+                <HeadingCard Model="heading" ShowNumber="min768" CategoryUrl="@(Model.Name.ToFriendlyUrl() + "-" + Model.CategoryId)"></HeadingCard>
+            }
+        }
+        <Pagination MinVersion="min768" TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" />
+    }
+
+}
+
+@if (Model != null && AuthExtension.IsAuth("FORUM_CATEGORY_CREATE"))
+{
+    <AddCategoryModal @ref="addCategoryModal" ParentCategoryVM="@Model" Callback="RefreshCategories"></AddCategoryModal>
+}
+
+@if(SelectedModel is not null && AuthExtension.IsAuth("FORUM_CATEGORY_UPDATE"))
+{
+    <UpdateCategoryModal @ref=updateCategoryModal Model="SelectedModel" Callback="RefreshCategories"></UpdateCategoryModal>
+}
+
+
+@code {
+    private bool isLoading { get; set; } = true;
+    private CategoryVM? Model { get; set; }
+    private CategoryVM? SelectedModel { get; set; }
+
+
+    Pagination? top, bottom;
+
+    private bool min768 { get; set; } = true;
+
+    [Parameter]
+    public string CategoryName { get; set; }
+    [Parameter]
+    public int CategoryId { get; set; }
+
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
+
+    [Inject]
+    public ICategoryService CategoryService { get; set; }
+
+    [Inject]
+    public IHeadingService HeadingService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+
+    public List<CategoryVM>? Categories { get; set; }
+
+    public List<HeadingVM>? Headings { get; set; }
+
+    AddCategoryModal? addCategoryModal;
+    UpdateCategoryModal? updateCategoryModal;
+
+    GetHeadingsWithPaginationQueryVM? query;
+
+    private string getBaseUrl()
+    {
+        if(Model is not null)
+        {
+            return $"category/{CategoryName.ToFriendlyUrl()}-{Model.CategoryId}/";
+        }
+        return "";
+    }
+
+    private string GetImageUrl(string userId)
+    {
+        return $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userId}";
+    }
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    private List<BreadcrumbItem> BreadcrumbItems { get; set; }
+
+    private SortTypeVM selectedSortTypeVM = SortTypeVM.RECENT;
+
+    protected async Task SetBreadcrumb(int CurrentCategoryId)
+    {
+        var parentCategories = await CategoryService.GetParentCategoriesByIntId(CurrentCategoryId);
+        parentCategories = parentCategories.OrderBy(x => x.CategoryId).ToList();
+
+        BreadcrumbItems = new List<BreadcrumbItem>();
+        BreadcrumbItems.Add(new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" });
+        foreach (var parent in parentCategories)
+        {
+            BreadcrumbItems.Add(new BreadcrumbItem { Text = parent.Name, HrefLink = $"/category/{parent.Name.ToFriendlyUrl()}-{parent.CategoryId}/" });
+        }
+        BreadcrumbItems.Last().IsCurrentPage = true;
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (PageIndex == 0) PageIndex = 1;
+
+        Model = await CategoryService.GetCategoryByIntId(CategoryId);
+        Categories = await CategoryService.GetCategoriesById(Model.Id);
+        Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
+
+        CurrentPage = PageIndex;
+
+        query = new GetHeadingsWithPaginationQueryVM
+        {
+            SortType = selectedSortTypeVM,
+            CategoryId = Model.Id,
+            PageIndex = PageIndex,
+            PageSize = PageSize,
+            StartDate = query != null ? query.StartDate : null,
+            EndDate = query != null ? query.EndDate : null,
+            SearchTitle = query != null ? query.SearchTitle : null,
+            SearchUser = query != null ? query.SearchUser : null,
+        };
+
+        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
+        Headings = headingsPagination.Headings;
+        await CheckUserImageProfile();
+        TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+
+        await SetBreadcrumb(Model.CategoryId);
+
+        isLoading = false;
+    }
+
+    protected async Task SortHeadingList(SortTypeVM sortType)
+    {
+        if(Model is not null)
+        {
+            PageIndex = 1;
+            CurrentPage = PageIndex;
+
+            selectedSortTypeVM = sortType;
+
+            query = new GetHeadingsWithPaginationQueryVM
+            {
+                SortType = sortType,
+                CategoryId = Model.Id,
+                PageIndex = CurrentPage,
+                PageSize = PageSize,
+                StartDate = query != null ? query.StartDate : null,
+                EndDate = query != null ? query.EndDate : null,
+                SearchTitle = query != null ? query.SearchTitle : null,
+                SearchUser = query != null ? query.SearchUser : null,
+            };
+
+            HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
+            Headings = headingsPagination.Headings;
+            await CheckUserImageProfile();
+            TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+
+            isLoading = false;
+        }
+    }
+
+    protected async Task RefreshList()
+    {
+        if (Model is not null)
+        {
+            PageIndex = 1;
+            CurrentPage = PageIndex;
+
+            selectedSortTypeVM = SortTypeVM.RECENT;
+
+            query = new GetHeadingsWithPaginationQueryVM
+            {
+                SortType = SortTypeVM.RECENT,
+                CategoryId = Model.Id,
+                PageIndex = CurrentPage,
+                PageSize = PageSize,
+            };
+
+            HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
+            Headings = headingsPagination.Headings;
+            await CheckUserImageProfile();
+            TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+
+            isLoading = false;
+        }
+    }
+
+
+    protected async Task SearchHeadingCallback()
+    {
+        if (Model is not null && query is not null)
+        {
+            PageIndex = 1;
+            CurrentPage = PageIndex;
+
+            query.PageIndex = CurrentPage;
+
+            HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
+            Headings = headingsPagination.Headings;
+            await CheckUserImageProfile();
+            TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+
+            isLoading = false;
+        }
+    }
+
+    private void OpenModal()
+    {
+        addCategoryModal?.ShowModal();
+    }
+
+    private void CreateHeading()
+    {
+        if(Model is not null)
+        {
+            NavigationManager.NavigateTo($"/create-heading/{CategoryName.ToFriendlyUrl()}-{Model.CategoryId}");
+        }
+    }
+
+
+    private async Task RefreshCategories()
+    {
+        if(Model is not null)
+        {
+            Categories = await CategoryService.GetCategoriesById(Model.Id);
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void OpenUpdateModal(CategoryVM categoryVM)
+    {
+        SelectedModel = categoryVM;
+
+        updateCategoryModal?.ShowModal();
+    }
+
+
+    private async Task CheckUserImageProfile()
+    {
+        if (Headings is not null && Headings.Count > 0)
+        {
+            foreach (var heading in Headings)
+            {
+                if (heading.LastUserId is not null)
+                {
+                    string imageUrl = GetImageUrl(heading.LastUserId.ToString());
+
+                    bool isExist = await UrlExists(imageUrl);
+                    if (isExist)
+                    {
+                        heading.UserProfileImageUrl = imageUrl;
+                    }
+                    else
+                    {
+                        heading.UserProfileImageUrl = null;
+                    }
+                }
+                else
+                {
+
+                }
+            }
+        }
+    }
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}

@@ -1,0 +1,207 @@
+﻿@page "/heading/list"
+@using NarForumAdmin.Pages.Headings.Modal
+
+<h3>Heading List</h3>
+
+<HeadingsFilter QueryModel="query" Callback="RefreshListFilter"></HeadingsFilter>
+
+<table class="table table-bordered table-hover caption-top forum-table">
+    <caption>List of users</caption>
+    <thead>
+        <tr>
+            <th style="width:20%">Title</th>
+            <th class="text-end" style="width:7%">Posts</th>
+            <th style="width:15%">Category</th>
+            <th style="width:10%">Member</th>
+            <th style="width:10%">Active Date</th>
+            <th scope="col" style="width:20%">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!isLoaded)
+        {
+            <p>Loading Data...</p>
+        }
+        else
+        {
+            @foreach (var heading in Headings)
+            {
+                <tr>
+                    <td class="align-middle">
+                        <div class="cell-content">
+                            <div class="flex-fill">
+                                @heading.Id
+                            </div>
+                            <div class="align-middle">
+                                @if(heading.IsPin)
+                                {
+                                    <i class="bi bi-pin-fill"></i>
+                                }
+                                @if(heading.IsLock)
+                                {
+                                    <i class="bi bi-lock-fill"></i>
+                                }
+                                @heading.Title
+                            </div>
+                        </div>
+                    </td>
+                    <td class="align-middle text-end">@heading.PostCounter</td>
+                    <td class="align-middle">@heading.CategoryName</td>
+                    <td class="align-middle">@heading.UserName</td>
+                    <td class="align-middle">@heading.ActiveDate</td>
+                    <td class="text-end align-middle">
+                        <button type="button" class="btn btn-secondary" @onclick="() => PinHeading(heading)"><i class="bi bi-pin-fill"></i></button>
+                        <button type="button" class="btn btn-secondary" @onclick="() => LockHeading(heading)"><i class="bi bi-lock-fill"></i></button>
+                        <button type="button" class="btn btn-warning" @onclick="() => UpdateHeading(heading)"><i class="bi bi-pencil-square"></i></button>
+                        <button type="button" class="btn btn-primary" @onclick="() => DetailHeading(heading)"><i class="bi bi-card-text"></i></button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteHeading(heading)"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+        
+    </tbody>
+</table>
+
+@if (isLoaded)
+{
+    <Pagination UseCallback="true" TotalPages="@TotalPages" CurrentPage="@CurrentPage" PageChanged="PageChanged" />
+}
+
+<UpdateHeadingModal @ref=updateHeadingModal Model="SelectedModel" Callback="RefreshList"></UpdateHeadingModal>
+<DetailHeadingModal @ref=detailHeadingModal Model="SelectedModel" Callback="RefreshList"></DetailHeadingModal>
+<ConfirmModal @ref=deleteHeadingModal Callback="DeleteHeadingCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this heading?"></ConfirmModal>
+
+@code {
+    [Parameter]
+    public int PageIndex { get; set; } = 1;
+
+    public List<HeadingVM>? Headings { get; set; }
+
+    [Inject]
+    public IHeadingService HeadingService { get; set; }
+
+    HeadingPaginationQueryVM query = new HeadingPaginationQueryVM();
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+    private bool isLoaded { get; set; }
+
+    UpdateHeadingModal? updateHeadingModal;
+    DetailHeadingModal? detailHeadingModal;
+    ConfirmModal? deleteHeadingModal;
+    private HeadingVM? SelectedModel { get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (PageIndex == 0) PageIndex = 1;
+        CurrentPage = PageIndex;
+
+        query = new HeadingPaginationQueryVM
+        {
+            PageIndex = PageIndex,
+            PageSize = PageSize
+        };
+
+        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
+        Headings = headingsPagination.Headings;
+        TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+
+        isLoaded = true;
+    }
+
+    protected async Task RefreshList()
+    {
+        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
+        Headings = headingsPagination.Headings;
+        TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+
+        isLoaded = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task RefreshListFilter()
+    {
+        query.PageIndex = 1;
+        CurrentPage = 1;
+
+        await RefreshList();
+    }
+
+
+    protected async Task PageChanged(int currentPage)
+    {
+        query.PageIndex = currentPage;
+        CurrentPage = currentPage;
+        await RefreshList();
+    }
+
+    protected void DetailHeading(HeadingVM heading)
+    {
+        SelectedModel = heading;
+
+        detailHeadingModal?.ShowModal();
+    }
+
+    protected async Task PinHeading(HeadingVM heading)
+    {
+        PinHeadingCommandVM command = new PinHeadingCommandVM
+        {
+            Id = heading.Id
+        };
+
+        var response = await HeadingService.PinHeading(command);
+
+        if (response.IsSuccess)
+        {
+            await RefreshList();
+        }
+    }
+
+    protected async Task LockHeading(HeadingVM heading)
+    {
+        LockHeadingCommandVM command = new LockHeadingCommandVM
+        {
+            Id = heading.Id
+        };
+
+        var response = await HeadingService.LockHeading(command);
+
+        if(response.IsSuccess)
+        {
+            await RefreshList();
+        }
+    }
+
+    private void UpdateHeading(HeadingVM heading)
+    {
+        SelectedModel = heading;
+
+        updateHeadingModal?.ShowModal();
+
+    }
+
+    private void DeleteHeading(HeadingVM heading)
+    {
+        SelectedModel = heading;
+        deleteHeadingModal?.ShowModal();
+    }
+
+    protected async Task DeleteHeadingCallback()
+    {
+        if (SelectedModel is not null)
+        {
+            RemoveHeadingCommandVM command = new RemoveHeadingCommandVM
+            {
+                HeadingId = SelectedModel.Id
+            };
+
+            await HeadingService.RemoveHeading(command);
+            await RefreshList();
+            deleteHeadingModal?.CloseModal();
+        }
+    }
+}

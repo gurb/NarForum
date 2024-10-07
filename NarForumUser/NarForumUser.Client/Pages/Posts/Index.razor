@@ -1,0 +1,26 @@
+﻿@page "/posts"
+@using NarForumUser.Client.Pages.Posts.Component;
+
+
+<h3>Posts</h3>
+
+@if (string.IsNullOrEmpty(Message) == false)
+{
+    <div class="alert alert-danger">
+        @Message
+    </div>
+}
+
+@if (Posts == null)
+{
+    <p>Loading Data...</p>
+}
+else
+{
+    <div class="container-fluid">
+        @foreach (var post in Posts)
+        {
+            <PostCard Id="@post.Id.ToString()" Username="User" Content="@post.Content"></PostCard>
+        }
+    </div>
+}

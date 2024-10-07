@@ -1,0 +1,99 @@
+﻿@using NarForumUser.Client.Models.Category
+@using NarForumUser.Client.Services.UI
+<Modal @ref="modal" ModalTitle="Add Category" Callback="@HandleRegister">
+    <EditForm Model="@Model" OnValidSubmit="HandleRegister">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Category Name</label>
+            <InputText id="Name" class="form-control" @bind-Value="@Model.Name"></InputText>
+            <ValidationMessage For="@(() => Model.Name)" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Category Description</label>
+            <InputText id="Name" class="form-control" @bind-Value="@Model.Description"></InputText>
+            <ValidationMessage For="@(() => Model.Description)" />
+        </div>
+    </EditForm>
+</Modal>
+
+@code {
+    Modal? modal;
+
+    public CategoryVM Model { get; set; }
+
+    [Parameter]
+    public SectionVM? SectionVM { get; set; }
+
+    [Parameter]
+    public CategoryVM? ParentCategoryVM { get; set; }
+
+    [Inject]
+    private ICategoryService CategoryService { get; set; }
+
+    [Inject]
+    public RefreshStateService RefreshStateService { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Callback { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        Model = new CategoryVM();
+    }
+
+    public void ShowModal()
+    {
+        modal?.ShowModal();
+    }
+
+    public void CloseModal()
+    {
+        modal?.CloseModal();
+    }
+
+    protected async Task HandleRegister()
+    {
+        CategoryVM? category;
+
+        if(ParentCategoryVM != null)
+        {
+            category = new CategoryVM
+            {
+                Name = Model.Name,
+                Description = Model.Description,
+                ParentCategoryId = ParentCategoryVM.Id,
+                SectionId = ParentCategoryVM.SectionId
+            };
+        }
+        else
+        {
+            category = new CategoryVM
+            {
+                Name = Model.Name,
+                Description = Model.Description,
+                SectionId = SectionVM.Id,
+
+            };
+        }
+
+        var result = await CategoryService.CreateCategory(category);
+
+        if(result.IsSuccess)
+        {
+            // 
+        }
+        else
+        {
+            // error
+        }
+
+
+        await Callback.InvokeAsync();
+        
+        
+        CloseModal();
+    }
+}
