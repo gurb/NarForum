@@ -11,15 +11,22 @@
   <ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.3" />
 	  <PackageReference Include="AutoMapper" Version="13.0.1" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.4" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.3" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.3" PrivateAssets="all" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.8" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.8" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.8" PrivateAssets="all" />
 	  <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.6" />
+	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.8" />
 	  <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
+	  <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.1" />
   </ItemGroup>
+
+    <ItemGroup>
+	    <EmbeddedResource Include="./ILLink.Descriptors.xml">
+		    <LogicalName>ILLink.Descriptors.xml</LogicalName>
+	    </EmbeddedResource>
+    </ItemGroup>
 
   <ItemGroup>
     <None Include="Pages\Blog\BlogList.razor" />

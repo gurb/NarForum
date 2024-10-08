@@ -63,6 +63,11 @@ builder.Services.AddAuthorizationCore();
 
 builder.Services.AddScoped<AuthenticationStateProvider, PrerenderedAuthenticationStateProvider>();
 
+if (builder.Environment.IsStaging() || builder.Environment.IsProduction())
+{
+    builder.WebHost.UseStaticWebAssets();
+}
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -82,6 +87,7 @@ app.UseHttpsRedirection();
 app.UseRobotsMiddleware();
 
 app.UseStaticFiles();
+
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
