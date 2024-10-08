@@ -38,8 +38,8 @@ builder.Services.AddCors(options =>
         .WithOrigins("https://localhost:7058", "https://localhost:7212", "http://localhost:5081/", "https://narforum.com", "https://admin.narforum.com")
         .AllowAnyHeader()
         .AllowAnyMethod()
-        .AllowCredentials()  // Eğer credential (kimlik doğrulama) kullanılıyorsa ekleyin.
-        .SetIsOriginAllowed((host) => true) // CORS doğrulamasını özelleştirmek için gerekebilir.
+        .AllowCredentials()  
+        .SetIsOriginAllowed((host) => true)
     );
 
     options.AddPolicy("AllowAllOriginsForImages",
@@ -99,7 +99,6 @@ if (app.Environment.IsProduction())
     }
     catch (Exception ex)
     {
-        // Hata kaydını buraya ekleyin
         throw new InvalidOperationException("Database migration failed.", ex);
     }
 }
