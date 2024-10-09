@@ -1421,3 +1421,11 @@ h3.custom-modal-title {
 .removed-post i.bi.bi-trash-fill {
     color: #c90c0c;
 }
+
+.user-role-badge {
+    background: #34485f;
+    position: absolute;
+    font-size: 0.7rem;
+    top: 8px;
+    margin-left: 10px;
+}

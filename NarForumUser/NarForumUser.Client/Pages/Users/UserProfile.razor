@@ -32,11 +32,11 @@ else
                     <Authorized>
                         @if(IsAuthenticated)
                         {
-                            <h3>@Model.UserName <span @onclick=OpenUserSettings class="user-settings-button"><i class="bi bi-gear-fill"></i> Settings</span></h3>
+                            <h3 style="position:relative">@Model.UserName <span class="badge user-role-badge">@Model.Role</span> <span @onclick=OpenUserSettings class="user-settings-button"><i class="bi bi-gear-fill"></i> Settings</span></h3>
                         }
                         else
                         {
-                            <h3>@Model.UserName</h3>
+                            <h3 style="position:relative">@Model.UserName <span class="badge user-role-badge">@Model.Role</span></h3>
                         }
                 </Authorized>
                     <NotAuthorized>
