@@ -10,7 +10,7 @@
 > add-migration Forum11 -c ForumDbContext
 > update-database -Context ForumDbContext
 
-> add-migration Id4 -c ForumIdentityDbContext
+> add-migration Id5 -c ForumIdentityDbContext
 > update-database -Context ForumIdentityDbContext
 
 > remove-migration -c ForumIdentityDbContext

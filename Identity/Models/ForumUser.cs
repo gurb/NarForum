@@ -12,4 +12,6 @@ public class ForumUser: IdentityUser
     public bool IsBlocked { get; set; }
     public string? Role { get; set; }
     public string? Rank { get; set; }
+    public int PostCounter { get; set; }
+    public int HeadingCounter { get; set; }
 }
