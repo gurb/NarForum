@@ -71,8 +71,8 @@ namespace Identity.Services
                     LastName = user.LastName,
                     RegisterDate = user.RegisterDate,
                     Description = user.Description,
-                    PostCounter = 100,
-                    HeadingCounter = 10,
+                    PostCounter = user.PostCounter,
+                    HeadingCounter = user.HeadingCounter,
                     IsBlocked = user.IsBlocked,
                     Email = user.Email,
                     Role = user.Role,
@@ -769,6 +769,50 @@ namespace Identity.Services
             }
 
             return response;
+        }
+    
+        public async Task IncreasePostCounter(string? Id)
+        {
+            var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == Id);
+
+            if(updateUser is not null)
+            {
+                updateUser.PostCounter = updateUser.PostCounter + 1;
+                _identityDbContext.Update(updateUser);
+                await _identityDbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task IncreaseHeadingPostCounter(string? Id)
+        {
+            var updateUser = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id == Id);
+
+            if (updateUser is not null)
+            {
+                updateUser.PostCounter = updateUser.PostCounter + 1;
+                updateUser.HeadingCounter = updateUser.HeadingCounter + 1;
+                _identityDbContext.Update(updateUser);
+                await _identityDbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task<List<UserInfoResponse>> GetUsersByIds(List<string> Ids)
+        {
+
+            var users = await _identityDbContext.Users.AsNoTracking()
+                .Where(x => Ids.Contains(x.Id))
+                .Select(x => new UserInfoResponse
+                {
+                    Id = x.Id,
+                    UserName = x.UserName,
+                    PostCounter = x.PostCounter,
+                    HeadingCounter = x.HeadingCounter,
+                    Rank = x.Rank,
+                    Role = x.Role,
+                })
+                .ToListAsync();
+
+            return users;
         }
     }
 }

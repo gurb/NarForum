@@ -82,6 +82,7 @@ namespace Application.Features.Post.Commands.CreatePost
                 await _categoryRepository.UpdateCategoryWhenCreatePost(heading.CategoryId, post.UserName, post.UserId.Value, heading.Id, post.Id);
                 await _headingRepository.IncreasePostCounter(post.HeadingId!);
                 await _categoryRepository.IncreasePostCounter(post.HeadingId);
+                await _userService.IncreasePostCounter(post.UserId.ToString());
 
                 var category = await _categoryRepository.GetByIdAsync(heading.CategoryId);
 

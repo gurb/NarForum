@@ -93,5 +93,9 @@ public class UserService : BaseHttpService, IUserService
         return _mapper.Map<ApiResponseVM>(response);
     }
 
-
+    public async Task<List<UserInfoVM>> GetUsersByIds(List<string> Ids)
+    {
+        var response = await _client.GetUsersByUserIdsAsync(Ids);
+        return _mapper.Map<List<UserInfoVM>>(response);
+    }
 }

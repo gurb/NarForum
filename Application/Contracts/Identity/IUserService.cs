@@ -31,5 +31,10 @@ namespace Application.Contracts.Identity
         public Task<ApiResponse> CreateConfirmRequest();
         public Task<ApiResponse> CreateConfirmRequestWithUserId(string? UserId);
         public Task<ApiResponse> VerifyEmailAddress(Guid? Id);
+
+        public Task IncreasePostCounter(string? Id);
+        public Task IncreaseHeadingPostCounter(string? Id);
+
+        public Task<List<UserInfoResponse>> GetUsersByIds(List<string> Ids);
     }
 }

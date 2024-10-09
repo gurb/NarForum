@@ -200,6 +200,7 @@ else
 
     public List<LikeVM>? Likes { get; private set; }
     public List<FavoriteVM>? Favorites { get; private set; }
+    public List<UserInfoVM>? Users { get; set; }
 
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
 
@@ -373,6 +374,20 @@ else
         ConfigureDisplayPosts(Posts);
 
         Likes = await LikeService.GetLikesByHeadingId(HeadingGuid);
+
+        if (Posts is not null)
+        {
+            var userIds = Posts.Select(x => x.UserId.ToString()).Distinct().ToList();
+            Users = await UserService.GetUsersByIds(userIds);
+
+            if(Users is not null && Users.Count > 0)
+            {
+                foreach (var postVM in Posts)
+                {
+                    postVM.UserInfoVM = Users.FirstOrDefault(x => x.UserName == postVM.UserName);
+                }
+            }
+        }
 
         if(CurrentUsername != null)
         {

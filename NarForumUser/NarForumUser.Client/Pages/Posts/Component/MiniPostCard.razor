@@ -25,7 +25,10 @@
             }
             <span class="custom-mini-post-user-area">
                 <a href="/user/@Username" class="fw-semibold text-decoration-none custom-mini-post-username">@(Username != null ? Username : "User")</a>
-                @* <span class="user-info-post-number">111 posts</span> *@
+                @if(Post.UserInfoVM is not null)
+                {
+                    <span class="user-info-post-number">@Post.UserInfoVM.PostCounter posts</span>
+                }
             </span>
                 @if (IsOP)
                 {

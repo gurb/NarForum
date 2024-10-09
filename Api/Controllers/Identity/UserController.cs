@@ -26,7 +26,12 @@ namespace Api.Controllers.Identity
             return await _userService.GetUserInfo(request);
         }
 
-       
+        [AllowAnonymous]
+        [HttpPost("GetUsersByUserIds")]
+        public async Task<List<UserInfoResponse>> GetUsersByUserIds(List<string> Ids)
+        {
+            return await _userService.GetUsersByIds(Ids);
+        }
 
         [HttpPost("GetUsersWithPagination")]
         public async Task<UsersPaginationDTO> GetUsersWithPagination(GetUsersWithPaginationQuery request)

@@ -75,6 +75,7 @@ namespace Application.Features.Heading.Commands.CreateHeading
                 await _CategoryRepository.IncreaseHeadingCounter(Heading.CategoryId);
                 await _HeadingRepository.IncreasePostCounter(Heading.Id);
                 await _CategoryRepository.IncreasePostCounter(Heading.Id);
+                await _userService.IncreaseHeadingPostCounter(user.Id);
             }
 
             // return record id

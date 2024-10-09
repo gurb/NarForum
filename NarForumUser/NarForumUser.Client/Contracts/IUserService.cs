@@ -18,5 +18,7 @@ namespace NarForumUser.Client.Contracts
         public Task<ApiResponseVM> CreateConfirmRequest();
 
         public Task<ApiResponseVM> VerifyEmailAddress(Guid? Id);
+
+        public Task<List<UserInfoVM>> GetUsersByIds(List<string> Ids);
     }
 }
