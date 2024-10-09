@@ -2,22 +2,31 @@
 @using NarForumUser.Client.Models.Message
 @using Microsoft.AspNetCore.SignalR.Client
 @using System.Text.Json
-<div class="chat-box">
+<div class="col-11 col-sm-11 col-md-11 col-lg-7 col-xl-5 chat-box">
     <div class="chat-header">
         <div class="row">
             <div class="col-sm-3">
-
+                <button type="button" class="btn btn-light pb-0 pt-0 show-chat-list-button" @onclick="ShowChatListForSmallDevices"><i class="bi bi-send-plus"></i> Create Chat</button>
             </div>
             <div class="col-sm-6 text-center">
                 Chat
             </div>
             <div class="col-sm-3 text-end">
-                <button type="button" class="btn btn-light pb-0 pt-0" @onclick="CreateChat"><i class="bi bi-send-plus"></i> Create Chat</button>
+                <button type="button" class="btn btn-light pb-0 pt-0" @onclick="CreateChat">
+                    @if(min600)
+                    {
+                        <i class="bi bi-send-plus"></i> @("Create Chat")
+                    }
+                    else
+                    {
+                        <i class="bi bi-send-plus"></i>
+                    }
+                </button>
             </div>
         </div>
     </div>
-    <div class="chat-body">
-        <div class="chat-list">
+    <div class="chat-body @(showChatList ? "show-chat-list" : "")">
+        <div class="chat-list @(showChatList ? "show-chat-list" : "")">
             
             <ul class="list-group">
                 @foreach(var chat in Chats)
@@ -31,7 +40,7 @@
                 }
             </ul>
         </div>
-        <div class="chat-area">
+        <div class="chat-area @(showChatList ? "show-chat-list" : "")">
             @if( OpenCreateChatBox && SelfUserId is not null)
             {
                 @if (showUserEmpty)
@@ -167,6 +176,8 @@
     </div>
 </div>
 
+<MediaQuery Width=600 @bind-Value=min600></MediaQuery>
+
 @code {
     [Parameter]
     public bool OpenCreateChatBox { get; set; }
@@ -218,6 +229,9 @@
 
     private bool openSelectedChat = false;
 
+    private bool showChatList = false;
+
+    private bool min600;
     protected async override Task OnInitializedAsync()
     {
         var authState = await authenticationStateTask;
@@ -232,6 +246,11 @@
             {
                 SelfUserId = selfUser.Id;
             }
+        }
+
+        if(!min600)
+        {
+            showChatList = true;
         }
 
     }
@@ -410,7 +429,7 @@
                 {
                     if(chatResponse.Length == 1)
                     {
-                        
+
                     }
 
 
@@ -644,6 +663,8 @@
 
         UserLabels.Clear();
 
+        showChatList = false;
+
         await InvokeAsync(StateHasChanged);
     }
 
@@ -679,6 +700,8 @@
 
     protected async Task CreateChat()
     {
+        showChatList = false;
+
         if(OpenCreateChatBox)
         {
             return;
@@ -689,9 +712,15 @@
         searchSelectBox = null;
         UserName = null;
 
+
         UserLabels.Clear();
 
         await InvokeAsync(StateHasChanged);
     }
 
+
+    protected async Task ShowChatListForSmallDevices()
+    {
+        showChatList = !showChatList;
+    }
 }

@@ -31,7 +31,8 @@ namespace NarForumUser.Client.Extensions
                 .Replace("\\", "")
                 .Replace("?", "")
                 .Replace(".", "-")
-                .Replace(",", "-");
+                .Replace(",", "-")
+                .Replace("!", "");
         }
 
 

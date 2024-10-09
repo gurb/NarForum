@@ -1180,7 +1180,6 @@ i.bi.bi-file-earmark-text, i.bi.bi-file-earmark-lock2, i.bi.bi-journals, i.bi.bi
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 40%;
     height: 50%;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -1190,6 +1189,42 @@ i.bi.bi-file-earmark-text, i.bi.bi-file-earmark-lock2, i.bi.bi-journals, i.bi.bi
     display: flex;
     flex-direction: column;
     z-index: 1050; /* Ensure it's above other elements */
+}
+.show-chat-list-button {
+    display: none;
+}
+@media only screen and (max-width: 600px) {
+    .show-chat-list-button {
+        display:block;
+    }
+    .chat-body {
+        grid-template-rows: 1fr !important;
+        grid-template-columns: none!important;
+    }
+    .chat-body.show-chat-list {
+        grid-template-rows: auto 0fr!important;
+    }
+    .chat-list {
+        grid-column: auto;
+        grid-row:1;
+        display:none;
+    }
+    .chat-list.show-chat-list {
+        grid-column: 1;
+        display:block;
+    }
+    .chat-area {
+        grid-column:1!important;
+        grid-row:1;
+    }
+    .chat-area.show-chat-list {
+        grid-column: auto !important;
+        grid-row: auto;
+    }
+    .chat-box {
+        top: 145px;
+        height: calc(100% - 145px);
+    }
 }
 
 .chat-header {

@@ -36,10 +36,10 @@ else
     <AddBreadcrumb Items="BreadcrumbItems"></AddBreadcrumb>
 
     <div class="row category-header">
-        <div class="col-6">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
             <h1>@(Model != null ? @Model.Name : "")</h1>
         </div>
-        <div class="col-6 d-flex justify-content-end p-0">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex justify-content-end p-0">
             <ul class="list-group list-group-horizontal">
                 <AuthorizeView>
                     <Authorized>
