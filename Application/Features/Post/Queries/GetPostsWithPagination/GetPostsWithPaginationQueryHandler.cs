@@ -37,7 +37,7 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
 
             var predicate = PredicateBuilder.True<Domain.Post>();
 
-            predicate = predicate.And(x => x.IsActive);
+            //predicate = predicate.And(x => x.IsActive);
 
             if(request.PostId != null)
             {
@@ -71,6 +71,10 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
             {
                 for (int i = 0; i < data.Count; i++)
                 {
+                    if (!data[i].IsActive && !request.IsAdminPanel) 
+                    {
+                        data[i].Content = string.Empty;
+                    }
                     data[i].HeadingIndex = i;
                 }
             }

@@ -13514,6 +13514,9 @@ namespace NarForumUser.Client.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("searchContent")]
         public string SearchContent { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("isAdminPanel")]
+        public bool IsAdminPanel { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
 
@@ -13978,6 +13981,9 @@ namespace NarForumUser.Client.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("headingIndex")]
         public int? HeadingIndex { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("isActive")]
+        public bool IsActive { get; set; }
 
     }
 

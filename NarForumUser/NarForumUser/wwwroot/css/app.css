@@ -1373,3 +1373,16 @@ h3.custom-modal-title {
     font-size: 0.9rem;
     padding: 0.25rem;
 }
+
+.removed-post {
+    background: #f1f1f1;
+    padding: 10px 10px;
+    border-radius: 5px;
+    display: block;
+    color: #666;
+    font-style: italic;
+}
+
+.removed-post i.bi.bi-trash-fill {
+    color: #c90c0c;
+}

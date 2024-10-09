@@ -9,6 +9,7 @@
         public string? SearchGuid { get; set; }
         public Guid? HeadingId { get; set; }
         public bool IsWithHeading { get; set; }
+        public bool IsAdminPanel { get; set; } = true;
         public int? PageIndex { get; set; }
         public int? PageSize { get; set; }
     }

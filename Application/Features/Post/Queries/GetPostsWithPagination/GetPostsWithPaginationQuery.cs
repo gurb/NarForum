@@ -10,6 +10,7 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
         public Guid? HeadingId { get; set; }
         public string? SearchUsername { get; set; }
         public string? SearchContent { get; set; }
+        public bool IsAdminPanel { get; set; }
         public int? PageIndex { get; set; }
         public int? PageSize { get; set; }
     }

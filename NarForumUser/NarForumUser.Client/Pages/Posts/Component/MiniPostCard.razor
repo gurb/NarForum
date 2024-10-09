@@ -35,7 +35,13 @@
         <span class="ms-3 small text-muted custom-mini-post-date">@Post.DateCreate</span>
     </header>
     <div class="card-body custom-mini-post-content">
-        @((MarkupString)Post.DisplayContent)
+        @if(Post.IsActive)
+        {
+           @((MarkupString)Post.DisplayContent)
+        }
+        else{
+            <span class="removed-post"><i class="bi bi-trash-fill"></i> This post is removed.</span>
+        }
     </div>
     <footer class="card-footer custom-mini-post-footer border-0 py-1 px-3">
         <button type="button"

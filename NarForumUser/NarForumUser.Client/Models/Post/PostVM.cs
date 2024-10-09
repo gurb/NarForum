@@ -13,7 +13,7 @@
         public string? HeadingTitle { get; set; }
         public int? HeadingIndex { get; set; }
         public int? PageIndex { get; set; }
-
+        public bool IsActive { get; set; }
         public DateTime DateCreate { get; set; }
 
 
