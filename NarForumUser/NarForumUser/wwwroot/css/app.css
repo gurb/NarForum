@@ -43,6 +43,7 @@
     --color-quote-box-border: #ddd;
     --color-quote-box-author-fg: #333;
     --color-quote-box-header-bg: #ddd;
+    --color-heading-status-fg: #666666;
 }
 
 [data-theme="dark"] {
@@ -91,6 +92,7 @@
     --color-quote-box-border: #34485f;
     --color-quote-box-author-fg: #f2f2f2;
     --color-quote-box-header-bg: #34485f;
+    --color-heading-status-fg: #f1f1f1;
 }
 
 html, body {
@@ -343,7 +345,7 @@ a {
 
 span.heading-status {
     font-size: 1.4rem;
-    color: #666666;
+    color: var(--color-heading-status-fg);
 }
 
 span.heading-card-status {
@@ -355,6 +357,9 @@ span.heading-card-status {
     margin-bottom: 1.5em;
 }
 
+.lock-message-for-heading {
+    color: var(--color-fg);
+}
 
 
 .custom-mini-post {
