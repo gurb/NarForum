@@ -1,11 +1,58 @@
 [data-theme="light"] {
     --color-bg: #ffffff;
-    --color-fg: #000000;
+    --color-fg: #212529;
+    --color-a-fg: #34485f;
+    --color-breadcrumb-item-fg: #34485f;
+    --color-breadcrumb-item-active-fg: #6c757d;
+    --color-mini-post-bg: #fff;
+    --color-mini-post-fg: #4a617d;
+    --color-mini-post-footer-bg: #edeef194;
+    --color-mini-post-footer-fg: #34485f;
+    --color-mini-post-user-fg: #34485f;
+    --color-mini-post-user-info-fg: #777777;
+    --color-mini-post-date-fg: #6c757d;
+    --color-mini-post-favorite-fg: #000;
+    --color-mini-post-favorite-bg: #f9fafb;
+    --color-mini-post-favorite-border: #dee2e6;
+    --color-mini-post-report-fg: #000;
+    --color-mini-post-report-bg: #f9fafb;
+    --color-mini-post-report-border: #dee2e6;
+    --color-recent-heading-list-bg: #f9f9f9;
+    --color-recent-heading-list-border: #dddddd;
+    --color-category-card-body-bg: #f9f9f9;
+    --color-category-card-body-fg: #333;
+    --color-category-card-body-border: #ddd;
+    --color-category-card-description-fg: #999;
+    --color-last-post-date-fg: #666;
+    /*--color-heading-card-body-bg:*/
 }
 
 [data-theme="dark"] {
-    --color-bg: #000000;
+    --color-bg: #3f546cd9;
     --color-fg: #ffffff;
+    --color-a-fg: #f1f1f1;
+    --color-breadcrumb-item-fg: #f1f1f1;
+    --color-breadcrumb-item-active-fg: #f9f9f9;
+    --color-mini-post-bg: #4a617d;
+    --color-mini-post-fg: #f1f1f1;
+    --color-mini-post-footer-bg: #455a75;
+    --color-mini-post-footer-fg: #f1f1f1;
+    --color-mini-post-user-fg: #f1f1f1;
+    --color-mini-post-user-info-fg: #f9f9f9;
+    --color-mini-post-date-fg: #dddddd;
+    --color-mini-post-favorite-fg: #f1f1f1;
+    --color-mini-post-favorite-bg: #37485e;
+    --color-mini-post-favorite-border: #242f3d;
+    --color-mini-post-report-fg: #f1f1f1;
+    --color-mini-post-report-bg: #37485e;
+    --color-mini-post-report-border: #242f3d;
+    --color-recent-heading-list-bg: #536b89;
+    --color-recent-heading-list-border: #37485e;
+    --color-category-card-body-bg: #536b89;
+    --color-category-card-body-fg: #f1f1f1;
+    --color-category-card-body-border:#37485e;
+    --color-category-card-description-fg: #ddd;
+    --color-last-post-date-fg: #ccc;
 }
 
 html, body {
@@ -44,8 +91,17 @@ a, .btn-link {
 }
 
 .custom-container {
+    background: var(--color-bg);
     padding-top: 1.1rem;
     margin-bottom: 100px;
+}
+
+.main-forum {
+    background: var(--color-bg);
+}
+
+.min-h-100 {
+    min-height: 100%;
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -170,7 +226,7 @@ code {
     margin-bottom: 0px;
     font-size: 12px;
     font-weight: 500;
-    color: #999;
+    color: var(--color-category-card-description-fg);
 }
 
 .top-nav-menu li a {
@@ -216,6 +272,7 @@ a {
 .heading-title {
     font-size: 1.7em;
     margin-bottom: 1.5em;
+    color: var(--color-fg);
 }
 
 .heading-control {
@@ -250,27 +307,51 @@ span.heading-card-status {
     margin-bottom: 1.5em;
 }
 
+
+
 .custom-mini-post {
+    background: var(--color-mini-post-bg);
+}
+
+.custom-mini-post-user-area {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: unset;
+    float: left;
+
 }
 
 .custom-mini-post-username {
     font-size: 14px;
     margin-top: 2px;
+    color: var(--color-mini-post-user-fg);
 }
 
 .custom-mini-post-content {
     padding: 20px;
     font-size: 14px;
+    color: var(--color-mini-post-fg);
 }
 
 .custom-mini-post-date {
     float: right;
     font-size: 12px;
+    color: var(--color-mini-post-date-fg)!important;
 }
 
 .custom-mini-post-footer {
-    background: #edeef194;
+    background: var(--color-mini-post-footer-bg);
+    color: var(--color-mini-post-footer-fg);
 }
+
+.custom-mini-post-footer a {
+    color: var(--color-mini-post-footer-fg);
+}
+
+.custom-mini-post-footer .btn-link {
+    color: var(--color-mini-post-footer-fg);
+}
+
 
 .custom-mini-post-image {
     float: left;
@@ -285,12 +366,16 @@ span.heading-card-status {
 
 .post-favorite-button {
     float: right;
+    background: var(--color-mini-post-favorite-bg);
+    color: var(--color-mini-post-favorite-fg);
+    border-color: var(--color-mini-post-favorite-border)!important;
 }
 
 .post-report-button {
     float: right;
-    background: #eee;
     margin-left: 5px;
+    background: var(--color-mini-post-favorite-bg);
+    color: var(--color-mini-post-favorite-fg);
 }
 
 .row {
@@ -303,10 +388,14 @@ span.heading-card-status {
 
 .breadcrumb-item a {
     text-decoration: none;
+    color: var(--color-breadcrumb-item-fg);
+}
+.breadcrumb-item.active {
+    color: var(--color-breadcrumb-item-active-fg);
 }
 
 .top-nav-left-menu {
-    margin-left:20px;
+    margin-left: 20px;
 }
 
 .top-nav-menu-item {
@@ -476,13 +565,17 @@ span.heading-card-status {
 
 .category-card-body {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-category-card-body-border);
     border-radius: 5px;
     margin-bottom: 10px;
-    background: #f9f9f9;
+    background: var(--color-category-card-body-bg);
     font-size: 1em;
     font-weight: 600;
-    color: #333;
+    color: var(--color-category-card-body-fg);
+}
+
+.category-card-body a {
+    color: var(--color-a-fg);
 }
 
 .category-edit-button {
@@ -536,11 +629,7 @@ span.heading-card-status {
     text-decoration: none;
 }
 
-.last-post-date {
-    font-size: 0.7em;
-    color: #666;
-    font-weight: 400;
-}
+
 
 .heading-card-body {
     padding: 10px;
@@ -604,10 +693,9 @@ span.heading-card-status {
 
 .last-post-date {
     font-size: 0.7em;
-    color: #666;
+    color: var(--color-last-post-date-fg);
     font-weight: 400;
 }
-
 .current-category-card-body {
     padding: 5px 10px;
     border: 1px solid #34485f;
@@ -689,7 +777,7 @@ span.heading-card-status {
 
 .recent-heading-list-container {
     border-radius: 5px;
-    background: #f9f9f9;
+    background: var(--color-recent-heading-list-bg);
     padding: 0;
 }
 
@@ -774,16 +862,11 @@ span.heading-card-status {
     float: left;
 }
 
-.custom-mini-post-user-area {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: unset;
-    float: left;
-}
+
 
 .user-info-post-number {
     font-size: 12px;
-    color: #777;
+    color: var(--color-mini-post-user-info-fg);
 }
 
 .no-image-user-profile-link {
@@ -798,11 +881,13 @@ span.heading-card-status {
 
 .recent-heading-title a {
     text-decoration: none;
+    color: var(--color-a-fg);
 }
 
 .recent-heading-title-info {
     display: flex;
     justify-content: space-between;
+    color: var(--color-fg);
 }
 
 .recent-heading-category-badge {
@@ -814,6 +899,7 @@ span.heading-card-status {
 .recent-heading-list {
     padding: 5px;
     border: 1px solid #dddddd;
+    border-color: var(--color-recent-heading-list-border);
     border-top: none;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;

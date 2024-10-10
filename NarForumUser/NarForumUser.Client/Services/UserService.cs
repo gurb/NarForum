@@ -14,7 +14,6 @@ public class UserService : BaseHttpService, IUserService
     {
         _mapper = mapper;
     }
-
     public async Task<ApiResponseVM> ChangeUserSettings(ChangeUserSettingsRequestVM request)
     {
         var req = _mapper.Map<ChangeUserSettingsRequest>(request);
