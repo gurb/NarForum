@@ -4,15 +4,15 @@
 .container-form {
     max-width: 991px;
     width: 100%;
-    background: #fff;
+    background: var(--color-container-form-bg)!important;
     border-radius: 8px;
     overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, .125);
+    border: 1px solid var(--color-container-form-border)!important;
 }
 
 .toolbar {
     padding: 16px;
-    background: rgb(249, 249, 249);
+    background: var(--color-toolbar-bg) !important;
 }
 
 .toolbar .head {
@@ -74,9 +74,10 @@
     grid-gap: 10px;
 }
 
+
 .toolbar .btn-toolbar button {
-    background: #edeef1;
-    border: 1px solid #ccc;
+    background: var(--color-editor-button-bg);
+    border: 1px solid var(--color-editor-button-border) !important;
     border-radius: 6px;
     cursor: pointer;
     width: 40px;
@@ -85,11 +86,10 @@
     align-items: center;
     justify-content: center;
     font-size: 18px;
+    color: var(--color-editor-button-fg) !important;
 }
 
-.post-form-toolbar-select {
-    background: linear-gradient(0deg, rgba(204, 204, 204, 1) 0%, rgba(221, 221, 221, 1) 40%, rgba(255, 255, 255, 1) 100%) !important;
-}
+
 
 .toolbar .btn-toolbar button:hover {
     background: #f3f3f3;
@@ -100,6 +100,7 @@
     outline: none;
     max-height: 50vh;
     overflow: auto;
+    color: var(--color-editor-content-fg)!important;
 }
 
 #show-code[data-active="true"] {
