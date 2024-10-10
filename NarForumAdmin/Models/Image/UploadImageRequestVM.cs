@@ -1,5 +1,4 @@
 ﻿using NarForumAdmin.Models.Enums;
-using Microsoft.AspNetCore.Http;
 
 namespace NarForumAdmin.Models.Image
 {
