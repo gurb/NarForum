@@ -1,7 +1,5 @@
 ﻿using Application.Models;
-using Application.Models.Enums;
 using Application.Models.Persistence.Image;
-using Microsoft.AspNetCore.Http;
 
 namespace Application.Contracts.Persistence
 {
