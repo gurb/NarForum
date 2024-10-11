@@ -6,19 +6,19 @@
             <DataAnnotationsValidator />
             <ValidationSummary />
 
-            <div class="form-group">
-                <label asp-for="Name" class="control-label">Name</label>
-                <InputText id="Name" class="form-control" @bind-Value="@Model.Name"></InputText>
+            <div class="form-group mb-2">
+                <label asp-for="Name" class="control-label mb-2">Name</label>
+                <InputText type="text" id="Name" class="form-control" @bind-Value="@Model.Name" autocomplete="off"></InputText>
                 <ValidationMessage For="@(() => Model.Name)" />
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label">Description</label>
-                <InputText id="Description" class="form-control" @bind-Value="@Model.Description"></InputText>
+            <div class="form-group mb-2">
+                <label asp-for="Description" class="control-label mb-2">Description</label>
+                <InputText type="text" id="Description" class="form-control" @bind-Value="@Model.Description" autocomplete="off"></InputText>
                 <ValidationMessage For="@(() => Model.Description)" />
             </div>
-            <div class="form-group">
-                <label asp-for="OrderIndex" class="control-label">Order Index</label>
-                <InputNumber id="OrderIndex" class="form-control" @bind-Value="@Model.OrderIndex"></InputNumber>
+            <div class="form-group mb-2">
+                <label asp-for="OrderIndex" class="control-label mb-2">Order Index</label>
+                <InputNumber type="number" id="OrderIndex" class="form-control" @bind-Value="@Model.OrderIndex" autocomplete="off"></InputNumber>
             </div>
         </EditForm>
     }

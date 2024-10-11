@@ -5,14 +5,14 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
 
-        <div class="form-group">
-            <label asp-for="Name" class="control-label">Category Name</label>
-            <InputText id="Name" class="form-control" @bind-Value="@Model.Name"></InputText>
+        <div class="form-group mb-2">
+            <label asp-for="Name" class="control-label mb-2">Category Name</label>
+            <InputText type="text" id="Name" class="form-control" @bind-Value="@Model.Name" autocomplete="off"></InputText>
             <ValidationMessage For="@(() => Model.Name)" />
         </div>
-        <div class="form-group">
-            <label asp-for="Name" class="control-label">Category Description</label>
-            <InputText id="Name" class="form-control" @bind-Value="@Model.Description"></InputText>
+        <div class="form-group mb-2">
+            <label asp-for="Name" class="control-label mb-2">Category Description</label>
+            <InputText type="text" id="Name" class="form-control" @bind-Value="@Model.Description" autocomplete="off"></InputText>
             <ValidationMessage For="@(() => Model.Description)" />
         </div>
     </EditForm>

@@ -61,13 +61,13 @@
                                 @if(notificationList.Count == 0)
                                 {
                                     <div class="d-block text-center">
-                                        <small class="text-muted">There is no any notification.</small>
+                                        <small>There is no any notification.</small>
                                     </div>
                                 }
                                 else
                                 {
                                     <div class="d-block text-center">
-                                        <small @onclick=@(() => ClearNotifications()) class="text-muted">Clear notifications</small>
+                                        <small @onclick=@(() => ClearNotifications())>Clear notifications</small>
                                     </div>
                                 }
                             </div>

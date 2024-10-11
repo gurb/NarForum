@@ -6,7 +6,7 @@
 <Modal @ref="modal" ModalTitle="Report Message" Callback="@SendReportMessage" ModalButtonText="Send Report Message" MaxWidth="none">
     <div class="form-group">
         <label asp-for="Name" class="control-label">Title</label>
-        <InputText id="Name" class="form-control" @bind-Value="@request.Title"></InputText>
+        <InputText type="text" id="Name" class="form-control" @bind-Value="@request.Title"></InputText>
     </div>
     <div class="form-group form-margin">
         <label for="exampleFormControlTextarea1">Example textarea</label>

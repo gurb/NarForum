@@ -16,7 +16,7 @@
 
         <div class="form-group">
             <label class="control-label">Email</label>
-            <InputText id="userName" class="form-control" @bind-Value="@Model.Email"></InputText>
+            <InputText type="text" id="userName" class="form-control" @bind-Value="@Model.Email" autocomplete="off"></InputText>
             <ValidationMessage For="@(() => Model.Email)" />
         </div>
         <div class="form-group">
