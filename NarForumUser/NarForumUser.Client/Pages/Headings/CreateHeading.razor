@@ -38,7 +38,7 @@ else
     </div>
 
     <div class="form-group form-margin">
-        <CreatePostForm @ref=createPostForm Model="CreateModel"></CreatePostForm>
+        <CreatePostForm Placeholder="enter your post here" @ref=createPostForm Model="CreateModel"></CreatePostForm>
     </div>
 
     <div class="form-group text-end">
@@ -95,8 +95,6 @@ else
         }
     }
 
-
-
     protected async Task HandleCreateHeading()
     {
         HeadingVM? heading;
@@ -119,8 +117,6 @@ else
     {
         string content = displayContent;
 
-        // Regex quoteRegex = new Regex(@"<blockquote author-quote=""([^""]*)"" post-id=""(\d+)"" class=""quote-box"">(.*?)<\/blockquote>");
-        // Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
         Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""]([0-9a-fA-F-]{36})['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
 
         MatchCollection matches = quoteRegex.Matches(content);

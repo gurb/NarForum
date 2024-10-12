@@ -89,10 +89,8 @@
     color: var(--color-editor-button-fg) !important;
 }
 
-
-
 .toolbar .btn-toolbar button:hover {
-    background: #f3f3f3;
+    opacity:0.9;
 }
 
 #content {
@@ -101,6 +99,13 @@
     max-height: 50vh;
     overflow: auto;
     color: var(--color-editor-content-fg)!important;
+}
+
+[contenteditable=true]:empty:before {
+    content: attr(placeholder);
+    pointer-events: none;
+    opacity: 0.3;
+    display: block; /* For Firefox */
 }
 
 #show-code[data-active="true"] {

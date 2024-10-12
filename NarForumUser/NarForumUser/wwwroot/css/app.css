@@ -3,6 +3,7 @@
     --color-fg: #212529;
     --color-light-fg: #eee;
     --color-a-fg: #34485f;
+    --color-button-hover-bg: #000000a8;
     --color-breadcrumb-item-active-fg: #6c757d;
     --color-mini-post-bg: #fff;
     --color-mini-post-fg: #4a617d;
@@ -20,6 +21,8 @@
     --color-mini-post-report-border: #dee2e6;
     --color-recent-heading-list-bg: #f9f9f9;
     --color-recent-heading-list-border: #dddddd;
+    --color-recent-heading-category-badge-bg: #27750f;
+    --color-recent-heading-category-badge-fg: #f9f9f9;
     --color-category-card-body-bg: #f9f9f9;
     --color-category-card-body-fg: #333;
     --color-category-card-body-border: #ddd;
@@ -79,19 +82,22 @@
     --color-custom-modal-header-border: #eee;
     --color-removed-post-bg: #f1f1f1;
     --color-removed-post-fg: #666;
+    --color-forum-logo-footer-bg: #34485f;
+    --color-active-page-link-fg: #fff;
 }
 
 [data-theme="dark"] {
-    --color-bg: #3f546cd9;
-    --color-fg: #ffffff;
+    --color-bg: #232f3d;
+    --color-fg: #c3c3c3;
     --color-light-fg: #eee;
-    --color-a-fg: #f1f1f1;
+    --color-a-fg: #c5c5c5;
+    --color-button-hover-bg: #ffffff08;
     --color-breadcrumb-item-fg: #f1f1f1;
     --color-breadcrumb-item-active-fg: #f9f9f9;
-    --color-mini-post-bg: #4a617d;
+    --color-mini-post-bg: #324153;
     --color-mini-post-fg: #f1f1f1;
-    --color-mini-post-border: #37485e;
-    --color-mini-post-footer-bg: #455a75;
+    --color-mini-post-border: #24303ead;
+    --color-mini-post-footer-bg: #24303ead;
     --color-mini-post-footer-fg: #f1f1f1;
     --color-mini-post-user-fg: #f1f1f1;
     --color-mini-post-user-info-fg: #f9f9f9;
@@ -102,40 +108,42 @@
     --color-mini-post-report-fg: #f1f1f1;
     --color-mini-post-report-bg: #37485e;
     --color-mini-post-report-border: #242f3d;
-    --color-recent-heading-list-bg: #536b89;
+    --color-recent-heading-list-bg: #324153;
     --color-recent-heading-list-border: #37485e;
-    --color-category-card-body-bg: #536b89;
+    --color-recent-heading-category-badge-bg: #25371f;
+    --color-recent-heading-category-badge-fg: #ccc;
+    --color-category-card-body-bg: #324153;
     --color-category-card-body-fg: #f1f1f1;
     --color-category-card-body-border: #37485e;
     --color-category-card-description-fg: #ddd;
     --color-last-post-date-fg: #ccc;
-    --color-heading-card-body-bg: #536b89;
+    --color-heading-card-body-bg: #314155;
     --color-heading-card-body-fg: #f1f1f1;
     --color-heading-card-body-border: #37485e;
-    --color-pin-heading-card-body-bg: #3e597c;
+    --color-pin-heading-card-body-bg: #3e4b7c6b;
     --color-page-item-bg: #526377;
     --color-page-item-border: #34485f;
     --color-page-item-a-fg: #f1f1f1;
     --color-page-item-right-input-bg: #526377;
-    --color-toolbar-bg: #34485f;
-    --color-container-form-bg: #202c3a;
+    --color-toolbar-bg: #324153;
+    --color-container-form-bg: #1a2430;
     --color-container-form-border: #202c3a;
     --color-editor-content-fg: #f1f1f1;
     --color-editor-button-bg: #536b89;
     --color-editor-button-fg: #f1f1f1;
     --color-editor-button-border: #34485f;
-    --color-quote-box-bg: #5a7597;
-    --color-quote-box-fg: #f9f9f9;
-    --color-quote-box-border: #34485f;
+    --color-quote-box-bg: #3f5167;
+    --color-quote-box-fg: #f9f9f996;
+    --color-quote-box-border: #283645;
     --color-quote-box-author-fg: #f2f2f2;
-    --color-quote-box-header-bg: #34485f;
+    --color-quote-box-header-bg: #283645;
     --color-heading-status-fg: #f1f1f1;
     --color-chat-box-border: #34485f;
-    --color-chat-box-bg: #34485f;
+    --color-chat-box-bg: #324153;
     --color-chat-header-bg: #263445;
     --color-chat-header-border: #263445;
     --color-chat-list-bg: #263445;
-    --color-chat-username-bg: #34485f;
+    --color-chat-username-bg: #324153;
     --color-chat-username-fg: #f1f1f1;
     --color-chat-username-border: #090c10;
     --color-chat-footer-border: #090c10;
@@ -143,7 +151,7 @@
     --color-chat-input-bg: #202c3a;
     --color-chat-input-border: #090c10;
     --color-chat-receiver-message-bg: #273749;
-    --color-chat-owner-message-bg: #2e4055;
+    --color-chat-owner-message-bg: #3f5773;
     --color-chat-area-bg: #2c3d51;
     --color-table-border-color: #55708b;
     --color-input-text-bg: #202c3a;
@@ -151,23 +159,29 @@
     --color-blog-post-card-title-fg: #eee;
     --color-blog-post-card-title-hover-fg: #fff;
     --color-blog-post-card-footer-fg: #ddd;
-    --color-post-card-link-body-bg: #536b89;
+    --color-post-card-link-body-bg: #314155;
     --color-post-card-link-body-border: #37485e;
     --color-button-bg: #536b89;
     --color-button-border: #37485e;
-    --color-footer-bg: #2b3d53b3;
+    --color-footer-bg: #2b3d53;
     --color-footer-fg: #cccccc;
     --color-footer-title-fg: #eee;
     --color-custom-modal-bg: #2d3f53;
     --color-custom-modal-border: #19232f;
     --color-custom-modal-header-border: #19232f;
-    --color-removed-post-bg: #5a7597;
+    --color-removed-post-bg: #3f5167;
     --color-removed-post-fg: #eee;
+    --color-forum-logo-footer-fg: #000000;
+    --color-active-page-link-fg: #fff;
 }
 
 html, body {
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-    background-color: var(--color-bg);
+    background-color: var(--color-bg)!important;
+}
+
+html {
+    background: var(--color-bg)!important;
 }
 
 h1:focus {
@@ -181,9 +195,6 @@ h1:focus {
         font-weight: 700;
     }
 }
-
-
-
 
 h1, h2, h3, h4, h5, h6 {
     color: var(--color-fg);
@@ -208,17 +219,17 @@ a, .btn-link {
 }
 
 .custom-container {
-    background: var(--color-bg);
     padding-top: 1.1rem;
-    margin-bottom: 100px;
 }
 
 .main-forum {
+    min-height: fit-content;
     background: var(--color-bg);
 }
 
 .min-h-100 {
     min-height: 100%;
+    height: 100%;
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -311,7 +322,8 @@ button:focus {
 }
 
 button:hover {
-    opacity: 0.9;
+    opacity: 0.9!important;
+    /*background: var(--color-button-hover-bg)*/
 }
 
 .quote-box {
@@ -1059,8 +1071,8 @@ span.heading-card-status {
 }
 
 .recent-heading-category-badge {
-    background: #27750f;
-    color: white;
+    background: var(--color-recent-heading-category-badge-bg);
+    color: var(--color-recent-heading-category-badge-fg);
     font-size: 10px;
 }
 
@@ -1244,7 +1256,7 @@ h3.blog-comment-form-title {
 }
 
 #forum-logo-footer {
-    background: #34485f;
+    background: var(--color-forum-logo-footer-bg);
     padding: 5px;
     border-radius: 5px;
     opacity: .4;
@@ -1401,7 +1413,7 @@ i.bi.bi-file-earmark-text, i.bi.bi-file-earmark-lock2, i.bi.bi-journals, i.bi.bi
 
 .notification-dropdown {
     font-size: 0.9em;
-    color: var(--color-light-fg);
+    color: var(--color-fg);
     background: var(--color-bg);
     width: 20%;
     user-select: none;
@@ -1552,6 +1564,8 @@ i.bi.bi-file-earmark-text, i.bi.bi-file-earmark-lock2, i.bi.bi-journals, i.bi.bi
     float: right;
     color: var(--color-fg);
     background: var(--color-chat-owner-message-bg);
+    max-width: 90%;
+    overflow-wrap: break-word;
 }
 
 .chat-footer input {
@@ -1780,6 +1794,12 @@ textarea.form-control {
     border-color: var(--color-input-text-border) !important;
 }
 
+.forum-select {
+    background: var(--color-input-text-bg) !important;
+    color: var(--color-fg) !important;
+    border-color: var(--color-input-text-border) !important;
+}
+
 .form-control .modified {
     outline: none !important;
 }
@@ -1829,6 +1849,20 @@ select.form-select.select-category {
     color: var(--color-a-fg)!important;
 }
 
+.link-heading-primary:hover {
+    opacity: 0.8 !important;
+    color: var(--color-a-fg) !important;
+}
+
 .link-secondary:hover {
-    opacity:0.8;
+    opacity: 0.8;
+}
+
+.active a.page-link {
+    color: var(--color-active-page-link-fg)!important;
+}
+
+.toast-container {
+    z-index: 2000;
+    top:85px;
 }

@@ -47,6 +47,8 @@ builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 
+builder.Services.AddSingleton<ToastService>();
+
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<AuthorizationService>();

@@ -1,5 +1,7 @@
 ﻿@using NarForumUser.Client.Models.Category
+@using NarForumUser.Client.Services.Common
 @using NarForumUser.Client.Services.UI
+@inject ToastService ToastService;
 <Modal @ref="modal" ModalTitle="Add Category" Callback="@HandleRegister">
     <EditForm Model="@Model" OnValidSubmit="HandleRegister">
         <DataAnnotationsValidator />
@@ -83,7 +85,13 @@
 
         if(result.IsSuccess)
         {
-            // 
+            ToastService.AddNotification(new Models.Toast.ToastNotification
+            {
+                Title = "Added Category",
+                Message = "The category is added successfully",
+                RightText = DateTime.UtcNow.ToString(),
+                Type = ToastTypeVM.Success
+            });
         }
         else
         {

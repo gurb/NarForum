@@ -28,16 +28,10 @@
 				</div>
 				<div class="col-1"></div>
 				<div class="col-sm-3">
-					@* <div class="color">
-						<span>Color</span>
-						<input type="color" oninput="formatDoc('foreColor', this.value); this.value='#000000';">
-					</div> *@
+					
 				</div>
 				<div class="col-sm-3">
-					@* <div class="color">
-						<span>Background</span>
-						<input type="color" oninput="formatDoc('hiliteColor', this.value); this.value='#000000';">
-					</div> *@
+					
 				</div>
 			</div>
 		</div>
@@ -56,16 +50,11 @@
 			<button id="show-code" data-active="false" type="button">&lt;/&gt;</button> *@
 		</div>
 	</div>
-		<div id="content" contenteditable="true" spellcheck="false" @oninput="UpdateModelContent" @onkeydown="ContentKeyDown" @ondblclick="ControlSelection" @onkeyup="ContentKeyUp">
+		<div id="content" placeholder="@Placeholder"  contenteditable="true" spellcheck="false" @oninput="UpdateModelContent" @onkeydown="ContentKeyDown" @ondblclick="ControlSelection" @onkeyup="ContentKeyUp">
 	</div>
 
 	</div>
 
-
-    @* <div class="form-group form-margin">
-        <label for="exampleFormControlTextarea1">Create Post</label>
-        <InputTextArea id="Post" class="form-control" @bind-Value="@Model.Content"></InputTextArea>
-    </div> *@
 	@if (Callback.HasDelegate)
 	{
 		<div class="form-group text-end">
@@ -90,6 +79,9 @@
 
 	[Parameter]
 	public EventCallback<int> Callback { get; set; }
+
+	[Parameter]
+	public string Placeholder { get; set; } = string.Empty;
 
 	[Parameter]
 	public EventCallback<int> AddData { get; set; }
@@ -193,8 +185,6 @@
 	{
 		string content = displayContent;
 
-		// Regex quoteRegex = new Regex(@"<blockquote author-quote=""([^""]*)"" post-id=""(\d+)"" class=""quote-box"">(.*?)<\/blockquote>");
-		// Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
 		Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""]([0-9a-fA-F-]{36})['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
 
 		MatchCollection matches = quoteRegex.Matches(content);
@@ -218,7 +208,6 @@
 		string content = displayContent;
 		List<Guid> ids = new List<Guid>();
 		Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""]([0-9a-fA-F-]{36})['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
-		// Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
 		MatchCollection matches = quoteRegex.Matches(content);
 
 		foreach (Match match in matches)

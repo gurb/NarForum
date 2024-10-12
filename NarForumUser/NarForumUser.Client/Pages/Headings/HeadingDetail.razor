@@ -115,7 +115,7 @@ else
     {
         <AuthorizeView>
             <Authorized>
-                <CreatePostForm @ref=child Model="CreateModel" HeadingId="@HeadingGuid" Callback="RefreshPosts"></CreatePostForm>
+                <CreatePostForm @ref=child placeholder="@($"post about \"{Heading.Title}\"")" Model="CreateModel" HeadingId="@HeadingGuid" Callback="RefreshPosts"></CreatePostForm>
             </Authorized>
             <NotAuthorized>
                 <p class="login-message-for-heading">You have to login to post this heading.</p>
@@ -370,6 +370,8 @@ else
         Posts = postPagination.Posts;
         await CheckUserImageProfile();
         QuotePosts = postPagination.QuotePosts;
+
+        CreateModel.HeadingTitle = Heading.Title;
 
         ConfigureDisplayPosts(Posts);
 
@@ -640,7 +642,6 @@ else
             NavigationManager.NavigateTo("login");
             return;
         }
-
 
         CreateModel.Content += $"\n[Quote](PostId={post.Id})[/Quote]";
 

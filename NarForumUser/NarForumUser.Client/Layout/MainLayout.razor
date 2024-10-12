@@ -1,12 +1,17 @@
-﻿@using NarForumUser.Client.Services
+﻿@using NarForumUser.Client.Models.Toast
+@using NarForumUser.Client.Services
+@using NarForumUser.Client.Services.Common
 @inherits LayoutComponentBase
 
 @if(!isBot)
 {
     @inject AuthorizationService authorizationService;
+    @inject ToastService ToastService;
+    <Toast @ref="toast"></Toast>
 }
 
 <div class="page h-100">
+    
     <main class="main-forum">
         <TopNavMenu />
         <div class="container custom-container">
@@ -52,9 +57,12 @@
             </div>
             
         </div>
+        <div class="w-100" style="height:100px;"></div>
         <Footer></Footer>
     </main>
 </div>
+
+
 
 
 @code {
@@ -63,6 +71,17 @@
     private ErrorBoundary? _errorBoundary;
 
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private List<ToastNotification> notifications = new List<ToastNotification>();
+
+    Toast? toast;
+
+    protected override void OnInitialized()
+    {
+        ToastService.AddNotificationAction += AddNotification;
+
+        base.OnInitialized();
+    }
 
     protected async override Task OnInitializedAsync()
     {
@@ -88,5 +107,14 @@
     protected override void OnParametersSet()
     {
         _errorBoundary?.Recover();
+    }
+
+    private async void AddNotification(ToastNotification notification)
+    {
+        if(toast is not null)
+        {
+            await toast.AddToast(notification);
+            await InvokeAsync(StateHasChanged);
+        }
     }
 }

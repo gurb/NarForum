@@ -52,6 +52,8 @@ builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 
+builder.Services.AddSingleton<ToastService>();
+
 builder.Services.AddAutoMapper(typeof(NarForumUser.Client.MappingProfiles.MappingConfig).Assembly);
 
 builder.Services.AddScoped<AuthorizationService>();
