@@ -40,9 +40,9 @@
     {
         if (Notifications is not null)
         {
-            // await InvokeAsync(StateHasChanged);
-            // await Task.Delay(5000);
-            // notification.IsShow = false;
+            await InvokeAsync(StateHasChanged);
+            await Task.Delay(5000);
+            notification.IsShow = false;
             await InvokeAsync(StateHasChanged);
         }
     }
