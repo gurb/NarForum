@@ -3,19 +3,36 @@
 @if(Notifications is not null)
 {
     <div class="toast-container position-fixed top-0 end-0 p-3">
-        @foreach (var notification in Notifications)
+        @{
+            Notifications.Reverse();
+        }
+        @foreach (var notification in Notifications.OrderBy(x => x.DateTime).ToList())
         {
             @if (notification.IsShow)
             {
-                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast show" role="alert" aria-live="polite" aria-atomic="true">
                     <div class="toast-header">
-                        <img src="..." class="rounded me-2" alt="...">
+                        @if(notification.Type == ToastTypeVM.Success)
+                        {
+                            <i class="bi bi-check-circle-fill me-1" style="color:green"></i>
+                        }
+                        else if (notification.Type == ToastTypeVM.Error)
+                        {
+                            <i class="bi bi-x-circle-fill me-1" style="color:red"></i>
+                        }
+                        else if (notification.Type == ToastTypeVM.Info)
+                        {
+                            <i class="bi bi-info-circle-fill me-1" style="color:cornflowerblue"></i>
+                        }
                         <strong class="me-auto">@notification.Title</strong>
-                        <small class="text-muted">@notification.RightText</small>
+                        <small>@notification.RightText</small>
                         <button type="button" @onclick="() => RemoveToast(notification)" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                     <div class="toast-body">
                         @notification.Message
+                    </div>
+                    <div class="toast-progress">
+                        <div class="toast-progress-bar" style="animation: decrease @getSeconds()s linear forwards;background:@getProgressBarColor(notification);"></div>
                     </div>
                 </div>
             }
@@ -26,11 +43,20 @@
 @code {
     private List<ToastNotification>? Notifications { get; set; } = new List<ToastNotification>();
 
+    [Parameter]
+    public int DelayTime { get; set; } = 1000000;
+
+    private string getSeconds()
+    {
+        return ((int)(DelayTime / 1000)).ToString();
+    }
+
     public async Task AddToast(ToastNotification notification)
     {
         if(Notifications is not null)
         {
             notification.IsShow = true;
+            notification.Message = Guid.NewGuid().ToString();
             Notifications.Add(notification);
             await ShowToast(notification);
         }
@@ -41,7 +67,7 @@
         if (Notifications is not null)
         {
             await InvokeAsync(StateHasChanged);
-            await Task.Delay(5000);
+            await Task.Delay(DelayTime);
             notification.IsShow = false;
             await InvokeAsync(StateHasChanged);
         }
@@ -55,6 +81,22 @@
             Notifications.Remove(notification);
             await InvokeAsync(StateHasChanged);
         }
-        
+    }
+
+    private string getProgressBarColor(ToastNotification notification)
+    {
+        if(notification.Type == ToastTypeVM.Success)
+        {
+            return "green";
+        }
+        else if(notification.Type == ToastTypeVM.Error)
+        {
+            return "red";
+        }
+        else if(notification.Type == ToastTypeVM.Info)
+        {
+            return "cornflowerblue";
+        }
+        return "black";
     }
 }

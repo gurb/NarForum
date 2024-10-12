@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.SignalR.Client;
 @using System.Text.Json
 @inject HttpClient Http
+@inject ToastService ToastService;
 @inject IConfiguration Configuration
 @inject IJSRuntime _jSRuntime
 @inject LocalStorageService LocalStorage
@@ -21,7 +22,7 @@
                 <li><a href="/" class="nav-link px-2 text-white top-nav-menu-link">Forum</a></li>
                 <li><a href="blog" class="nav-link px-2 text-white top-nav-menu-link">Blog</a></li>
                 <li><a href="#" class="nav-link px-2 text-white top-nav-menu-link">Buy Now</a></li>
-                <li><a href="#" class="nav-link px-2 text-white top-nav-menu-link">FAQs</a></li>
+                <li><a @onclick="() => AddToast()" class="nav-link px-2 text-white top-nav-menu-link">Add Toast</a></li>
             </ul>
 
             @* <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -584,5 +585,16 @@
         {
             await hubNotificationConnection.SendAsync("ClearNotifications");
         }
+    }
+
+    public void AddToast()
+    {
+        ToastService.AddNotification(new Models.Toast.ToastNotification
+        {
+            Title = "Successfully",
+            Type = ToastTypeVM.Success,
+            Message = "That's great",
+            RightText = DateTime.UtcNow.ToString()
+        });
     }
 }

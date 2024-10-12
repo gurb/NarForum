@@ -84,6 +84,9 @@
     --color-removed-post-fg: #666;
     --color-forum-logo-footer-bg: #34485f;
     --color-active-page-link-fg: #fff;
+    --color-toast-bg: #ffffffd9;
+    --color-toast-header-bg: #ffffffd9;
+    --color-toast-header-fg: #6c757d;
 }
 
 [data-theme="dark"] {
@@ -173,6 +176,9 @@
     --color-removed-post-fg: #eee;
     --color-forum-logo-footer-fg: #000000;
     --color-active-page-link-fg: #fff;
+    --color-toast-bg: #37485ed9;
+    --color-toast-header-bg: #37485ed9;
+    --color-toast-header-fg: #f1f1f1;
 }
 
 html, body {
@@ -1865,4 +1871,41 @@ select.form-select.select-category {
 .toast-container {
     z-index: 2000;
     top:85px;
+}
+
+.toast {
+    background: var(--color-toast-bg)!important;
+}
+
+.toast-header {
+    background: var(--color-toast-header-bg)!important;
+    color: var(--color-toast-header-fg)!important;
+}
+
+.toast-body {
+    color: var(--color-fg) !important;
+}
+
+.toast-progress {
+    width: 100%;
+    height: 3px;
+    background: var(--color-bg);
+}
+
+.toast-progress-bar {
+    width: 100%;
+    height: 3px;
+    background: #ccc;
+}
+
+
+
+@keyframes decrease {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
 }
