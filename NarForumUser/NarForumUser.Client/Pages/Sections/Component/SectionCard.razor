@@ -2,8 +2,6 @@
 @using NarForumUser.Client.Pages.Category.Modal;
 @using NarForumUser.Client.Services.UI
 
-
-
 <div class="row">
     <div class="col-12 text-end">
         <AuthorizeView>
@@ -92,7 +90,7 @@ else
     [Inject] 
     RefreshStateService RefreshStateService { get; set; }
 
-    private bool min768;
+    private bool min768 = true;
 
     private void OpenModal()
     {

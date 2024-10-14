@@ -1,4 +1,5 @@
-﻿using NarForumAdmin.Models.Heading;
+﻿using NarForumAdmin.Models;
+using NarForumAdmin.Models.Heading;
 using NarForumAdmin.Models.Post;
 using NarForumAdmin.Services.Base;
 
@@ -18,7 +19,7 @@ namespace NarForumAdmin.Contracts
 
 
         // commands
-        Task<ApiResponse<Guid>> CreatePost(PostVM post);
+        Task<ApiResponseVM> CreatePost(PostVM post);
         Task RemovePost(RemovePostCommandVM post);
 
     }

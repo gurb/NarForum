@@ -1,7 +1,9 @@
 ﻿@using Microsoft.Net.Http.Headers
 @using System.Text.RegularExpressions
 @{
+
     Boolean isBot = false;
+    Boolean isSSR = true;
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
     var userAgent = HttpContextAccessor?.HttpContext?.Request.Headers[HeaderNames.UserAgent];
     if (userAgent.HasValue)
@@ -56,20 +58,26 @@
 
 <body class="d-flex flex-column min-h-100">
     <div id="app" class="h-100">
-    <CascadingValue Value="isBot">
+    <CascadingValue Value="isBot" Name="BotParameter">
+            <CascadingValue Value="isSSR" Name="SSRParameter">
         @if (isBot)
         {
             <Routes @rendermode="new InteractiveWebAssemblyRenderMode(prerender: true)" />
         }
         else
         {
-            <Routes @rendermode="new InteractiveWebAssemblyRenderMode(prerender: false)" />
+            <Routes @rendermode="new InteractiveAutoRenderMode(prerender: true)" />
             @* <div id="webassembly-loading-spinner">
                 <p>Loading...</p>
             </div> *@
         }
+        </CascadingValue>
     </CascadingValue>
     </div>
+
+    @{
+        isSSR = false;
+    }
 
     @* <Routes @rendermode="InteractiveWebAssembly" /> *@
     @* <script src="_framework/blazor.web.js"></script> *@
@@ -100,6 +108,10 @@
                 document.querySelector("html").setAttribute("data-theme", theme);
             }
 
+            var theme = localStorage.getItem('theme');
+            if(theme != null) {
+                setTheme(theme);
+            }
         </script>
     }
 </body>

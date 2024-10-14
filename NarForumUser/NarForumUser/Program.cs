@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddHttpContextAccessor();
@@ -25,6 +26,7 @@ builder.Services.AddScoped<LocalStorageService>();
 builder.Services.AddScoped<RefreshStateService>();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
+//builder.Services.AddScoped<AuthenticationStateProvider, PrerenderedAuthenticationStateProvider>();
 //builder.Services.AddScoped<AuthenticationStateProvider, PrerenderedAuthenticationStateProvider>();
 
 
@@ -63,7 +65,6 @@ builder.Services.AddAuthorization();
 builder.Services.AddAuthorizationCore();
 
 
-builder.Services.AddScoped<AuthenticationStateProvider, PrerenderedAuthenticationStateProvider>();
 
 if (builder.Environment.IsStaging() || builder.Environment.IsProduction())
 {
@@ -94,6 +95,7 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
+    .AddInteractiveServerRenderMode()
     .AddAdditionalAssemblies(typeof(NarForumUser.Client._Imports).Assembly);
 
 app.Run();

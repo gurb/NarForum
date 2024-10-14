@@ -87,6 +87,10 @@
     --color-toast-bg: #ffffffd9;
     --color-toast-header-bg: #ffffffd9;
     --color-toast-header-fg: #6c757d;
+    --color-cookie-box-bg: #f8f9f9;
+    --color-cookie-box-border: #ccc;
+    --color-skeleton-0-bg: hsl(200, 20%, 70%);
+    --color-skeleton-100-bg: hsl(200, 20%, 95%);
 }
 
 [data-theme="dark"] {
@@ -179,6 +183,10 @@
     --color-toast-bg: #37485ed9;
     --color-toast-header-bg: #37485ed9;
     --color-toast-header-fg: #f1f1f1;
+    --color-cookie-box-bg: #324153;
+    --color-cookie-box-border: #232f3dc9;
+    --color-skeleton-0-bg: hsl(212.31deg 18.17% 54.91%);
+    --color-skeleton-100-bg: hsl(212.31deg 9.76% 36.69%);
 }
 
 html, body {
@@ -712,11 +720,11 @@ span.heading-card-status {
 
 @keyframes skeleton-loading {
     0% {
-        background-color: hsl(200, 20%, 70%);
+        background-color: var(--color-skeleton-0-bg);
     }
 
     100% {
-        background-color: hsl(200, 20%, 95%);
+        background-color: var(--color-skeleton-100-bg);
     }
 }
 
@@ -1586,14 +1594,15 @@ i.bi.bi-file-earmark-text, i.bi.bi-file-earmark-lock2, i.bi.bi-journals, i.bi.bi
     width: 100%;
     padding: 10px;
     text-align: center;
-    z-index: 999;
+    z-index: 3000;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 20px;
-    border-top: 1px solid #ccc;
-    background: #f8f9f9;
+    border-top: 1px solid var(--color-cookie-box-border);
+    background: var(--color-cookie-box-bg);
+    color: var(--color-fg);
 }
 
 .cookie-size {
@@ -1908,4 +1917,9 @@ select.form-select.select-category {
     to {
         width: 0%;
     }
+}
+
+
+.loading-spinner-bg {
+    color: #f1f1f1;
 }

@@ -1,6 +1,7 @@
 ﻿@page "/create-heading"
 @page "/create-heading/{CategoryName}-{CategoryId:int}"
 @using System.Text.RegularExpressions
+@using NarForumUser.Client.Services.Common
 
 @if(CategoryName != null)
 {
@@ -68,6 +69,9 @@ else
     [Inject]
     public NavigationManager? NavigationManager { get; set; }
 
+    [Inject]
+    public ToastService? ToastService { get; set; }
+
     CreatePostForm? createPostForm;
     public PostVM CreateModel { get; set; } = new PostVM();
 
@@ -108,9 +112,23 @@ else
             Content = Model.Content
         };
 
-        var result = await HeadingService.CreateHeading(heading);
+        var response = await HeadingService.CreateHeading(heading);
 
-        NavigationManager.NavigateTo($"/category/{CategoryName.ToFriendlyUrl()}-{CategoryId}");
+        if(response.IsSuccess)
+        {
+            if (ToastService is not null)
+            {
+                ToastService.CreateSuccessToast("Created Heading", "Heading is created successfully");
+            }
+            NavigationManager.NavigateTo($"/category/{CategoryName.ToFriendlyUrl()}-{CategoryId}");
+        }
+        else
+        {
+            if (ToastService is not null)
+            {
+                ToastService.CreateErrorToast("Error while creating heading", response.Message);
+            }
+        }
     }
 
     private string GenerateContentFromDisplayContent(string displayContent)

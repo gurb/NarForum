@@ -17,7 +17,7 @@ namespace NarForumUser.Client.Contracts
         Task<HeadingsPaginationVM> GetHeadingsByUserNameWithPagination(string userName, int pageIndex, int pageSize);
 
         // commands
-        Task<ApiResponse<Guid>> CreateHeading(HeadingVM heading);
+        Task<ApiResponseVM> CreateHeading(HeadingVM heading);
         Task<ApiResponseVM> LockHeading(LockHeadingCommandVM command);
         Task<ApiResponseVM> PinHeading(PinHeadingCommandVM command);
 

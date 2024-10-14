@@ -3,6 +3,7 @@ using Application.Features.Post.Commands.CreatePost;
 using Application.Features.Post.Commands.RemovePost;
 using Application.Features.Post.Queries.GetAllPosts;
 using Application.Features.Post.Queries.GetPostsWithPagination;
+using Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -84,14 +85,11 @@ namespace Api.Controllers
             return posts;
         }
 
-
         [HttpPost]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public async Task<ActionResult> Create(CreatePostCommand command)
+        public async Task<ApiResponse> Create(CreatePostCommand command)
         {
             var response = await _mediator.Send(command);
-            return Ok(response);
+            return response;
         }
 
         [HttpPost("RemovePost")]

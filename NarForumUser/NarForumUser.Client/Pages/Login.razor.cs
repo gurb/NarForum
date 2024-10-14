@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using NarForumUser.Client.Services.UI;
 using NarForumUser.Client.Models.Logo;
 using NarForumUser.Client.Services;
+using NarForumUser.Client.Models.Toast;
 
 namespace NarForumUser.Client.Pages;
 
@@ -26,6 +27,9 @@ public partial class Login: IAsyncDisposable
     private HubConnection? hubConnection;
     [Inject]
     LocalStorageService localStorage { get; set; }
+
+    [Inject]
+    ToastService ToastService { get; set; }
 
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
 
@@ -69,6 +73,19 @@ public partial class Login: IAsyncDisposable
                 if(AuthorizationService is not null)
                 {
                     await AuthorizationService.SetPermissions(username);
+                }
+
+                if(ToastService is not null)
+                {
+                    ToastService.AddNotification(
+                        new ToastNotification
+                        {
+                            Title = "Success",
+                            Message = "Successfully logged in",
+                            DateTime = DateTime.Now,
+                            Type = Models.Enums.ToastTypeVM.Success
+                        }
+                    );
                 }
             }
         }

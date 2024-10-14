@@ -15,20 +15,16 @@
 @code {
     bool showBanner = false;
 
-    protected async override Task OnAfterRenderAsync(bool firstRender)
+    protected async override Task OnInitializedAsync()
     {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if(firstRender)
+        var cookiePolicyAccepted = await JS.InvokeAsync<string>("GetCookiePolicyAccepted");
+        if (cookiePolicyAccepted == null)
         {
-            var cookiePolicyAccepted = await JS.InvokeAsync<string>("GetCookiePolicyAccepted");
-            if (cookiePolicyAccepted == null)
-            {
-                showBanner = true;
-            }
+            showBanner = true;
         }
+        await base.OnInitializedAsync();
     }
-
+    
     private async Task AcceptMessage()
     {
         await JS.InvokeVoidAsync("SetCookiePolicyAccepted");

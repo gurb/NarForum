@@ -119,12 +119,10 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public async Task<ActionResult> Create(CreateHeadingCommand command)
+        public async Task<ApiResponse> Create(CreateHeadingCommand command)
         {
             var response = await _mediator.Send(command);
-            return Ok(response);
+            return response;
         }
 
         [HttpPost("RemoveHeading")]

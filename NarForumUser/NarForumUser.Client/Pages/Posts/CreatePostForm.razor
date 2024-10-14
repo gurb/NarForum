@@ -1,4 +1,5 @@
 ﻿@using System.Text.RegularExpressions
+@using NarForumUser.Client.Services.Common
 @inject IJSRuntime JS
 @implements IAsyncDisposable
 
@@ -85,6 +86,9 @@
 
 	[Parameter]
 	public EventCallback<int> AddData { get; set; }
+
+	[Inject]
+	public ToastService? ToastService { get; set; }
 
 	AddImageModal? addImageModal;
 
@@ -227,12 +231,6 @@
 		return ids;
 	}
 
-	protected async Task AssignData()
-	{
-		
-	}
-
-
 	protected async Task HandleCreatePost()
 	{
 		PostVM? post;
@@ -246,11 +244,24 @@
 		post.Content = GenerateContentFromDisplayContent(Model.DisplayContent);
 		post.QuotePostIds = GetQuotePostIds(Model.DisplayContent);
 
-		var result = await PostService.CreatePost(post);
+		var response = await PostService.CreatePost(post);
+
+		if(response.IsSuccess)
+		{
+			if (ToastService is not null)
+			{
+				ToastService.CreateSuccessToast("Created Post", "The post is created successfully");
+			}
+		}
+		else
+		{
+			if (ToastService is not null)
+			{
+				ToastService.CreateErrorToast("Error while creating heading", response.Message);
+			}
+		}
 
 		await Callback.InvokeAsync();
-
-		// NavigationManager.NavigateTo($"/category/{CategoryName}");
 	}
 
 	async ValueTask IAsyncDisposable.DisposeAsync()

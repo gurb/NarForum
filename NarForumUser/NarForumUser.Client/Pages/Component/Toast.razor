@@ -56,7 +56,6 @@
         if(Notifications is not null)
         {
             notification.IsShow = true;
-            notification.Message = Guid.NewGuid().ToString();
             Notifications.Add(notification);
             await ShowToast(notification);
         }

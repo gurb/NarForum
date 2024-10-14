@@ -1,4 +1,5 @@
-﻿<Modal @ref="modal" ModalTitle="Add Section" Callback="@HandleRegister">
+﻿@using NarForumUser.Client.Services.Common
+<Modal @ref="modal" ModalTitle="Add Section" Callback="@HandleRegister">
     <EditForm Model="@Model" OnValidSubmit="HandleRegister">
         <DataAnnotationsValidator />
         <ValidationSummary />
@@ -19,6 +20,8 @@
     [Inject]
     private ISectionService SectionService { get; set; }
 
+    [Inject]
+    private ToastService? ToastService { get; set; }
 
     [Parameter]
     public EventCallback<int> Callback { get; set; }
@@ -49,6 +52,21 @@
         };
 
         var result = await SectionService.CreateSection(sectionVM);
+
+        if(result.Success)
+        {
+            if (ToastService is not null)
+            {
+                ToastService.CreateSuccessToast("Created Section", "The sections is created successfully");
+            }
+        }
+        else
+        {
+            if (ToastService is not null)
+            {
+                ToastService.CreateErrorToast("Error while creating section", result.Message);
+            }
+        }
 
         await Callback.InvokeAsync();
 

@@ -1,4 +1,14 @@
-﻿@if (Sections == null)
+﻿@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+
+@if(OperatingSystem.IsBrowser())
+{
+    <h1>WASM</h1>
+}
+else{
+    <h2>SERVER</h2>
+}
+
+@if (Sections == null)
 {
     <SkeletonSectionCard min768=min768></SkeletonSectionCard>
     <SkeletonCategoryCard ShowNumber=min768></SkeletonCategoryCard>
@@ -30,7 +40,7 @@ else
             </div>
         </Authorized>
     </AuthorizeView>
-    <div class="container-fluid">
+    <div class="container-fluid" data-permanent>
         @foreach (var sec in Sections)
         {
             <SectionCard Model="sec" Name='@sec.Name' Categories="Categories != null ? Categories?.Where(x => x.SectionId == sec.Id).ToList() : null"></SectionCard>
@@ -43,7 +53,3 @@ else
 }
 
 <MediaQuery Width=768 @bind-Value=min768></MediaQuery>
-
-@code {
-    public bool min768 { get; set; } = true;
-}

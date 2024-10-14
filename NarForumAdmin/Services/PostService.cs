@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NarForumAdmin.Contracts;
+using NarForumAdmin.Models;
 using NarForumAdmin.Models.Post;
 using NarForumAdmin.Services.Base;
 using NarForumAdmin.Services.Common;
@@ -15,20 +16,21 @@ public class PostService : BaseHttpService, IPostService
         _mapper = mapper;
     }
 
-    public async Task<ApiResponse<Guid>> CreatePost(PostVM post)
+    public async Task<ApiResponseVM> CreatePost(PostVM post)
     {
         try
         {
             var createPostCommand = _mapper.Map<CreatePostCommand>(post);
-            await _client.PostsAsync(createPostCommand);
-            return new ApiResponse<Guid>
-            {
-                Success = true
-            };
+            var response = await _client.PostsAsync(createPostCommand);
+            return _mapper.Map<ApiResponseVM>(response);
         }
         catch (ApiException ex)
         {
-            return ConvertApiExceptions<Guid>(ex);
+            return new ApiResponseVM
+            {
+                IsSuccess = false,
+                Message = ex.Message,
+            };
         }
     }
 

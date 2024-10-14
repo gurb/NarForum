@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Identity;
 using Application.Contracts.Persistence;
+using Application.Models;
 using AutoMapper;
 using Domain;
 using MediatR;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Heading.Commands.CreateHeading
 {
-    public class CreateHeadingCommandHandler : IRequestHandler<CreateHeadingCommand, Guid>
+    public class CreateHeadingCommandHandler : IRequestHandler<CreateHeadingCommand, ApiResponse>
     {
         private readonly IMapper _mapper;
         private readonly IHeadingRepository _HeadingRepository;
@@ -28,58 +29,77 @@ namespace Application.Features.Heading.Commands.CreateHeading
             _CategoryRepository = categoryRepository;
         }
 
-        public async Task<Guid> Handle(CreateHeadingCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponse> Handle(CreateHeadingCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetCurrentUser();
+            ApiResponse response = new ApiResponse();
 
-            // convert to domain entity object
-            var Heading = _mapper.Map<Domain.Heading>(request);
-            Heading.UserName = user.UserName;
-            if (user.Id != null)
+            try
             {
-                Heading.UserId = new Guid(user.Id);
-            }
+                var user = await _userService.GetCurrentUser();
 
-            var category = await _CategoryRepository.GetByIdAsync(Heading.CategoryId);
-
-            // add to database
-            await _HeadingRepository.CreateAsync(Heading);
-            
-            if (request.Content != null)
-            {
-                Domain.Post headingPost = new Domain.Post
-                {
-                    HeadingId = Heading.Id,
-                    Content = request.Content,
-                    UserName = user.UserName,
-                };
-
+                // convert to domain entity object
+                var Heading = _mapper.Map<Domain.Heading>(request);
+                Heading.UserName = user.UserName;
                 if (user.Id != null)
                 {
-                    headingPost.UserId = new Guid(user.Id);
+                    Heading.UserId = new Guid(user.Id);
                 }
 
-                await _PostRepository.CreateAsync(headingPost);
+                var category = await _CategoryRepository.GetByIdAsync(Heading.CategoryId);
 
-                Heading.MainPostId = headingPost.Id;
-                Heading.LastPostId = headingPost.Id;
+                // add to database
+                await _HeadingRepository.CreateAsync(Heading);
 
-                await _HeadingRepository.UpdateAsync(Heading);
+                if (request.Content != null)
+                {
+                    Domain.Post headingPost = new Domain.Post
+                    {
+                        HeadingId = Heading.Id,
+                        Content = request.Content,
+                        UserName = user.UserName,
+                    };
 
-                await _HeadingRepository.UpdateHeadingWhenCreatePost(Heading.Id, headingPost.UserName, headingPost.UserId.Value, headingPost.Id);
-                await _CategoryRepository.UpdateCategoryWhenCreatePost(Heading.CategoryId, headingPost.UserName, headingPost.UserId.Value, Heading.Id, headingPost.Id);
+                    if (user.Id != null)
+                    {
+                        headingPost.UserId = new Guid(user.Id);
+                    }
+
+                    await _PostRepository.CreateAsync(headingPost);
+
+                    Heading.MainPostId = headingPost.Id;
+                    Heading.LastPostId = headingPost.Id;
+
+                    await _HeadingRepository.UpdateAsync(Heading);
+
+                    await _HeadingRepository.UpdateHeadingWhenCreatePost(Heading.Id, headingPost.UserName, headingPost.UserId.Value, headingPost.Id);
+                    await _CategoryRepository.UpdateCategoryWhenCreatePost(Heading.CategoryId, headingPost.UserName, headingPost.UserId.Value, Heading.Id, headingPost.Id);
+                }
+                else
+                {
+                    response.Message = "The content is cannot be null or empty";
+                    response.IsSuccess = false;
+
+                    return response;
+                }
+
+                if (Heading.Id != null && category != null)
+                {
+                    await _CategoryRepository.IncreaseHeadingCounter(Heading.CategoryId);
+                    await _HeadingRepository.IncreasePostCounter(Heading.Id);
+                    await _CategoryRepository.IncreasePostCounter(Heading.Id);
+                    await _userService.IncreaseHeadingPostCounter(user.Id);
+                }
+
+                response.Message = "The heading is created successfully";
+
             }
-
-            if (Heading.Id != null && category != null)
+            catch (Exception ex)
             {
-                await _CategoryRepository.IncreaseHeadingCounter(Heading.CategoryId);
-                await _HeadingRepository.IncreasePostCounter(Heading.Id);
-                await _CategoryRepository.IncreasePostCounter(Heading.Id);
-                await _userService.IncreaseHeadingPostCounter(user.Id);
+                response.Message = ex.Message;
+                response.IsSuccess = false;
             }
 
-            // return record id
-            return Heading.Id;
+            return response;
         }
     }
 }

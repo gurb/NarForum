@@ -16,20 +16,21 @@ namespace NarForumAdmin.Services
             _mapper = mapper;
         }
 
-        public async Task<ApiResponse<Guid>> CreateHeading(HeadingVM post)
+        public async Task<ApiResponseVM> CreateHeading(HeadingVM post)
         {
             try
             {
                 var createHeadingCommand = _mapper.Map<CreateHeadingCommand>(post);
-                await _client.HeadingsAsync(createHeadingCommand);
-                return new ApiResponse<Guid>
-                {
-                    Success = true
-                };
+                var response = await _client.HeadingsAsync(createHeadingCommand);
+                return _mapper.Map<ApiResponseVM>(response);
             }
             catch (ApiException ex)
             {
-                return ConvertApiExceptions<Guid>(ex);
+                return new ApiResponseVM
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
             }
         }
         public async Task<HeadingVM> GetHeadingById(Guid id)

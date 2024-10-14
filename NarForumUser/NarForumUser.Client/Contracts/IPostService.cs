@@ -1,5 +1,5 @@
-﻿using NarForumUser.Client.Models.Post;
-using NarForumUser.Client.Services.Base;
+﻿using NarForumUser.Client.Models;
+using NarForumUser.Client.Models.Post;
 
 namespace NarForumUser.Client.Contracts
 {
@@ -12,11 +12,7 @@ namespace NarForumUser.Client.Contracts
         Task<PostsPaginationVM> GetPostsByHeadingIdWithPagination(Guid id, int pageIndex, int pageSize);
         Task<PostsPaginationVM> GetPostsByUserNameWithPagination(string userName, int pageIndex, int pageSize);
 
-
-
         // commands
-        Task<ApiResponse<Guid>> CreatePost(PostVM post);
-
-
+        Task<ApiResponseVM> CreatePost(PostVM post);
     }
 }

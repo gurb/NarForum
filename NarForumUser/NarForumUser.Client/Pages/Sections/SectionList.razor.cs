@@ -5,10 +5,16 @@ using NarForumUser.Client.Pages.Sections.Modal;
 using NarForumUser.Client.Services.UI;
 using Microsoft.AspNetCore.Components;
 
+
 namespace NarForumUser.Client.Pages.Sections
 {
     public partial class SectionList
     {
+        public bool min768 { get; set; } = false;
+
+        [CascadingParameter(Name = "SSRParameter")]
+        public bool IsSSR { get; set; }
+
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
@@ -32,15 +38,27 @@ namespace NarForumUser.Client.Pages.Sections
 
         public string Message { get; set; } = string.Empty;
 
+        bool onInit = false;
+
         protected override async Task OnInitializedAsync()
         {
-
             RefreshStateService.RefreshSectionList += Refresh;
+            
             Sections = await SectionService.GetSections();
             Sections = Sections.OrderBy(x => x.OrderIndex).ToList();
             Categories = await CategoryService.GetSectionCategories();
             Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
             await CheckUserImageProfile();
+
+            onInit = true;
+        }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            if (onInit)
+            {
+
+            }
         }
 
         private async void Refresh()

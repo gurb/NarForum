@@ -1,4 +1,5 @@
 ﻿@using NarForumUser.Client.Models.Category
+@using NarForumUser.Client.Services.Common
 @using NarForumUser.Client.Services.UI
 <Modal @ref="modal" ModalTitle="Update Category" Callback="@HandleUpdate">
     @if(Model is not null){
@@ -32,6 +33,9 @@
 
     [Inject]
     private ICategoryService? CategoryService { get; set; }
+
+    [Inject]
+    private ToastService? ToastService { get; set; }
 
     [Parameter]
     public EventCallback<int> Callback { get; set; }
@@ -71,6 +75,11 @@
                 if(Callback.HasDelegate)
                 {
                     await Callback.InvokeAsync();
+                }
+
+                if(ToastService is not null)
+                {
+                    ToastService.CreateSuccessToast("Updated Category", "The category is updated successfully");
                 }
 
                 CloseModal();

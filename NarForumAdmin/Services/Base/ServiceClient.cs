@@ -25,363 +25,363 @@ namespace NarForumAdmin.Services.Base
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial interface IClient
     {
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<AuthResponse> LoginAsync(AuthRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<AuthResponse> LoginAsync(AuthRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RegisterAsync(RegistrationRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RegisterAsync(RegistrationRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogCategoryDTO>> GetBlogCategoriesAsync(GetBlogCategoriesQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogCategoryDTO>> GetBlogCategoriesAsync(GetBlogCategoriesQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<BlogCategoryDTO> GetBlogCategoryAsync(GetBlogCategoryQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<BlogCategoryDTO> GetBlogCategoryAsync(GetBlogCategoryQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddBlogCategoryAsync(CreateBlogCategoryCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddBlogCategoryAsync(CreateBlogCategoryCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateBlogCategoryAsync(UpdateBlogCategoryCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateBlogCategoryAsync(UpdateBlogCategoryCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveBlogCategoryAsync(RemoveBlogCategoryCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveBlogCategoryAsync(RemoveBlogCategoryCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogCommentDTO>> BlogCommentsAsync(GetBlogCommentsQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogCommentDTO>> BlogCommentsAsync(GetBlogCommentsQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<BlogCommentsPaginationDTO> GetBlogCommentsWithPaginationAsync(GetBlogCommentsWithPaginationQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<BlogCommentsPaginationDTO> GetBlogCommentsWithPaginationAsync(GetBlogCommentsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateBlogCommentAsync(CreateBlogCommentCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateBlogCommentAsync(CreateBlogCommentCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateBlogCommentAsync(UpdateBlogCommentCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateBlogCommentAsync(UpdateBlogCommentCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveBlogCommentAsync(RemoveBlogCommentCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveBlogCommentAsync(RemoveBlogCommentCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogPostDTO>> BlogPostsAsync(GetBlogPostsQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogPostDTO>> BlogPostsAsync(GetBlogPostsQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<BlogPostDTO> GetBlogPostAsync(GetBlogPostQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<BlogPostDTO> GetBlogPostAsync(GetBlogPostQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<BlogPostsPaginationDTO> GetBlogPostsWithPaginationAsync(GetBlogPostsWithPaginationQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<BlogPostsPaginationDTO> GetBlogPostsWithPaginationAsync(GetBlogPostsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateBlogPostAsync(CreateBlogPostCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateBlogPostAsync(CreateBlogPostCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateBlogPostAsync(UpdateBlogPostCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateBlogPostAsync(UpdateBlogPostCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveBlogPostAsync(RemoveBlogPostCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveBlogPostAsync(RemoveBlogPostCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> PublishBlogPostAsync(PublishBlogPostCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> PublishBlogPostAsync(PublishBlogPostCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> DraftBlogPostAsync(DraftBlogPostCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> DraftBlogPostAsync(DraftBlogPostCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> CategoriesAllAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> CategoriesAllAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CategoriesAsync(CreateCategoryCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CategoriesAsync(CreateCategoryCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetSectionCategoriesAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetSectionCategoriesAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<CategoryDTO> GetCategoryByNameAsync(string name);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<CategoryDTO> GetCategoryByNameAsync(string name, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<CategoryDTO> GetCategoryByIntIdAsync(int? id);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<CategoryDTO> GetCategoryByIntIdAsync(int? id, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<CategoriesPaginationDTO> GetCategoriesWithPaginationAsync(GetCategoriesWithPaginationQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<CategoriesPaginationDTO> GetCategoriesWithPaginationAsync(GetCategoriesWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(System.Guid? parentCategoryId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(System.Guid? parentCategoryId, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByNameAsync(string name);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByNameAsync(string name, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByIntIdAsync(int? id);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByIntIdAsync(int? id, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateCategoryAsync(UpdateCategoryCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateCategoryAsync(UpdateCategoryCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RemoveCategoryAsync(RemoveCategoryCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RemoveCategoryAsync(RemoveCategoryCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ContactDTO>> GetContactsAsync(GetContactsQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ContactDTO>> GetContactsAsync(GetContactsQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ContactDTO> GetContactAsync(GetContactQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ContactDTO> GetContactAsync(GetContactQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ContactsPaginationDTO> GetContactsWithPaginationAsync(GetContactsWithPaginationQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ContactsPaginationDTO> GetContactsWithPaginationAsync(GetContactsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateContactAsync(CreateContactCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateContactAsync(CreateContactCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveContactAsync(RemoveContactCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveContactAsync(RemoveContactCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(System.Guid? headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByUserNameAsync(string userName);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByUserNameAsync(string userName, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(System.Guid? headingId, string userName);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(System.Guid? headingId, string userName, System.Threading.CancellationToken cancellationToken);
 
@@ -394,201 +394,201 @@ namespace NarForumAdmin.Services.Base
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task AddFavoriteAsync(AddFavoriteCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UploadImageFileAsync(UploadImageRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UploadImageFileAsync(UploadImageRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetImageUrlsFromGalleryAsync(string userId, string dir);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetImageUrlsFromGalleryAsync(string userId, string dir, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task UserProfileAsync(string userId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task UserProfileAsync(string userId, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task UserGalleryAsync(string userId, string filename);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task UserGalleryAsync(string userId, string filename, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task LogoAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task LogoAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ForumSettingsDTO> GetForumSettingsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ForumSettingsDTO> GetForumSettingsAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateForumSettingsAsync(UpdateForumSettingsCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateForumSettingsAsync(UpdateForumSettingsCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> HeadingsAllAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> HeadingsAllAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Created</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task HeadingsAsync(CreateHeadingCommand body);
+        System.Threading.Tasks.Task<ApiResponse> HeadingsAsync(CreateHeadingCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Created</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task HeadingsAsync(CreateHeadingCommand body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ApiResponse> HeadingsAsync(CreateHeadingCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(System.Guid? headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(System.Guid? categoryId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(System.Guid? categoryId, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryNameAsync(string categoryName);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryNameAsync(string categoryName, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsWithPaginationAsync(GetHeadingsWithPaginationQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsWithPaginationAsync(GetHeadingsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryIdWithPaginationAsync(System.Guid? categoryId, int? pageIndex, int? pageSize);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryIdWithPaginationAsync(System.Guid? categoryId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByUserNameWithPaginationAsync(string userName, int? pageIndex, int? pageSize);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByUserNameWithPaginationAsync(string userName, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RemoveHeadingAsync(RemoveHeadingCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RemoveHeadingAsync(RemoveHeadingCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateHeadingAsync(UpdateHeadingCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateHeadingAsync(UpdateHeadingCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> LockHeadingAsync(LockHeadingCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> LockHeadingAsync(LockHeadingCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> PinHeadingAsync(PinHeadingCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> PinHeadingAsync(PinHeadingCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(System.Guid? headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByUserNameAsync(string userName);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByUserNameAsync(string userName, System.Threading.CancellationToken cancellationToken);
 
@@ -601,408 +601,408 @@ namespace NarForumAdmin.Services.Base
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task AddLikeAsync(AddLikeCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<LogoDTO> GetLogoAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<LogoDTO> GetLogoAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddLogoAsync(AddLogoCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddLogoAsync(AddLogoCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveLogoAsync(RemoveLogoCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveLogoAsync(RemoveLogoCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateLogoAsync(UpdateLogoCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateLogoAsync(UpdateLogoCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateChatAsync(CreateChatRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateChatAsync(CreateChatRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> ChangeChatStatusAsync(ChangeChatStatusRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> ChangeChatStatusAsync(ChangeChatStatusRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddMessageAsync(AddMessageRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddMessageAsync(AddMessageRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetMessageResponse> GetMessagesAsync(string chatId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetMessageResponse> GetMessagesAsync(string chatId, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetMessageResponse> GetMessagesByChatIdsAsync(System.Collections.Generic.IEnumerable<string> body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetMessageResponse> GetMessagesByChatIdsAsync(System.Collections.Generic.IEnumerable<string> body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetChatResponse> GetChatsAsync(string userId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetChatResponse> GetChatsAsync(string userId, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<StaticPageDTO>> GetStaticPagesAsync(GetStaticPagesQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<StaticPageDTO>> GetStaticPagesAsync(GetStaticPagesQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StaticPageDTO> GetStaticPageAsync(GetStaticPageQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StaticPageDTO> GetStaticPageAsync(GetStaticPageQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StaticPagesPaginationDTO> GetStaticPagesWithPaginationAsync(GetStaticPagesWithPaginationQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StaticPagesPaginationDTO> GetStaticPagesWithPaginationAsync(GetStaticPagesWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateStaticPageAsync(CreateStaticPageCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateStaticPageAsync(CreateStaticPageCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateStaticPageAsync(UpdateStaticPageCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateStaticPageAsync(UpdateStaticPageCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveStaticPageAsync(RemoveStaticPageCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveStaticPageAsync(RemoveStaticPageCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> PublishStaticPageAsync(PublishStaticPageCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> PublishStaticPageAsync(PublishStaticPageCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> DraftStaticPageAsync(DraftStaticPageCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> DraftStaticPageAsync(DraftStaticPageCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> ResetPermissionsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> ResetPermissionsAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RefreshPermissionsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RefreshPermissionsAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> SetPermissionAsync(SetPermissionRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> SetPermissionAsync(SetPermissionRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetPermissionsResponse> GetPermissionsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetPermissionsResponse> GetPermissionsAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetPermissionsResponse> GetPermissionsByRoleIdAsync(string roleId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetPermissionsResponse> GetPermissionsByRoleIdAsync(string roleId, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddPermissionDefinitionAsync(AddPermissionDefinitionRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddPermissionDefinitionAsync(AddPermissionDefinitionRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> ChangePermissionStatusAsync(string permissionId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> ChangePermissionStatusAsync(string permissionId, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> DeletePermissionDefinitionAsync(DeletePermissionDefinitionRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> DeletePermissionDefinitionAsync(DeletePermissionDefinitionRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdatePermissionDefinitionAsync(UpdatePermissionDefinitionRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdatePermissionDefinitionAsync(UpdatePermissionDefinitionRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetPermissionDefinitionsResponse> GetPermissionDefinitionsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetPermissionDefinitionsResponse> GetPermissionDefinitionsAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> PostsAllAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> PostsAllAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Created</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task PostsAsync(CreatePostCommand body);
+        System.Threading.Tasks.Task<ApiResponse> PostsAsync(CreatePostCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Created</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task PostsAsync(CreatePostCommand body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ApiResponse> PostsAsync(CreatePostCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(System.Guid? headingId);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsWithPaginationAsync(GetPostsWithPaginationQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsWithPaginationAsync(GetPostsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(System.Guid? headingId, int? pageIndex, int? pageSize);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(System.Guid? headingId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByUserNameWithPaginationAsync(string userName, int? pageIndex, int? pageSize);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByUserNameWithPaginationAsync(string userName, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RemovePostAsync(RemovePostCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RemovePostAsync(RemovePostCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ReportDTO>> ReportsAsync(GetReportsQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ReportDTO>> ReportsAsync(GetReportsQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ReportDTO> GetReportAsync(GetReportQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ReportDTO> GetReportAsync(GetReportQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ReportsPaginationDTO> GetReportsWithPaginationAsync(GetReportsWithPaginationQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ReportsPaginationDTO> GetReportsWithPaginationAsync(GetReportsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateReportAsync(CreateReportCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateReportAsync(CreateReportCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveReportAsync(RemoveReportCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveReportAsync(RemoveReportCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddUserRoleAsync(AddRoleRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddUserRoleAsync(AddRoleRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateUserRoleAsync(UpdateRoleRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateUserRoleAsync(UpdateRoleRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveUserRoleAsync(RemoveRoleRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> RemoveUserRoleAsync(RemoveRoleRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetUserRolesResponse> GetUserRolesAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetUserRolesResponse> GetUserRolesAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SectionDTO>> SectionsAllAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SectionDTO>> SectionsAllAsync(System.Threading.CancellationToken cancellationToken);
 
@@ -1015,228 +1015,237 @@ namespace NarForumAdmin.Services.Base
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task SectionsAsync(CreateSectionCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<SectionsPaginationDTO> GetSectionsWithPaginationAsync(GetSectionsWithPaginationQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<SectionsPaginationDTO> GetSectionsWithPaginationAsync(GetSectionsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateSectionAsync(UpdateSectionCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateSectionAsync(UpdateSectionCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RemoveSectionAsync(RemoveSectionCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task RemoveSectionAsync(RemoveSectionCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<SmtpSettingsDTO> GetSmtpSettingsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<SmtpSettingsDTO> GetSmtpSettingsAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateSmtpSettingsAsync(UpdateSmtpSettingsCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateSmtpSettingsAsync(UpdateSmtpSettingsCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<AllStatsResponse> GetAllStatsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<AllStatsResponse> GetAllStatsAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StatsResponse> GetPostStatsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StatsResponse> GetPostStatsAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StatsResponse> GetCategoryStatsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StatsResponse> GetCategoryStatsAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StatsResponse> GetHeadingStatsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StatsResponse> GetHeadingStatsAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StatsResponse> GetSectionStatsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<StatsResponse> GetSectionStatsAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TrackingLogDTO>> GetTrackingLogsAsync(GetTrackingLogsQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TrackingLogDTO>> GetTrackingLogsAsync(GetTrackingLogsQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<TrackingLogDTO> GetTrackingLogAsync(GetTrackingLogQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<TrackingLogDTO> GetTrackingLogAsync(GetTrackingLogQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<TrackingLogsPaginationDTO> GetTrackingLogsWithPaginationAsync(GetTrackingLogsWithPaginationQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<TrackingLogsPaginationDTO> GetTrackingLogsWithPaginationAsync(GetTrackingLogsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddTrackingLogAsync(AddTrackingLogCommand body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> AddTrackingLogAsync(AddTrackingLogCommand body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserInfoResponse>> GetUsersByUserIdsAsync(System.Collections.Generic.IEnumerable<string> body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserInfoResponse>> GetUsersByUserIdsAsync(System.Collections.Generic.IEnumerable<string> body, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UsersPaginationDTO> GetUsersWithPaginationAsync(GetUsersWithPaginationQuery body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<UsersPaginationDTO> GetUsersWithPaginationAsync(GetUsersWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> ChangeUserSettingsAsync(ChangeUserSettingsRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> ChangeUserSettingsAsync(ChangeUserSettingsRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateUserAsync(UpdateUserRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> UpdateUserAsync(UpdateUserRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> BlockUserAsync(string body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> BlockUserAsync(string body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateResetPasswordRequestAsync(ResetPasswordRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateResetPasswordRequestAsync(ResetPasswordRequest body, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CheckResetPasswordRequestAsync(System.Guid? id);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CheckResetPasswordRequestAsync(System.Guid? id, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> ChangeUserPasswordAsync(System.Guid? id, string password, string confirmPassword);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> ChangeUserPasswordAsync(System.Guid? id, string password, string confirmPassword, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateConfirmRequestAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> CreateConfirmRequestAsync(System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> VerifyEmailAddressAsync(System.Guid? id);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponse> VerifyEmailAddressAsync(System.Guid? id, System.Threading.CancellationToken cancellationToken);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiUserRoleResponse> GetUserRoleAsync(GetApiUserRoleRequest body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiUserRoleResponse> GetUserRoleAsync(GetApiUserRoleRequest body, System.Threading.CancellationToken cancellationToken);
 
@@ -1274,7 +1283,7 @@ namespace NarForumAdmin.Services.Base
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<AuthResponse> LoginAsync(AuthRequest body)
         {
@@ -1282,7 +1291,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<AuthResponse> LoginAsync(AuthRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -1356,7 +1365,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> RegisterAsync(RegistrationRequest body)
         {
@@ -1364,7 +1373,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> RegisterAsync(RegistrationRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -1438,7 +1447,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogCategoryDTO>> GetBlogCategoriesAsync(GetBlogCategoriesQuery body)
         {
@@ -1446,7 +1455,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogCategoryDTO>> GetBlogCategoriesAsync(GetBlogCategoriesQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -1520,7 +1529,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<BlogCategoryDTO> GetBlogCategoryAsync(GetBlogCategoryQuery body)
         {
@@ -1528,7 +1537,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<BlogCategoryDTO> GetBlogCategoryAsync(GetBlogCategoryQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -1602,7 +1611,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> AddBlogCategoryAsync(CreateBlogCategoryCommand body)
         {
@@ -1610,7 +1619,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> AddBlogCategoryAsync(CreateBlogCategoryCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -1684,7 +1693,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateBlogCategoryAsync(UpdateBlogCategoryCommand body)
         {
@@ -1692,7 +1701,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateBlogCategoryAsync(UpdateBlogCategoryCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -1766,7 +1775,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> RemoveBlogCategoryAsync(RemoveBlogCategoryCommand body)
         {
@@ -1774,7 +1783,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> RemoveBlogCategoryAsync(RemoveBlogCategoryCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -1848,7 +1857,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogCommentDTO>> BlogCommentsAsync(GetBlogCommentsQuery body)
         {
@@ -1856,7 +1865,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogCommentDTO>> BlogCommentsAsync(GetBlogCommentsQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -1930,7 +1939,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<BlogCommentsPaginationDTO> GetBlogCommentsWithPaginationAsync(GetBlogCommentsWithPaginationQuery body)
         {
@@ -1938,7 +1947,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<BlogCommentsPaginationDTO> GetBlogCommentsWithPaginationAsync(GetBlogCommentsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2012,7 +2021,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> CreateBlogCommentAsync(CreateBlogCommentCommand body)
         {
@@ -2020,7 +2029,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> CreateBlogCommentAsync(CreateBlogCommentCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2094,7 +2103,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateBlogCommentAsync(UpdateBlogCommentCommand body)
         {
@@ -2102,7 +2111,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateBlogCommentAsync(UpdateBlogCommentCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2176,7 +2185,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> RemoveBlogCommentAsync(RemoveBlogCommentCommand body)
         {
@@ -2184,7 +2193,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> RemoveBlogCommentAsync(RemoveBlogCommentCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2258,7 +2267,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogPostDTO>> BlogPostsAsync(GetBlogPostsQuery body)
         {
@@ -2266,7 +2275,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<BlogPostDTO>> BlogPostsAsync(GetBlogPostsQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2340,7 +2349,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<BlogPostDTO> GetBlogPostAsync(GetBlogPostQuery body)
         {
@@ -2348,7 +2357,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<BlogPostDTO> GetBlogPostAsync(GetBlogPostQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2422,7 +2431,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<BlogPostsPaginationDTO> GetBlogPostsWithPaginationAsync(GetBlogPostsWithPaginationQuery body)
         {
@@ -2430,7 +2439,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<BlogPostsPaginationDTO> GetBlogPostsWithPaginationAsync(GetBlogPostsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2504,7 +2513,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> CreateBlogPostAsync(CreateBlogPostCommand body)
         {
@@ -2512,7 +2521,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> CreateBlogPostAsync(CreateBlogPostCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2586,7 +2595,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateBlogPostAsync(UpdateBlogPostCommand body)
         {
@@ -2594,7 +2603,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateBlogPostAsync(UpdateBlogPostCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2668,7 +2677,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> RemoveBlogPostAsync(RemoveBlogPostCommand body)
         {
@@ -2676,7 +2685,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> RemoveBlogPostAsync(RemoveBlogPostCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2750,7 +2759,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> PublishBlogPostAsync(PublishBlogPostCommand body)
         {
@@ -2758,7 +2767,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> PublishBlogPostAsync(PublishBlogPostCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2832,7 +2841,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> DraftBlogPostAsync(DraftBlogPostCommand body)
         {
@@ -2840,7 +2849,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> DraftBlogPostAsync(DraftBlogPostCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -2914,7 +2923,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> CategoriesAllAsync()
         {
@@ -2922,7 +2931,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> CategoriesAllAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -2992,7 +3001,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> CategoriesAsync(CreateCategoryCommand body)
         {
@@ -3000,7 +3009,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> CategoriesAsync(CreateCategoryCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -3074,7 +3083,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetSectionCategoriesAsync()
         {
@@ -3082,7 +3091,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetSectionCategoriesAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -3152,7 +3161,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<CategoryDTO> GetCategoryByNameAsync(string name)
         {
@@ -3160,7 +3169,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<CategoryDTO> GetCategoryByNameAsync(string name, System.Threading.CancellationToken cancellationToken)
         {
@@ -3236,7 +3245,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<CategoryDTO> GetCategoryByIntIdAsync(int? id)
         {
@@ -3244,7 +3253,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<CategoryDTO> GetCategoryByIntIdAsync(int? id, System.Threading.CancellationToken cancellationToken)
         {
@@ -3320,7 +3329,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<CategoriesPaginationDTO> GetCategoriesWithPaginationAsync(GetCategoriesWithPaginationQuery body)
         {
@@ -3328,7 +3337,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<CategoriesPaginationDTO> GetCategoriesWithPaginationAsync(GetCategoriesWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -3402,7 +3411,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(System.Guid? parentCategoryId)
         {
@@ -3410,7 +3419,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByIdAsync(System.Guid? parentCategoryId, System.Threading.CancellationToken cancellationToken)
         {
@@ -3486,7 +3495,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByNameAsync(string name)
         {
@@ -3494,7 +3503,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetCategoriesByNameAsync(string name, System.Threading.CancellationToken cancellationToken)
         {
@@ -3570,7 +3579,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByIntIdAsync(int? id)
         {
@@ -3578,7 +3587,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<CategoryDTO>> GetParentCategoriesByIntIdAsync(int? id, System.Threading.CancellationToken cancellationToken)
         {
@@ -3654,7 +3663,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateCategoryAsync(UpdateCategoryCommand body)
         {
@@ -3662,7 +3671,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateCategoryAsync(UpdateCategoryCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -3736,7 +3745,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task RemoveCategoryAsync(RemoveCategoryCommand body)
         {
@@ -3744,7 +3753,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task RemoveCategoryAsync(RemoveCategoryCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -3812,7 +3821,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ContactDTO>> GetContactsAsync(GetContactsQuery body)
         {
@@ -3820,7 +3829,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ContactDTO>> GetContactsAsync(GetContactsQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -3894,7 +3903,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ContactDTO> GetContactAsync(GetContactQuery body)
         {
@@ -3902,7 +3911,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ContactDTO> GetContactAsync(GetContactQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -3976,7 +3985,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ContactsPaginationDTO> GetContactsWithPaginationAsync(GetContactsWithPaginationQuery body)
         {
@@ -3984,7 +3993,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ContactsPaginationDTO> GetContactsWithPaginationAsync(GetContactsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -4058,7 +4067,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> CreateContactAsync(CreateContactCommand body)
         {
@@ -4066,7 +4075,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> CreateContactAsync(CreateContactCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -4140,7 +4149,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> RemoveContactAsync(RemoveContactCommand body)
         {
@@ -4148,7 +4157,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> RemoveContactAsync(RemoveContactCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -4222,7 +4231,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesAsync()
         {
@@ -4230,7 +4239,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -4300,7 +4309,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(System.Guid? headingId)
         {
@@ -4308,7 +4317,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken)
         {
@@ -4384,7 +4393,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByUserNameAsync(string userName)
         {
@@ -4392,7 +4401,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByUserNameAsync(string userName, System.Threading.CancellationToken cancellationToken)
         {
@@ -4468,7 +4477,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(System.Guid? headingId, string userName)
         {
@@ -4476,7 +4485,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(System.Guid? headingId, string userName, System.Threading.CancellationToken cancellationToken)
         {
@@ -4642,7 +4651,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UploadImageFileAsync(UploadImageRequest body)
         {
@@ -4650,7 +4659,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UploadImageFileAsync(UploadImageRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -4724,7 +4733,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetImageUrlsFromGalleryAsync(string userId, string dir)
         {
@@ -4732,7 +4741,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<string>> GetImageUrlsFromGalleryAsync(string userId, string dir, System.Threading.CancellationToken cancellationToken)
         {
@@ -4813,7 +4822,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task UserProfileAsync(string userId)
         {
@@ -4821,7 +4830,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task UserProfileAsync(string userId, System.Threading.CancellationToken cancellationToken)
         {
@@ -4889,7 +4898,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task UserGalleryAsync(string userId, string filename)
         {
@@ -4897,7 +4906,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task UserGalleryAsync(string userId, string filename, System.Threading.CancellationToken cancellationToken)
         {
@@ -4970,7 +4979,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task LogoAsync()
         {
@@ -4978,7 +4987,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task LogoAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -5042,7 +5051,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ForumSettingsDTO> GetForumSettingsAsync()
         {
@@ -5050,7 +5059,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ForumSettingsDTO> GetForumSettingsAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -5121,7 +5130,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateForumSettingsAsync(UpdateForumSettingsCommand body)
         {
@@ -5129,7 +5138,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateForumSettingsAsync(UpdateForumSettingsCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -5203,7 +5212,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> HeadingsAllAsync()
         {
@@ -5211,7 +5220,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> HeadingsAllAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -5281,17 +5290,17 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Created</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task HeadingsAsync(CreateHeadingCommand body)
+        public virtual System.Threading.Tasks.Task<ApiResponse> HeadingsAsync(CreateHeadingCommand body)
         {
             return HeadingsAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Created</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task HeadingsAsync(CreateHeadingCommand body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ApiResponse> HeadingsAsync(CreateHeadingCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -5304,6 +5313,7 @@ namespace NarForumAdmin.Services.Base
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
@@ -5333,19 +5343,14 @@ namespace NarForumAdmin.Services.Base
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 201)
+                        if (status_ == 200)
                         {
-                            return;
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -5367,7 +5372,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(System.Guid? headingId)
         {
@@ -5375,7 +5380,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<HeadingDTO> GetHeadingByIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken)
         {
@@ -5451,7 +5456,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(System.Guid? categoryId)
         {
@@ -5459,7 +5464,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryIdAsync(System.Guid? categoryId, System.Threading.CancellationToken cancellationToken)
         {
@@ -5535,7 +5540,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryNameAsync(string categoryName)
         {
@@ -5543,7 +5548,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<HeadingDTO>> GetHeadingsByCategoryNameAsync(string categoryName, System.Threading.CancellationToken cancellationToken)
         {
@@ -5619,7 +5624,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsWithPaginationAsync(GetHeadingsWithPaginationQuery body)
         {
@@ -5627,7 +5632,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsWithPaginationAsync(GetHeadingsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -5701,7 +5706,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryIdWithPaginationAsync(System.Guid? categoryId, int? pageIndex, int? pageSize)
         {
@@ -5709,7 +5714,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByCategoryIdWithPaginationAsync(System.Guid? categoryId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken)
         {
@@ -5793,7 +5798,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByUserNameWithPaginationAsync(string userName, int? pageIndex, int? pageSize)
         {
@@ -5801,7 +5806,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<HeadingsPaginationDTO> GetHeadingsByUserNameWithPaginationAsync(string userName, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken)
         {
@@ -5885,7 +5890,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task RemoveHeadingAsync(RemoveHeadingCommand body)
         {
@@ -5893,7 +5898,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task RemoveHeadingAsync(RemoveHeadingCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -5961,7 +5966,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateHeadingAsync(UpdateHeadingCommand body)
         {
@@ -5969,7 +5974,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateHeadingAsync(UpdateHeadingCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -6043,7 +6048,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> LockHeadingAsync(LockHeadingCommand body)
         {
@@ -6051,7 +6056,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> LockHeadingAsync(LockHeadingCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -6125,7 +6130,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> PinHeadingAsync(PinHeadingCommand body)
         {
@@ -6133,7 +6138,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> PinHeadingAsync(PinHeadingCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -6207,7 +6212,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesAsync()
         {
@@ -6215,7 +6220,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -6285,7 +6290,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(System.Guid? headingId)
         {
@@ -6293,7 +6298,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken)
         {
@@ -6369,7 +6374,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByUserNameAsync(string userName)
         {
@@ -6377,7 +6382,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<LikeDTO>> GetLikesByUserNameAsync(string userName, System.Threading.CancellationToken cancellationToken)
         {
@@ -6539,7 +6544,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<LogoDTO> GetLogoAsync()
         {
@@ -6547,7 +6552,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<LogoDTO> GetLogoAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -6618,7 +6623,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> AddLogoAsync(AddLogoCommand body)
         {
@@ -6626,7 +6631,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> AddLogoAsync(AddLogoCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -6700,7 +6705,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> RemoveLogoAsync(RemoveLogoCommand body)
         {
@@ -6708,7 +6713,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> RemoveLogoAsync(RemoveLogoCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -6782,7 +6787,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateLogoAsync(UpdateLogoCommand body)
         {
@@ -6790,7 +6795,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateLogoAsync(UpdateLogoCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -6864,7 +6869,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> CreateChatAsync(CreateChatRequest body)
         {
@@ -6872,7 +6877,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> CreateChatAsync(CreateChatRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -6946,7 +6951,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> ChangeChatStatusAsync(ChangeChatStatusRequest body)
         {
@@ -6954,7 +6959,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> ChangeChatStatusAsync(ChangeChatStatusRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -7028,7 +7033,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> AddMessageAsync(AddMessageRequest body)
         {
@@ -7036,7 +7041,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> AddMessageAsync(AddMessageRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -7110,7 +7115,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<GetMessageResponse> GetMessagesAsync(string chatId)
         {
@@ -7118,7 +7123,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<GetMessageResponse> GetMessagesAsync(string chatId, System.Threading.CancellationToken cancellationToken)
         {
@@ -7195,7 +7200,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<GetMessageResponse> GetMessagesByChatIdsAsync(System.Collections.Generic.IEnumerable<string> body)
         {
@@ -7203,7 +7208,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<GetMessageResponse> GetMessagesByChatIdsAsync(System.Collections.Generic.IEnumerable<string> body, System.Threading.CancellationToken cancellationToken)
         {
@@ -7277,7 +7282,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<GetChatResponse> GetChatsAsync(string userId)
         {
@@ -7285,7 +7290,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<GetChatResponse> GetChatsAsync(string userId, System.Threading.CancellationToken cancellationToken)
         {
@@ -7362,7 +7367,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<StaticPageDTO>> GetStaticPagesAsync(GetStaticPagesQuery body)
         {
@@ -7370,7 +7375,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<StaticPageDTO>> GetStaticPagesAsync(GetStaticPagesQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -7444,7 +7449,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<StaticPageDTO> GetStaticPageAsync(GetStaticPageQuery body)
         {
@@ -7452,7 +7457,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<StaticPageDTO> GetStaticPageAsync(GetStaticPageQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -7526,7 +7531,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<StaticPagesPaginationDTO> GetStaticPagesWithPaginationAsync(GetStaticPagesWithPaginationQuery body)
         {
@@ -7534,7 +7539,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<StaticPagesPaginationDTO> GetStaticPagesWithPaginationAsync(GetStaticPagesWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -7608,7 +7613,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> CreateStaticPageAsync(CreateStaticPageCommand body)
         {
@@ -7616,7 +7621,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> CreateStaticPageAsync(CreateStaticPageCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -7690,7 +7695,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateStaticPageAsync(UpdateStaticPageCommand body)
         {
@@ -7698,7 +7703,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateStaticPageAsync(UpdateStaticPageCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -7772,7 +7777,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> RemoveStaticPageAsync(RemoveStaticPageCommand body)
         {
@@ -7780,7 +7785,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> RemoveStaticPageAsync(RemoveStaticPageCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -7854,7 +7859,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> PublishStaticPageAsync(PublishStaticPageCommand body)
         {
@@ -7862,7 +7867,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> PublishStaticPageAsync(PublishStaticPageCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -7936,7 +7941,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> DraftStaticPageAsync(DraftStaticPageCommand body)
         {
@@ -7944,7 +7949,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> DraftStaticPageAsync(DraftStaticPageCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -8018,7 +8023,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> ResetPermissionsAsync()
         {
@@ -8026,7 +8031,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> ResetPermissionsAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -8097,7 +8102,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> RefreshPermissionsAsync()
         {
@@ -8105,7 +8110,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> RefreshPermissionsAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -8176,7 +8181,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> SetPermissionAsync(SetPermissionRequest body)
         {
@@ -8184,7 +8189,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> SetPermissionAsync(SetPermissionRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -8258,7 +8263,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<GetPermissionsResponse> GetPermissionsAsync()
         {
@@ -8266,7 +8271,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<GetPermissionsResponse> GetPermissionsAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -8336,7 +8341,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<GetPermissionsResponse> GetPermissionsByRoleIdAsync(string roleId)
         {
@@ -8344,7 +8349,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<GetPermissionsResponse> GetPermissionsByRoleIdAsync(string roleId, System.Threading.CancellationToken cancellationToken)
         {
@@ -8420,7 +8425,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> AddPermissionDefinitionAsync(AddPermissionDefinitionRequest body)
         {
@@ -8428,7 +8433,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> AddPermissionDefinitionAsync(AddPermissionDefinitionRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -8502,7 +8507,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> ChangePermissionStatusAsync(string permissionId)
         {
@@ -8510,7 +8515,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> ChangePermissionStatusAsync(string permissionId, System.Threading.CancellationToken cancellationToken)
         {
@@ -8587,7 +8592,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> DeletePermissionDefinitionAsync(DeletePermissionDefinitionRequest body)
         {
@@ -8595,7 +8600,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> DeletePermissionDefinitionAsync(DeletePermissionDefinitionRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -8669,7 +8674,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdatePermissionDefinitionAsync(UpdatePermissionDefinitionRequest body)
         {
@@ -8677,7 +8682,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdatePermissionDefinitionAsync(UpdatePermissionDefinitionRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -8751,7 +8756,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<GetPermissionDefinitionsResponse> GetPermissionDefinitionsAsync()
         {
@@ -8759,7 +8764,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<GetPermissionDefinitionsResponse> GetPermissionDefinitionsAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -8829,7 +8834,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> PostsAllAsync()
         {
@@ -8837,7 +8842,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> PostsAllAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -8907,17 +8912,17 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Created</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task PostsAsync(CreatePostCommand body)
+        public virtual System.Threading.Tasks.Task<ApiResponse> PostsAsync(CreatePostCommand body)
         {
             return PostsAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Created</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task PostsAsync(CreatePostCommand body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ApiResponse> PostsAsync(CreatePostCommand body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -8930,6 +8935,7 @@ namespace NarForumAdmin.Services.Base
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
@@ -8959,19 +8965,14 @@ namespace NarForumAdmin.Services.Base
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 201)
+                        if (status_ == 200)
                         {
-                            return;
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            return objectResponse_.Object;
                         }
                         else
                         {
@@ -8993,7 +8994,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(System.Guid? headingId)
         {
@@ -9001,7 +9002,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PostDTO>> GetPostsByHeadingIdAsync(System.Guid? headingId, System.Threading.CancellationToken cancellationToken)
         {
@@ -9077,7 +9078,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsWithPaginationAsync(GetPostsWithPaginationQuery body)
         {
@@ -9085,7 +9086,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsWithPaginationAsync(GetPostsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -9159,7 +9160,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(System.Guid? headingId, int? pageIndex, int? pageSize)
         {
@@ -9167,7 +9168,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByHeadingIdWithPaginationAsync(System.Guid? headingId, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken)
         {
@@ -9251,7 +9252,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByUserNameWithPaginationAsync(string userName, int? pageIndex, int? pageSize)
         {
@@ -9259,7 +9260,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<PostsPaginationDTO> GetPostsByUserNameWithPaginationAsync(string userName, int? pageIndex, int? pageSize, System.Threading.CancellationToken cancellationToken)
         {
@@ -9343,7 +9344,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task RemovePostAsync(RemovePostCommand body)
         {
@@ -9351,7 +9352,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task RemovePostAsync(RemovePostCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -9419,7 +9420,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ReportDTO>> ReportsAsync(GetReportsQuery body)
         {
@@ -9427,7 +9428,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<ReportDTO>> ReportsAsync(GetReportsQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -9501,7 +9502,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ReportDTO> GetReportAsync(GetReportQuery body)
         {
@@ -9509,7 +9510,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ReportDTO> GetReportAsync(GetReportQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -9583,7 +9584,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ReportsPaginationDTO> GetReportsWithPaginationAsync(GetReportsWithPaginationQuery body)
         {
@@ -9591,7 +9592,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ReportsPaginationDTO> GetReportsWithPaginationAsync(GetReportsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -9665,7 +9666,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> CreateReportAsync(CreateReportCommand body)
         {
@@ -9673,7 +9674,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> CreateReportAsync(CreateReportCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -9747,7 +9748,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> RemoveReportAsync(RemoveReportCommand body)
         {
@@ -9755,7 +9756,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> RemoveReportAsync(RemoveReportCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -9829,7 +9830,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> AddUserRoleAsync(AddRoleRequest body)
         {
@@ -9837,7 +9838,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> AddUserRoleAsync(AddRoleRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -9911,7 +9912,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateUserRoleAsync(UpdateRoleRequest body)
         {
@@ -9919,7 +9920,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateUserRoleAsync(UpdateRoleRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -9993,7 +9994,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> RemoveUserRoleAsync(RemoveRoleRequest body)
         {
@@ -10001,7 +10002,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> RemoveUserRoleAsync(RemoveRoleRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -10075,7 +10076,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<GetUserRolesResponse> GetUserRolesAsync()
         {
@@ -10083,7 +10084,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<GetUserRolesResponse> GetUserRolesAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -10153,7 +10154,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SectionDTO>> SectionsAllAsync()
         {
@@ -10161,7 +10162,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<SectionDTO>> SectionsAllAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -10317,7 +10318,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<SectionsPaginationDTO> GetSectionsWithPaginationAsync(GetSectionsWithPaginationQuery body)
         {
@@ -10325,7 +10326,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<SectionsPaginationDTO> GetSectionsWithPaginationAsync(GetSectionsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -10399,7 +10400,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateSectionAsync(UpdateSectionCommand body)
         {
@@ -10407,7 +10408,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateSectionAsync(UpdateSectionCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -10481,7 +10482,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task RemoveSectionAsync(RemoveSectionCommand body)
         {
@@ -10489,7 +10490,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task RemoveSectionAsync(RemoveSectionCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -10557,7 +10558,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<SmtpSettingsDTO> GetSmtpSettingsAsync()
         {
@@ -10565,7 +10566,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<SmtpSettingsDTO> GetSmtpSettingsAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -10636,7 +10637,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateSmtpSettingsAsync(UpdateSmtpSettingsCommand body)
         {
@@ -10644,7 +10645,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateSmtpSettingsAsync(UpdateSmtpSettingsCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -10718,7 +10719,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<AllStatsResponse> GetAllStatsAsync()
         {
@@ -10726,7 +10727,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<AllStatsResponse> GetAllStatsAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -10797,7 +10798,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<StatsResponse> GetPostStatsAsync()
         {
@@ -10805,7 +10806,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<StatsResponse> GetPostStatsAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -10876,7 +10877,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<StatsResponse> GetCategoryStatsAsync()
         {
@@ -10884,7 +10885,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<StatsResponse> GetCategoryStatsAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -10955,7 +10956,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<StatsResponse> GetHeadingStatsAsync()
         {
@@ -10963,7 +10964,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<StatsResponse> GetHeadingStatsAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -11034,7 +11035,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<StatsResponse> GetSectionStatsAsync()
         {
@@ -11042,7 +11043,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<StatsResponse> GetSectionStatsAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -11113,7 +11114,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TrackingLogDTO>> GetTrackingLogsAsync(GetTrackingLogsQuery body)
         {
@@ -11121,7 +11122,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TrackingLogDTO>> GetTrackingLogsAsync(GetTrackingLogsQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -11195,7 +11196,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<TrackingLogDTO> GetTrackingLogAsync(GetTrackingLogQuery body)
         {
@@ -11203,7 +11204,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<TrackingLogDTO> GetTrackingLogAsync(GetTrackingLogQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -11277,7 +11278,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<TrackingLogsPaginationDTO> GetTrackingLogsWithPaginationAsync(GetTrackingLogsWithPaginationQuery body)
         {
@@ -11285,7 +11286,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<TrackingLogsPaginationDTO> GetTrackingLogsWithPaginationAsync(GetTrackingLogsWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -11359,7 +11360,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> AddTrackingLogAsync(AddTrackingLogCommand body)
         {
@@ -11367,7 +11368,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> AddTrackingLogAsync(AddTrackingLogCommand body, System.Threading.CancellationToken cancellationToken)
         {
@@ -11441,7 +11442,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest body)
         {
@@ -11449,7 +11450,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UserInfoResponse> GetUserInfoAsync(UserInfoRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -11523,7 +11524,89 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserInfoResponse>> GetUsersByUserIdsAsync(System.Collections.Generic.IEnumerable<string> body)
+        {
+            return GetUsersByUserIdsAsync(body, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<UserInfoResponse>> GetUsersByUserIdsAsync(System.Collections.Generic.IEnumerable<string> body, System.Threading.CancellationToken cancellationToken)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                
+                    // Operation Path: "api/User/GetUsersByUserIds"
+                    urlBuilder_.Append("api/User/GetUsersByUserIds");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<UserInfoResponse>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<UsersPaginationDTO> GetUsersWithPaginationAsync(GetUsersWithPaginationQuery body)
         {
@@ -11531,7 +11614,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UsersPaginationDTO> GetUsersWithPaginationAsync(GetUsersWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
         {
@@ -11605,7 +11688,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> ChangeUserSettingsAsync(ChangeUserSettingsRequest body)
         {
@@ -11613,7 +11696,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> ChangeUserSettingsAsync(ChangeUserSettingsRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -11687,7 +11770,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> UpdateUserAsync(UpdateUserRequest body)
         {
@@ -11695,7 +11778,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> UpdateUserAsync(UpdateUserRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -11769,7 +11852,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> BlockUserAsync(string body)
         {
@@ -11777,7 +11860,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> BlockUserAsync(string body, System.Threading.CancellationToken cancellationToken)
         {
@@ -11851,7 +11934,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> CreateResetPasswordRequestAsync(ResetPasswordRequest body)
         {
@@ -11859,7 +11942,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> CreateResetPasswordRequestAsync(ResetPasswordRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -11933,7 +12016,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> CheckResetPasswordRequestAsync(System.Guid? id)
         {
@@ -11941,7 +12024,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> CheckResetPasswordRequestAsync(System.Guid? id, System.Threading.CancellationToken cancellationToken)
         {
@@ -12018,7 +12101,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> ChangeUserPasswordAsync(System.Guid? id, string password, string confirmPassword)
         {
@@ -12026,7 +12109,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> ChangeUserPasswordAsync(System.Guid? id, string password, string confirmPassword, System.Threading.CancellationToken cancellationToken)
         {
@@ -12111,7 +12194,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> CreateConfirmRequestAsync()
         {
@@ -12119,7 +12202,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> CreateConfirmRequestAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -12190,7 +12273,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiResponse> VerifyEmailAddressAsync(System.Guid? id)
         {
@@ -12198,7 +12281,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiResponse> VerifyEmailAddressAsync(System.Guid? id, System.Threading.CancellationToken cancellationToken)
         {
@@ -12275,7 +12358,7 @@ namespace NarForumAdmin.Services.Base
             }
         }
 
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual System.Threading.Tasks.Task<ApiUserRoleResponse> GetUserRoleAsync(GetApiUserRoleRequest body)
         {
@@ -12283,7 +12366,7 @@ namespace NarForumAdmin.Services.Base
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
+        /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<ApiUserRoleResponse> GetUserRoleAsync(GetApiUserRoleRequest body, System.Threading.CancellationToken cancellationToken)
         {
@@ -13067,6 +13150,9 @@ namespace NarForumAdmin.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string Name { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("description")]
+        public string Description { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("sectionId")]
         public System.Guid SectionId { get; set; }
 
@@ -13510,6 +13596,9 @@ namespace NarForumAdmin.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("searchContent")]
         public string SearchContent { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("isAdminPanel")]
+        public bool IsAdminPanel { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }
@@ -13975,6 +14064,9 @@ namespace NarForumAdmin.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("headingIndex")]
         public int? HeadingIndex { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("isActive")]
+        public bool IsActive { get; set; }
 
     }
 
@@ -14444,7 +14536,7 @@ namespace NarForumAdmin.Services.Base
         public int TotalCount { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("viewCounters")]
-        public System.Collections.Generic.IDictionary<string, int?> ViewCounters { get; set; }
+        public System.Collections.Generic.IDictionary<string, int> ViewCounters { get; set; }
 
     }
 

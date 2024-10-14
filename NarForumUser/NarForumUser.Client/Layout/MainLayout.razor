@@ -3,7 +3,7 @@
 @using NarForumUser.Client.Services.Common
 @inherits LayoutComponentBase
 
-@if(!isBot)
+@if (!IsBot)
 {
     @inject AuthorizationService authorizationService;
     @inject ToastService ToastService;
@@ -13,12 +13,12 @@
 <div class="page h-100">
     
     <main class="main-forum">
-        <TopNavMenu />
+        <TopNavMenu @rendermode="new InteractiveAutoRenderMode(prerender: true)"/>
         <div class="container custom-container">
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-9">
                     <article>
-                        @if(isBot)
+                        @if (IsBot)
                         {
                             @Body
                         }
@@ -28,28 +28,31 @@
                                 <ChildContent>
                                     @Body
                                 </ChildContent>
+                                
                                 <ErrorContent>
-                                    @if ((exception as NarForumUser.Client.Services.Base.ApiException).StatusCode == 401)
+                                    @if (exception is not null)
                                     {
-                                        <NarForumUser.Client.Pages.ErrorPages.Page401></NarForumUser.Client.Pages.ErrorPages.Page401>
-                                    }
-                                    else if ((exception as NarForumUser.Client.Services.Base.ApiException).StatusCode == 500)
-                                    {
-                                        <NarForumUser.Client.Pages.ErrorPages.Page500></NarForumUser.Client.Pages.ErrorPages.Page500>
-                                    }
-                                    else if ((exception as NarForumUser.Client.Services.Base.ApiException).StatusCode == 204)
-                                    {
-                                        <NarForumUser.Client.Pages.ErrorPages.Page204></NarForumUser.Client.Pages.ErrorPages.Page204>
-                                    }
-                                    else
-                                    {
-                                        <p class="fw-bold text-danger">@exception.Message</p>
+                                        @if ((exception as NarForumUser.Client.Services.Base.ApiException).StatusCode == 401)
+                                        {
+                                            <NarForumUser.Client.Pages.ErrorPages.Page401></NarForumUser.Client.Pages.ErrorPages.Page401>
+                                        }
+                                        else if ((exception as NarForumUser.Client.Services.Base.ApiException).StatusCode == 500)
+                                        {
+                                            <NarForumUser.Client.Pages.ErrorPages.Page500></NarForumUser.Client.Pages.ErrorPages.Page500>
+                                        }
+                                        else if ((exception as NarForumUser.Client.Services.Base.ApiException).StatusCode == 204)
+                                        {
+                                            <NarForumUser.Client.Pages.ErrorPages.Page204></NarForumUser.Client.Pages.ErrorPages.Page204>
+                                        }
+                                        else
+                                        {
+                                            <p class="fw-bold text-danger">@exception.Message</p>
+                                        }
                                     }
                                 </ErrorContent>
                             </ErrorBoundary>
                         }
                     </article>
-                    <ConsentCookie/>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-3 sidebar-container p-0 p-sm-0 p-md-0 pe-lg-2 ps-lg-2 ps-xl-3 pe-xl-3">
                      <SideBar></SideBar>
@@ -62,12 +65,18 @@
     </main>
 </div>
 
-
-
+@if (!IsBot && OperatingSystem.IsBrowser())
+{
+    <ConsentCookie />
+}
 
 @code {
-    [CascadingParameter]
-    public bool isBot { get; set; }
+    [CascadingParameter(Name ="BotParameter")]
+    public bool IsBot { get; set; }
+
+    [CascadingParameter(Name = "SSRParameter")]
+    public bool IsSSR { get; set; }
+
     private ErrorBoundary? _errorBoundary;
 
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
@@ -76,32 +85,29 @@
 
     Toast? toast;
 
-    protected override void OnInitialized()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        ToastService.AddNotificationAction += AddNotification;
-
-        base.OnInitialized();
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        if(!isBot)
+        if(firstRender)
         {
-            var authState = await authenticationStateTask;
-            var user = authState.User;
-            string username = string.Empty;
-            if (user.Identity.IsAuthenticated)
-            {
-                username = user.Identity.Name;
+            ToastService.AddNotificationAction += AddNotification;
 
-                if (authorizationService is not null)
+            if (!IsBot)
+            {
+                var authState = await authenticationStateTask;
+                var user = authState.User;
+                string username = string.Empty;
+                if (user.Identity.IsAuthenticated)
                 {
-                    await authorizationService.SetPermissions(username);
+                    username = user.Identity.Name;
+
+                    if (authorizationService is not null)
+                    {
+                        await authorizationService.SetPermissions(username);
+                    }
                 }
             }
-
-            await base.OnInitializedAsync();
         }
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     protected override void OnParametersSet()

@@ -1,5 +1,6 @@
 ﻿@using NarForumUser.Client.Models.BlogComment
 @using NarForumUser.Client.Models.BlogPost
+@using NarForumUser.Client.Services.Common
 @inject HttpClient Http
 @inject IConfiguration Configuration
 
@@ -46,6 +47,8 @@
     private Task<AuthenticationState>? authenticationStateTask { get; set; }
     [Inject]
     public IUserService? UserService { get; set; }
+    [Inject]
+    public ToastService? ToastService { get; set; }
 
     [Parameter]
     public BlogPostVM? BlogPostVM { get; set; }
@@ -110,6 +113,19 @@
                 if(CommentAdded.HasDelegate)
                 {
                     await CommentAdded.InvokeAsync();
+
+                }
+
+                if(ToastService is not null)
+                {
+                    ToastService.CreateSuccessToast("Added Comment", "Your comment is added successfully");
+                }
+            }
+            else
+            {
+                if (ToastService is not null)
+                {
+                    ToastService.CreateSuccessToast("Error Adding Comment", response.Message);
                 }
             }
         }       
