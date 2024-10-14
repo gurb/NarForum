@@ -39,6 +39,13 @@ namespace Application.Features.Heading.Commands.CreateHeading
                     Heading.UserId = new Guid(user.Id);
                 }
 
+                if(string.IsNullOrEmpty(request.Title))
+                {
+                    response.Message = "Heading title can not be empty";
+                    response.IsSuccess = false;
+                    return response;
+                }
+
                 var category = await _CategoryRepository.GetByIdAsync(Heading.CategoryId);
 
                 // add to database
