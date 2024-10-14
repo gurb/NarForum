@@ -2,6 +2,7 @@
 @using NarForumUser.Client.Models.Message
 @using Microsoft.AspNetCore.SignalR.Client
 @using System.Text.Json
+
 <div class="col-11 col-sm-11 col-md-11 col-lg-7 col-xl-5 chat-box">
     <div class="chat-header">
         <div class="row">
@@ -27,13 +28,31 @@
     </div>
     <div class="chat-body @(showChatList ? "show-chat-list" : "")">
         <div class="chat-list @(showChatList ? "show-chat-list" : "")">
-            
             <ul class="list-group">
                 @foreach(var chat in Chats)
                 {
-                    <li class="list-group-item" @onclick="()=>OpenChatVM(chat)">
-                        @chat.Subject
-                        @if(@chat.Status == Models.Enums.ChatStatusVM.Pending) {
+                    <li class="list-group-item d-flex align-items-center" style="justify-content:space-between" @onclick="()=>OpenChatVM(chat)">
+                       <div style="width:calc(80%);float:left">
+                            <span class="chat-subject-user">
+                                <i class="bi bi-person-fill me-1" style="color:var(--color-fg)"></i>
+                                @if (chat.CreatorId != SelfUserId && chat.Creator is not null)
+                                {
+                                    @chat.Creator.UserName
+                                }
+                                else
+                                {
+                                    @if(chat.Receiver is not null)
+                                    {
+                                       @chat.Receiver.UserName
+                                    }
+                                }
+                            </span>
+                            <span class="chat-subject-area">
+                                @chat.Subject
+                            </span>
+                       </div>
+                        @if (@chat.Status == Models.Enums.ChatStatusVM.Pending)
+                        {
                             <span style="float:right;"><i class="bi bi-clock-history"></i></span>
                         }
                     </li>
@@ -117,13 +136,14 @@
                 }
                 @if(selectedChatVM != null && ChatDict.ContainsKey(selectedChatVM.Id!))
                 {
+                    
                     @if (selectedChatVM.CreatorId != SelfUserId && selectedChatVM.Creator is not null)
                     {
-                        <label class="chat-header-username sticky-top">@selectedChatVM.Creator.UserName</label>
+                        <label class="chat-header-username sticky-top"><i class="bi bi-person-circle me-1"></i> @selectedChatVM.Creator.UserName</label>
                     }
                     @if (selectedChatVM.ReceiverId != SelfUserId && selectedChatVM.Receiver is not null)
                     {
-                        <label class="chat-header-username sticky-top">@selectedChatVM.Receiver.UserName</label>
+                        <label class="chat-header-username sticky-top"><i class="bi bi-person-circle me-1"></i> @selectedChatVM.Receiver.UserName</label>
                     }
                     <ul class="list-group chat-history-list">
                         @foreach(var message in ChatDict[selectedChatVM.Id!])
@@ -131,20 +151,22 @@
                             @if (message.OwnerId == SelfUserId)
                             {
                                 <li class="list-group-item">
-                                    <div class="message-area">
+                                    <div class="message-area-right">
                                         <span class="message-balloon owner-message">
                                             @message.Text
                                         </span>
+                                        <small class="message-datetime">@message.DateTime</small>
                                     </div>
                                 </li>
                             }
                             else
                             {
                                 <li class="list-group-item">
-                                    <div class="message-area">
+                                    <div class="message-area-left">
                                         <span class="message-balloon receiver-message">
                                             @message.Text
                                         </span>
+                                        <small class="message-datetime">@message.DateTime</small>
                                     </div>
                                 </li>
                             }
@@ -152,8 +174,6 @@
                         }
                     </ul>
                 }
-
-                
             }
             else if (openSelectedChat && selectedChatVM is not null && selectedChatVM.Status == Models.Enums.ChatStatusVM.Rejected) 
             {
