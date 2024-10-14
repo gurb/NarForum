@@ -1,12 +1,8 @@
 ﻿using Application.Contracts.Identity;
 using Application.Contracts.Persistence;
 using Application.Extensions.Core;
-using Application.Features.Post.Queries.GetPostsWithPagination;
 using AutoMapper;
-using Domain;
 using MediatR;
-using System.Collections;
-
 
 namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
 {
@@ -16,8 +12,6 @@ namespace Application.Features.Heading.Queries.GetHeadingsWithPagination
         private readonly IHeadingRepository _headingRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUserService _userService;
-
-        
 
         public GetHeadingsWithPaginationQueryHandler(IMapper mapper, IHeadingRepository headingRepository, ICategoryRepository categoryRepository, IUserService userService)
         {
