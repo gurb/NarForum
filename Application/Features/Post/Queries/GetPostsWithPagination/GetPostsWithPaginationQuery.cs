@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Models.Enums;
+using MediatR;
 
 namespace Application.Features.Post.Queries.GetPostsWithPagination
 {
@@ -13,5 +14,6 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
         public bool IsAdminPanel { get; set; }
         public int? PageIndex { get; set; }
         public int? PageSize { get; set; }
+        public SortType SortType { get; set; } = SortType.OLDEST;
     }
 }

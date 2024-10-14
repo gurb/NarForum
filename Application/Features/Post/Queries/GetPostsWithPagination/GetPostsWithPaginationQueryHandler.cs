@@ -63,7 +63,14 @@ namespace Application.Features.Post.Queries.GetPostsWithPagination
                 predicate = predicate.And(x => x.UserName.ToLower().Contains(request.SearchUsername.ToLower()));
             }
 
-            posts = await _postRepository.GetPostsWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value);
+            Dictionary<string, bool> orderFunctions = new Dictionary<string, bool>();
+
+            if(request.SortType == Models.Enums.SortType.OLDEST)
+            {
+                orderFunctions.Add("DateCreate", false);
+            }
+
+            posts = await _postRepository.GetWithPagination(predicate, request.PageIndex!.Value, request.PageSize!.Value, orderFunctions);
 
             var data = _mapper.Map<List<PostDTO>>(posts);
 
