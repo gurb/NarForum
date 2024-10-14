@@ -43,6 +43,7 @@ namespace Api.Controllers
             return response;
         }
 
+        [ResponseCache(Duration = 3600, Location = ResponseCacheLocation.Client, NoStore = false)]
         [HttpGet("images/user-profile/{userId}")]
         [AllowAnonymous]
         [EnableCors("AllowAllOriginsForImages")]
