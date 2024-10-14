@@ -1,5 +1,4 @@
-﻿using Application.Contracts;
-using Application.Contracts.Persistence;
+﻿using Application.Contracts.Persistence;
 using Application.Features.Post.Queries.GetAllPosts;
 using AutoMapper;
 using MediatR;

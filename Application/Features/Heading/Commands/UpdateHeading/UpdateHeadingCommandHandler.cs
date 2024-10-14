@@ -1,6 +1,5 @@
 ﻿using Application.Contracts.Persistence;
 using Application.Models;
-using AutoMapper;
 using MediatR;
 
 
