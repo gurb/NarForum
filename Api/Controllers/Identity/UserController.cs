@@ -47,7 +47,7 @@ namespace Api.Controllers.Identity
         /// Gets users with server-side pagination.
         /// </summary>
         /// <param name="request">The request containing UserName, PageIndex(int) and PageSize(int).</param>
-        /// <returns>Getting the part of the list of user information and total size of the users</returns>
+        /// <returns>The getting the part of the list of user information and total size of the users</returns>
         [HttpPost("GetUsersWithPagination")]
         public async Task<UsersPaginationDTO> GetUsersWithPagination(GetUsersWithPaginationQuery request)
         {

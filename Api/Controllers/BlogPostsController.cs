@@ -24,6 +24,11 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Gets all blog posts.
+        /// </summary>
+        /// <param name="request">The request containing BlogCategoryId(Guid) field.</param>
+        /// <returns>The getting all blog posts result as the list of BlogPostDTO.</returns>
         [HttpPost]
         public async Task<List<BlogPostDTO>> Get(GetBlogPostsQuery request)
         {
@@ -31,6 +36,11 @@ namespace Api.Controllers
             return blogPosts;
         }
 
+        /// <summary>
+        /// Gets the selected blog post
+        /// </summary>
+        /// <param name="request">The request containing IntId(int) and Id(Guid) fields.</param>
+        /// <returns>The getting the selected blog post result as BlogPostDTO</returns>
         [AllowAnonymous]
         [HttpPost("GetBlogPost")]
         public async Task<BlogPostDTO> GetBlogPost(GetBlogPostQuery request)
@@ -40,6 +50,12 @@ namespace Api.Controllers
             return blogPost;
         }
 
+        /// <summary>
+        /// Gets blog posts with server-side pagination
+        /// </summary>
+        /// <param name="request">The request containing BlogCategoryId(Guid), IsInclude(bool), SearchTitle(string), 
+        /// Status(BlogPostStatus as enum)PageIndex(int) and PageSize(int).</param>
+        /// <returns>The getting the part of the list of blog posts and total size of the blog posts as BlogPostsPaginationDTO.</returns>
         [AllowAnonymous]
         [HttpPost("GetBlogPostsWithPagination")]
         public async Task<BlogPostsPaginationDTO> GetBlogPostsWithPagination(GetBlogPostsWithPaginationQuery request)
@@ -49,6 +65,12 @@ namespace Api.Controllers
             return dto;
         }
 
+        /// <summary>
+        /// Creates a new blog post
+        /// </summary>
+        /// <param name="command">The request containing Title(string), Content(string), Url(string)
+        /// and BlogCategoryId(Guid) fields</param>
+        /// <returns>The creating a new blog post result as ApiResponse</returns>
         [HttpPost("CreateBlogPost")]
         public async Task<ApiResponse> CreateBlogPost(CreateBlogPostCommand command)
         {
@@ -56,6 +78,12 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Updates the selected blog post
+        /// </summary>
+        /// <param name="command">The request containing Title(string), Content(string), Url(string), 
+        /// Id(Guid) as blog post id and BlogCategoryId(Guid) fields</param>
+        /// <returns>The updating the selected blog post result as ApiResponse</returns>
         [HttpPost("UpdateBlogPost")]
         public async Task<ApiResponse> UpdateBlogPost(UpdateBlogPostCommand command)
         {
@@ -63,6 +91,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Removes the selected blog post
+        /// </summary>
+        /// <param name="command">The request containing Id(Guid) fields</param>
+        /// <returns>The removing the selected blog post result as ApiResponse</returns>
         [HttpPost("RemoveBlogPost")]
         public async Task<ApiResponse> RemoveBlogPost(RemoveBlogPostCommand command)
         {
@@ -70,6 +103,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Publishes the selected blog post
+        /// </summary>
+        /// <param name="command">The request containing Id(Guid) fields</param>
+        /// <returns>The publishing the selected blog post result as ApiResponse</returns>
         [HttpPost("PublishBlogPost")]
         public async Task<ApiResponse> PublishBlogPost(PublishBlogPostCommand command)
         {
@@ -77,6 +115,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Drafts the selected blog post
+        /// </summary>
+        /// <param name="command">The request containing Id(Guid) fields</param>
+        /// <returns>The drafting the selected blog post result as ApiResponse</returns>
         [HttpPost("DraftBlogPost")]
         public async Task<ApiResponse> DraftBlogPost(DraftBlogPostCommand command)
         {
