@@ -106,10 +106,15 @@
 
             if (!response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Saved SMTP Settings", "SMTP Settings is added successfully");
                 if (alertService is not null)
                 {
                     alertService.ShowAlert(response.Message);
                 }
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while saving SMTP settings", response.Message);
             }
         }
     }

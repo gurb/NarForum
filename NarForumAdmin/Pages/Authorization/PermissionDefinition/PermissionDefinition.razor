@@ -35,8 +35,6 @@
 
     public RoleVM? Model { get; set; } = new RoleVM();
 
-
-
     public List<PermissionDefinitionVM>? PermissionDefinitions { get; set; } = new List<PermissionDefinitionVM>();
 
     [Inject]
@@ -61,7 +59,6 @@
         isLoaded = true;
     }
 
-
     private async Task RefreshPermissions()
     {
         var response = await PermissionService.RefreshPermissions();
@@ -75,8 +72,6 @@
             AlertService.ShowAlert(response.Message);
         }
     }
-
-
 
     private async Task RefreshPermissionDefinitions ()
     {
@@ -174,8 +169,6 @@
         addPermissionDefinitionModal!.ShowModal();
     }
 
-  
-
     protected async Task DeletePermissionDefinition()
     {
         DeletePermissionDefinitionRequestVM request = new DeletePermissionDefinitionRequestVM
@@ -190,10 +183,11 @@
             // throw toast
             await RefreshPermissionDefinitions();
             deletePermissionDefinitionModal.CloseModal();
+            ToastService!.CreateSuccessToast("Removed Permission Definition", "Permission Definition is removed successfully");
         }
         else
         {
-            AlertService.ShowAlert(response.Message);
+            ToastService!.CreateErrorToast("Error while removing permission definition", response.Message);
         }
 
         deletePermissionDefinitionId = null;

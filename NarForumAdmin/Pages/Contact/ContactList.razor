@@ -142,8 +142,13 @@
 
             if(response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Removed Contact", "Contact is remvoed successfully");
                 await RefreshList();
                 deleteContactModal?.CloseModal();
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while deleting contact", response.Message);
             }
         }
     }

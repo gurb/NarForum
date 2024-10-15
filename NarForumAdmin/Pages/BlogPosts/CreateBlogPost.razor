@@ -173,11 +173,12 @@ else
 
             if (response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Created Blog Post", "Blog Post is created successfully");
                 RedirestToList();
             }
             else
             {
-
+                ToastService!.CreateErrorToast("Error", response.Message);
                 return;
             }
         }
@@ -204,10 +205,12 @@ else
 
             if (response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Removed Blog Category", "Blog Category is removed successfully");
                 RedirestToList();
             }
             else
             {
+                ToastService!.CreateErrorToast("Error while removing category", response.Message);
                 return;
             }
         }
@@ -262,10 +265,12 @@ else
 
             if(response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Updated Blog Post", "The blog post is updated successfully");
                 RedirestToList();
             }
             else
             {
+                ToastService!.CreateErrorToast("Error while updating blog post", response.Message);
                 return;
             }
         }
@@ -350,11 +355,12 @@ else
 
             if (response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Draft Blog Post", "The blog post is draft successfully");
                 RedirestToList();
             }
             else
             {
-
+                ToastService!.CreateErrorToast("Error  while drafting blog post", response.Message);
                 return;
             }
         }
@@ -374,10 +380,12 @@ else
 
             if (response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Published Blog Post", "The blog post is published successfully");
                 RedirestToList();
             }
             else
             {
+                ToastService!.CreateErrorToast("Error while publishing blog post", response.Message);
                 return;
             }
         }

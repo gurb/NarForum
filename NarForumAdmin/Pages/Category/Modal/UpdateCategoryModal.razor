@@ -68,6 +68,7 @@
 
             if (response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Added Category", "Category is added successfully");
                 // updated
                 if (Callback.HasDelegate)
                 {
@@ -75,6 +76,10 @@
                 }
 
                 CloseModal();
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while updating category", response.Message);
             }
         }
     }

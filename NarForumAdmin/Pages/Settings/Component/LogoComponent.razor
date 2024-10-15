@@ -179,6 +179,11 @@
             if (response.IsSuccess)
             {
                 isLoading = false;
+                ToastService!.CreateSuccessToast("Uploaded Logo", "Logo is uploaded successfully");
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while uploading logo", response.Message);
             }
         }
 

@@ -85,10 +85,15 @@
 
             if (!response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Saved Forum Settings", "Forum settings is saved successfully");
                 if (alertService is not null)
                 {
                     alertService.ShowAlert(response.Message);
                 }
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while saving settings", response.Message);
             }
         }
     }

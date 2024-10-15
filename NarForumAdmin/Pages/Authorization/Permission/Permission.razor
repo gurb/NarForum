@@ -169,10 +169,12 @@
 
         if(response.IsSuccess)
         {
+            ToastService!.CreateSuccessToast("Changed Permission Status", "The permission status is changed successfully");
             await InvokeAsync(StateHasChanged);
         }
         else
         {
+            ToastService!.CreateErrorToast("Error while changing permission status", response.Message);
             AlertService.ShowAlert(response.Message);
         }
     }

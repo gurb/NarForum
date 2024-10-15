@@ -85,7 +85,6 @@
 	[Parameter]
 	public EventCallback<int> AddData { get; set; }
 
-
 	public BlogPostVM ModelData
 	{
 		get 
@@ -259,6 +258,7 @@
 		post.Content = GenerateContentFromDisplayContent(Model.DisplayContent);
 
 		var result = await BlogPostService.CreateBlogPost(post);
+
 
 		await Callback.InvokeAsync();
 

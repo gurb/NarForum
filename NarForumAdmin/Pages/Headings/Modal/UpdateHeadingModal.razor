@@ -57,6 +57,7 @@
 
             if (response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Updated Heading", "Heading is updated successfully");
                 // updated
                 if (Callback.HasDelegate)
                 {
@@ -64,6 +65,10 @@
                 }
 
                 CloseModal();
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while updating Heading", "Heading is updated successfully");
             }
         }
     }

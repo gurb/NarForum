@@ -25,7 +25,6 @@
     [Parameter]
     public UpdateBlogCategoryCommandVM? UpdateModel { get; set; }
 
-
     private bool isUpdate = false;
 
     protected override void OnInitialized()
@@ -58,10 +57,11 @@
             {
                 await Callback.InvokeAsync();
                 modal?.CloseModal();
+                ToastService!.CreateSuccessToast("Added Blog Category", "Blog Category is added successfully");
             }
             else
             {
-                // send error
+                ToastService!.CreateErrorToast("Error while adding category", response.Message);
             }
         }
         

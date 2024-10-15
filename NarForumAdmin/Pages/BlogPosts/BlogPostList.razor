@@ -168,8 +168,13 @@
             var response = await BlogPostService.RemoveBlogPost(command);
             if (response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Removed Blog Post", "Blog post is removed successfully");
                 await RefreshList();
                 deleteBlogPostModal?.CloseModal();
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while removing blog post", response.Message);
             }
         }
     }

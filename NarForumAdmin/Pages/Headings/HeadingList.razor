@@ -157,7 +157,12 @@
 
         if (response.IsSuccess)
         {
+            ToastService!.CreateSuccessToast("Pinned Heading", "Heading is pinned successfully");
             await RefreshList();
+        }
+        else
+        {
+            ToastService!.CreateErrorToast("Error while pinning heading", response.Message);
         }
     }
 
@@ -172,7 +177,12 @@
 
         if(response.IsSuccess)
         {
+            ToastService!.CreateSuccessToast("Locked Heading", "Heading is locked successfully");
             await RefreshList();
+        }
+        else
+        {
+            ToastService!.CreateErrorToast("Error while locking heading", response.Message);
         }
     }
 
@@ -181,7 +191,6 @@
         SelectedModel = heading;
 
         updateHeadingModal?.ShowModal();
-
     }
 
     private void DeleteHeading(HeadingVM heading)

@@ -153,9 +153,9 @@
         if(SelectedModel is not null)
         {
             RemoveCategoryCommandVM command = new RemoveCategoryCommandVM
-                {
-                    CategoryId = SelectedModel.Id
-                };
+            {
+                CategoryId = SelectedModel.Id
+            };
 
             await CategoryService.RemoveCategory(command);
             await RefreshList();

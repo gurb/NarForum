@@ -141,11 +141,12 @@
                 request.IsChangePassword = true;
                 request.Password = newPassword;
             }
-            
+
             var response = await UserService.UpdateUser(request);
 
             if (response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Updated User", "The user is updated successfully");
                 // updated
                 if (Callback.HasDelegate)
                 {
@@ -153,6 +154,10 @@
                 }
 
                 CloseModal();
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while updating user", response.Message);
             }
         }
     }

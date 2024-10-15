@@ -167,8 +167,13 @@
             var response = await PageService.RemoveStaticPage(command);
             if(response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Removed Static Page", "Static page is removed successfully");
                 await RefreshList();
                 deleteStaticPageModal?.CloseModal();
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while removing static page", response.Message);
             }
 
         }

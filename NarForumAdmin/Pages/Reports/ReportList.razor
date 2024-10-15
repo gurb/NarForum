@@ -143,8 +143,13 @@
             var response = await ReportService.RemoveReport(command);
             if(response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Removed Report", "Report is removed successfully");
                 await RefreshList();
                 deleteReportModal?.CloseModal();
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while removing report", response.Message);
             }
         }
     }

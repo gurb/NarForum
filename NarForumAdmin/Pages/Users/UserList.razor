@@ -157,7 +157,15 @@
     {
         var response = await UserService.BlockUser(user.Id);
 
-        await RefreshList();
+        if(response.IsSuccess)
+        {
+            ToastService!.CreateSuccessToast("Blocked User", "User is blocked successfully");
+            await RefreshList();
+        }
+        else
+        {
+            ToastService!.CreateErrorToast("Error while blocking user", response.Message);
+        }
     }
 
 

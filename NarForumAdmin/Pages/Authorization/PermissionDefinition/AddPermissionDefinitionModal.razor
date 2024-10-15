@@ -161,6 +161,15 @@
                 UpdateModel.DisplayName = Model.DisplayName;
 
                 var result = await PermissionService.UpdatePermissionDefinition(UpdateModel);
+
+                if (result.IsSuccess)
+                {
+                    ToastService!.CreateSuccessToast("Updated Permission Definition", "Permission Definition is updated successfully");
+                }
+                else
+                {
+                    ToastService!.CreateErrorToast("Error while updating category", result.Message);
+                }
             }
 
             // this is important dont remove this line
@@ -178,6 +187,15 @@
             }
 
             var result = await PermissionService.AddPermissionDefinition(Model);
+
+            if(result.IsSuccess)
+            {
+                ToastService!.CreateSuccessToast("Added Permission Definition", "Permission Definition is added successfully");
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while adding permission definition", result.Message);
+            }
 
             // add toast message
         }

@@ -67,7 +67,14 @@
             };
 
             var result = await RoleService.UpdateRole(request);
-
+            if (result.IsSuccess)
+            {
+                ToastService!.CreateSuccessToast("Updated Role", "Updated the role successfully");
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while updating role", result.Message);
+            }
             // add toast message
         }
 

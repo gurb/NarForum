@@ -121,11 +121,12 @@ else
 
             if (response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Created Static Page", "Static page is created successfully");
                 RedirestToList();
             }
             else
             {
-
+                ToastService!.CreateErrorToast("Error while creating static page", response.Message);
                 return;
             }
         }

@@ -136,8 +136,13 @@
             var response = await BlogCommentService.RemoveBlogComment(command);
             if (response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Removed Blog Comment", "Blog Comment is removed successfully");
                 await RefreshList();
                 deleteBlogCommentModal?.CloseModal();
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while removing blog comment", response.Message);
             }
         }
         

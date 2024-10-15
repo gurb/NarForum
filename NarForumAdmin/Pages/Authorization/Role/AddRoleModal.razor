@@ -57,6 +57,15 @@
 
             var result = await RoleService.AddRole(Model);
 
+            if(result.IsSuccess)
+            {
+                ToastService!.CreateSuccessToast("Added New Role", "Created new role successfully");
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while adding role", result.Message);
+            }
+
             // add toast message
         }
 

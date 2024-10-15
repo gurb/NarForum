@@ -61,6 +61,7 @@
 
             if (response.IsSuccess)
             {
+                ToastService!.CreateSuccessToast("Updated Section", "Section is updated successfully");
                 // updated
                 if (Callback.HasDelegate)
                 {
@@ -68,6 +69,10 @@
                 }
 
                 CloseModal();
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while updating section", response.Message);
             }
         }
     }
