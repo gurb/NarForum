@@ -13,5 +13,6 @@ namespace Domain
         public Guid Id { get; set; } = Guid.NewGuid();
         public string? ForumUrl { get; set; }
 
+        public bool IsShowConsentCookie { get; set; }
     }
 }

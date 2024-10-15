@@ -252,3 +252,42 @@ thead th {
     cursor: pointer;
     position: relative;
 }
+
+.toast-container {
+    z-index: 2000;
+    top: 85px;
+}
+
+.toast {
+    
+}
+
+.toast-header {
+    
+}
+
+.toast-body {
+   
+}
+
+.toast-progress {
+    width: 100%;
+    height: 3px;
+    background: #f1f1f1;
+}
+
+.toast-progress-bar {
+    width: 100%;
+    height: 3px;
+    background: #ccc;
+}
+
+@keyframes decrease {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}

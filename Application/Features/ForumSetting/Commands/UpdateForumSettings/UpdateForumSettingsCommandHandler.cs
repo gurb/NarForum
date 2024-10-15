@@ -33,6 +33,7 @@ namespace Application.Features.ForumSetting.Commands.UpdateForumSettings
                     var data = new Domain.ForumSettings
                     {
                         ForumUrl = request.ForumUrl,
+                        IsShowConsentCookie = request.IsShowConsentCookie,
                     };
                     await _settingsService.AddAsync(data);
                 }

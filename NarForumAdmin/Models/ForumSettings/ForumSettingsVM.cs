@@ -4,5 +4,6 @@
     {
         public Guid? Id { get; set; }
         public string? ForumUrl { get; set; }
+        public bool IsShowConsentCookie { get; set; }
     }
 }

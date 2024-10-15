@@ -1,6 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using NarForumAdmin.Models.Toast
+@inherits LayoutComponentBase
 @inject AlertService AlertService
+@inject ToastService ToastService;
 
+<Toast @ref="toast"></Toast>
 <Alert Message="@alertMessage" OnClose="HideAlert" />
 
 
@@ -32,8 +35,12 @@
 @code {
     private string alertMessage;
 
+    Toast? toast;
+
     protected override void OnInitialized()
     {
+        ToastService.AddNotificationAction += AddNotification;
+
         AlertService.OnShow += ShowAlert;
         AlertService.OnHide += HideAlert;
     }
@@ -54,5 +61,14 @@
     {
         AlertService.OnShow -= ShowAlert;
         AlertService.OnHide -= HideAlert;
+    }
+
+    private async void AddNotification(ToastNotification notification)
+    {
+        if (toast is not null)
+        {
+            await toast.AddToast(notification);
+            await InvokeAsync(StateHasChanged);
+        }
     }
 }
