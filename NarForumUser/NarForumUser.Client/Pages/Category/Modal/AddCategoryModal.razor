@@ -32,10 +32,10 @@
     public CategoryVM? ParentCategoryVM { get; set; }
 
     [Inject]
-    private ICategoryService CategoryService { get; set; }
+    private ICategoryService? CategoryService { get; set; }
 
     [Inject]
-    public RefreshStateService RefreshStateService { get; set; }
+    public RefreshStateService? RefreshStateService { get; set; }
 
     [Parameter]
     public EventCallback<int> Callback { get; set; }
@@ -80,9 +80,9 @@
             };
         }
 
-        var result = await CategoryService.CreateCategory(category);
+        var response = await CategoryService!.CreateCategory(category);
 
-        if(result.IsSuccess)
+        if (response.IsSuccess)
         {
             ToastService.AddNotification(new Models.Toast.ToastNotification
             {
@@ -94,7 +94,7 @@
         }
         else
         {
-            // error
+            ToastService.CreateErrorToast("Error while adding category", response.Message);
         }
 
         await Callback.InvokeAsync();
