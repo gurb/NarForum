@@ -18,6 +18,10 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Gets all favorites
+        /// </summary>
+        /// <returns>The getting all favorites result as the list of FavoriteDTO</returns>
         [HttpGet("GetFavorites")]
         public async Task<List<FavoriteDTO>> GetFavorites()
         {
@@ -25,6 +29,11 @@ namespace Api.Controllers
             return favorites;
         }
 
+        /// <summary>
+        /// Gets favorites related giving HeadingId
+        /// </summary>
+        /// <param name="headingId">HeadingId(Guid)</param>
+        /// <returns>The getting favorites result as the list of FavoriteDTO</returns>
         [AllowAnonymous]
         [HttpGet("GetFavoritesByHeadingId")]
         public async Task<List<FavoriteDTO>> GetFavoritesByHeadingId(Guid headingId)
@@ -39,6 +48,11 @@ namespace Api.Controllers
             return favorites;
         }
 
+        /// <summary>
+        /// Gets favorites related giving username
+        /// </summary>
+        /// <param name="userName">UserName(string)</param>
+        /// <returns>The getting favorites result as the list of FavoriteDTO</returns>
         [AllowAnonymous]
         [HttpGet("GetFavoritesByUserName")]
         public async Task<List<FavoriteDTO>> GetFavoritesByUserName(string userName)
@@ -53,7 +67,12 @@ namespace Api.Controllers
             return favorites;
         }
 
-
+        /// <summary>
+        /// Gets favorites related headingId and UserName
+        /// </summary>
+        /// <param name="headingId">HeadingId(Guid)</param>
+        /// <param name="userName">Username(string)</param>
+        /// <returns>The getting favorites result as the list of FavoriteDTO</returns>
         [AllowAnonymous]
         [HttpGet("GetFavoritesByHeadingIdAndUserName")]
         public async Task<List<FavoriteDTO>> GetFavoritesByHeadingIdAndUserName(Guid headingId, string userName)
@@ -69,7 +88,11 @@ namespace Api.Controllers
             return favorites;
         }
 
-
+        /// <summary>
+        /// Adds favorite to selected post.
+        /// </summary>
+        /// <param name="command">The command containing HeadingId(Guid), PostId(Guid), UserId(Guid), UserName(string) and DateTime fields.</param>
+        /// <returns>The adding favorite result as ActionResult</returns>
         [HttpPost("AddFavorite")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

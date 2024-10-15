@@ -17,6 +17,10 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Gets all likes.
+        /// </summary>
+        /// <returns>The getting all likes result as the list of LikeDTO</returns>
         [AllowAnonymous]
         [HttpGet("GetLikes")]
         public async Task<List<LikeDTO>> GetLikes()
@@ -26,6 +30,11 @@ namespace Api.Controllers
             return likes;
         }
 
+        /// <summary>
+        /// Gets all likes by heading id.
+        /// </summary>
+        /// <param name="headingId">headingId(Guid)</param>
+        /// <returns>The getting all likes result as the list of LikeDTO</returns>
         [AllowAnonymous]
         [HttpGet("GetLikesByHeadingId")]
         public async Task<List<LikeDTO>> GetLikesByHeadingId(Guid headingId)
@@ -40,6 +49,11 @@ namespace Api.Controllers
             return likes;
         }
 
+        /// <summary>
+        /// Gets all likes by username
+        /// </summary>
+        /// <param name="userName">userName(string)</param>
+        /// <returns>The getting all likes result as the list of LikeDTO</returns>
         [AllowAnonymous]
         [HttpGet("GetLikesByUserName")]
         public async Task<List<LikeDTO>> GetLikesByUserName(string userName)
@@ -54,6 +68,11 @@ namespace Api.Controllers
             return likes;
         }
 
+        /// <summary>
+        /// Adds like.
+        /// </summary>
+        /// <param name="command">The command containing UserName(string), UserId(Guid), PostId(Guid), HeadingId(Guid), IsLike(Bool) fields.</param>
+        /// <returns>The adding like result as ActionResult.</returns>
         [HttpPost("AddLike")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

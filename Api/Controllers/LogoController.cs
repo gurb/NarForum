@@ -19,6 +19,10 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Gets logo.
+        /// </summary>
+        /// <returns>The getting logo result as LogoDTO.</returns>
         [HttpPost("GetLogo")]
         public async Task<LogoDTO> GetLogo()
         {
@@ -26,7 +30,11 @@ namespace Api.Controllers
             return response;
         }
 
-
+        /// <summary>
+        /// Adds logo. 
+        /// </summary>
+        /// <param name="command">The command containing Base64(string), Text(string), AltText(string), Path(string) fields.</param>
+        /// <returns>The adding logo result as ApiResponse.</returns>
         [HttpPost("AddLogo")]
         public async Task<ApiResponse> AddLogo(AddLogoCommand command)
         {
@@ -34,6 +42,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Removes logo.
+        /// </summary>
+        /// <param name="command">The command containing no fields currently.</param>
+        /// <returns>The removing logo result as ApiResponse</returns>
         [HttpPost("RemoveLogo")]
         public async Task<ApiResponse> RemoveLogo(RemoveLogoCommand command)
         {
@@ -41,6 +54,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Updates logo.
+        /// </summary>
+        /// <param name="command">The command containing Base64(string), Text(string), AltText(string), Path(string) fields.</param>
+        /// <returns>The updating logo result as ApiResponse.</returns>
         [HttpPost("UpdateLogo")]
         public async Task<ApiResponse> UpdateLogo(UpdateLogoCommand command)
         {

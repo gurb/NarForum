@@ -17,6 +17,10 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Gets logo.
+        /// </summary>
+        /// <returns>The getting logo result as ForumSettingsDTO</returns>
         [HttpPost("GetForumSettings")]
         public async Task<ForumSettingsDTO> GetLogo()
         {
@@ -24,7 +28,11 @@ namespace Api.Controllers
             return response;
         }
 
-
+        /// <summary>
+        /// Updates forum settings.
+        /// </summary>
+        /// <param name="command">The command containing ForumUrl, IsShowCookieConsent fields.</param>
+        /// <returns>The updating forum settings result as ApiResponse.</returns>
         [HttpPost("UpdateForumSettings")]
         public async Task<ApiResponse> UpdateForumSettings(UpdateForumSettingsCommand command)
         {

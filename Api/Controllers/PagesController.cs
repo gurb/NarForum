@@ -23,6 +23,11 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Gets all static pages.
+        /// </summary>
+        /// <param name="request">The request containing no fields currently.</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("GetStaticPages")]
         public async Task<List<StaticPageDTO>> GetStaticPages(GetStaticPagesQuery request)
@@ -31,6 +36,11 @@ namespace Api.Controllers
             return blogPosts;
         }
 
+        /// <summary>
+        /// Gets the selected static page.
+        /// </summary>
+        /// <param name="request">Id(Guid)</param>
+        /// <returns>The getting the selected static page result as StaticPageDTO.</returns>
         [AllowAnonymous]
         [HttpPost("GetStaticPage")]
         public async Task<StaticPageDTO> GetStaticPage(GetStaticPageQuery request)
@@ -39,6 +49,12 @@ namespace Api.Controllers
             return staticPage;
         }
 
+        /// <summary>
+        /// Gets static pages with server-side pagination.
+        /// </summary>
+        /// <param name="request">The request containing SearchTitle(string), 
+        /// PageIndex(int) and PageSize(int).</param>
+        /// <returns>The getting the part of the list of static pages and total size of the static pages as StaticPagesPaginationDTO.</returns>
         [HttpPost("GetStaticPagesWithPagination")]
         public async Task<StaticPagesPaginationDTO> GetStaticPagesWithPagination(GetStaticPagesWithPaginationQuery request)
         {
@@ -47,6 +63,11 @@ namespace Api.Controllers
             return dto;
         }
 
+        /// <summary>
+        /// Creates a new static page
+        /// </summary>
+        /// <param name="command">The command containing Title(string), Url(string), Content(string), Author(string)</param>
+        /// <returns>The creating a new static page result as ApiResponse</returns>
         [HttpPost("CreateStaticPage")]
         public async Task<ApiResponse> CreateStaticPage(CreateStaticPageCommand command)
         {
@@ -54,6 +75,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Updates the selected static page
+        /// </summary>
+        /// <param name="command">The command containing Id(Guid), Title(string), Url(string), Content(string), Author(string)</param>
+        /// <returns>The updating the selected static page result as ApiResponse</returns>
         [HttpPost("UpdateStaticPage")]
         public async Task<ApiResponse> UpdateStaticPage(UpdateStaticPageCommand command)
         {
@@ -61,6 +87,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Removes the selected static page
+        /// </summary>
+        /// <param name="command">The command containing Id(Guid)</param>
+        /// <returns>The removing the selected static page result as ApiResponse</returns>
         [HttpPost("RemoveStaticPage")]
         public async Task<ApiResponse> RemoveStaticPage(RemoveStaticPageCommand command)
         {
@@ -68,6 +99,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Publishes the selected static page
+        /// </summary>
+        /// <param name="command">The command containing Id(Guid)</param>
+        /// <returns>The publishing the selected static page result as ApiResponse</returns>
         [HttpPost("PublishStaticPage")]
         public async Task<ApiResponse> PublishStaticPage(PublishStaticPageCommand command)
         {
@@ -75,6 +111,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Drafts the selected static page
+        /// </summary>
+        /// <param name="command">The command containing Id(Guid)</param>
+        /// <returns>The drafting the selected static page result as ApiResponse</returns>
         [HttpPost("DraftStaticPage")]
         public async Task<ApiResponse> DraftStaticPage(DraftStaticPageCommand command)
         {

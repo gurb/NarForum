@@ -26,6 +26,10 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Gets all headings.
+        /// </summary>
+        /// <returns>The getting all headings result as the list of HeadingDTO.</returns>
         [HttpGet]
         public async Task<List<HeadingDTO>> Get()
         {
@@ -34,6 +38,11 @@ namespace Api.Controllers
             return headings;
         }
 
+        /// <summary>
+        /// Gets heading by heading id as guid
+        /// </summary>
+        /// <param name="HeadingId">HeadingId(Guid)</param>
+        /// <returns>The getting heading result as HeadingDTO.</returns>
         [AllowAnonymous]
         [HttpGet("GetHeadingById")]
         public async Task<HeadingDTO> GetHeadingById(Guid HeadingId)
@@ -48,6 +57,11 @@ namespace Api.Controllers
             return heading;
         }
 
+        /// <summary>
+        /// Gets headings by category id.
+        /// </summary>
+        /// <param name="CategoryId">CategoryId(Guid)</param>
+        /// <returns>The getting headings result as the list of HeadingDTO.</returns>
         [AllowAnonymous]
         [HttpGet("GetHeadingsByCategoryId")]
         public async Task<List<HeadingDTO>> GetHeadingsByCategoryId(Guid CategoryId)
@@ -62,6 +76,11 @@ namespace Api.Controllers
             return headings;
         }
 
+        /// <summary>
+        /// Gets headings by category name.
+        /// </summary>
+        /// <param name="CategoryName">CategoryName(string)</param>
+        /// <returns>The getting headings result as the list of HeadingDTO.</returns>
         [HttpGet("GetHeadingsByCategoryName")]
         public async Task<List<HeadingDTO>> GetHeadingsByCategoryName(string CategoryName)
         {
@@ -74,7 +93,14 @@ namespace Api.Controllers
 
             return headings;
         }
-        
+
+        /// <summary>
+        /// Gets headings with server-side pagination.
+        /// </summary>
+        /// <param name="request">The request containing UserName(string), CategoryName(string), SortType(SortType as enum), 
+        /// IsComponent(bool), StartDate(DateTime), EndDate(DateTime), SearchTitle(string), SearchUser(string), CategoryId(Guid),
+        /// PageIndex(int) and PageSize(int).</param>
+        /// <returns>The getting the part of the list of headings and total size of the headings as HeadingsPaginationDTO.</returns>
         [AllowAnonymous]
         [HttpPost("GetHeadingsWithPagination")]
         public async Task<HeadingsPaginationDTO> GetHeadingsWithPagination(GetHeadingsWithPaginationQuery request)
@@ -85,7 +111,13 @@ namespace Api.Controllers
         }
 
 
-
+        /// <summary>
+        /// Gets headings with server-side pagination by CategoryId, pageIndex and pageSize.
+        /// </summary>
+        /// <param name="CategoryId">CategoryId(Guid)</param>
+        /// <param name="pageIndex">pageIndex(int)</param>
+        /// <param name="pageSize">pageSize(int)</param>
+        /// <returns>The getting the part of the list of headings and total size of the headings as HeadingsPaginationDTO.</returns>
         [AllowAnonymous]
         [HttpGet("GetHeadingsByCategoryIdWithPagination")]
         public async Task<HeadingsPaginationDTO> GetHeadingsByCategoryIdWithPagination(Guid CategoryId, int pageIndex, int pageSize)
@@ -102,6 +134,13 @@ namespace Api.Controllers
             return posts;
         }
 
+        /// <summary>
+        /// Gets headings with server-side pagination by Username, pageIndex and pageSize.
+        /// </summary>
+        /// <param name="UserName">UserName(string)</param>
+        /// <param name="pageIndex">pageIndex(int)</param>
+        /// <param name="pageSize">pageSize(int)</param>
+        /// <returns>The getting the part of the list of headings and total size of the headings as HeadingsPaginationDTO.</returns>
         [AllowAnonymous]
         [HttpGet("GetHeadingsByUserNameWithPagination")]
         public async Task<HeadingsPaginationDTO> GetHeadingsByUserNameWithPagination(string UserName, int pageIndex, int pageSize)
@@ -118,6 +157,12 @@ namespace Api.Controllers
             return posts;
         }
 
+
+        /// <summary>
+        /// Creates a new heading.
+        /// </summary>
+        /// <param name="command">The command containing Title(string), Description(string), CategoryId(Guid) and Content(string) fields.</param>
+        /// <returns>The creating a new heading result as ApiResponse.</returns>
         [HttpPost]
         public async Task<ApiResponse> Create(CreateHeadingCommand command)
         {
@@ -125,6 +170,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Removes the selected heading
+        /// </summary>
+        /// <param name="command">The command containing Id(guid).</param>
+        /// <returns>The removing the selected heading result as ApiResponse.</returns>
         [HttpPost("RemoveHeading")]
         public async Task<ActionResult> RemoveHeading(RemoveHeadingCommand command)
         {
@@ -132,6 +182,11 @@ namespace Api.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Updates the selected heading.
+        /// </summary>
+        /// <param name="command">The command containing Id(guid), Title(string), Content(string) fields.</param>
+        /// <returns>The updating the selected heading result as ApiResponse.</returns>
         [HttpPost("UpdateHeading")]
         public async Task<ApiResponse> UpdateHeading(UpdateHeadingCommand command)
         {
@@ -139,6 +194,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Locks the selected heading.
+        /// </summary>
+        /// <param name="command">The command containing Id(guid).</param>
+        /// <returns>The locking the selected heading result as ApiResponse.</returns>
         [HttpPost("LockHeading")]
         public async Task<ApiResponse> LockHeading(LockHeadingCommand command)
         {
@@ -146,6 +206,12 @@ namespace Api.Controllers
             return response;
         }
 
+
+        /// <summary>
+        /// Pins the selected heading.
+        /// </summary>
+        /// <param name="command">The command containing Id(guid)</param>
+        /// <returns>The pinning the selected heading result as ApiResponse.</returns>
         [HttpPost("PinHeading")]
         public async Task<ApiResponse> PinHeading(PinHeadingCommand command)
         {

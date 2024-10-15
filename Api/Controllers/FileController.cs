@@ -3,7 +3,6 @@ using Application.Models;
 using Application.Models.Persistence.Image;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -21,6 +20,11 @@ namespace Api.Controllers
             _imageService = imageService;
         }
 
+        /// <summary>
+        /// Uploads image file.
+        /// </summary>
+        /// <param name="request">The request containing </param>
+        /// <returns>The uploading image file result as ApiResponse</returns>
         [HttpPost("UploadImageFile")]
         public async Task<ApiResponse> UploadImageFile([FromBody]UploadImageRequest request)
         {
@@ -31,6 +35,12 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Gets image urls from gallery by userId.
+        /// </summary>
+        /// <param name="userId">UserId(string)</param>
+        /// <param name="dir">Folder dir path</param>
+        /// <returns>The getting image urls result as the list of string.</returns>
         [HttpPost("GetImageUrlsFromGallery")]
         public async Task<List<string>> GetImageUrlsFromGallery(string userId, string? dir)
         {
@@ -43,6 +53,11 @@ namespace Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Gets user profile image file.
+        /// </summary>
+        /// <param name="userId">UserId(string)</param>
+        /// <returns>Gets user profile image file result as IActionResult</returns>
         [ResponseCache(Duration = 3600, Location = ResponseCacheLocation.Client, NoStore = false)]
         [HttpGet("images/user-profile/{userId}")]
         [AllowAnonymous]
@@ -69,6 +84,12 @@ namespace Api.Controllers
             return File(imageFileStream, "image/jpeg");
         }
 
+        /// <summary>
+        /// Gets user gallery image file.
+        /// </summary>
+        /// <param name="userId">UserId(string)</param>
+        /// <param name="filename">Filename(string)</param>
+        /// <returns>The gettingg user gallery image file result as IActionResult</returns>
         [HttpGet("images/user-gallery/{userId}/{filename}")]
         [AllowAnonymous]
         [EnableCors("AllowAllOriginsForImages")]
@@ -85,6 +106,10 @@ namespace Api.Controllers
             return File(imageFileStream, "image/jpeg");
         }
 
+        /// <summary>
+        /// Gets logo file.
+        /// </summary>
+        /// <returns>The getting logo file result as IActionResult</returns>
         [HttpGet("images/logo/")]
         [AllowAnonymous]
         [EnableCors("AllowAllOriginsForImages")]
