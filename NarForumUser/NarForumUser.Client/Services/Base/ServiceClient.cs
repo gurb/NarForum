@@ -13606,6 +13606,9 @@ namespace NarForumUser.Client.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("pageSize")]
         public int? PageSize { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("sortType")]
+        public SortType SortType { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -14630,6 +14633,9 @@ namespace NarForumUser.Client.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("forumUrl")]
         public string ForumUrl { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("isShowConsentCookie")]
+        public bool IsShowConsentCookie { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -14832,6 +14838,8 @@ namespace NarForumUser.Client.Services.Base
         _2 = 2,
 
         _3 = 3,
+
+        _4 = 4,
 
     }
 

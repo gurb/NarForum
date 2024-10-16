@@ -15,10 +15,7 @@
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
                 <img id="forum-logo" class="" src="@($"{Configuration["ApiBaseUrl"]}/file/images/logo")" alt="@($"{Configuration["SiteName"]}")" />
-                @* @if(logo is not null)
-                {
-                    <Logo LogoVM="logo" @rendermode="new InteractiveWebAssemblyRenderMode(prerender: false)"></Logo>
-                } *@
+                
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ms-lg-4">
@@ -28,9 +25,7 @@
                 <li><a @onclick="() => AddToast()" class="nav-link px-2 text-white top-nav-menu-link">Add Toast</a></li>
             </ul>
 
-            @* <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-            </form> *@
+            
 
             @if (OperatingSystem.IsBrowser())
             {

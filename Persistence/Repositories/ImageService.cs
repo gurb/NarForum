@@ -63,6 +63,10 @@ namespace Persistence.Repositories
             {
                 response = await UploadImageAsLogo(request);
             }
+            else if (request.Type == UploadImageType.Favicon)
+            {
+                response = await UploadImageAsFavicon(request);
+            }
 
             return response;
         }
@@ -442,6 +446,83 @@ namespace Persistence.Repositories
 
                         uploadFile.StoredFileName = "logo.png";
                         uploadFile.FileName = "logo.png";
+                        uploadFile.UserName = null;
+                        uploadFile.UploadDate = DateTime.UtcNow;
+                        uploadFiles.Add(uploadFile);
+                        _context.UploadFiles.Add(uploadFile);
+                    }
+
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        private async Task<ApiResponse> UploadImageAsFavicon(UploadImageRequest request)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                List<UploadFile> uploadFiles = new List<UploadFile>();
+
+                //var user = await _userService.GetCurrentUser();
+
+                foreach (var file in request.FilesBase64)
+                {
+                    bool isUpdate = false;
+
+                    byte[] fileBytes = Convert.FromBase64String(file.Base64);
+
+                    MemoryStream stream = new MemoryStream(fileBytes);
+                    IFormFile galleryImage = new FormFile(stream, 0, stream.Length, null, "favicon.ico")
+                    {
+                        Headers = new HeaderDictionary(),
+                        ContentType = file.ContentType
+                    };
+
+                    var logoDir = Path.Combine(request.Dir, "Favicon");
+                    if (!Directory.Exists(logoDir))
+                    {
+                        Directory.CreateDirectory(logoDir);
+                    }
+
+                    var pathFile = Path.Combine(logoDir, "favicon.ico");
+                    if (File.Exists(pathFile))
+                    {
+                        File.Delete(pathFile);
+                        isUpdate = true;
+                    }
+
+                    await using FileStream fs = new(pathFile, FileMode.Create);
+                    await galleryImage.CopyToAsync(fs);
+
+                    if (isUpdate)
+                    {
+                        var updateUploadFile = await _context.UploadFiles.FirstOrDefaultAsync(x => x.StoredFileName == "favicon.ico");
+
+                        if (updateUploadFile != null)
+                        {
+                            updateUploadFile.StoredFileName = "favicon.ico";
+                            updateUploadFile.FileName = "favicon.ico";
+                            updateUploadFile.UserName = null;
+                            updateUploadFile.UploadDate = DateTime.UtcNow;
+                            _context.UploadFiles.Update(updateUploadFile);
+                        }
+                    }
+                    else
+                    {
+                        var uploadFile = new UploadFile();
+
+                        uploadFile.StoredFileName = "favicon.ico";
+                        uploadFile.FileName = "favicon.ico";
                         uploadFile.UserName = null;
                         uploadFile.UploadDate = DateTime.UtcNow;
                         uploadFiles.Add(uploadFile);

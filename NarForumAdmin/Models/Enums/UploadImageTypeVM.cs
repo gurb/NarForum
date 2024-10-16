@@ -6,5 +6,6 @@
         Gallery,
         GeneralUse,
         Logo,
+        Favicon
     }
 }

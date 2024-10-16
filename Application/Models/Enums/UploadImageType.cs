@@ -12,5 +12,6 @@ namespace Application.Models.Enums
         Gallery,
         GeneralUse,
         Logo,
+        Favicon,
     }
 }

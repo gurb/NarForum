@@ -1,5 +1,6 @@
 ﻿@using Microsoft.Net.Http.Headers
 @using System.Text.RegularExpressions
+@inject IConfiguration Configuration;
 @{
 
     Boolean isBot = false;
@@ -35,7 +36,7 @@
     <link rel="stylesheet" href="css/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="NarForumUser.styles.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="icon" type="image/png" href="@($"{Configuration["ApiBaseUrl"]}/file/images/favicon")" />
     <script src="js/bootstrap.bundle.min.js"></script>
     @* <script>
         (function () {

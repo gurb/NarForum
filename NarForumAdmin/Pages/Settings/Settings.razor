@@ -1,5 +1,10 @@
 ﻿@page "/settings"
+@using NarForumAdmin.Models.Enums
+@using NarForumAdmin.Models.Image
 @using NarForumAdmin.Pages.Settings.Component
+@inject IConfiguration Configuration
+@inject HttpClient Http
+@inject IImageService imageService;
 
 <h3>Settings</h3>
 
@@ -24,7 +29,27 @@
             </div>
             <div class="col-sm-6">
                 <div class="input-group mb-3">
-                    <InputCheckbox @bind-Value=forumSettings.IsShowConsentCookie>Show Consent Cookie</InputCheckbox>
+                    <InputCheckbox @bind-Value=forumSettings.IsShowConsentCookie></InputCheckbox> <span class="ms-1">Show Consent Cookie</span>
+                </div>
+            </div>
+        </div>
+        <div class="row settings-row">
+            <div class="col-sm-6">
+                <label>Favicon</label>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        @if (isExistFavicon)
+                        {
+                            <img class="card-img-top" src="@faviconUrl" />
+                        }
+                        else
+                        {
+                            <label>Favicon image not found</label>
+                        }
+                        <InputFile id="fileupload" class="form-control" OnChange="LoadFavicon" multiple></InputFile>
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,6 +82,15 @@
     [Inject]
     private AlertService? alertService { get; set; }
 
+    bool isExistFavicon;
+    string? faviconUrl;
+    private List<IBrowserFile> loadedFiles = new();
+    private long maxFileSize = 1024 * 5;
+    private int maxFiles = 1;
+    bool isLoadingFavicon { get; set; }
+
+    UploadImageRequestVM? request;
+
     protected async override Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -68,6 +102,11 @@
             if (forumSettings.Id is null)
             {
                 forumSettings = new ForumSettingsVM();
+            }
+            else
+            {
+                faviconUrl = $"{Configuration["ApiBaseUrl"]}/file/images/favicon";
+                isExistFavicon = await UrlExists(faviconUrl);
             }
         }
     }
@@ -95,6 +134,96 @@
             {
                 ToastService!.CreateErrorToast("Error while saving settings", response.Message);
             }
+        }
+
+        if (imageService is not null && request.FilesBase64.Count > 0)
+        {
+            var response = await imageService.UploadImageToServer(request);
+
+            if (response.IsSuccess)
+            {
+                isLoadingFavicon = false;
+                ToastService!.CreateSuccessToast("Uploaded Favicon", "Favicon is uploaded successfully");
+            }
+            else
+            {
+                ToastService!.CreateErrorToast("Error while uploading logo", response.Message);
+            }
+        }
+    }
+
+    private async Task LoadFavicon(InputFileChangeEventArgs e)
+    {
+        request = new UploadImageRequestVM
+        {
+            Type = UploadImageTypeVM.Favicon,
+        };
+
+        request.FilesBase64 = new List<ImageBase64VM>();
+
+        isLoadingFavicon = true;
+
+        loadedFiles.Clear();
+
+
+        foreach (var file in e.GetMultipleFiles(maxFiles))
+        {
+            try
+            {
+                loadedFiles.Add(file);
+            }
+            catch (Exception ex)
+            {
+                if (alertService is not null)
+                {
+                    alertService.ShowAlert(ex.Message);
+                }
+            }
+        }
+
+        if (loadedFiles.Count > 0)
+        {
+            var file = loadedFiles.FirstOrDefault();
+            if (file is not null)
+            {
+                await using MemoryStream fs = new MemoryStream();
+                await file.OpenReadStream(maxAllowedSize: 1048576).CopyToAsync(fs);
+                byte[] somBytes = GetBytes(fs);
+
+                ImageBase64VM imageBase64 = new ImageBase64VM
+                    {
+                        Base64 = Convert.ToBase64String(somBytes, 0, somBytes.Length),
+                        FileName = file.Name,
+                        ContentType = file.ContentType
+                    };
+
+                request.FilesBase64.Add(imageBase64);
+            }
+        }
+
+        isLoadingFavicon = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public static byte[] GetBytes(Stream stream)
+    {
+        var bytes = new byte[stream.Length];
+        stream.Seek(0, SeekOrigin.Begin);
+        stream.ReadAsync(bytes, 0, bytes.Length);
+        stream.Dispose();
+        return bytes;
+    }
+
+    private async Task<bool> UrlExists(string url)
+    {
+        try
+        {
+            var response = await Http.GetAsync(url);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
         }
     }
 }
