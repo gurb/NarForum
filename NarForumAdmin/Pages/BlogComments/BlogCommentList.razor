@@ -1,5 +1,6 @@
 ﻿@page "/blog/comments"
 @using NarForumAdmin.Models.BlogComment
+@using NarForumAdmin.Pages.BlogComments.Modal
 <h3>Blog Comments</h3>
 
 <BlogCommentFilter QueryModel="query" Callback="RefreshListFilter"></BlogCommentFilter>
@@ -44,6 +45,7 @@
 }
 
 <ConfirmModal @ref=deleteBlogCommentModal Callback="DeleteBlogCommentCallback" ModalTitle="Remove Confirmation" MessageContent="Are you sure you want to remove this blog comment?"></ConfirmModal>
+<DetailBlogCommentModal @ref=detailBlogCommentModal Model="SelectedModel"></DetailBlogCommentModal>
 
 @code {
     [Parameter]
@@ -65,6 +67,7 @@
     GetBlogCommentsWithPaginationQueryVM query = new GetBlogCommentsWithPaginationQueryVM();
 
     ConfirmModal? deleteBlogCommentModal;
+    DetailBlogCommentModal? detailBlogCommentModal;
     private BlogCommentVM? SelectedModel { get; set; }
 
     protected async override Task OnParametersSetAsync()
@@ -113,7 +116,9 @@
 
     protected async Task DetailBlogComment(BlogCommentVM blog)
     {
+        SelectedModel = blog;
 
+        detailBlogCommentModal?.ShowModal();
     }
 
     private void DeleteBlogComment(BlogCommentVM blogComment)
