@@ -6,13 +6,22 @@
 <div class="col-11 col-sm-11 col-md-11 col-lg-7 col-xl-5 chat-box">
     <div class="chat-header">
         <div class="row">
-            <div class="col-sm-3">
-                <button type="button" class="btn btn-light pb-0 pt-0 show-chat-list-button" @onclick="ShowChatListForSmallDevices"><i class="bi bi-send-plus"></i> Create Chat</button>
+            <div class="col-3">
+                <button type="button" class="btn btn-light pb-0 pt-0 show-chat-list-button" @onclick="ShowChatListForSmallDevices">
+                    @if (min600)
+                    {
+                        <i class="bi bi-card-list"></i> @("Chat List")
+                    }
+                    else
+                    {
+                        <i class="bi bi-card-list"></i>
+                    }
+                </button>
             </div>
-            <div class="col-sm-6 text-center">
+            <div class="col-6 text-center">
                 Chat
             </div>
-            <div class="col-sm-3 text-end">
+            <div class="col-3 text-end">
                 <button type="button" class="btn btn-light pb-0 pt-0" @onclick="CreateChat">
                     @if(min600)
                     {
