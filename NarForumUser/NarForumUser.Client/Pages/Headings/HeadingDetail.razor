@@ -118,7 +118,7 @@ else
                 <CreatePostForm @ref=child placeholder="@($"post about \"{Heading.Title}\"")" Model="CreateModel" HeadingId="@HeadingGuid" Callback="RefreshPosts"></CreatePostForm>
             </Authorized>
             <NotAuthorized>
-                <p class="login-message-for-heading">You have to login to post this heading.</p>
+                <p class="login-message-for-heading">You have to <a href="login">login</a> to post this heading.</p>
             </NotAuthorized>
         </AuthorizeView>
     }

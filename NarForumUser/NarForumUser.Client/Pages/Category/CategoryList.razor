@@ -104,7 +104,10 @@ else
                 </div>
             }
             <div class="col-4" style="display:flex;align-items:center;justify-content:space-between">
-                Last Post
+                @if(min768)
+                {
+                    @("Last Post")
+                }
 
                 <span>
                     <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">

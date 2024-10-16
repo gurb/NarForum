@@ -34,13 +34,7 @@ namespace Identity.DatabaseContext
             builder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserTokens"); });
             builder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("RoleClaims"); });
 
-
             builder.ApplyConfigurationsFromAssembly(typeof(ForumIdentityDbContext).Assembly);
-            //builder.ApplyConfiguration(new RoleConfiguration());
-            //builder.ApplyConfiguration(new UserConfiguration());
-            //builder.ApplyConfiguration(new UserRoleConfiguration());
-            //builder.ApplyConfiguration(new PermissionDefinitionConfiguration());
-            //builder.ApplyConfiguration(new PermissionConfiguration());
         }
     }
 }

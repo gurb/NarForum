@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using NarForumUser.Client.Contracts;
 using NarForumUser.Client.Models.Favorite;
-using NarForumUser.Client.Models.Like;
 using NarForumUser.Client.Services.Base;
 using NarForumUser.Client.Services.Common;
 
