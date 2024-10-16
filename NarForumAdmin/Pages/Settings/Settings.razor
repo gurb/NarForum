@@ -39,10 +39,10 @@
             </div>
             <div class="col-sm-6">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body text-center">
                         @if (isExistFavicon)
                         {
-                            <img class="card-img-top" src="@faviconUrl" />
+                            <img class="m-3" width="32" height="32" src="@faviconUrl" />
                         }
                         else
                         {
@@ -136,7 +136,7 @@
             }
         }
 
-        if (imageService is not null && request.FilesBase64.Count > 0)
+        if (imageService is not null && request is not null && request.FilesBase64 is not null && request.FilesBase64.Count > 0)
         {
             var response = await imageService.UploadImageToServer(request);
 

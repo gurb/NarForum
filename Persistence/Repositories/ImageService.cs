@@ -482,7 +482,7 @@ namespace Persistence.Repositories
                     byte[] fileBytes = Convert.FromBase64String(file.Base64);
 
                     MemoryStream stream = new MemoryStream(fileBytes);
-                    IFormFile galleryImage = new FormFile(stream, 0, stream.Length, null, "favicon.ico")
+                    IFormFile galleryImage = new FormFile(stream, 0, stream.Length, null, "favicon.png")
                     {
                         Headers = new HeaderDictionary(),
                         ContentType = file.ContentType
@@ -494,7 +494,7 @@ namespace Persistence.Repositories
                         Directory.CreateDirectory(logoDir);
                     }
 
-                    var pathFile = Path.Combine(logoDir, "favicon.ico");
+                    var pathFile = Path.Combine(logoDir, "favicon.png");
                     if (File.Exists(pathFile))
                     {
                         File.Delete(pathFile);
@@ -506,12 +506,12 @@ namespace Persistence.Repositories
 
                     if (isUpdate)
                     {
-                        var updateUploadFile = await _context.UploadFiles.FirstOrDefaultAsync(x => x.StoredFileName == "favicon.ico");
+                        var updateUploadFile = await _context.UploadFiles.FirstOrDefaultAsync(x => x.StoredFileName == "favicon.png");
 
                         if (updateUploadFile != null)
                         {
-                            updateUploadFile.StoredFileName = "favicon.ico";
-                            updateUploadFile.FileName = "favicon.ico";
+                            updateUploadFile.StoredFileName = "favicon.png";
+                            updateUploadFile.FileName = "favicon.png";
                             updateUploadFile.UserName = null;
                             updateUploadFile.UploadDate = DateTime.UtcNow;
                             _context.UploadFiles.Update(updateUploadFile);
@@ -521,8 +521,8 @@ namespace Persistence.Repositories
                     {
                         var uploadFile = new UploadFile();
 
-                        uploadFile.StoredFileName = "favicon.ico";
-                        uploadFile.FileName = "favicon.ico";
+                        uploadFile.StoredFileName = "favicon.png";
+                        uploadFile.FileName = "favicon.png";
                         uploadFile.UserName = null;
                         uploadFile.UploadDate = DateTime.UtcNow;
                         uploadFiles.Add(uploadFile);

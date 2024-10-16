@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Uploads\Images\Favicon\" />
     <Folder Include="Uploads\Images\Users\8e445865-a24d-4543-a6c6-9443d048cdb9\user-profile\" />
   </ItemGroup>
 

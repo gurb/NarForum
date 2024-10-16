@@ -134,5 +134,34 @@ namespace Api.Controllers
             var imageFileStream = System.IO.File.OpenRead(filePath);
             return File(imageFileStream, "image/png");
         }
+
+        /// <summary>
+        /// Gets favicon file.
+        /// </summary>
+        /// <returns>The getting favicon file result as IActionResult</returns>
+        [HttpGet("images/favicon/")]
+        [AllowAnonymous]
+        [EnableCors("AllowAllOriginsForImages")]
+        public IActionResult GetFaviconFile()
+        {
+            var dir = Path.Combine(_webHostEnvironment.ContentRootPath, $"Uploads/Images/Favicon/");
+
+            if (!Directory.Exists(dir))
+            {
+                return NotFound();
+            }
+            var files = Directory.GetFiles(dir);
+
+            if (files.Length == 0)
+            {
+                return NotFound("No files found in the directory.");
+            }
+
+            var fileName = Path.GetFileName(files[0]);
+            var filePath = Path.Combine(dir, fileName);
+
+            var imageFileStream = System.IO.File.OpenRead(filePath);
+            return File(imageFileStream, "image/png");
+        }
     }
 }
