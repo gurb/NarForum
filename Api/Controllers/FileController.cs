@@ -58,7 +58,6 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="userId">UserId(string)</param>
         /// <returns>Gets user profile image file result as IActionResult</returns>
-        [ResponseCache(Duration = 3600, Location = ResponseCacheLocation.Client, NoStore = false)]
         [HttpGet("images/user-profile/{userId}")]
         [AllowAnonymous]
         [EnableCors("AllowAllOriginsForImages")]

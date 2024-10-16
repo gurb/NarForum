@@ -1,0 +1,31 @@
+﻿@using NarForumAdmin.Models.Hub
+
+<div class="row dashboard-row pe-2 ps-2">
+    <h3 class="dashboard-row-title">Online Forum Users</h3>
+</div>
+
+<ul class="list-group active-user-list">
+    @if(ActiveForumUsers is not null && ActiveForumUsers.Count > 0)
+    {
+        @foreach (var user in ActiveForumUsers)
+        {
+            <li class="list-group-item"><i class="bi bi-person-circle me-1"></i> @user.UserName</li>
+        }
+    }
+    else
+    {
+        <li class="list-group-item">There are no online users currently.</li>
+    }
+</ul>
+
+@code {
+
+    [Parameter]
+    public List<ActiveUserVM>? ActiveForumUsers { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        await base.OnInitializedAsync();
+    }
+}

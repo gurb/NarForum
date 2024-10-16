@@ -29,7 +29,6 @@ namespace Identity.Services.Hubs
             {
                 List<ActiveUser> activeUsers = new List<ActiveUser>();
                 Dictionary<string, string>? forumActiveUserHashSet = await _cache.GetAllHashSet("forumActiveUsers");
-                Dictionary<string, string>? adminActiveUserHashSet = await _cache.GetAllHashSet("adminActiveUsers");
 
                 if (forumActiveUserHashSet is not null)
                 {
@@ -39,16 +38,7 @@ namespace Identity.Services.Hubs
                     }
                 }
 
-                if (adminActiveUserHashSet is not null)
-                {
-                    foreach (var activeUser in adminActiveUserHashSet)
-                    {
-                        activeUsers.Add(new ActiveUser { ConnectionId = activeUser.Value, UserName = activeUser.Key });
-                    }
-                }
-
                 var jsonStr = JsonConvert.SerializeObject(activeUsers);
-
                 await _context.Clients.All.ReceiveActiveUsers(jsonStr);
             }
         }

@@ -75,93 +75,7 @@
         </div>
     </div>
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
-        @* <div class="row">
-            @if(activeUsers != null)
-            {
-                <ul>
-                    @foreach(var activeUser in activeUsers){
-                        <li>@activeUser.UserName - @activeUser.ConnectionId</li>
-                    }
-                </ul>
-            }
-        </div>
-        <div class="row">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#home">Active Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#menu1">Last Headings</a>
-                </li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div class="tab-pane container active" id="home">
-                    <table class="table table-striped-columns">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>twitter</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tab-pane container fade" id="menu1">
-                    <table class="table table-striped-columns">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>twitter</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div> *@
+        <NarForumAdmin.Pages.Users.Component.ActiveUsers ActiveForumUsers="activeUsers"></NarForumAdmin.Pages.Users.Component.ActiveUsers>
     </div>
 </div>
 
@@ -176,7 +90,7 @@
     AllStatsResponseVM? allStats { get; set; } = new AllStatsResponseVM();
 
     int activeUserCounter = 0;
-    private List<ActiveUserVM>? activeUsers;
+    private List<ActiveUserVM>? activeUsers = new List<ActiveUserVM>();
 
     bool isLoaded;
 
