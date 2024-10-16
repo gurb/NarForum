@@ -78,6 +78,12 @@ else
     [Inject]
     public NavigationManager? navigationManager { get; set; }
 
+    [Inject]
+    public IJSRuntime JS { get; set; }
+
+    [Inject]
+    public ITrackingLogService? TrackingLogService { get; set; }
+
     private bool IsAuthenticated { get; set; }
 
     private string? imageUrl { get; set; }
@@ -116,6 +122,32 @@ else
             }
 
             Model = await UserService.GetUserInfo(UserName);
+        }
+
+        await SaveTrackingLog();
+    }
+
+    private async Task SaveTrackingLog()
+    {
+        if (JS is not IJSInProcessRuntime)
+        {
+            return;
+        }
+
+        var cookiePolicyAccepted = await JS.InvokeAsync<string>("GetCookiePolicyAccepted");
+
+        if (TrackingLogService is not null && cookiePolicyAccepted == "true")
+        {
+            AddTrackingLogCommandVM command = new AddTrackingLogCommandVM
+            {
+                Type = Models.Enums.TrackingTypeVM.USERPROFILE,
+                URL = $"user/{UserName}",
+                DateTime = DateTime.UtcNow,
+                IsMember = true,
+                Browser = await JS.InvokeAsync<string>("GetBrowserName")
+            };
+
+            await TrackingLogService.AddTrackingLog(command);
         }
     }
 

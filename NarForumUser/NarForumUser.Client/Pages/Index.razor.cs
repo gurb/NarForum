@@ -6,6 +6,8 @@ using NarForumUser.Client.Models.Section;
 using NarForumUser.Client.Services.UI;
 using NarForumUser.Client.Pages.Category.Modal;
 using NarForumUser.Client.Pages.Sections.Modal;
+using Microsoft.JSInterop;
+using NarForumUser.Client.Models.TrackingLog;
 
 namespace NarForumUser.Client.Pages;
 
@@ -29,13 +31,39 @@ public partial class Index
     [Inject]
     public RefreshStateService RefreshStateService { get; set; }
 
-    
+    [Inject]
+    public IJSRuntime JS { get; set; }
+
+    [Inject]
+    public ITrackingLogService? TrackingLogService { get; set; }
+
+
+
 
     protected async override Task OnInitializedAsync()
     {
         if(!isBot)
         {
             await ((ApiAuthenticationStateProvider)AuthenticationStateProvider).GetAuthenticationStateAsync();
+
+
+            if (JS is not IJSInProcessRuntime)
+            {
+                return;
+            }
+            
+            var cookiePolicyAccepted = await JS.InvokeAsync<string>("GetCookiePolicyAccepted");
+            
+            if (TrackingLogService is not null && cookiePolicyAccepted == "true")
+            {
+                AddTrackingLogCommandVM command = new AddTrackingLogCommandVM
+                {
+                    Type = Models.Enums.TrackingTypeVM.HOMEPAGE,
+                    Browser = await JS.InvokeAsync<string>("GetBrowserName")
+                };
+
+                await TrackingLogService.AddTrackingLog(command);
+            }
         }
     }
 
