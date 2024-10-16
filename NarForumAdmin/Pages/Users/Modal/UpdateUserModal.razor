@@ -5,7 +5,6 @@
 <Modal @ref="modal" ModalTitle="Update User" Callback="@HandleUpdate">
     @if (Model is not null)
     {
-        <p>Role id: @roleId</p>
         <EditForm Model="@Model" OnValidSubmit="HandleUpdate">
             <DataAnnotationsValidator />
             <ValidationSummary />

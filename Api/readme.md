@@ -7,7 +7,7 @@
 - "Update-Database" enter command
 
 # example
-> add-migration Forum11 -c ForumDbContext
+> add-migration Forum12 -c ForumDbContext
 > update-database -Context ForumDbContext
 
 > add-migration Id5 -c ForumIdentityDbContext
