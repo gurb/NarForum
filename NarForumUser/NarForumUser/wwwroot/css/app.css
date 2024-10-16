@@ -185,7 +185,7 @@
     --color-toast-bg: #37485ed9;
     --color-toast-header-bg: #37485ed9;
     --color-toast-header-fg: #f1f1f1;
-    --color-cookie-box-bg: #324153;
+    --color-cookie-box-bg: #324153bf;
     --color-cookie-box-border: #232f3dc9;
     --color-skeleton-0-bg: hsl(212.31deg 18.17% 54.91%);
     --color-skeleton-100-bg: hsl(212.31deg 9.76% 36.69%);
@@ -1646,6 +1646,12 @@ small.message-datetime {
     color: var(--color-fg);
 }
 
+@media only screen and (max-width: 600px) {
+    .cookie-box {
+        flex-direction: column;
+    }
+}
+
 .cookie-size {
     font-size: 58px;
 }
@@ -1680,6 +1686,7 @@ small.message-datetime {
     .custom-modal {
         width: 90%;
     }
+
     .notification-dropdown {
         width: 90%;
     }
@@ -1725,18 +1732,18 @@ h3.custom-modal-title {
     color: #aaa;
 }
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-}
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+    }
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
 .custom-modal-image-item {
     padding: 10px;
@@ -1764,9 +1771,9 @@ h3.custom-modal-title {
     font-style: italic;
 }
 
-.removed-post i.bi.bi-trash-fill {
-    color: #c90c0c;
-}
+    .removed-post i.bi.bi-trash-fill {
+        color: #c90c0c;
+    }
 
 .user-role-badge {
     background: #34485f;
@@ -1786,12 +1793,12 @@ h3.custom-modal-title {
     border-color: var(--color-page-item-border) !important;
 }
 
-.page-item a {
-    color: var(--color-page-item-a-fg)!important;
-}
+    .page-item a {
+        color: var(--color-page-item-a-fg) !important;
+    }
 
 .page-input-dropdown {
-    background: var(--color-page-item-right-input-bg)!important;
+    background: var(--color-page-item-right-input-bg) !important;
 }
 
 select.form-select.form-select-sm {
@@ -1801,13 +1808,13 @@ select.form-select.form-select-sm {
 }
 
 .chat-list ul.list-group li.list-group-item {
-    background: var(--color-chat-list-bg)!important;
+    background: var(--color-chat-list-bg) !important;
     color: var(--color-fg);
 }
 
-.chat-list ul.list-group li.list-group-item:hover {
-    background: #dbdbdb7a !important;
-}
+    .chat-list ul.list-group li.list-group-item:hover {
+        background: #dbdbdb7a !important;
+    }
 
 .chat-footer input {
     background: var(--color-chat-input-bg) !important;
@@ -1817,7 +1824,7 @@ select.form-select.form-select-sm {
 
 .select-table {
     color: var(--color-fg);
-    border-color: var(--color-table-border-color)!important;
+    border-color: var(--color-table-border-color) !important;
 }
 
 input[type="text"].form-control {
@@ -1865,13 +1872,13 @@ textarea.form-control {
 }
 
 .link-primary {
-    color: var(--color-a-fg)!important;
+    color: var(--color-a-fg) !important;
     text-decoration: none;
 }
 
-.link-primary:hover {
-    text-decoration: underline;
-}
+    .link-primary:hover {
+        text-decoration: underline;
+    }
 
 label {
     color: var(--color-fg);
@@ -1902,7 +1909,7 @@ select.form-select.select-category {
 }
 
 .link-secondary {
-    color: var(--color-a-fg)!important;
+    color: var(--color-a-fg) !important;
 }
 
 .link-heading-primary:hover {
@@ -1915,21 +1922,21 @@ select.form-select.select-category {
 }
 
 .active a.page-link {
-    color: var(--color-active-page-link-fg)!important;
+    color: var(--color-active-page-link-fg) !important;
 }
 
 .toast-container {
     z-index: 2000;
-    top:85px;
+    top: 85px;
 }
 
 .toast {
-    background: var(--color-toast-bg)!important;
+    background: var(--color-toast-bg) !important;
 }
 
 .toast-header {
-    background: var(--color-toast-header-bg)!important;
-    color: var(--color-toast-header-fg)!important;
+    background: var(--color-toast-header-bg) !important;
+    color: var(--color-toast-header-fg) !important;
 }
 
 .toast-body {
@@ -1948,8 +1955,6 @@ select.form-select.select-category {
     background: #ccc;
 }
 
-
-
 @keyframes decrease {
     from {
         width: 100%;
@@ -1960,15 +1965,13 @@ select.form-select.select-category {
     }
 }
 
-
 .loading-spinner-bg {
     color: #f1f1f1;
 }
 
-
 .chat-list::-webkit-scrollbar {
     width: 7px;
-    padding:2px;
+    padding: 2px;
 }
 
 .chat-list::-webkit-scrollbar-track {
@@ -1986,10 +1989,9 @@ select.form-select.select-category {
     background: #555;
 }
 
-
 .chat-area::-webkit-scrollbar {
     width: 7px;
-    padding:2px;
+    padding: 2px;
 }
 
 .chat-area::-webkit-scrollbar-track {
