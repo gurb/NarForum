@@ -23,6 +23,10 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Gets all sections.
+        /// </summary>
+        /// <returns>The getting all sections result as the list of SectionDTO.</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<List<SectionDTO>> Get()
@@ -32,7 +36,11 @@ namespace Api.Controllers
             return sections;
         }
 
-
+        /// <summary>
+        /// Creates a new section.
+        /// </summary>
+        /// <param name="command">The command containing Name(string).</param>
+        /// <returns>The creating a new section result as ActionResult.</returns>
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -42,6 +50,12 @@ namespace Api.Controllers
             return Ok(response);
         }
 
+
+        /// <summary>
+        /// Gets sections with server-side pagination.
+        /// </summary>
+        /// <param name="request">The request containing PageIndex(int) and PageSize(int).</param>
+        /// <returns>The getting the part of the list of sections and total size of the sections as SectionsPaginationDTO.</returns>
         [AllowAnonymous]
         [HttpPost("GetSectionsWithPagination")]
         public async Task<SectionsPaginationDTO> GetSectionsWithPagination(GetSectionsWithPaginationQuery request)
@@ -51,6 +65,11 @@ namespace Api.Controllers
             return headings;
         }
 
+        /// <summary>
+        /// Updates the selected section.
+        /// </summary>
+        /// <param name="command">The request containing Id(Guid), OrderIndex(int) and Name(string) fields.</param>
+        /// <returns>The updating the selected section result as ApiResponse.</returns>
         [HttpPost("UpdateSection")]
         public async Task<ApiResponse> UpdateSection(UpdateSectionCommand command)
         {
@@ -58,7 +77,11 @@ namespace Api.Controllers
             return response;
         }
 
-
+        /// <summary>
+        /// Removes the selected section.
+        /// </summary>
+        /// <param name="command">The request containing Id(Guid).</param>
+        /// <returns>The removing the selected section result as ActionResult.</returns>
         [HttpPost("RemoveSection")]
         public async Task<ActionResult> RemoveSection(RemoveSectionCommand command)
         {

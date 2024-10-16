@@ -17,6 +17,10 @@ namespace Api.Controllers
             _mediator = mediator;
         }
 
+		/// <summary>
+		/// Gets SMTP Settings.
+		/// </summary>
+		/// <returns>The getting SMTP Settings result as SmtpSettingsDTO.</returns>
 		[HttpPost("GetSmtpSettings")]
 		public async Task<SmtpSettingsDTO> GetSmtpSettings()
 		{
@@ -24,8 +28,12 @@ namespace Api.Controllers
 			return response;
 		}
 
-
-		[HttpPost("UpdateSmtpSettings")]
+        /// <summary>
+        /// Updates SMTP Settings.
+        /// </summary>
+        /// <param name="command">The command containing Server(string), Port(int), UserName(string), Password(string), Timeout(int).</param>
+        /// <returns>The updating SMTP settings result as ApiResponse.</returns>
+        [HttpPost("UpdateSmtpSettings")]
 		public async Task<ApiResponse> UpdateSmtpSettings(UpdateSmtpSettingsCommand command)
 		{
 			var response = await _mediator.Send(command);
