@@ -140,6 +140,15 @@
             {
                 layout2 = true;
                 layout1 = false;
+
+                if(parts.Length > 1)
+                {
+                    if(parts[1] == "settings")
+                    {
+                        layout1 = true;
+                        layout2 = false;
+                    }
+                }
             }
             else
             {

@@ -117,11 +117,12 @@ else
 
                             imageExist = await UrlExists(imageUrl);
                         }
+
+                        Model = await UserService.GetUserInfo(UserName);
                     }
                 }
             }
 
-            Model = await UserService.GetUserInfo(UserName);
         }
 
         await SaveTrackingLog();
