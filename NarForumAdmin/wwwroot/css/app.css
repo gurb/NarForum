@@ -98,6 +98,11 @@ a, .btn-link {
     content: var(--blazor-load-percentage-text, "Loading");
 }
 
+.navbar-toggler {
+    color: rgba(0, 0, 0, .55) !important;
+    background-color: #97979729 !important;
+}
+
 code {
     color: #c02d76;
 }
@@ -321,5 +326,69 @@ ul.list-group.active-user-list li.list-group-item {
     border-top: 1px solid #00000020;
     font-size: 0.9rem;
     padding: 5px 10px;
+    background: #f1f1f1;
+}
+
+.overflow-y-auto {
+    overflow-y: auto;
+}
+
+.color-darkgreen {
+    color: darkgreen;
+}
+.color-dodgerblue {
+    color: dodgerblue;
+}
+.color-red {
+    color: red;
+}
+
+.color-green {
+    color: green;
+}
+
+.color-cornflowerblue {
+    color: cornflowerblue;
+}
+
+.color-white {
+    color: white;
+}
+
+.color-333 {
+    color: #333;
+}
+
+.opacity-half {
+    opacity: 0.5;
+}
+
+.modal-max-width {
+    max-width: 700px;
+}
+
+.bg-red {
+    background: red;
+}
+
+.bg-1a82dd {
+    background: #1a82dd;
+}
+
+.bg-b698cf {
+    background: #b698cf;
+}
+
+.bg-dac3cd {
+    background: #dac3cd;
+}
+
+.bg-ff9695 { background:#ff9695; }
+
+.bg-ff886f { background:#ff886f; }
+
+.bg-ff8400 { background:#ff8400; }
+
+.bg-popular-heading {
     background: #f1f1f1;
 }

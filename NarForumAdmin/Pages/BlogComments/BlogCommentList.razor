@@ -9,10 +9,9 @@
     <caption>List of Blog Posts</caption>
     <thead>
         <tr>
-            @* <th scope="col" style="width:70px;">Id</th> *@
-            <th scope="col" style="width:20%">Member</th>
-            <th scope="col">Comment</th>
-            <th scope="col" style="width:20%">Action</th>
+            <th class="col-2" scope="col">Member</th>
+            <th class="col-8" scope="col">Comment</th>
+            <th class="col-2" scope="col">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -25,7 +24,6 @@
             @foreach (var blogComment in BlogComments)
             {
                 <tr>
-                    @* <th scope="row" class="text-end align-middle">@blogComment.Id</th> *@
                     <td class="align-middle">@blogComment.UserName</td>
                     <td class="align-middle">@blogComment.Content</td>
                     <td class="text-end align-middle">

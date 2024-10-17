@@ -1,6 +1,6 @@
 ﻿@inject IJSRuntime JSRuntime;
 
-<div class="modal fade @modalClass" id="@ModalId" tabindex="-1" aria-labelledby="biseyLabel" aria-hidden="true" style="display:@modalDisplay; overflow-y: auto;">
+<div class="modal fade @modalClass @modalDisplay overflow-y-auto" id="@ModalId" tabindex="-1" aria-labelledby="biseyLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -46,7 +46,7 @@
 
     private bool isOpen { get; set; }
 
-    private string modalDisplay = "none;";
+    private string modalDisplay = "d-none";
     private string modalClass = string.Empty;
     private bool showBackdrop = false;
 
@@ -54,7 +54,7 @@
     public async void ShowModal()
     {
         modalClass = "show";
-        modalDisplay = "block";
+        modalDisplay = "d-block";
         showBackdrop = true;
         await InvokeAsync(StateHasChanged);
     }
@@ -62,7 +62,7 @@
     public async void CloseModal()
     {
         modalClass = string.Empty;
-        modalDisplay = "none";
+        modalDisplay = "d-none";
         showBackdrop = false;
         await InvokeAsync(StateHasChanged);
     }

@@ -15,10 +15,9 @@
     <caption>List of user roles</caption>
     <thead>
         <tr>
-            @* <th scope="col" style="width:70px;">#</th> *@
-            <th scope="col">Name</th>
-            <th scope="col" style="width:20%">Normalized Name</th>
-            <th scope="col" style="width:20%"></th>
+            <th class="col-4" scope="col">Name</th>
+            <th class="col-4" scope="col">Normalized Name</th>
+            <th class="col-4" scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -31,7 +30,6 @@
             @foreach (var role in Roles)
             {
                 <tr>
-                    @* <th scope="row" class="text-end align-middle">@role.Id</th> *@
                     <td class="align-middle">@role.Name</td>
                     <td class="align-middle">@role.NormalizedName</td>
                     <td class="text-end align-middle">

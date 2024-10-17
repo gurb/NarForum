@@ -20,9 +20,9 @@
             <span @onclick="() => Toggle(item)" class="item-display-name">@item.DisplayName</span>
             <span class="item-code-name">@item.Name</span>
             <span class="item-button-group">
-                <span class="item-button" @onclick="() => AddPermissionDefinition(item)"><i style="color:darkgreen;opacity:0.5;" class="bi bi-file-plus-fill"></i></span>
-                <span class="item-button" @onclick="() => UpdatePermissionDefinition(item)"><i style="color:dodgerblue;opacity:0.5;" class="bi bi-pencil-fill"></i></span>
-                <span class="item-button" @onclick="() => RemovePermissionDefinition(item)"><i style="color:red;opacity:0.5;" class="bi bi-trash-fill"></i></span>
+                <span class="item-button" @onclick="() => AddPermissionDefinition(item)"><i class="bi bi-file-plus-fill color-darkgreen opacity-50"></i></span>
+                <span class="item-button" @onclick="() => UpdatePermissionDefinition(item)"><i class="bi bi-pencil-fill color-dodgerblue opacity-50"></i></span>
+                <span class="item-button" @onclick="() => RemovePermissionDefinition(item)"><i class="bi bi-trash-fill color-red opacity-50"></i></span>
             </span>
             @if (item.IsExpanded && item.Children.Any())
             {

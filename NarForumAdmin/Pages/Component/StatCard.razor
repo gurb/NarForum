@@ -1,5 +1,5 @@
 ﻿@using NarForumAdmin.Models.Stat
-<div class="card card-square" style="background:@BackgroundColor;color:@FontColor">
+<div class="card card-square @BackgroundColor @FontColor">
     <div class="card-body flex-row justify-content-center align-items-center">
         <div class="card-title">
             <i class="bi bi-@Icon"></i>
@@ -8,7 +8,7 @@
         <p class="card-text-stat-number">@ConvertNumberToString(TotalCounter)</p>
         @if(IsShowDayCounter)
         {
-            <p class="card-text"><small style="color:@FontColor">Today: @ConvertNumberToString(DayCounter)</small></p>
+            <p class="card-text"><small class="@FontColor">Today: @ConvertNumberToString(DayCounter)</small></p>
         }
     </div>
 </div>
@@ -18,10 +18,10 @@
     public string Url { get; set; } = string.Empty;
 
     [Parameter]
-    public string BackgroundColor { get; set; } = "red";
+    public string BackgroundColor { get; set; } = "bg-red";
 
     [Parameter]
-    public string FontColor { get; set; } = "white";
+    public string FontColor { get; set; } = "color-white";
 
     [Parameter]
     public string Icon { get; set; } = string.Empty;
