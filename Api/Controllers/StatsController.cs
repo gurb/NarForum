@@ -1,6 +1,5 @@
 ﻿using Application.Contracts.Persistence;
 using Application.Models.Persistence.Stats;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -65,5 +64,6 @@ namespace Api.Controllers
         {
             return await _forumStatService.GetSectionStats();
         }
+
     }
 }

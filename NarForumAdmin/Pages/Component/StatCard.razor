@@ -6,7 +6,10 @@
             @Name
         </div>
         <p class="card-text-stat-number">@ConvertNumberToString(TotalCounter)</p>
-        <p class="card-text"><small style="color:@FontColor">Today: @ConvertNumberToString(DayCounter)</small></p>
+        @if(IsShowDayCounter)
+        {
+            <p class="card-text"><small style="color:@FontColor">Today: @ConvertNumberToString(DayCounter)</small></p>
+        }
     </div>
 </div>
 
@@ -31,6 +34,9 @@
 
     [Parameter]
     public int DayCounter { get; set; } = 0;
+
+    [Parameter]
+    public bool IsShowDayCounter { get; set; } = false;
 
     [Parameter]
     public string UpdateNote { get; set; } = string.Empty;

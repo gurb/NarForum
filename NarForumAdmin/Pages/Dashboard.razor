@@ -41,15 +41,15 @@
                 <StatCard Name="Users"
                     BackgroundColor="#ff886f"
                     FontColor="#333"
-                    TotalCounter="@allStats.CategoryStats.TotalCount"
-                    DayCounter="0"></StatCard>
+                    TotalCounter="@allStats.UserStats.TotalCount"
+                    DayCounter="@allStats.UserStats.TodayStat.Counter"></StatCard>
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 p-0">
                 <StatCard Name="Online Users"
                     BackgroundColor="#ff8400"
                     FontColor="#333"
-                    TotalCounter="@allStats.CategoryStats.TotalCount"
-                    DayCounter="@activeUserCounter"></StatCard>
+                    TotalCounter="@activeUsers.Count()"
+                    IsShowDayCounter="false"></StatCard>
             </div>
         </div>
         <div class="row dashboard-row">
@@ -58,7 +58,6 @@
         <div class="row dashboard-row">
             <div class="col-12 col-sm-12 col-md-12 col-lg-6 dasboard-menu-button">
                 <TotalView></TotalView>
-                @* <DashboardCard Name="Categories" Icon="tag" Url="category/list"></DashboardCard> *@
             </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-6 dasboard-menu-button">
                 <BrowserView></BrowserView>

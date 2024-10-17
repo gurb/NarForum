@@ -6,13 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Persistence.DatabaseContext;
 using System.Globalization;
 
-
 namespace Persistence.Repositories
 {
     public class ForumStatService : IForumStatService
     {
         protected readonly ForumDbContext _context;
-
+        
         public ForumStatService(ForumDbContext context)
         {
             _context = context;
@@ -26,6 +25,7 @@ namespace Persistence.Repositories
             response.HeadingStats = await GetHeadingStats();
             response.SectionStats = await GetSectionStats();
             response.CategoryStats = await GetCategoryStats();
+            response.UserStats = await GetUserStats();
 
             return response;
         }
@@ -72,6 +72,39 @@ namespace Persistence.Repositories
 
             response.MonthStats = _context.Set<T>().AsNoTracking()
                 .GroupBy(k => new { Month = k.DateCreate.Value.Month, Year = k.DateCreate.Value.Year })
+                .Select(g => new MonthStatDTO
+                {
+                    Month = g.Key.Month,
+                    Year = g.Key.Year,
+                    MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(g.Key.Month),
+                    Counter = g.ToList().Count()
+                }).ToList();
+
+            return response;
+        }
+
+        public async Task<StatsResponse> GetUserStats()
+        {
+            StatsResponse response = new StatsResponse();
+
+            response.TotalCount = await _context.TrackingLogs.AsNoTracking().Where(x => x.Type == Domain.Models.Enums.TrackingType.NEWUSER).CountAsync();
+
+            response.TodayStat = new StatWithDateDTO()
+            {
+                DateTime = DateTime.UtcNow.Date,
+                Counter = await _context.TrackingLogs.AsNoTracking().Where(x => DateTime.UtcNow.Date == x.DateTime && x.Type == Domain.Models.Enums.TrackingType.NEWUSER).CountAsync()
+            };
+
+            var yesterday = DateTime.UtcNow.Date.AddDays(-1);
+
+            response.YesterdayStat = new StatWithDateDTO()
+            {
+                DateTime = yesterday,
+                Counter = await _context.TrackingLogs.AsNoTracking().Where(x => yesterday.Date == x.DateTime && x.Type == Domain.Models.Enums.TrackingType.NEWUSER).CountAsync()
+            };
+
+            response.MonthStats = _context.TrackingLogs.AsNoTracking()
+                .GroupBy(k => new { Month = k.DateTime.Month, Year = k.DateTime.Year })
                 .Select(g => new MonthStatDTO
                 {
                     Month = g.Key.Month,

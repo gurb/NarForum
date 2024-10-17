@@ -9,5 +9,6 @@ namespace Application.Contracts.Persistence
         public Task<StatsResponse> GetCategoryStats();
         public Task<StatsResponse> GetHeadingStats();
         public Task<StatsResponse> GetSectionStats();
+        public Task<StatsResponse> GetUserStats();
     }
 }
