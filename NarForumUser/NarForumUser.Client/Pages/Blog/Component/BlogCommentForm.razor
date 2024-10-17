@@ -8,7 +8,7 @@
 
 @if (BlogPostVM is not null && Model is not null)
 {
-    <div class="card-footer py-3 border-0" style="background-color: transparent;">
+    <div class="card-footer py-3 border-0 bg-transparent">
         <div class="d-flex flex-start w-100">
             @if (imageExist)
             {
@@ -27,8 +27,8 @@
             }
 
             <div data-mdb-input-init class="form-outline w-100">
-                <textarea @bind=Model.Content class="form-control" placeholder="Message..." id="textAreaExample" rows="4"
-                            style="background: #fff;"></textarea>
+                <textarea @bind=Model.Content class="form-control bg-white" placeholder="Message..." id="textAreaExample" rows="4"
+                           ></textarea>
             </div>
         </div>
         <div class="float-end mt-2 pt-1">

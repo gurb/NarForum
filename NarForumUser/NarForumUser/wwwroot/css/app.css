@@ -575,6 +575,10 @@ span.heading-card-status {
     color: var(--color-breadcrumb-item-active-fg);
 }
 
+.breadcrumb-divider {
+    --bs-breadcrumb-divider: '›';
+}
+
 .top-nav-left-menu {
     margin-left: 20px;
 }
@@ -761,18 +765,26 @@ span.heading-card-status {
 
 .category-edit-button {
     display: none;
+    font-size: 1.5em;
+    margin-right: 20px;
 }
 
 .category-normal-icon {
     display: block;
+    font-size: 1.5em;
+    margin-right: 20px;
 }
 
 .category-card-body:hover .category-edit-button {
+    font-size: 1.5em;
+    margin-right: 20px;
     display: block;
 }
 
 .category-card-body:hover .category-normal-icon {
     display: none;
+    font-size: 1.5em;
+    margin-right: 20px;
 }
 
 .category-card-heading-counter {
@@ -1326,6 +1338,7 @@ h3.blog-comment-form-title {
     margin-right: 10px;
     padding: 5px;
     border-radius: 50%;
+
 }
 
 .form-signin {
@@ -1468,6 +1481,11 @@ i.bi.bi-file-earmark-text, i.bi.bi-file-earmark-lock2, i.bi.bi-journals, i.bi.bi
     display: block;
     color: var(--color-chat-username-fg);
     background: var(--color-chat-username-bg);
+}
+
+.chat-block {
+    width:calc(80%);
+    float:left;
 }
 
 span.chat-subject-area {
@@ -2012,4 +2030,73 @@ select.form-select.select-category {
 span.chat-subject-user {
     font-size: .75rem;
     font-weight: 700;
+}
+
+.bg-transparent {
+    background:transparent;
+}
+
+.bg-white {
+    background: white;
+}
+
+.cursor-pointer {
+    cursor: pointer
+}
+
+.justify-content-space-between {
+    justify-content: space-between
+}
+
+.heading-filter-icon {
+    float: right;
+    font-size: 18px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.color-person-icon {
+    color: var(--color-fg);
+}
+
+.margin-top-auto {
+    margin-top: auto;
+}
+
+.width-10px {
+    width:10px;
+}
+
+.height-100px {
+    height: 100px;
+}
+
+.heading-icon-style {
+    font-size: 1.5em;
+    margin-right: 20px;
+}
+
+.favorite-icon-color {
+    color: #ff9b00;
+}
+
+.post-link-icon-style {
+    font-size: 1.5em;
+    margin-right: 20px;
+}
+
+.color-red {
+    color: red;
+}
+
+.color-green {
+    color: green;
+}
+
+.color-cornflowerblue {
+    color: cornflowerblue;
+}
+
+.position-relative {
+    position:relative;
 }

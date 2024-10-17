@@ -3,7 +3,7 @@
     @if(IsBasic)
     {
         <div class="col-sm-12 heading-text-area">
-            <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i>
+            <i class="bi bi-file-earmark-text heading-icon-style"></i>
             <a href="@url" class="link-heading-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">
                 @Model.Title
             </a>
@@ -14,21 +14,21 @@
         <div class="col-sm-6 heading-text-area">
             @if (Model.IsPin && !Model.IsLock)
             {
-                <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i>
-                <i class="bi bi-pin-angle-fill me-1 mt-1 heading-pin" style="font-size:1.2em;margin-right:10px;"></i>
+                <i class="bi bi-file-earmark-text heading-icon-style"></i>
+                <i class="bi bi-pin-angle-fill me-1 mt-1 heading-pin"></i>
             }
             else if (!Model.IsPin && Model.IsLock)
             {
-                <i class="bi bi-file-earmark-lock2" style="font-size:1.5em;margin-right:20px;"></i>
+                <i class="bi bi-file-earmark-lock2 heading-icon-style"></i>
             }
             else if (Model.IsPin && Model.IsLock)
             {
-                <i class="bi bi-file-earmark-lock2" style="font-size:1.5em;margin-right:20px;"></i>
-                <i class="bi bi-pin-angle-fill me-1 mt-1 heading-pin" style="font-size:1.2em;margin-right:10px;"></i>
+                <i class="bi bi-file-earmark-lock2 heading-icon-style"></i>
+                <i class="bi bi-pin-angle-fill me-1 mt-1 heading-pin"></i>
             }
             else
             {
-                <i class="bi bi-file-earmark-text" style="font-size:1.5em;margin-right:20px;"></i>
+                <i class="bi bi-file-earmark-text heading-icon-style"></i>
             }
 
             <a href="@url" class="link-heading-primary link-offset-2 link-underline-opacity-100 link-underline-opacity-100-hover">

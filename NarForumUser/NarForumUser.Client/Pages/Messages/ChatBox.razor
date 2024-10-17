@@ -40,10 +40,10 @@
             <ul class="list-group">
                 @foreach(var chat in Chats)
                 {
-                    <li class="list-group-item d-flex align-items-center" style="justify-content:space-between" @onclick="()=>OpenChatVM(chat)">
-                       <div style="width:calc(80%);float:left">
+                    <li class="list-group-item d-flex align-items-center justify-content-space-between" @onclick="()=>OpenChatVM(chat)">
+                       <div class="chat-block">
                             <span class="chat-subject-user">
-                                <i class="bi bi-person-fill me-1" style="color:var(--color-fg)"></i>
+                                <i class="bi bi-person-fill me-1 color-person-icon"></i>
                                 @if (chat.CreatorId != SelfUserId && chat.Creator is not null)
                                 {
                                     @chat.Creator.UserName
@@ -62,7 +62,7 @@
                        </div>
                         @if (@chat.Status == Models.Enums.ChatStatusVM.Pending)
                         {
-                            <span style="float:right;"><i class="bi bi-clock-history"></i></span>
+                            <span class="float-end"><i class="bi bi-clock-history"></i></span>
                         }
                     </li>
                 }

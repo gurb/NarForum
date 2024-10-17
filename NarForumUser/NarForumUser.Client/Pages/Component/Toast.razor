@@ -14,15 +14,15 @@
                     <div class="toast-header">
                         @if(notification.Type == ToastTypeVM.Success)
                         {
-                            <i class="bi bi-check-circle-fill me-1" style="color:green"></i>
+                            <i class="bi bi-check-circle-fill me-1 color-green"></i>
                         }
                         else if (notification.Type == ToastTypeVM.Error)
                         {
-                            <i class="bi bi-x-circle-fill me-1" style="color:red"></i>
+                            <i class="bi bi-x-circle-fill me-1 color-red"></i>
                         }
                         else if (notification.Type == ToastTypeVM.Info)
                         {
-                            <i class="bi bi-info-circle-fill me-1" style="color:cornflowerblue"></i>
+                            <i class="bi bi-info-circle-fill me-1 color-cornflowerblue"></i>
                         }
                         <strong class="me-auto">@notification.Title</strong>
                         <small>@notification.RightText</small>

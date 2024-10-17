@@ -103,21 +103,21 @@ else
                     Posts
                 </div>
             }
-            <div class="col-4" style="display:flex;align-items:center;justify-content:space-between">
+            <div class="col-4 d-flex align-items-center justify-content-space-between">
                 @if(min768)
                 {
                     @("Last Post")
                 }
 
                 <span>
-                    <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                    <span class="heading-filter-icon text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         <i class="bi bi-funnel"></i>
                     </span>
                     <ul class="dropdown-menu page-search-heading-dropdown">
                         <SearchHeading Query="query" SearchCallback="SearchHeadingCallback"></SearchHeading>
                     </ul>
 
-                    <span style="float:right;margin-left:10px;font-size:18px;cursor:pointer;" class="text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                    <span class="heading-filter-icon text-end" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         <i class="bi bi-filter-right"></i>
                     </span>
 
@@ -132,7 +132,7 @@ else
                             <a @onclick="() => SortHeadingList(SortTypeVM.OLDEST)">Oldest</a>
                         </li>
                     </ul>
-                    <span style="float:right;font-size:18px;margin-left:10px;cursor:pointer;" class="text-end" @onclick=RefreshList>
+                    <span class="heading-filter-icon text-end" @onclick=RefreshList>
                         <i class="bi bi-repeat"></i>
                     </span>
                 </span>
