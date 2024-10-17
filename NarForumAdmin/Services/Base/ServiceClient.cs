@@ -385,6 +385,15 @@ namespace NarForumAdmin.Services.Base
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<System.Collections.Generic.ICollection<FavoriteDTO>> GetFavoritesByHeadingIdAndUserNameAsync(System.Guid? headingId, string userName, System.Threading.CancellationToken cancellationToken);
 
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<FavoritesPaginationDTO> GetFavoritesWithPaginationAsync(GetFavoritesWithPaginationQuery body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<FavoritesPaginationDTO> GetFavoritesWithPaginationAsync(GetFavoritesWithPaginationQuery body, System.Threading.CancellationToken cancellationToken);
+
         /// <returns>Created</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task AddFavoriteAsync(AddFavoriteCommand body);
@@ -4548,6 +4557,88 @@ namespace NarForumAdmin.Services.Base
                         if (status_ == 200)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<FavoriteDTO>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<FavoritesPaginationDTO> GetFavoritesWithPaginationAsync(GetFavoritesWithPaginationQuery body)
+        {
+            return GetFavoritesWithPaginationAsync(body, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<FavoritesPaginationDTO> GetFavoritesWithPaginationAsync(GetFavoritesWithPaginationQuery body, System.Threading.CancellationToken cancellationToken)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, JsonSerializerSettings);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                
+                    // Operation Path: "api/Favorites/GetFavoritesWithPagination"
+                    urlBuilder_.Append("api/Favorites/GetFavoritesWithPagination");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<FavoritesPaginationDTO>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -13417,6 +13508,21 @@ namespace NarForumAdmin.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("dateTime")]
         public System.DateTime? DateTime { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("heading")]
+        public HeadingDTO Heading { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class FavoritesPaginationDTO
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("favorites")]
+        public System.Collections.Generic.ICollection<FavoriteDTO> Favorites { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("totalCount")]
+        public int TotalCount { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -13584,6 +13690,24 @@ namespace NarForumAdmin.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("subject")]
         public string Subject { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
+        public int? PageIndex { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("pageSize")]
+        public int? PageSize { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class GetFavoritesWithPaginationQuery
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("userId")]
+        public System.Guid? UserId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("userName")]
+        public string UserName { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("pageIndex")]
         public int? PageIndex { get; set; }

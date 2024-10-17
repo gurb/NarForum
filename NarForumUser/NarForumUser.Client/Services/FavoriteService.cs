@@ -53,10 +53,22 @@ public class FavoriteService : BaseHttpService, IFavoriteService
         return data;
     }
 
+
     public async Task<List<FavoriteVM>> GetFavoritesByUserName(string username)
     {
         var likes = await _client.GetFavoritesByUserNameAsync(username);
         var data = _mapper.Map<List<FavoriteVM>>(likes);
+
+        return data;
+    }
+
+    public async Task<FavoritesPaginationVM> GetFavoritesWithPagination(GetFavoritesWithPaginationQueryVM request)
+    {
+        GetFavoritesWithPaginationQuery query = _mapper.Map<GetFavoritesWithPaginationQuery>(request);
+
+        var headingsPagination = await _client.GetFavoritesWithPaginationAsync(query);
+
+        var data = _mapper.Map<FavoritesPaginationVM>(headingsPagination);
 
         return data;
     }

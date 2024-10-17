@@ -11,6 +11,8 @@ namespace Application.Contracts.Persistence
         Task<List<Heading>> GetHeadingsByCategoryIdWithPagination(Guid categoryId, int pageIndex, int pageSize);
         Task<List<Heading>> GetHeadingsByUserNameWithPagination(string userName, int pageIndex, int pageSize);
 
+        Task<List<Heading>> GetHeadingsByIds(List<Guid> ids);
+
         int GetHeadingsCountByCategoryId(Guid categoryId);
         int GetHeadingsCountByUserName(string userName);
 

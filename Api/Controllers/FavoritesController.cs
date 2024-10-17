@@ -1,5 +1,6 @@
 ﻿using Application.Features.Favorite.Commands.AddFavorite;
 using Application.Features.Favorite.Queries.GetFavorites;
+using Application.Features.Favorite.Queries.GetFavoritesWithPagination;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -84,6 +85,20 @@ namespace Api.Controllers
                     UserName = userName
                 }
             );
+
+            return favorites;
+        }
+
+        /// <summary>
+        /// Gets favorites with server-side pagination.
+        /// </summary>
+        /// <param name="request">The request containing UserId(Guid), PageIndex(int) and PageSize(int).</param>
+        /// <returns>The getting the part of the list of favorites and total size of the favorites as FavoritesPaginationDTO.</returns>
+        [AllowAnonymous]
+        [HttpPost("GetFavoritesWithPagination")]
+        public async Task<FavoritesPaginationDTO> GetFavoritesWithPagination(GetFavoritesWithPaginationQuery request)
+        {
+            var favorites = await _mediator.Send(request);
 
             return favorites;
         }

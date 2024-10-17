@@ -1,4 +1,6 @@
-﻿namespace NarForumUser.Client.Models.Favorite
+﻿using NarForumUser.Client.Models.Heading;
+
+namespace NarForumUser.Client.Models.Favorite
 {
     public class FavoriteVM
     {
@@ -9,5 +11,6 @@
         public Guid? UserId { get; set; }
 
         public DateTime? DateTime { get; set; }
+        public HeadingVM? Heading { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Features.Heading.Queries;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,7 @@ namespace Application.Features.Favorite.Queries.GetFavorites
 		public string UserName { get; set; } = string.Empty;
         public Guid? UserId { get; set; }
         public DateTime? DateTime { get; set; }
+
+        public HeadingDTO? Heading { get; set; }
     }
 }

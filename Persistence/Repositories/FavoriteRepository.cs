@@ -2,6 +2,7 @@
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DatabaseContext;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Persistence.Repositories
@@ -42,6 +43,22 @@ namespace Persistence.Repositories
         public async Task<Favorite?> GetAsync(Expression<Func<Favorite, bool>> predicate)
         {
             return await _context.Favorites.FirstOrDefaultAsync(predicate);
+        }
+
+        public int GetCount(Expression<Func<Favorite, bool>> predicate)
+        {
+            return _context.Favorites.AsNoTracking().Where(predicate).Count();
+        }
+
+        public async Task<List<Favorite>> GetFavoritesWithPagination(Expression<Func<Favorite, bool>> predicate, int pageIndex, int pageSize)
+        {
+            var favorites = await _context.Favorites.AsNoTracking()
+                .Where(predicate)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return favorites;
         }
     }
 }

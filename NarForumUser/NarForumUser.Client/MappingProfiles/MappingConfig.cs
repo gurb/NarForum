@@ -58,6 +58,8 @@ namespace NarForumUser.Client.MappingProfiles
 
             CreateMap<FavoriteDTO, FavoriteVM>().ReverseMap();
             CreateMap<AddFavoriteCommand, FavoriteVM>().ReverseMap();
+            CreateMap<GetFavoritesWithPaginationQuery, GetFavoritesWithPaginationQueryVM>().ReverseMap();
+            CreateMap<FavoritesPaginationDTO, FavoritesPaginationVM>().ReverseMap();
 
             CreateMap<ApiResponse, ApiResponseVM>().ReverseMap();
 

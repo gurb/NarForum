@@ -8,7 +8,7 @@
 }
 else if(activePage == "user")
 {
-
+    <UserFavorites UserName="@param2"></UserFavorites>
 }
 else if (activePage == "contact")
 {
@@ -17,10 +17,12 @@ else if (activePage == "contact")
 else if (activePage == "category")
 {
     <RecentHeadings></RecentHeadings>
+    <ForumStats></ForumStats>
 }
 else if (activePage == null || activePage == "")
 {
     <RecentHeadings></RecentHeadings>
+    <ForumStats></ForumStats>
 }
 else
 {
@@ -32,6 +34,7 @@ else
 
 
     string activePage = "";
+    string param2 = "";
 
     string url = "";
 
@@ -46,10 +49,19 @@ else
             if(parts is not null && parts.Length > 0)
             {
                 activePage = parts[0];
+                if(parts.Length > 1)
+                {
+                    param2 = parts[1];
+                }
+                else
+                {
+                    param2 = string.Empty;
+                }
             }
             else
             {
                 activePage = "";
+                param2 = string.Empty;
             }
 
             StateHasChanged();
@@ -77,10 +89,19 @@ else
         if (parts is not null && parts.Length > 0)
         {
             activePage = parts[0];
+            if (parts.Length > 1)
+            {
+                param2 = parts[1];
+            }
+            else
+            {
+                param2 = string.Empty;
+            }
         }
         else
         {
             activePage = "";
+            param2 = string.Empty;
         }
         StateHasChanged();
     }

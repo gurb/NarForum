@@ -1,7 +1,7 @@
 ﻿@inject HttpClient Http
 @inject IConfiguration Configuration
 
-<div class="row recent-heading-list-container">
+<div class="row recent-heading-list-container mb-3">
     <h3 class="sidebar-title">Recent Headings</h3>
     @if (isLoading)
     {
@@ -37,9 +37,6 @@
                             @heading.UserName.ToUpper()[0]
                         </span>
                     }
-                        @* <img class="rounded shadow-1-strong"
-                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar"
-                    width="50" height="50" /> *@
                 </a>
                 <div class="flex-grow-1 flex-shrink-1">
                 <div>
@@ -50,7 +47,6 @@
                         <div class="recent-heading-title-info">
                             <span class="small">@heading.UserName.Split('@')[0]</span>
                             <span class="badge recent-heading-category-badge">@heading.CategoryName</span>
-                            @* <span class="small">@heading.ActiveDate</span> *@
                         </div>
                     </div>
                 </div>

@@ -32,6 +32,14 @@ namespace Persistence.Repositories
             return productsPerPage;
         }
 
+        public async Task<List<Heading>> GetHeadingsByIds(List<Guid> ids)
+        {
+            var productsPerPage = await _context.Headings.AsNoTracking()
+                .Where(x => ids.Contains(x.Id) && x.IsActive).ToListAsync();
+
+            return productsPerPage;
+        }
+
         public async Task<List<Heading>> GetHeadingsByUserNameWithPagination(string userName, int pageIndex, int pageSize)
         {
             var totalCount = _context.Headings.AsNoTracking().Count();

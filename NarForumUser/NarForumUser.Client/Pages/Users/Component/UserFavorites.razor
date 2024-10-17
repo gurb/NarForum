@@ -1,0 +1,92 @@
+﻿@using NarForumUser.Client.Services.Common
+<h3>UserFavorites</h3>
+
+@if (Favorites != null)
+{
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var favorite in Favorites)
+            {
+                <tr>
+                    <td>@favorite.Heading.Title</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <Pagination UseCallback=true TotalPages="@TotalPages" CurrentPage="@CurrentPage" BaseUrl="@getBaseUrl()" PageChanged="OnPageChanged" />
+}
+
+@code {
+    [Parameter]
+    public UserInfoVM UserInfo { get; set; }
+
+    [Parameter]
+    public string UserName { get; set; }
+
+    [Inject]
+    public IFavoriteService FavoriteService { get; set; }
+
+    [Inject]
+    public ToastService ToastService { get; set; }
+
+    public List<FavoriteVM>? Favorites { get; set; }
+
+
+    private string getBaseUrl()
+    {
+        return $"category/";
+    }
+
+    // Pagination variables
+    private int PageSize = 10; // Number of items per page
+    private int TotalPages = 1;
+    private int CurrentPage = 1;
+
+
+    protected async override Task OnParametersSetAsync()
+    {
+        try
+        {
+            GetFavoritesWithPaginationQueryVM query = new GetFavoritesWithPaginationQueryVM
+                {
+                    UserName = UserName,
+                    PageIndex = 1,
+                    PageSize = PageSize
+                };
+
+            FavoritesPaginationVM favoritesPagination = await FavoriteService.GetFavoritesWithPagination(query);
+            Favorites = favoritesPagination.Favorites;
+            TotalPages = (int)Math.Ceiling((double)favoritesPagination.TotalCount / PageSize);
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (Exception ex)
+        {
+            ToastService.CreateErrorToast("Error", ex.Message);
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+
+    private async Task OnPageChanged(int page)
+    {
+        CurrentPage = page;
+        GetFavoritesWithPaginationQueryVM query = new GetFavoritesWithPaginationQueryVM
+        {
+            UserId = new Guid(UserInfo.Id),
+            PageIndex = page,
+            PageSize = PageSize
+        };
+
+        FavoritesPaginationVM favoritesPagination = await FavoriteService.GetFavoritesWithPagination(query);
+        Favorites = favoritesPagination.Favorites;
+        TotalPages = (int)Math.Ceiling((double)favoritesPagination.TotalCount / PageSize);
+        await InvokeAsync(StateHasChanged);
+    }
+}
