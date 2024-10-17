@@ -1,12 +1,11 @@
 ﻿@using NarForumUser.Client.Services.Common
-<h3>UserFavorites</h3>
 
 @if (Favorites != null)
 {
-    <table class="table table-striped table-sm">
+    <table class="table table-striped table-sm favorites-table">
         <thead>
             <tr>
-                <th scope="col">#</th>
+                <th scope="col"><i class="bi bi-star-fill"></i> Favorites</th>
             </tr>
         </thead>
         <tbody>
@@ -79,7 +78,7 @@
         CurrentPage = page;
         GetFavoritesWithPaginationQueryVM query = new GetFavoritesWithPaginationQueryVM
         {
-            UserId = new Guid(UserInfo.Id),
+            UserName = UserName,
             PageIndex = page,
             PageSize = PageSize
         };

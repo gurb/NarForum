@@ -2147,3 +2147,7 @@ span.stat-counter {
     text-align: center;
     font-weight: 400;
 }
+
+.favorites-table {
+    font-size: .8rem;
+}
