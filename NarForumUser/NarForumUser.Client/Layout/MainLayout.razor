@@ -1,6 +1,7 @@
 ﻿@using NarForumUser.Client.Models.Toast
 @using NarForumUser.Client.Services
 @using NarForumUser.Client.Services.Common
+@inject NavigationManager nav
 @inherits LayoutComponentBase
 
 @if (!IsBot)
@@ -11,12 +12,11 @@
 }
 
 <div class="page h-100">
-    
     <main class="main-forum">
         <TopNavMenu @rendermode="new InteractiveAutoRenderMode(prerender: true)"/>
         <div class="container custom-container">
             <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-9">
+                <div class="col-sm-12 col-md-12 @(layout2 ? " col-lg-9" : "") @(layout1 ? " col-lg-12" : "")">
                     <article>
                         @if (IsBot)
                         {
@@ -54,9 +54,12 @@
                         }
                     </article>
                 </div>
-                <div class="col-sm-12 col-md-12 col-lg-3 sidebar-container p-0 p-sm-0 p-md-0 pe-lg-2 ps-lg-2 ps-xl-3 pe-xl-3">
-                     <SideBar></SideBar>
-                </div>
+                @if(layout2)
+                {
+                    <div class="col-sm-12 col-md-12 col-lg-3 sidebar-container p-0 p-sm-0 p-md-0 pe-lg-2 ps-lg-2 ps-xl-3 pe-xl-3">
+                        <SideBar></SideBar>
+                    </div>
+                }
             </div>
             
         </div>
@@ -85,6 +88,19 @@
 
     Toast? toast;
 
+    string activePage = "";
+    string? url;
+
+    private bool layout1;
+    private bool layout2 = true;
+
+
+    protected override void OnInitialized()
+    {
+        CheckNav();
+        base.OnInitialized();
+    }
+
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         if(firstRender)
@@ -110,8 +126,39 @@
         await base.OnAfterRenderAsync(firstRender);
     }
 
+
+
+    private void CheckNav()
+    {
+        url = nav.Uri;
+        string baseUrlRemoved = url.Split(new[] { "://" }, StringSplitOptions.None)[1].Split(new[] { '/' }, 2)[1];
+        string[] parts = baseUrlRemoved.Split('/');
+
+        if (parts is not null && parts.Length > 0)
+        {
+            activePage = parts[0];
+            if (activePage == "blog" || activePage == "user" || activePage == "category" || activePage == "" || activePage == string.Empty || activePage is null)
+            {
+                layout2 = true;
+                layout1 = false;
+            }
+            else
+            {
+                layout2 = false;
+                layout1 = true;
+            }
+        }
+        else
+        {
+            activePage = "";
+        }
+
+        StateHasChanged();
+    }
+
     protected override void OnParametersSet()
     {
+        CheckNav();
         _errorBoundary?.Recover();
     }
 
