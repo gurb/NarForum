@@ -576,7 +576,7 @@ span.heading-card-status {
 }
 
 .breadcrumb-divider {
-    --bs-breadcrumb-divider: '›';
+    --bs-breadcrumb-divider: '\203a';
 }
 
 .top-nav-left-menu {

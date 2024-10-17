@@ -4,8 +4,6 @@ using Application.Extensions.Core;
 using Application.Models;
 using Application.Models.Identity.User;
 using Application.Models.Persistence.Image;
-using Azure.Core;
-using Garnet.server.ACL;
 using Identity.DatabaseContext;
 using Identity.Models;
 using Microsoft.AspNetCore.Http;

@@ -3,7 +3,6 @@ using Garnet.client;
 using Identity.Models.DTO;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
-using System;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 

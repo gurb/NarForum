@@ -2,7 +2,6 @@
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Persistence.DatabaseContext;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Persistence.Repositories

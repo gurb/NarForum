@@ -1,7 +1,6 @@
 ﻿using Application.Contracts.Hubs;
 using Application.Contracts.Identity;
 using Application.Models.Identity.Message;
-using Identity.DatabaseContext;
 using Identity.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;

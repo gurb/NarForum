@@ -1,11 +1,9 @@
 ﻿using Application.Contracts.Identity;
 using Application.Models;
 using Application.Models.Identity.Permission;
-using Azure.Core;
 using Identity.DatabaseContext;
 using Identity.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Security;
 
 namespace Identity.Services
 {

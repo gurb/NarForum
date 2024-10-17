@@ -1,5 +1,4 @@
-﻿using Application.Contracts.Identity;
-using Application.Contracts.Persistence;
+﻿using Application.Contracts.Persistence;
 using Application.Models;
 using Application.Models.Enums;
 using Application.Models.Persistence.Image;

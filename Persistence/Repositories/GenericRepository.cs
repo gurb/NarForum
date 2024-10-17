@@ -1,10 +1,8 @@
 ﻿using Application.Contracts.Persistence;
 using Domain.Base;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Persistence.DatabaseContext;
 using System.Linq.Expressions;
-
 
 namespace Persistence.Repositories
 {

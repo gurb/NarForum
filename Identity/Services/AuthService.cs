@@ -4,7 +4,6 @@ using Application.Models;
 using Application.Models.Identity;
 using Application.Models.Identity.User;
 using Identity.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
