@@ -2,31 +2,35 @@
 @inject NavigationManager nav
 @using NarForumUser.Client.Pages.Blog.Component
 
-@if (activePage == "blog")
+@if(isLoaded)
 {
-    <BlogCategoryList></BlogCategoryList>
-}
-else if(activePage == "user")
-{
-    <UserFavorites UserName="@param2"></UserFavorites>
-}
-else if (activePage == "contact")
-{
+    @if (activePage == "blog")
+    {
+        <BlogCategoryList></BlogCategoryList>
+    }
+    else if (activePage == "user")
+    {
+        <UserFavorites UserName="@param2"></UserFavorites>
+    }
+    else if (activePage == "contact")
+    {
 
+    }
+    else if (activePage == "category")
+    {
+        <RecentHeadings></RecentHeadings>
+        <ForumStats></ForumStats>
+    }
+    else if (activePage == null || activePage == "")
+    {
+        <RecentHeadings></RecentHeadings>
+        <ForumStats></ForumStats>
+    }
+    else
+    {
+    }
 }
-else if (activePage == "category")
-{
-    <RecentHeadings></RecentHeadings>
-    <ForumStats></ForumStats>
-}
-else if (activePage == null || activePage == "")
-{
-    <RecentHeadings></RecentHeadings>
-    <ForumStats></ForumStats>
-}
-else
-{
-}
+
 
 @code {
     [Parameter]
@@ -37,6 +41,8 @@ else
     string param2 = "";
 
     string url = "";
+
+    bool isLoaded = false;
 
     protected override void OnInitialized()
     {
@@ -103,6 +109,7 @@ else
             activePage = "";
             param2 = string.Empty;
         }
+        isLoaded = true;
         StateHasChanged();
     }
 }

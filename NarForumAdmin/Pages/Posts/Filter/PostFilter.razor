@@ -16,14 +16,14 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <label class="control-label">Content</label>
-                    <InputText id="content" class="form-control" placeholder="search content" @bind-Value="@QueryModel.SearchContent" autocomplete="off"></InputText>
+                    <InputText class="form-control" placeholder="search content" @bind-Value="@QueryModel.SearchContent" autocomplete="off"></InputText>
                     <ValidationMessage For="@(() => QueryModel.SearchContent)" />
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
                     <label class="control-label">Post Id</label>
-                    <InputText id="content" class="form-control" placeholder="search post id" @bind-Value="@QueryModel.SearchGuid" autocomplete="off"></InputText>
+                    <InputText class="form-control" placeholder="search post id" @bind-Value="@QueryModel.SearchGuid" autocomplete="off"></InputText>
                     <ValidationMessage For="@(() => QueryModel.SearchGuid)" />
                 </div>
             </div>
