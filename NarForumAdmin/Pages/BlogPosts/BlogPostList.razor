@@ -31,7 +31,6 @@
             @foreach (var blogPost in BlogPosts)
             {
                 <tr>
-                    @* <th scope="row" class="text-end align-middle">@blogPost.Url</th> *@
                     <td class="align-middle">
                         <a @onclick="() =>DetailBlogPost(blogPost)">@blogPost.Title</a>
                     </td>

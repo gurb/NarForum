@@ -50,24 +50,12 @@
 			<button @onclick="@(() => formatDoc(insertUnorderedList))" type="button"><i class="bi bi-list-ul"></i></button>
 			<button @onclick="@(() => addLink())" type="button"><i class="bi bi-link"></i></button>
 			<button @onclick="@(() => addImage())" type="button"><i class="bi bi-image"></i></button>
-@* 			<button @onclick="@(() => formatDoc(unlink))" type="button"><i class='bx bx-unlink'></i></button>
-			<button id="show-code" data-active="false" type="button">&lt;/&gt;</button> *@
 		</div>
 	</div>
 		<div id="content" contenteditable="true" spellcheck="false" @oninput="UpdateModelContent" @onkeydown="ContentKeyDown" @ondblclick="ControlSelection" @onkeyup="ContentKeyUp">
 	</div>
 
 	</div>
-
-
-    @* <div class="form-group form-margin">
-        <label for="exampleFormControlTextarea1">Create Post</label>
-        <InputTextArea id="Post" class="form-control" @bind-Value="@Model.Content"></InputTextArea>
-    </div> *@
-
-   @*  <div class="form-group text-end">
-        <input type="submit" value="Create" class="btn btn-primary" />
-    </div> *@
 </EditForm>
 
 <AddImageModal @ref="addImageModal" Callback="addImageCallback"></AddImageModal>

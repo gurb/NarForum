@@ -6,7 +6,6 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
         <div class="form-group form-margin">
-            @* <label asp-for="Title" class="control-label">Select Role</label> *@
             <InputSelect class="form-select" aria-label="Default select example" TValue="string"
                          Value="SelectedParentModel.Id" ValueExpression="@(() => SelectedParentModel.Id)">
                 @if (PermissionDefinitions != null)
