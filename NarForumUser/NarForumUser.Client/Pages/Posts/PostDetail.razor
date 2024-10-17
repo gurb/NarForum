@@ -1,0 +1,45 @@
+﻿@page "/post/{PostId:guid}/"
+
+@if(PostVM is not null)
+{
+    <MiniPostCard Post="PostVM"
+                  Heading="HeadingVM"
+                  HeadingIndex="PostVM.HeadingIndex"
+                  Id="@PostVM.Id"
+                  PostId="@PostVM.Id"
+                  Content="@PostVM.Content"
+                  Username="@PostVM.UserName"
+                  IsOP='HeadingVM!.UserName == PostVM.UserName'
+                  IsOnlyPost=true
+                  ></MiniPostCard>
+}
+else
+{
+    <SkeletonCustomMiniPost></SkeletonCustomMiniPost>
+}
+
+
+@code {
+    [Parameter]
+    public Guid PostId { get; set; }
+
+    private PostVM? PostVM { get; set; }
+    private HeadingVM? HeadingVM { get; set; }
+
+    [Inject]
+    public IPostService? PostService { get; set; }
+
+    [Inject]
+    public IHeadingService? HeadingService { get; set; }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            // get post
+            // get heading
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

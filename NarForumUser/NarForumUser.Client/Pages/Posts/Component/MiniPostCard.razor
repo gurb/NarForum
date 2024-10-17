@@ -47,57 +47,60 @@
         }
     </div>
     <footer class="card-footer custom-mini-post-footer border-0 py-1 px-3">
-        <button type="button"
-                @onclick="like"
-                class="btn btn-link btn-sm text-decoration-none ps-0">
-            @if(Post.IsLike != null && Post.IsLike.Value)
-            {
-                <i class="bi bi-hand-thumbs-up-fill me-1"></i>
-            }
-            else
-            {
-                <i class="bi bi-hand-thumbs-up me-1"></i>
-            }
-            @Post.LikeCounter
-        </button>
-        <button type="button"
-                @onclick="unlike"
-                class="btn btn-link btn-sm text-decoration-none ps-0">
-            @if (Post.IsLike != null && Post.IsLike.Value == false)
-            {
-                <i class="bi bi-hand-thumbs-down-fill me-1"></i>
-            }
-            else
-            {
-                <i class="bi bi-hand-thumbs-down me-1"></i>
-            }
-            @Post.UnlikeCounter
-        </button>
-        @if (!Heading.IsLock)
+        @if(!IsOnlyPost)
         {
             <button type="button"
-                    @onclick="reply"
-                    class="btn btn-link btn-sm text-decoration-none">
-                <i class="bi bi-reply"></i> Reply
+                    @onclick="like"
+                    class="btn btn-link btn-sm text-decoration-none ps-0">
+                @if (Post.IsLike != null && Post.IsLike.Value)
+                {
+                    <i class="bi bi-hand-thumbs-up-fill me-1"></i>
+                }
+                else
+                {
+                    <i class="bi bi-hand-thumbs-up me-1"></i>
+                }
+                @Post.LikeCounter
+            </button>
+            <button type="button"
+                    @onclick="unlike"
+                    class="btn btn-link btn-sm text-decoration-none ps-0">
+                @if (Post.IsLike != null && Post.IsLike.Value == false)
+                {
+                    <i class="bi bi-hand-thumbs-down-fill me-1"></i>
+                }
+                else
+                {
+                    <i class="bi bi-hand-thumbs-down me-1"></i>
+                }
+                @Post.UnlikeCounter
+            </button>
+            @if (!Heading.IsLock)
+            {
+                <button type="button"
+                        @onclick="reply"
+                        class="btn btn-link btn-sm text-decoration-none">
+                    <i class="bi bi-reply"></i> Reply
+                </button>
+            }
+            <button type="button"
+                    @onclick="report"
+                    class="btn btn-link btn-sm text-decoration-none post-report-button">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+            </button>
+            <button type="button"
+                    @onclick="favorite"
+                    class="btn btn-light btn-sm border rounded-4 ms-2 post-favorite-button">
+                @if (Post.IsFavorite)
+                {
+                    <i class="bi bi-star-fill favorite-icon-color"></i>
+                }
+                else
+                {
+                    <i class="bi bi-star"></i>
+                }
             </button>
         }
-        <button type="button"
-                @onclick="report"
-                class="btn btn-link btn-sm text-decoration-none post-report-button">
-            <i class="bi bi-exclamation-triangle-fill"></i>
-        </button>
-        <button type="button"
-                @onclick="favorite"
-                class="btn btn-light btn-sm border rounded-4 ms-2 post-favorite-button">
-            @if (Post.IsFavorite)
-            {
-                <i class="bi bi-star-fill favorite-icon-color"></i>
-            }
-            else
-            {
-                <i class="bi bi-star"></i>
-            }
-        </button>
     </footer>
 </article>
 
@@ -140,6 +143,9 @@
 
     [Parameter]
     public PostVM Post { get; set; }
+
+    [Parameter]
+    public bool IsOnlyPost { get; set; }
 
     [Parameter]
     public HeadingVM Heading { get; set; }
