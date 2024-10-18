@@ -710,14 +710,16 @@ span.heading-card-status {
 }
 
 .skeleton-breadcrumb {
-    width: calc(10%);
+    display: grid;
+    width: calc(10vh);
     height: 22px;
     margin-bottom: .25rem;
     border-radius: .25rem;
 }
 
 .skeleton-breadcrumb:first-child {
-    width: calc(10%);
+    display: grid;
+    width: calc(10vh);
     height: 22px;
     margin-bottom: .25rem;
     margin-left: 0;
