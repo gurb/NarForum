@@ -30,6 +30,7 @@ namespace Application.Features.Post.Queries.GetPosts
                 posts = await _postRepository.GetAsync();
             }
 
+
             // convert data objecs to DTOs
             var data = _mapper.Map<List<PostDTO>>(posts);
 

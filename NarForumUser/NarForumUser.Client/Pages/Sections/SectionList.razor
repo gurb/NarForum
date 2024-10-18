@@ -33,10 +33,11 @@ else
         </Authorized>
     </AuthorizeView>
     <div class="container-fluid" data-permanent>
-        @foreach (var sec in Sections)
+        @for(int i=0; i < Sections.Count(); i++)
         {
-            <SectionCard Model="sec" Name='@sec.Name' Categories="Categories != null ? Categories?.Where(x => x.SectionId == sec.Id).ToList() : null"></SectionCard>
+            <SectionCard Index="i" Model="Sections[i]" Name='@Sections[i].Name' Categories="Categories != null ? Categories?.Where(x => x.SectionId == Sections[i].Id).ToList() : null"></SectionCard>
         }
+        
     </div>
     @if (AuthExtension.IsAuth("FORUM_SECTION_CREATE"))
     {

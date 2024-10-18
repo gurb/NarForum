@@ -1,4 +1,5 @@
-﻿using NarForumUser.Client.Models.User;
+﻿using NarForumUser.Client.Models.Heading;
+using NarForumUser.Client.Models.User;
 
 namespace NarForumUser.Client.Models.Post
 {
@@ -29,6 +30,7 @@ namespace NarForumUser.Client.Models.Post
         public List<Guid> QuotePostIds { get; set; } = new List<Guid>();
         public string? UserProfileImageUrl { get; set; }
         public UserInfoVM? UserInfoVM { get; set; }
-
+        public HeadingVM? HeadingDTO { get; set; }
+        public List<PostVM>? QuotePosts { get; set; }
     }
 }

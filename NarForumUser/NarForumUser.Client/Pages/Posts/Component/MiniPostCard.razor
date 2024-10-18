@@ -1,7 +1,5 @@
 ﻿<article id="@($"post-{HeadingIndex}")" class="card mb-4 custom-mini-post">
     <header class="card-header border-0 bg-transparent align-items-center">
-        @* <img src="https://via.placeholder.com/30x30"
-             class="rounded-circle me-2 custom-mini-post-image align-items-center" /> *@
             @if(Post.UserProfileImageUrl is not null)
             {
                 <span class="image-user-profile-post shadow-1-strong me-3">
@@ -101,6 +99,10 @@
                 }
             </button>
         }
+        else
+        {
+            <a href="@GoToHeadingUrl" class="go-to-heading-link"><i class="bi bi-caret-right-fill"></i><i class="bi bi-caret-right-fill"></i> Go to the heading</a>
+        }
     </footer>
 </article>
 
@@ -146,6 +148,9 @@
 
     [Parameter]
     public bool IsOnlyPost { get; set; }
+
+    [Parameter]
+    public string? GoToHeadingUrl { get; set; }
 
     [Parameter]
     public HeadingVM Heading { get; set; }

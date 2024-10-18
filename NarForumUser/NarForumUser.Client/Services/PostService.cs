@@ -23,6 +23,19 @@ namespace NarForumUser.Client.Services
             return _mapper.Map<ApiResponseVM>(response);
         }
 
+        public async Task<PostVM> GetPost(Guid id)
+        {
+            GetPostQueryVM query = new GetPostQueryVM
+            {
+                Id = id
+            };
+            var getPostQuery = _mapper.Map<GetPostQuery>(query);
+
+            var response = await _client.GetPostByIdAsync(getPostQuery);
+
+            return _mapper.Map<PostVM>(response);
+        }
+
         public async Task<List<PostVM>> GetPosts()
         {
             var posts = await _client.PostsAllAsync();

@@ -2,6 +2,18 @@
 @inject HttpClient Http
 @inject IConfiguration Configuration
 
+<AuthorizeView>
+    <NotAuthorized>
+        @{
+            if(navigationManager is not null)
+            {
+                navigationManager.NavigateTo("login");
+            }
+        }
+    </NotAuthorized>
+</AuthorizeView>
+
+
 @if (@Model == null)
 {
     

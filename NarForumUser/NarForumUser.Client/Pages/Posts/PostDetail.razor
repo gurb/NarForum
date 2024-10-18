@@ -1,4 +1,27 @@
-﻿@page "/post/{PostId:guid}/"
+﻿@page "/post/{PostId}"
+@using System.Text.RegularExpressions
+
+
+@if (HeadingVM is not null)
+{
+    <div class="row">
+        <div class="col-sm-11 heading-merge">
+            <span class="heading-status">
+                @if (HeadingVM.IsPin)
+                {
+                    <i class="bi bi-pin-fill me-1"></i>
+                }
+                @if (HeadingVM.IsLock)
+                {
+                    <i class="bi bi-lock-fill me-1"></i>
+                }
+            </span>
+            <h1 class="heading-title">
+                @HeadingVM.Title
+            </h1>
+        </div>
+    </div>
+}
 
 @if(PostVM is not null)
 {
@@ -11,35 +34,115 @@
                   Username="@PostVM.UserName"
                   IsOP='HeadingVM!.UserName == PostVM.UserName'
                   IsOnlyPost=true
-                  ></MiniPostCard>
+                  GoToHeadingUrl="@getHeadingUrl()"></MiniPostCard>
 }
 else
 {
     <SkeletonCustomMiniPost></SkeletonCustomMiniPost>
 }
 
-
 @code {
     [Parameter]
-    public Guid PostId { get; set; }
+    public string? PostId { get; set; }
 
     private PostVM? PostVM { get; set; }
     private HeadingVM? HeadingVM { get; set; }
 
+    private List<PostVM>? QuotePosts { get; set; }
+
     [Inject]
     public IPostService? PostService { get; set; }
 
-    [Inject]
-    public IHeadingService? HeadingService { get; set; }
+    private string getHeadingUrl()
+    {
+        return $"category/{HeadingVM.CategoryName.ToFriendlyUrl()}-{HeadingVM.CategoryIntId}/{HeadingVM.Id.EncodeGuidToBase64Url()}/{HeadingVM.Title.ToFriendlyUrl()}";
+    }
+
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         if(firstRender)
         {
-            // get post
-            // get heading
+            if(PostService is not null && PostId is not null)
+            {
+                Guid postGuid = new Guid(PostId);
+
+                PostVM = await PostService.GetPost(postGuid);
+                ConfigureDisplayPost(PostVM);
+                HeadingVM = PostVM.HeadingDTO;
+                await InvokeAsync(StateHasChanged);
+            }
         }
 
         await base.OnAfterRenderAsync(firstRender);
     }
+
+    private void ConfigureDisplayPost(PostVM post)
+    {
+        QuotePosts = post.QuotePosts;
+        post.DisplayContent = GenerateDisplayContent(post.Content);
+    }
+
+    private string GenerateDisplayContent(string content)
+    {
+        string displayContent = content;
+
+        // Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=(\d+)\)\[\/Quote\]");
+        Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=([0-9a-fA-F-]{36})\)\[\/Quote\]");
+        MatchCollection matches = quoteRegex.Matches(displayContent);
+
+        foreach (Match match in matches)
+        {
+            Guid postId = new Guid(match.Groups[1].Value);
+
+            string quoteContent = "- Removed -";
+            PostVM? quotePost;
+
+            string quoteUsername = "Alıntı";
+
+            if (QuotePosts != null && QuotePosts.Count() > 0)
+            {
+                quotePost = QuotePosts.FirstOrDefault(x => x.Id == postId);
+
+                if (quotePost != null)
+                {
+                    quoteContent = DeleteQuoteTagsInQuote(quotePost.Content);
+                    quoteUsername = quotePost.UserName;
+                }
+            }
+
+            string newTag = $"<blockquote author-quote='{quoteUsername}' post-id='{postId}' class='quote-box'>{quoteContent}</blockquote>";
+
+            displayContent = displayContent.Replace(match.Value, newTag);
+        }
+
+        return displayContent;
+    }
+
+    private string DeleteQuoteTagsInQuote(string content)
+    {
+        string newContent = content;
+
+        Regex quoteRegex = new Regex(@"\[Quote\]\(PostId=([0-9a-fA-F-]{36})\)\[\/Quote\]");
+        Regex quoteRegex4 = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""]([0-9a-fA-F-]{36})['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
+        MatchCollection matches = quoteRegex.Matches(newContent);
+        MatchCollection matches4 = quoteRegex4.Matches(newContent);
+
+        foreach (Match match in matches)
+        {
+            string postId = match.Groups[1].Value;
+
+            newContent = newContent.Replace(match.Value, string.Empty);
+        }
+
+        foreach (Match match in matches4)
+        {
+            string postId = match.Groups[1].Value;
+
+            newContent = newContent.Replace(match.Value, string.Empty);
+        }
+
+        return newContent;
+    }
+
 }

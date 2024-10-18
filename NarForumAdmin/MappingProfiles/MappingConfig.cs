@@ -38,6 +38,8 @@ namespace NarForumAdmin.MappingProfiles
                 CreateMap<CreatePostCommand, PostVM>().ReverseMap();
                 CreateMap<RemovePostCommand, RemovePostCommandVM>().ReverseMap();
                 CreateMap<GetPostsWithPaginationQuery, PostPaginationQueryVM>().ReverseMap();
+                CreateMap<GetPostQuery, GetPostQueryVM>().ReverseMap();
+
 
                 CreateMap<SectionDTO, SectionVM>().ReverseMap();
                 CreateMap<CreateSectionCommand, SectionVM>().ReverseMap();

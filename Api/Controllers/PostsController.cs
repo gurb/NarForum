@@ -1,7 +1,7 @@
-﻿using Application.Features.Heading.Commands.RemoveHeading;
-using Application.Features.Post.Commands.CreatePost;
+﻿using Application.Features.Post.Commands.CreatePost;
 using Application.Features.Post.Commands.RemovePost;
 using Application.Features.Post.Queries.GetAllPosts;
+using Application.Features.Post.Queries.GetPost;
 using Application.Features.Post.Queries.GetPostsWithPagination;
 using Application.Models;
 using MediatR;
@@ -32,6 +32,19 @@ namespace Api.Controllers
             var posts = await _mediator.Send(new GetPostsQuery());
 
             return posts;
+        }
+
+        /// <summary>
+        /// Gets post by id.
+        /// </summary>
+        /// <param name="HeadingId">The query containing Id(Guid) field.</param>
+        /// <returns>The getting post result as PostDTO.</returns>
+        [AllowAnonymous]
+        [HttpPost("GetPostById")]
+        public async Task<PostDTO> GetPostsByHeadingId(GetPostQuery query)
+        {
+            var post = await _mediator.Send(query);
+            return post;
         }
 
         /// <summary>

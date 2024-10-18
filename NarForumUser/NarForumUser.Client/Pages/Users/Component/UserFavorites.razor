@@ -13,7 +13,7 @@
                     @foreach (var favorite in Favorites)
                     {
                         <tr>
-                            <td><a href="">@favorite.Heading.Title</a></td>
+                            <td><a href="@getUrlPostDetail(favorite.PostId)">@favorite.Heading.Title</a></td>
                         </tr>
                     }
                 </tbody>
@@ -23,6 +23,8 @@
         }
     </Authorized>
 </AuthorizeView>
+
+
 
 
 @code {
@@ -39,6 +41,11 @@
     public ToastService ToastService { get; set; }
 
     public List<FavoriteVM>? Favorites { get; set; }
+
+    private string getUrlPostDetail(Guid postId)
+    {
+        return $"post/{postId}";
+    }
 
 
     private string getBaseUrl()

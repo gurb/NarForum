@@ -15,8 +15,7 @@
     </div>
 </div>
 
-
-<div class="row section-card-body">
+<div class="row section-card-body @(Index == 0 ? "mt-0": "")">
     <div class="col-sm-6">
         @Model.Name
     </div>
@@ -89,6 +88,9 @@ else
 
     [Inject] 
     RefreshStateService RefreshStateService { get; set; }
+
+    [Parameter]
+    public int Index { get; set; }
 
     private bool min768 = true;
 

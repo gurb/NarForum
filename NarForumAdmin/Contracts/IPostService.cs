@@ -9,6 +9,7 @@ namespace NarForumAdmin.Contracts
     {
         // queries
         Task<List<PostVM>> GetPosts();
+        Task<PostVM> GetPost(Guid id);
         Task<List<PostVM>> GetPostsByHeadingId(Guid id);
 
         Task<PostsPaginationVM> GetPostsWithPagination(PostPaginationQueryVM query);

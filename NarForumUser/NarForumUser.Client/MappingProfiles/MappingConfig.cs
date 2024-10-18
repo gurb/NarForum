@@ -18,6 +18,7 @@ using NarForumUser.Client.Models.Post;
 using NarForumUser.Client.Models.Report;
 using NarForumUser.Client.Models.Section;
 using NarForumUser.Client.Models.SmtpSettings;
+using NarForumUser.Client.Models.Stat;
 using NarForumUser.Client.Models.StaticPage;
 using NarForumUser.Client.Models.TrackingLog;
 using NarForumUser.Client.Models.User;
@@ -32,6 +33,7 @@ namespace NarForumUser.Client.MappingProfiles
             CreateMap<PostDTO, PostVM>().ReverseMap();
             CreateMap<PostsPaginationDTO, PostsPaginationVM>().ReverseMap();
             CreateMap<CreatePostCommand, PostVM>().ReverseMap();
+            CreateMap<GetPostQuery, GetPostQueryVM>().ReverseMap();
 
             CreateMap<SectionDTO, SectionVM>().ReverseMap();
             CreateMap<CreateSectionCommand, SectionVM>().ReverseMap();
@@ -143,6 +145,11 @@ namespace NarForumUser.Client.MappingProfiles
 
             CreateMap<GetPermissionsResponse, GetPermissionsResponseVM>().ReverseMap();
             CreateMap<PermissionDTO, PermissionVM>().ReverseMap();
+
+            CreateMap<AllStatsResponse, AllStatsResponseVM>().ReverseMap();
+            CreateMap<StatsResponse, StatsResponseVM>().ReverseMap();
+            CreateMap<StatWithDateDTO, StatWithDateVM>().ReverseMap();
+            CreateMap<MonthStatDTO, MonthStatVM>().ReverseMap();
         }
     }
 }
