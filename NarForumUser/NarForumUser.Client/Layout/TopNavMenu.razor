@@ -15,23 +15,30 @@
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
                 <img id="forum-logo" class="" src="@($"{Configuration["ApiBaseUrl"]}/file/images/logo")" alt="@($"{Configuration["SiteName"]}")" />
-                
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ms-lg-4">
                 <li><a href="/" class="nav-link px-2 text-white top-nav-menu-link">Forum</a></li>
                 <li><a href="blog" class="nav-link px-2 text-white top-nav-menu-link">Blog</a></li>
-                <li><a href="#" class="nav-link px-2 text-white top-nav-menu-link">Buy Now</a></li>
-                <li><a @onclick="() => AddToast()" class="nav-link px-2 text-white top-nav-menu-link">Add Toast</a></li>
+                <li><a href="page/about" class="nav-link px-2 text-white top-nav-menu-link">About</a></li>
             </ul>
-
             
-
+            
             @if (OperatingSystem.IsBrowser())
             {
                 <AuthorizeView @rendermode="new InteractiveAutoRenderMode(prerender: true)">
                     <NotAuthorized>
                         <div class="col-md-3 text-end">
+                            <a class="link-light text-decoration-none  mb-3 mb-lg-0 me-lg-4 me-lg-0 mt-lg-0 me-md-5 mt-md-3 me-sm-5 me-5" @onclick="ChangeThemeType">
+                                @if (themeType == "light")
+                                {
+                                    <i class="bi bi-moon-fill"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-sun-fill"></i>
+                                }
+                            </a>
                             <button @onclick="GoToLogin" class="btn btn-login me-2 fw-normal">Login</button>
                             <button @onclick="GoToRegister" class="btn btn-register fw-normal">Register</button>
                         </div>
