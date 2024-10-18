@@ -998,6 +998,7 @@ span.heading-card-status {
 
 .blog-post-detail-content {
     color: var(--color-fg);
+    margin-bottom: 30px;
 }
 
 .blog-comment-area {
@@ -2205,4 +2206,10 @@ span.stat-counter {
 a.go-to-heading-link {
     text-decoration: none;
     font-weight: 500;
+}
+
+.custom-mini-post-content img {
+    max-width: 80%;
+    margin: 15px 0px;
+    border-radius: 0.35rem;
 }
