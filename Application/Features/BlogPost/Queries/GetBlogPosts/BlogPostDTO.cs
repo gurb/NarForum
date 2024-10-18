@@ -19,4 +19,6 @@ public class BlogPostDTO
 
     public bool IsDraft { get; set; }
     public bool IsPublished { get; set; }
+
+    public int CommentCounter { get; set; }
 }

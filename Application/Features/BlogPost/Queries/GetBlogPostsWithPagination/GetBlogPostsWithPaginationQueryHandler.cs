@@ -10,10 +10,14 @@ public class GetBlogPostsWithPaginationQueryHandler : IRequestHandler<GetBlogPos
 {
     private readonly IMapper _mapper;
     private readonly IBlogPostRepository _blogPostRepository;
-    public GetBlogPostsWithPaginationQueryHandler(IMapper mapper, IBlogPostRepository blogPostRepository)
+    private readonly IBlogCommentRepository _blogCommentRepository;
+    private readonly ITrackingLogRepository _trackingLogRepository;
+    public GetBlogPostsWithPaginationQueryHandler(IMapper mapper, IBlogPostRepository blogPostRepository, IBlogCommentRepository blogCommentRepository, ITrackingLogRepository trackingLogRepository)
     {
         _mapper = mapper;
         _blogPostRepository = blogPostRepository;
+        _blogCommentRepository = blogCommentRepository;
+        _trackingLogRepository = trackingLogRepository;
     }
 
     public async Task<BlogPostsPaginationDTO> Handle(GetBlogPostsWithPaginationQuery request, CancellationToken cancellationToken)
@@ -56,7 +60,28 @@ public class GetBlogPostsWithPaginationQueryHandler : IRequestHandler<GetBlogPos
             blogPosts = await _blogPostRepository.GetWithPagination(predicate, request.PageIndex.Value, request.PageSize.Value);
         }
 
+        var blogPostIds = blogPosts.Select(x => x.Id).ToList();
+
+        var predicateComment = PredicateBuilder.True<Domain.BlogComment>();
+        var predicateTrackingLog = PredicateBuilder.True<Domain.TrackingLog>();
+
+        predicateTrackingLog = predicateTrackingLog.And(x => x.Type == Domain.Models.Enums.TrackingType.BLOG);
+        foreach (var id in blogPostIds)
+        {
+            predicateComment = predicateComment.Or(x => x.BlogPostId == id);
+            predicateTrackingLog = predicateTrackingLog.Or(x => x.TargetId == id);
+        }
+
+        var blogComments = await _blogCommentRepository.GetAllAsync(predicateComment);
+        var trackingLogs = await _trackingLogRepository.GetAllAsync(predicateTrackingLog);
+
         var data = _mapper.Map<List<BlogPostDTO>>(blogPosts);
+
+        foreach (var blogPost in data)
+        {
+            blogPost.CommentCounter = blogComments.Where(x => x.BlogPostId == blogPost.Id).Count();
+            blogPost.ViewCounter = trackingLogs.Where(x => x.TargetId == blogPost.Id).Count();
+        }
 
         BlogPostsPaginationDTO dto = new BlogPostsPaginationDTO
         {

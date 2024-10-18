@@ -97,6 +97,7 @@
     --color-stat-counter-bg: #12121214;
     --color-favorites-table-bg: #f1f1f157;
     --color-favorites-table-thead-bg: #ddd;
+    --color-blog-post-card-footer-bg: #f5f5f5;
 }
 
 [data-theme="dark"] {
@@ -199,6 +200,7 @@
     --color-stat-counter-bg: #12121214;
     --color-favorites-table-bg: #314155;
     --color-favorites-table-thead-bg: #34485f;
+    --color-blog-post-card-footer-bg: #34485f;
 }
 
 html, body {
@@ -977,6 +979,12 @@ span.heading-card-status {
     font-size: 14px;
 }
 
+.blog-post-card-footer {
+    background: var(--color-blog-post-card-footer-bg);
+    padding: 5px 10px;
+    border-radius: 0.25rem;
+}
+
 .blog-post-card-footer span {
     flex: 1;
     color: var(--color-blog-post-card-footer-fg);
@@ -1440,8 +1448,11 @@ i.bi.bi-file-earmark-text, i.bi.bi-file-earmark-lock2, i.bi.bi-journals, i.bi.bi
 
 .blog-post-detail-heading {
     margin-bottom: 2rem;
+    font-size:27px;
 }
-
+.blog-sidebar-title {
+    font-size: 20px;
+}
 .no-image-user-profile-comment-form {
     opacity: .6;
     display: block;

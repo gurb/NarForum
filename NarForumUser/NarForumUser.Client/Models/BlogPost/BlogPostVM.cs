@@ -17,4 +17,6 @@ public class BlogPostVM
     public int ViewCounter { get; set; }
 
     public DateTime? DateCreate { get; set; }
+
+    public int CommentCounter { get; set; }
 }
