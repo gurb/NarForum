@@ -1407,6 +1407,16 @@ h3.blog-comment-form-title {
     padding: 5px 10px;
 }
 
+.btn-change-theme {
+    background: transparent;
+    color: #fff!important;
+    padding: 5px 10px;
+}
+
+.btn-change-theme:hover {
+    color: #f1f1f1;
+}
+
 .btn-register {
     background: #3189efd9;
     color: #fff;
@@ -2214,4 +2224,12 @@ a.go-to-heading-link {
     max-width: 80%;
     margin: 15px 0px;
     border-radius: 0.35rem;
+}
+
+.login-message-for-heading {
+    color: var(--color-fg);
+}
+
+.login-message-for-heading a{
+    color: var(--color-a-fg);
 }
