@@ -26,16 +26,10 @@
 					</InputSelect>
 				</div>
 				<div class="col-sm-3">
-					@* <div class="color">
-						<span>Color</span>
-						<input type="color" oninput="formatDoc('foreColor', this.value); this.value='#000000';">
-					</div> *@
+					
 				</div>
 				<div class="col-sm-3">
-					@* <div class="color">
-						<span>Background</span>
-						<input type="color" oninput="formatDoc('hiliteColor', this.value); this.value='#000000';">
-					</div> *@
+					
 				</div>
 			</div>
 		</div>
@@ -190,7 +184,6 @@
 	{
 		string content = displayContent;
 
-		// Regex quoteRegex = new Regex(@"<blockquote author-quote=""([^""]*)"" post-id=""(\d+)"" class=""quote-box"">(.*?)<\/blockquote>");
 		Regex quoteRegex = new Regex(@"<blockquote\s+author-quote=['""]([^'""]*)['""]\s+post-id=['""](\d+)['""]\s+class=['""]quote-box['""]>([\s\S]*?)<\/blockquote>");
 		MatchCollection matches = quoteRegex.Matches(content);
 
@@ -204,6 +197,10 @@
 
 			content = content.Replace(match.Value, newQuote);
 		}
+
+		// Regex pattern to allow only specified HTML tags
+		string pattern = @"<(?!/?(?:a|b|blockquote|br|code|del|dd|dl|dt|em|h[1-6]|hr|i|img|kbd|li|ol|p|pre|s|strong|sub|sup|ul)\b)[^>]+>";
+		content = Regex.Replace(content, pattern, string.Empty);
 
 		return content;
 	}
