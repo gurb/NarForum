@@ -1121,6 +1121,10 @@ span.heading-card-status {
 }
 
 .recent-heading-title {
+    width: calc(80%);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     font-size: 14px;
     margin-bottom: 0;
 }

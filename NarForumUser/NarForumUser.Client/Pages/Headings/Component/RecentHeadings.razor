@@ -38,18 +38,18 @@
                         </span>
                     }
                 </a>
-                <div class="flex-grow-1 flex-shrink-1">
-                <div>
+                <div class="flex-grow-1 flex-shrink-1 overflow-hidden">
                     <div>
-                        <h4 class="recent-heading-title">
-                            <a href="@($"category/{heading.CategoryName.ToFriendlyUrl()}-{heading.CategoryIntId}/{heading.Id.EncodeGuidToBase64Url()}/{heading.Title.ToFriendlyUrl()}")">@heading.Title</a>
-                        </h4>
-                        <div class="recent-heading-title-info">
-                            <span class="small">@heading.UserName.Split('@')[0]</span>
-                            <span class="badge recent-heading-category-badge">@heading.CategoryName</span>
+                        <div>
+                            <h4 class="recent-heading-title">
+                                <a href="@($"category/{heading.CategoryName.ToFriendlyUrl()}-{heading.CategoryIntId}/{heading.Id.EncodeGuidToBase64Url()}/{heading.Title.ToFriendlyUrl()}")">@heading.Title</a>
+                            </h4>
+                            <div class="recent-heading-title-info">
+                                <span class="small">@heading.UserName.Split('@')[0]</span>
+                                <span class="badge recent-heading-category-badge">@heading.CategoryName</span>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </div>
         }

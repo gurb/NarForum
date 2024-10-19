@@ -14,13 +14,13 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
 
-        <div class="form-group">
-            <label class="control-label">Email</label>
+        <div class="form-group mb-3">
+            <label class="control-label mb-1">Email</label>
             <InputText type="text" id="userName" class="form-control" @bind-Value="@Model.Email" autocomplete="off"></InputText>
             <ValidationMessage For="@(() => Model.Email)" />
         </div>
-        <div class="form-group">
-            <label class="control-label">Password</label>
+        <div class="form-group mb-3">
+            <label class="control-label mb-1">Password</label>
             <InputText type="password" id="password" class="form-control" @bind-Value="@Model.Password"></InputText>
             <ValidationMessage For="@(() => Model.Password)" />
         </div>

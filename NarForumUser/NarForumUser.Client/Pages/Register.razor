@@ -13,36 +13,36 @@
         <ValidationSummary />
         <h1 class="h5 mb-3 fw-normal text-center">Register</h1>
 
-        <div class="form-group">
-            <label asp-for="FirstName" class="control-label">First Name</label>
+        <div class="form-group mb-3">
+            <label asp-for="FirstName" class="control-label mb-1">First Name</label>
             <InputText type="text" id="FirstName" class="form-control" @bind-Value="@Model.FirstName" autocomplete="off"></InputText>
             <ValidationMessage For="@(() => Model.FirstName)" />
         </div>
-        <div class="form-group">
-            <label asp-for="LastName" class="control-label">Last Name</label>
+        <div class="form-group mb-3">
+            <label asp-for="LastName" class="control-label mb-1">Last Name</label>
             <InputText type="text" id="LastName" class="form-control" @bind-Value="@Model.LastName" autocomplete="off"></InputText>
             <ValidationMessage For="@(() => Model.LastName)" />
 
         </div>
-        <div class="form-group">
-            <label asp-for="Email" class="control-label">Email</label>
+        <div class="form-group mb-3">
+            <label asp-for="Email" class="control-label mb-1">Email</label>
             <InputText type="email" id="Email" class="form-control" @bind-Value="@Model.Email" autocomplete="off"></InputText>
             <ValidationMessage For="@(() => Model.Email)" />
 
         </div>
-        <div class="form-group">
-            <label asp-for="UserName" class="control-label">UserName</label>
+        <div class="form-group mb-3">
+            <label asp-for="UserName" class="control-label mb-1">UserName</label>
             <InputText type="text" id="UserName" class="form-control" @bind-Value="@Model.UserName" autocomplete="off"></InputText>
             <ValidationMessage For="@(() => Model.UserName)" />
         </div>
-        <div class="form-group">
-            <label asp-for="Password" class="control-label">Password</label>
+        <div class="form-group mb-3">
+            <label asp-for="Password" class="control-label mb-1">Password</label>
             <InputText type="password" id="Password" class="form-control" @bind-Value="@Model.Password"></InputText>
             <ValidationMessage For="@(() => Model.Password)" />
         </div>
         <div class="checkbox mb-3 mt-3">
             <label>
-                <input type="checkbox" @bind="@Model.IsAcceptUserTermsAndPolicy" value="" required> I agree to the <a href="" class="link-primary">privacy policy</a> and <a class="link-primary" href="">terms</a>.
+                <input type="checkbox" @bind="@Model.IsAcceptUserTermsAndPolicy" value="" required> I agree to the <a href="page/privacy-policy" class="link-primary">privacy policy</a> and <a class="link-primary" href="page/terms-of-service">terms</a>.
             </label>
         </div>
         <div class="form-group">
