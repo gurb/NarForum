@@ -576,3 +576,6 @@ ul.list-group.active-user-list li.list-group-item {
 .page-item-next {
     margin-left: 5px;
 }
+.card-text {
+    height: 19px;
+}
