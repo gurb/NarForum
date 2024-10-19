@@ -39,7 +39,7 @@ namespace Application.Features.ForumSetting.Commands.UpdateForumSettings
                 }
                 else
                 {
-                    var data = _mapper.Map<Domain.ForumSettings>(settings);
+                    var data = _mapper.Map<Domain.ForumSettings>(request);
                     await _settingsService.UpdateAsync(data);
                 }
                 response.Message = "Forum settings is saved";
