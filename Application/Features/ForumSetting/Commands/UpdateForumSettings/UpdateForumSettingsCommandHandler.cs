@@ -39,8 +39,8 @@ namespace Application.Features.ForumSetting.Commands.UpdateForumSettings
                 }
                 else
                 {
-                    var data = _mapper.Map<Domain.ForumSettings>(request);
-                    await _settingsService.UpdateAsync(data);
+                    settings = _mapper.Map<Domain.ForumSettings>(request);
+                    await _settingsService.UpdateAsync(settings);
                 }
                 response.Message = "Forum settings is saved";
             }
