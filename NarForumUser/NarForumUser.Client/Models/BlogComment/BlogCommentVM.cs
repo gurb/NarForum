@@ -9,7 +9,7 @@ public class BlogCommentVM
     public string Content { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
     public Guid? UserId { get; set; }
-
+    public DateTime? DateCreate { get; set; }
     public string? UserProfileImageUrl { get; set; }
 
 }

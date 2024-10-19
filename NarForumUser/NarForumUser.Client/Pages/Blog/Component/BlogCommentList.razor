@@ -32,8 +32,9 @@ else
 
                         <div class="d-flex justify-content-between align-items-center">
                             <p class="mb-1">
-                                @comment.UserName <span class="small">- 2 hours ago</span>
+                                @comment.UserName 
                             </p>
+                            <span class="small comment-date"><i class="bi bi-calendar me-1"></i> @comment.DateCreate</span>
                             @* <a href="#!"><i class="fas fa-reply fa-xs"></i><span class="small"> reply</span></a> *@
                         </div>
                         <p class="small mb-0">
@@ -52,7 +53,7 @@ else
             <BlogCommentForm BlogPostVM="BlogPostVM" CommentAdded="CommentAddedCallback"></BlogCommentForm>
         </Authorized>
         <NotAuthorized>
-            <p>You have to login to make comment on this blog post.</p>
+            <p class="login-message-for-heading">You have to <a href="login">login</a> to make comment on this blog post.</p>
         </NotAuthorized>
     </AuthorizeView>
 }

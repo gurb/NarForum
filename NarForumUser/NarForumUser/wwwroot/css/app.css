@@ -2237,3 +2237,7 @@ a.go-to-heading-link {
 .login-message-for-heading a{
     color: var(--color-a-fg);
 }
+
+span.small.comment-date {
+    font-size: 0.75rem;
+}

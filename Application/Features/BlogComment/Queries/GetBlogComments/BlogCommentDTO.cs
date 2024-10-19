@@ -8,5 +8,6 @@ public class BlogCommentDTO
     public Guid BlogPostId { get; set; }
     public string Content { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
+    public DateTime? DateCreate { get; set; }
     public Guid? UserId { get; set; }
 }
