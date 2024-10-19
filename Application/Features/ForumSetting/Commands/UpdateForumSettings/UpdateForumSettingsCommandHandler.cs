@@ -39,7 +39,8 @@ namespace Application.Features.ForumSetting.Commands.UpdateForumSettings
                 }
                 else
                 {
-                    settings = _mapper.Map<Domain.ForumSettings>(request);
+                    settings.ForumUrl = request.ForumUrl;
+                    settings.IsShowConsentCookie = request.IsShowConsentCookie;
                     await _settingsService.UpdateAsync(settings);
                 }
                 response.Message = "Forum settings is saved";
