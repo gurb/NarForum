@@ -24,7 +24,7 @@
 		else
 		{
 			<div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
-				<canvas id="browserViewChart d-block"></canvas>
+				<canvas id="browserViewChart"></canvas>
 			</div>
 			<div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
 				<table class="table table-responsive dashboard-stat-table">
@@ -41,9 +41,6 @@
 				</table>
 			</div>
 		}
-		
-		
-
     </div>
 
     </div>
@@ -89,7 +86,6 @@
 
 	protected async override Task OnAfterRenderAsync(bool firstRender)
 	{
-		await base.OnAfterRenderAsync(firstRender);
 		if (firstRender)
 		{
 			module = await JS.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Charts/BrowserView.razor.js");
@@ -116,6 +112,7 @@
 				}
 			}
 		}
+		await base.OnAfterRenderAsync(firstRender);
 	}
 
 	private async void OnChangeTime(string selectedTime)
