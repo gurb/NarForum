@@ -68,6 +68,17 @@ namespace Api.Controllers.Identity
         }
 
         /// <summary>
+        /// Adds a new user.
+        /// </summary>
+        /// <param name="request">The request containing user information fields.</param>
+        /// <returns>The adding user result as ApiResponse</returns>
+        [HttpPost("AddUser")]
+        public async Task<ApiResponse> AddUser([FromBody] AddUserRequest request)
+        {
+            return await _userService.AddUser(request);
+        }
+
+        /// <summary>
         /// Updates the selected user.
         /// </summary>
         /// <param name="request">The request containing user information fields.</param>

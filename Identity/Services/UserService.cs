@@ -20,14 +20,25 @@ namespace Identity.Services
         private readonly ForumIdentityDbContext _identityDbContext;
         private readonly IImageService _imageService;
         private readonly IEmailSender _emailSender;
+        private readonly IRoleService _roleService;
+        private readonly IPermissionService _permissionService;
 
-        public UserService(UserManager<ForumUser> userManager, IHttpContextAccessor contextAccessor, ForumIdentityDbContext identityDbContext, IImageService imageService, IEmailSender emailSender)
+        public UserService(
+            UserManager<ForumUser> userManager, 
+            IHttpContextAccessor contextAccessor, 
+            ForumIdentityDbContext identityDbContext, 
+            IImageService imageService, 
+            IEmailSender emailSender, 
+            IRoleService roleService, 
+            IPermissionService permissionService)
         {
             _userManager = userManager;
             _contextAccessor = contextAccessor;
             _identityDbContext = identityDbContext;
             _imageService = imageService;
             _emailSender = emailSender;
+            _roleService = roleService;
+            _permissionService = permissionService;
         }
 
         public string GetUserId()
@@ -296,6 +307,125 @@ namespace Identity.Services
             return response;
         }
 
+        public async Task<ApiResponse> AddUser(AddUserRequest request)
+        {
+            ApiResponse response = new ApiResponse();
+
+            try
+            {
+                var currentUser = await GetCurrentUser();
+
+                if(currentUser is not null)
+                {
+                    if(currentUser.Role is not null && currentUser.Role.ToLower() == "admin")
+                    {
+                        ForumUser newForumUser = new ForumUser();
+
+                        if (!string.IsNullOrEmpty(request.UserName))
+                        {
+                            var anyUsername = await _identityDbContext.Users.AnyAsync(x =>  x.UserName.ToLower() == request.UserName.ToLower());
+
+                            if (anyUsername)
+                            {
+                                response.IsSuccess = false;
+                                response.Message = "The username already exist";
+                                return response;
+                            }
+                        }
+                        else
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "The username cannot be empty or null";
+                            return response;
+                        }
+
+                        if (string.IsNullOrEmpty(request.Password))
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "The password cannot be empty or null";
+                            return response;
+                        }
+
+                        if (string.IsNullOrEmpty(request.FirstName) || string.IsNullOrEmpty(request.LastName))
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "The first name and the last name cannot be empty or null";
+                            return response;
+                        }
+                        
+
+                        if (string.IsNullOrEmpty(request.RoleId))
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "The role cannot be empty or null";
+                            return response;
+                        }
+
+                        if (!string.IsNullOrEmpty(request.Email))
+                        {
+                            var anyUsername = await _identityDbContext.Users.AnyAsync(x => x.Email.ToLower() == request.Email.ToLower());
+
+                            if (anyUsername)
+                            {
+                                response.IsSuccess = false;
+                                response.Message = "The email already exist";
+                                return response;
+                            }
+                        }
+                        else
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "The email cannot be empty or null";
+                            return response;
+                        }
+
+                        newForumUser.UserName = request.UserName;
+                        newForumUser.FirstName = request.FirstName;
+                        newForumUser.LastName = request.LastName;
+                        newForumUser.Email = request.Email;
+                        newForumUser.Description = request.Description;
+                        newForumUser.EmailConfirmed = true;
+                        var hasher = new PasswordHasher<ForumUser>();
+                        newForumUser.PasswordHash = hasher.HashPassword(null, request.Password);
+
+                        await _identityDbContext.Users.AddAsync(newForumUser);
+                        await _identityDbContext.SaveChangesAsync();
+
+                        var userRole = new IdentityUserRole<string>
+                        {
+                            RoleId = request.RoleId,
+                            UserId = newForumUser.Id,
+                        };
+                        await _identityDbContext.UserRoles.AddAsync(userRole);
+                        await _identityDbContext.SaveChangesAsync();
+
+                        newForumUser.Role = request.RoleName;
+                        _identityDbContext.Users.Update(newForumUser);
+                        await _identityDbContext.SaveChangesAsync();
+                        response.Message = "Created a new user";
+                    }
+                    else
+                    {
+                        response.IsSuccess = false;
+                        response.Message = "Not found any role this user account to add new user account.";
+                        return response;
+                    }
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Not found any user to add a new user account.";
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
 
 
         public async Task<ApiResponse> UpdateUser(UpdateUserRequest request)

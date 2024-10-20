@@ -54,6 +54,7 @@
 }
 
 <UpdateUserModal @ref=updateUserModal Model="SelectedModel" Roles="Roles" Callback="RefreshList"></UpdateUserModal>
+<AddUserModal @ref=addUserModal Callback="RefreshList" Roles="Roles"></AddUserModal>
 <DetailUserModal @ref=detailUserModal Model="SelectedModel" Callback="RefreshList"></DetailUserModal>
 
 @code {
@@ -82,6 +83,7 @@
 
     DetailUserModal? detailUserModal;
     UpdateUserModal? updateUserModal;
+    AddUserModal? addUserModal;
     private UserInfoVM? SelectedModel { get; set; }
 
     protected async override Task OnInitializedAsync()
@@ -151,6 +153,11 @@
         SelectedModel = user;
 
         updateUserModal?.ShowModal();
+    }
+
+    protected void AddUser()
+    {
+        addUserModal?.ShowModal();
     }
 
     protected async Task BlockUser(UserInfoVM user)
