@@ -1,7 +1,9 @@
 ﻿@using NarForumAdmin.Models.Toast
+@using NarForumAdmin.Services
 @inherits LayoutComponentBase
 @inject AlertService AlertService
 @inject ToastService ToastService;
+@inject AuthorizationService authorizationService;
 
 <Toast @ref="toast"></Toast>
 <Alert Message="@alertMessage" OnClose="HideAlert" />
@@ -36,12 +38,37 @@
 
     Toast? toast;
 
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
     protected override void OnInitialized()
     {
         ToastService.AddNotificationAction += AddNotification;
 
         AlertService.OnShow += ShowAlert;
         AlertService.OnHide += HideAlert;
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        if (authorizationService is not null && authenticationStateTask is not null)
+        {
+            var authenticationState = await authenticationStateTask;
+
+            if(authenticationState is not null)
+            {
+                var user = authenticationState.User;
+
+                if (user.Identity is not null && user.Identity.IsAuthenticated)
+                {
+                    if (user.Identity.Name is not null)
+                    {
+                        await authorizationService.SetPermissions(user.Identity.Name);
+                    }
+                }
+            }
+        }
+
+        await base.OnInitializedAsync();
     }
 
     private void ShowAlert(string message)

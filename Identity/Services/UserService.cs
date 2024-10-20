@@ -317,7 +317,7 @@ namespace Identity.Services
 
                 if(currentUser is not null)
                 {
-                    if(currentUser.Role is not null && currentUser.Role.ToLower() == "admin")
+                    if(currentUser.Role is not null && currentUser.Role.ToLower() == "administrator")
                     {
                         ForumUser newForumUser = new ForumUser();
 

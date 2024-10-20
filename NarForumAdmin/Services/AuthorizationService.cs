@@ -53,7 +53,10 @@ namespace NarForumAdmin.Services
                         {
                             if (permission.Name is not null)
                             {
-                                PermissionsValues.Add(permission.Name, permission.IsGranted);
+                                if(!PermissionsValues.ContainsKey(permission.Name))
+                                {
+                                    PermissionsValues.Add(permission.Name, permission.IsGranted);
+                                }
                             }
                         }
                         AuthExtension.SetPermission(PermissionsValues);

@@ -4,6 +4,16 @@
 
 @inject AlertService AlertService
 
+
+<div class="row">
+    @if (AuthExtension.IsAuth("ADMIN_AUTHORIZATION_PERMISSION_STATUS_CHANGE"))
+    {
+        <div class="alert alert-warning" role="alert">
+            If you uncheck "Change Status Permission" as administrator the for administrator roles. You have to update this permission(Change Status Permission) from database to change status of the permissions. But the permission should be
+            granted only for the administrator roles. Be aware the guid of the administrator roles.
+        </div>
+    }
+</div>
 <div class="row">
     <div class="col-sm-6">
         <h3>Permission Management</h3>

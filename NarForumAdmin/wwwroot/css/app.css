@@ -579,3 +579,7 @@ ul.list-group.active-user-list li.list-group-item {
 .card-text {
     height: 19px;
 }
+
+.prefix-item {
+    cursor: pointer;
+}

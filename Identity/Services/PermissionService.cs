@@ -183,7 +183,7 @@ namespace Identity.Services
                     {
                         var permission = new Permission();
 
-                        var oldPermission = oldPermissions.Where(x => x.Name == permission.Name && x.RoleId == role.Id).FirstOrDefault();
+                        var oldPermission = oldPermissions.Where(x => x.Name == permissionDefinition.Name && x.RoleId == role.Id).FirstOrDefault();
 
                         if (oldPermission != null)
                         {
