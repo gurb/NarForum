@@ -55,6 +55,8 @@ builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddSingleton<AlertService>();
 builder.Services.AddSingleton<ToastService>();
 
+builder.Services.AddScoped<AuthorizationService>();
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 

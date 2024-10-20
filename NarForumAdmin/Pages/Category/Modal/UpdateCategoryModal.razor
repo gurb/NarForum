@@ -54,6 +54,12 @@
 
     protected async Task HandleUpdate()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_CATEGORY_UPDATE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to update the category.");
+            return;
+        }
+
         if (Model is not null && CategoryService is not null)
         {
             UpdateCategoryCommandVM command = new UpdateCategoryCommandVM

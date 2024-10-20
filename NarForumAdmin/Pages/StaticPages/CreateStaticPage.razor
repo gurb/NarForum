@@ -107,6 +107,12 @@ else
 
     protected async Task CreateNewStaticPage()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_STATIC_PAGE_CREATE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to create the static page.");
+            return;
+        }
+
         if (StaticPageService != null)
         {
             CreateStaticPageCommandVM staticPage = new CreateStaticPageCommandVM
@@ -138,6 +144,12 @@ else
 
     protected async Task UpdateStaticPage()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_STATIC_PAGE_UPDATE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to update the static page.");
+            return;
+        }
+
         if (StaticPageService != null)
         {
             UpdateStaticPageCommandVM updateCommand = new UpdateStaticPageCommandVM
@@ -164,6 +176,12 @@ else
 
     protected async Task DraftStaticPage()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_STATIC_PAGE_DRAFT"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to draft the static page.");
+            return;
+        }
+
         if (StaticPageService != null)
         {
             DraftStaticPageCommandVM draftCommand = new DraftStaticPageCommandVM
@@ -187,6 +205,12 @@ else
 
     protected async Task PublishStaticPage()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_STATIC_PAGE_PUBLISH"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to publish the static page.");
+            return;
+        }
+
         if (StaticPageService != null)
         {
             PublishStaticPageCommandVM publishCommand = new PublishStaticPageCommandVM

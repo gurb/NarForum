@@ -44,6 +44,12 @@
 
     protected async Task HandleUpdate()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_HEADING_UPDATE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to update the heading.");
+            return;
+        }
+
         if (Model is not null && HeadingService is not null)
         {
             UpdateHeadingCommandVM command = new UpdateHeadingCommandVM

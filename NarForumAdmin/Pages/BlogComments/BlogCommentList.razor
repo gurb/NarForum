@@ -129,6 +129,12 @@
 
     protected async Task DeleteBlogCommentCallback()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_BLOG_COMMENT_DELETE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to delete the blog comment");
+            return;
+        }
+
         if(SelectedModel is not null)
         {
             RemoveBlogCommentCommandVM command = new RemoveBlogCommentCommandVM

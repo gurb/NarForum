@@ -48,6 +48,12 @@
 
     protected async Task HandleUpdate()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_SECTION_UPDATE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to update the section.");
+            return;
+        }
+
         if (Model is not null && SectionService is not null)
         {
             SectionVM section = new SectionVM

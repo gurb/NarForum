@@ -131,6 +131,11 @@
 
     protected async Task DeleteContactCallback()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_CONTACT_DELETE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to delete the contact.");
+            return;
+        }
         if (SelectedModel is not null)
         {
             RemoveContactCommandVM command = new RemoveContactCommandVM

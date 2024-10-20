@@ -60,6 +60,12 @@
 
     protected async Task HandleRegister()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_BLOG_CATEGORY_UPDATE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to update the blog category");
+            return;
+        }
+
         if (BlogCategoryService is not null && Model is not null)
         {
             ApiResponseVM response = await BlogCategoryService.UpdateBlogCategory(Model);

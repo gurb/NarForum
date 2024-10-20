@@ -164,6 +164,12 @@
 
     private async Task LoadFile(InputFileChangeEventArgs e)
     {
+        @if (!AuthExtension.IsAuth("ADMIN_FILE_UPLOAD"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to upload files.");
+            return;
+        }
+
         request = new UploadImageRequestVM
         {
            Type = UploadImageTypeVM.Gallery,

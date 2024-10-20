@@ -143,6 +143,12 @@
 
     protected async Task DeleteSectionCallback()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_SECTION_DELETE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to delete the section.");
+            return;
+        }
+
         if (SelectedModel is not null)
         {
             RemoveSectionCommandVM command = new RemoveSectionCommandVM

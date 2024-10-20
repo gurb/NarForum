@@ -157,6 +157,12 @@
 
     protected async Task DeleteStaticPageCallback()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_STATIC_PAGE_DELETE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to delete the static page.");
+            return;
+        }
+
         if (SelectedModel is not null)
         {
             RemoveStaticPageCommandVM command = new RemoveStaticPageCommandVM

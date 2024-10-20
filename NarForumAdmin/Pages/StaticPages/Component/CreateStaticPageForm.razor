@@ -233,6 +233,12 @@
 
 	protected async Task HandleCreatePage()
 	{
+		@if (!AuthExtension.IsAuth("ADMIN_STATIC_PAGE_CREATE"))
+		{
+			ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to create the static page.");
+			return;
+		}
+
 		CreateStaticPageCommandVM? staticPage;
 
 		staticPage = new CreateStaticPageCommandVM

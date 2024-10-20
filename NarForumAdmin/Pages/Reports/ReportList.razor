@@ -132,6 +132,12 @@
 
     protected async Task DeleteReportCallback()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_REPORT_DELETE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to delete the report.");
+            return;
+        }
+
         if (SelectedModel is not null)
         {
             RemoveReportCommandVM command = new RemoveReportCommandVM

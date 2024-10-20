@@ -148,6 +148,12 @@
 
     protected async Task PinHeading(HeadingVM heading)
     {
+        @if (!AuthExtension.IsAuth("ADMIN_HEADING_PIN"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to pin the heading.");
+            return;
+        }
+
         PinHeadingCommandVM command = new PinHeadingCommandVM
         {
             Id = heading.Id
@@ -168,6 +174,12 @@
 
     protected async Task LockHeading(HeadingVM heading)
     {
+        @if (!AuthExtension.IsAuth("ADMIN_HEADING_LOCK"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to lock the heading.");
+            return;
+        }
+
         LockHeadingCommandVM command = new LockHeadingCommandVM
         {
             Id = heading.Id
@@ -201,6 +213,12 @@
 
     protected async Task DeleteHeadingCallback()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_HEADING_DELETE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to delete the heading.");
+            return;
+        }
+
         if (SelectedModel is not null)
         {
             RemoveHeadingCommandVM command = new RemoveHeadingCommandVM

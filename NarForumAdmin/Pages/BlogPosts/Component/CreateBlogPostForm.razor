@@ -233,6 +233,12 @@
 
 	protected async Task HandleCreatePost()
 	{
+		@if (!AuthExtension.IsAuth("ADMIN_BLOG_POST_CREATE"))
+		{
+			ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to create the blog post.");
+			return;
+		}
+
 		CreateBlogPostCommandVM? post;
 
 		post = new CreateBlogPostCommandVM

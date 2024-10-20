@@ -91,6 +91,12 @@
 
     protected async Task SaveSMTPSettings()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_FORUM_SETTINGS_SMTP_SAVE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to save the SMTP settings.");
+            return;
+        }
+
         if (settingsService is not null)
         {
             UpdateSmtpSettingsCommandVM command = new UpdateSmtpSettingsCommandVM

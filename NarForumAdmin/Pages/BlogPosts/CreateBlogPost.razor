@@ -159,6 +159,12 @@ else
 
     protected async Task CreateNewBlogPost()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_BLOG_POST_CREATE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to create a new blog post");
+            return;
+        }
+
         if (BlogPostService != null)
         {
             CreateBlogPostCommandVM blogPost = new CreateBlogPostCommandVM
@@ -194,6 +200,12 @@ else
 
     protected async Task DeleteBlogCategory()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_BLOG_CATEGORY_DELETE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to delete the blog category");
+            return;
+        }
+
         if (CreateModel.BlogCategoryId is not null)
         {
             RemoveBlogCategoryCommandVM removeCommand = new RemoveBlogCategoryCommandVM
@@ -218,6 +230,12 @@ else
 
     protected async Task UpdateBlogCategory()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_BLOG_CATEGORY_UPDATE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to update the blog category");
+            return;
+        }
+
         if(CreateModel.BlogCategoryId is not null)
         {
             UpdateBlogCategoryCommandVM removeCommand = new UpdateBlogCategoryCommandVM
@@ -245,6 +263,12 @@ else
 
     protected async Task UpdateBlogPost()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_BLOG_POST_UPDATE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to update the blog post");
+            return;
+        }
+
         if (BlogPostService != null)
         {
             UpdateBlogPostCommandVM updateCommand = new UpdateBlogPostCommandVM
@@ -344,6 +368,12 @@ else
 
     protected async Task DraftBlogPost()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_BLOG_POST_DRAFT"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to draft the blog post");
+            return;
+        }
+
         if (BlogPostService != null)
         {
             DraftBlogPostCommandVM draftCommand = new DraftBlogPostCommandVM
@@ -368,6 +398,12 @@ else
 
     protected async Task PublishBlogPost()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_BLOG_POST_PUBLISH"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to publish the blog post");
+            return;
+        }
+
         if (BlogPostService != null)
         {
             PublishBlogPostCommandVM publishCommand = new PublishBlogPostCommandVM

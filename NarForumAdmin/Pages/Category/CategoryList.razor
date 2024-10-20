@@ -150,6 +150,12 @@
 
     protected async Task DeleteCategoryCallback()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_CATEGORY_DELETE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to delete the category.");
+            return;
+        }
+
         if(SelectedModel is not null)
         {
             RemoveCategoryCommandVM command = new RemoveCategoryCommandVM
