@@ -121,15 +121,15 @@
 
         if (Model is not null && UserService is not null)
         {
-            UpdateUserRequestVM request = new UpdateUserRequestVM
-                {
-                    Id = Model.Id,
-                    Description = Model.Description,
-                    FirstName = Model.FirstName,
-                    LastName = Model.LastName,
-                    Email = Model.Email,
-                    UserName = Model.UserName,
-                };
+            AddUserRequestVM request = new AddUserRequestVM
+            {
+                Description = Model.Description,
+                FirstName = Model.FirstName,
+                LastName = Model.LastName,
+                Email = Model.Email,
+                UserName = Model.UserName,
+                Password = newPassword
+            };
 
             if (roleId is not null && Roles is not null)
             {
@@ -140,19 +140,13 @@
                     request.RoleName = role.Name;
                 }
             }
-
-            if (!string.IsNullOrEmpty(newPassword))
-            {
-                request.IsChangePassword = true;
-                request.Password = newPassword;
-            }
-
-            var response = await UserService.UpdateUser(request);
+            
+            var response = await UserService.AddUser(request);
 
             if (response.IsSuccess)
             {
-                ToastService!.CreateSuccessToast("Updated User", "The user is updated successfully");
-                // updated
+                ToastService!.CreateSuccessToast("Added User", "The user is added successfully");
+                // added
                 if (Callback.HasDelegate)
                 {
                     await Callback.InvokeAsync();
@@ -162,7 +156,7 @@
             }
             else
             {
-                ToastService!.CreateErrorToast("Error while updating user", response.Message);
+                ToastService!.CreateErrorToast("Error while adding user", response.Message);
             }
         }
     }

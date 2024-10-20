@@ -10,6 +10,7 @@ namespace NarForumAdmin.Contracts
 
         Task<UsersPaginationVM> GetWithPagination(UsersPaginationQueryVM paramQuery);
 
+        Task<ApiResponseVM> AddUser(AddUserRequestVM request);
         Task<ApiResponseVM> UpdateUser(UpdateUserRequestVM request);
         Task<ApiResponseVM> BlockUser(string? userId);
 

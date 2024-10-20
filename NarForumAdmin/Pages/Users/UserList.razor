@@ -2,7 +2,14 @@
 @using NarForumAdmin.Models.Authorization.Role
 @using NarForumAdmin.Pages.Users.Modal
 
-<h3>User List</h3>
+<div class="row">
+    <div class="col-sm-6">
+        <h3>User List</h3>
+    </div>
+    <div class="col-sm-6 text-end">
+        <button type="button" class="btn btn-primary" @onclick=AddUser><i class="bi bi-person-plus-fill"></i> Create New User</button>
+    </div>
+</div>
 
 <UserFilter QueryModel="query" Callback="RefreshListFilter"></UserFilter>
 
@@ -147,6 +154,7 @@
 
         detailUserModal?.ShowModal();
     }
+
 
     protected void UpdateUser(UserInfoVM user)
     {

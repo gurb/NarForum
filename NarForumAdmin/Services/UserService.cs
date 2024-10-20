@@ -86,6 +86,20 @@ public class UserService : BaseHttpService, IUserService
         }
     }
 
+    public async Task<ApiResponseVM> AddUser(AddUserRequestVM request)
+    {
+        try
+        {
+            var req = _mapper.Map<AddUserRequest>(request);
+            var response = await _client.AddUserAsync(req);
+            return _mapper.Map<ApiResponseVM>(response);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message, ex.InnerException);
+        }
+    }
+
     public async Task<ApiResponseVM> UpdateUser(UpdateUserRequestVM request)
     {
         try
