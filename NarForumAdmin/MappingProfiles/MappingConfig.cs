@@ -69,6 +69,7 @@ namespace NarForumAdmin.MappingProfiles
                 CreateMap<GetUsersWithPaginationQuery, UsersPaginationQueryVM>().ReverseMap();
                 CreateMap<UsersPaginationDTO, UsersPaginationVM>().ReverseMap();
                 CreateMap<UpdateUserRequest, UpdateUserRequestVM>().ReverseMap();
+                CreateMap<AddUserRequest, AddUserRequestVM>().ReverseMap();
                 CreateMap<ResetPasswordRequest, ResetPasswordRequestVM>().ReverseMap();
 
 
