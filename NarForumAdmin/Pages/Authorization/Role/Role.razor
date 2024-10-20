@@ -122,6 +122,12 @@
 
     protected async Task DeleteRole()
     {
+        if (!AuthExtension.IsAuth("ADMIN_AUTHORIZATION_ROLE_DELETE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to delete the role");
+            return;
+        }
+
         RemoveRoleRequestVM request = new RemoveRoleRequestVM
         {
             Id = deleteThisRole.Id

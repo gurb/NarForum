@@ -61,6 +61,11 @@
 
     private async Task RefreshPermissions()
     {
+        if (!AuthExtension.IsAuth("ADMIN_AUTHORIZATION_PERMISSIONS_REFRESH"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to refresh the permissions");
+            return;
+        }
         var response = await PermissionService.RefreshPermissions();
 
         if (response.IsSuccess)
@@ -75,6 +80,12 @@
 
     private async Task RefreshPermissionDefinitions ()
     {
+        if (!AuthExtension.IsAuth("ADMIN_AUTHORIZATION_PERMISSION_DEFINITIONS_REFRESH"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to refresh the permission definitions");
+            return;
+        }
+
         var permissionDefinitionResponse = await PermissionService.GetPermissionDefinitions();
 
         if (permissionDefinitionResponse != null)
@@ -120,6 +131,12 @@
 
     private async Task SaveSelect(string permissionId)
     {
+        if (!AuthExtension.IsAuth("ADMIN_AUTHORIZATION_PERMISSION_STATUS_CHANGE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to change the permission status");
+            return;
+        }
+
         var response = await PermissionService.ChangePermissionStatus(permissionId);
 
         if (response.IsSuccess)
@@ -171,6 +188,12 @@
 
     protected async Task DeletePermissionDefinition()
     {
+        @if (!AuthExtension.IsAuth("ADMIN_AUTHORIZATION_PERMISSION_DEFINITION_DELETE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to delete the permission definition");
+            return;
+        }
+
         DeletePermissionDefinitionRequestVM request = new DeletePermissionDefinitionRequestVM
         {
             PermissionDefinitionId = deletePermissionDefinitionId,

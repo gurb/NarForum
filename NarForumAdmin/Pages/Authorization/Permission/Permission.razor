@@ -165,6 +165,12 @@
 
     private async Task SaveSelect(string permissionId)
     {
+        @if (!AuthExtension.IsAuth("ADMIN_AUTHORIZATION_PERMISSION_STATUS_CHANGE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to change the permission status");
+            return;
+        }
+
         var response = await PermissionService.ChangePermissionStatus(permissionId);
 
         if(response.IsSuccess)

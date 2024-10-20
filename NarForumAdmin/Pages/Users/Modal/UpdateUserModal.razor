@@ -113,6 +113,12 @@
 
     protected async Task HandleUpdate()
     {
+        if (!AuthExtension.IsAuth("ADMIN_USER_UPDATE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to update the user");
+            return;
+        }
+
         if (Model is not null && UserService is not null)
         {
             UpdateUserRequestVM request = new UpdateUserRequestVM

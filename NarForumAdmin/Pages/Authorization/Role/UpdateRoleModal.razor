@@ -52,6 +52,12 @@
 
     protected async Task HandleRegister()
     {
+        if (!AuthExtension.IsAuth("ADMIN_AUTHORIZATION_ROLE_UPDATE"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to update the role");
+            return;
+        }
+
         if (Model != null && RoleService != null)
         {
             if (String.IsNullOrEmpty(Model.Name) || String.IsNullOrEmpty(Model.NormalizedName))

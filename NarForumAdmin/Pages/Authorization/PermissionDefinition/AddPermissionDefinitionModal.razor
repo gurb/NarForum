@@ -148,8 +148,18 @@
 
     protected async Task HandleRegister()
     {
+        
+
+        
+
         if(isUpdate)
         {
+            @if (!AuthExtension.IsAuth("ADMIN_AUTHORIZATION_PERMISSION_DEFINITION_UPDATE"))
+            {
+                ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to update the permission definition");
+                return;
+            }
+
             if (UpdateModel != null && PermissionService != null)
             {
                 if (SelectedParentModel != null)
@@ -175,6 +185,12 @@
         }
         else if (Model != null && PermissionService != null)
         {
+            if (!AuthExtension.IsAuth("ADMIN_AUTHORIZATION_PERMISSION_DEFINITION_CREATE"))
+            {
+                ToastService!.CreateInfoToast("Action Denied", "Your user does not have permissions to create the permission definition");
+                return;
+            }
+
             if (String.IsNullOrEmpty(Model.Name) || String.IsNullOrEmpty(Model.DisplayName))
             {
                 return;
