@@ -174,6 +174,24 @@ public class AuthService : IAuthService
             };
 
 
+            if(string.IsNullOrEmpty(request.Password))
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = "The password cannot be empty."
+                };
+            }
+
+            if(request.Password.Length < 6)
+            {
+                return new ApiResponse
+                {
+                    IsSuccess = false,
+                    Message = "The password must be at least 6 characters long."
+                };
+            }
+
             var result = await _userManager.CreateAsync(user, request.Password);
 
 

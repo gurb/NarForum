@@ -239,12 +239,6 @@
 	{
 		PostVM? post;
 
-		if (string.IsNullOrEmpty(Model.Content))
-		{
-			ToastService!.CreateErrorToast("Empty Heading Content", "The heading content cannot be empty.");
-			return;
-		}
-
 		post = new PostVM
         {
             HeadingId = HeadingId,
@@ -252,6 +246,13 @@
         };
 
 		post.Content = GenerateContentFromDisplayContent(Model.DisplayContent);
+
+		if (string.IsNullOrEmpty(post.Content))
+		{
+			ToastService!.CreateErrorToast("Empty Post Content", "The post content cannot be empty.");
+			return;
+		}
+
 		post.QuotePostIds = GetQuotePostIds(Model.DisplayContent);
 
 		var response = await PostService.CreatePost(post);
