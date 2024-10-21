@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Identity.Migrations
 {
     [DbContext(typeof(ForumIdentityDbContext))]
-    [Migration("20241001164410_Id4")]
-    partial class Id4
+    [Migration("20241021093610_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -117,6 +117,9 @@ namespace Identity.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
+                    b.Property<int>("HeadingCounter")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsBlocked")
                         .HasColumnType("boolean");
 
@@ -148,6 +151,9 @@ namespace Identity.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<int>("PostCounter")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Rank")
                         .HasColumnType("text");
@@ -184,64 +190,71 @@ namespace Identity.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6a04c350-5669-4ba0-802b-6f6e52e85467",
+                            ConcurrencyStamp = "18251732-5e3b-4876-b9bb-8746961907b8",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
+                            HeadingCounter = 0,
                             IsBlocked = false,
                             LastName = "Admin",
                             LastOnlineTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMZqAngZPeJzrV3Ofocwp9AXZOj8LwWEei0M1EJB6Qt91Le7G+me6NaeIz5qNi856A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDesCfs0emIyjlAPhsgcc3r2ASxWHmcYD0VNM6XYFwc/A8FuDKPhODXiimyeWL6R9w==",
                             PhoneNumberConfirmed = false,
-                            RegisterDate = new DateTime(2024, 10, 1, 16, 44, 9, 432, DateTimeKind.Utc).AddTicks(524),
-                            SecurityStamp = "4a5ba304-b8cf-4271-9245-095e4f18ade8",
+                            PostCounter = 0,
+                            RegisterDate = new DateTime(2024, 10, 21, 9, 36, 9, 539, DateTimeKind.Utc).AddTicks(7162),
+                            Role = "Administrator",
+                            SecurityStamp = "9c0a5c85-db9a-44dc-9296-8f70df7be2d0",
                             TwoFactorEnabled = false,
-                            UserName = "admin@localhost.com"
+                            UserName = "admin"
                         },
                         new
                         {
                             Id = "9e224968-33e4-4652-b7b7-8574d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bb16eebc-979f-480d-8280-1353bf4d8381",
+                            ConcurrencyStamp = "f656e935-504e-4007-b9fa-8a45dd6b27b2",
                             Email = "user@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
+                            HeadingCounter = 0,
                             IsBlocked = false,
                             LastName = "User",
                             LastOnlineTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@LOCALHOST.COM",
                             NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOvPqCUrFZAVgYK7bZ+lIbW5JHsZ3gCjPKSYTkC5Wiqm3+iA8NKfWoIof2OIPvdUcw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPGXe//EG76IZz97nwMPEsln7XWJpyetDfkKPzLX16s9+ATmwDbT1qK1z7ogSJraSg==",
                             PhoneNumberConfirmed = false,
-                            RegisterDate = new DateTime(2024, 10, 1, 16, 44, 9, 509, DateTimeKind.Utc).AddTicks(9768),
-                            SecurityStamp = "f2b1648a-ee5e-4311-8952-ebceb99a4c92",
+                            PostCounter = 0,
+                            RegisterDate = new DateTime(2024, 10, 21, 9, 36, 9, 607, DateTimeKind.Utc).AddTicks(6982),
+                            SecurityStamp = "3d56483f-94cb-4ac0-9b3d-bce0642712d4",
                             TwoFactorEnabled = false,
-                            UserName = "user@localhost.com"
+                            UserName = "user"
                         },
                         new
                         {
                             Id = "076f24af-8934-4bf2-8d4e-03a5b48db4f4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "087e67aa-08e8-499a-8979-cb42246fec18",
+                            ConcurrencyStamp = "9f933f75-4909-49b2-b9e5-707891609a76",
                             Email = "moderator@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "System",
+                            HeadingCounter = 0,
                             IsBlocked = false,
                             LastName = "Moderator",
                             LastOnlineTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = false,
                             NormalizedEmail = "MODERATOR@LOCALHOST.COM",
                             NormalizedUserName = "MODERATOR@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFc/bMKs4hUITETzwzJQjO02jua3UUlzBn2LclDKNT3mX5WM6Gi6gVe2EDgkp2NQ7A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAM67xLc0gNbDQx6VWowfzK0clvg1aEFpRvsIo4hRG8QxtWQPRe8IaAMDObqBfF6RQ==",
                             PhoneNumberConfirmed = false,
-                            RegisterDate = new DateTime(2024, 10, 1, 16, 44, 9, 595, DateTimeKind.Utc).AddTicks(589),
-                            SecurityStamp = "64af9a85-ee47-4087-ba5e-d6602208281d",
+                            PostCounter = 0,
+                            RegisterDate = new DateTime(2024, 10, 21, 9, 36, 9, 673, DateTimeKind.Utc).AddTicks(5316),
+                            SecurityStamp = "58cc46d9-3020-4e4e-a952-e9acf515df68",
                             TwoFactorEnabled = false,
-                            UserName = "moderator@localhost.com"
+                            UserName = "moderator"
                         });
                 });
 
@@ -345,65 +358,41 @@ namespace Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dc9aff7b-7de7-4ef3-90a1-047f8ef935f4",
+                            Id = "0e6f1e30-aaa1-49d3-8918-419291f9eebe",
+                            DisplayName = "Admin",
                             IsGranted = true,
-                            Name = "FORUM_PROFILE_PAGE",
-                            RoleId = "dac42a6e-f7bb-4448-b3cf-1add431ccbbf"
-                        },
-                        new
-                        {
-                            Id = "9519adb7-9611-40bc-bd8e-2d71b5097755",
-                            IsGranted = true,
-                            Name = "FORUM_CAN_OPEN_HEADING",
-                            RoleId = "dac42a6e-f7bb-4448-b3cf-1add431ccbbf"
-                        },
-                        new
-                        {
-                            Id = "b426d1e0-4afe-4752-abb1-444f593ca9d3",
-                            IsGranted = true,
-                            Name = "FORUM_CAN_REPLY",
-                            RoleId = "dac42a6e-f7bb-4448-b3cf-1add431ccbbf"
-                        },
-                        new
-                        {
-                            Id = "a0737557-3282-45eb-b8ed-daa1cc2bc924",
-                            IsGranted = true,
-                            Name = "FORUM_PROFILE_PAGE",
-                            RoleId = "bac43a5e-f7bb-4448-b12f-1add431ccbbf"
-                        },
-                        new
-                        {
-                            Id = "0c125c40-7d4e-41de-a00f-c9748142d35a",
-                            IsGranted = true,
-                            Name = "FORUM_CAN_OPEN_HEADING",
-                            RoleId = "bac43a5e-f7bb-4448-b12f-1add431ccbbf"
-                        },
-                        new
-                        {
-                            Id = "f46684f5-6513-4a7d-bbdd-0e43a395a38c",
-                            IsGranted = true,
-                            Name = "FORUM_CAN_REPLY",
-                            RoleId = "bac43a5e-f7bb-4448-b12f-1add431ccbbf"
-                        },
-                        new
-                        {
-                            Id = "532be471-dd63-4a39-ba2a-4fdc31dc432b",
-                            IsGranted = true,
-                            Name = "FORUM_PROFILE_PAGE",
+                            Name = "ADMIN",
+                            PermissionDefinitionId = "87800b42-e5dc-41e1-845a-789c387a9c8c",
                             RoleId = "cbc43a8e-f7bb-4445-baaf-1add431ffbbf"
                         },
                         new
                         {
-                            Id = "25315678-0f4a-4a38-b82c-83a130ac4992",
+                            Id = "d4cc9401-ca88-4de3-941d-c5b2c1b960f4",
+                            DisplayName = "Authorization",
                             IsGranted = true,
-                            Name = "FORUM_CAN_OPEN_HEADING",
+                            Name = "ADMIN_AUTHORIZATION",
+                            ParentPermissionId = "0e6f1e30-aaa1-49d3-8918-419291f9eebe",
+                            PermissionDefinitionId = "ba8b1242-49b5-4706-b641-e07d23b78884",
                             RoleId = "cbc43a8e-f7bb-4445-baaf-1add431ffbbf"
                         },
                         new
                         {
-                            Id = "e87f7d83-721e-4e3d-84c4-9b7f48215a84",
+                            Id = "0dd2e45e-0362-4672-a475-1e0b9912d130",
+                            DisplayName = "Permission",
                             IsGranted = true,
-                            Name = "FORUM_CAN_REPLY",
+                            Name = "ADMIN_AUTHORIZATION_PERMISSION",
+                            ParentPermissionId = "d4cc9401-ca88-4de3-941d-c5b2c1b960f4",
+                            PermissionDefinitionId = "5d3da4f1-95a7-4fc4-abac-df5f782f1e79",
+                            RoleId = "cbc43a8e-f7bb-4445-baaf-1add431ffbbf"
+                        },
+                        new
+                        {
+                            Id = "8fbbd082-aa86-4383-998c-c638d48164d1",
+                            DisplayName = "Change Permission Status",
+                            IsGranted = true,
+                            Name = "ADMIN_AUTHORIZATION_PERMISSION_STATUS_CHANGE",
+                            ParentPermissionId = "0dd2e45e-0362-4672-a475-1e0b9912d130",
+                            PermissionDefinitionId = "8347ac9a-2b9a-4b03-9cb5-3855adc46355",
                             RoleId = "cbc43a8e-f7bb-4445-baaf-1add431ffbbf"
                         });
                 });
@@ -625,6 +614,76 @@ namespace Identity.Migrations
                         },
                         new
                         {
+                            Id = "ea105968-d9b2-4534-a7be-8ff26911e6d4",
+                            DisplayName = "Static Page",
+                            Name = "ADMIN_STATIC_PAGE",
+                            ParentPermissionDefinitionId = "87800b42-e5dc-41e1-845a-789c387a9c8c"
+                        },
+                        new
+                        {
+                            Id = "60bff600-0087-4b56-be68-a2193adc4e74",
+                            DisplayName = "Blog Post",
+                            Name = "ADMIN_BLOG_POST",
+                            ParentPermissionDefinitionId = "87800b42-e5dc-41e1-845a-789c387a9c8c"
+                        },
+                        new
+                        {
+                            Id = "7a0d912d-6939-41e2-b5bf-bb1679b4444a",
+                            DisplayName = "Blog Category",
+                            Name = "ADMIN_BLOG_CATEGORY",
+                            ParentPermissionDefinitionId = "87800b42-e5dc-41e1-845a-789c387a9c8c"
+                        },
+                        new
+                        {
+                            Id = "8f512611-db14-4ae8-8c51-bd6ee781fd63",
+                            DisplayName = "Blog Comment",
+                            Name = "ADMIN_BLOG_COMMENT",
+                            ParentPermissionDefinitionId = "87800b42-e5dc-41e1-845a-789c387a9c8c"
+                        },
+                        new
+                        {
+                            Id = "dfe92ad3-1007-417c-bba0-ddf1498431ea",
+                            DisplayName = "File",
+                            Name = "ADMIN_FILE",
+                            ParentPermissionDefinitionId = "87800b42-e5dc-41e1-845a-789c387a9c8c"
+                        },
+                        new
+                        {
+                            Id = "2eb69c14-bce8-43a8-93b0-d6f4919975e5",
+                            DisplayName = "Contact",
+                            Name = "ADMIN_CONTACT",
+                            ParentPermissionDefinitionId = "87800b42-e5dc-41e1-845a-789c387a9c8c"
+                        },
+                        new
+                        {
+                            Id = "f61fb3eb-4498-4319-b618-615fbf962c26",
+                            DisplayName = "Report",
+                            Name = "ADMIN_REPORT",
+                            ParentPermissionDefinitionId = "87800b42-e5dc-41e1-845a-789c387a9c8c"
+                        },
+                        new
+                        {
+                            Id = "a5fa386c-fc18-4da6-a173-4788894e1df1",
+                            DisplayName = "Forum Settings",
+                            Name = "ADMIN_FORUM_SETTINGS",
+                            ParentPermissionDefinitionId = "87800b42-e5dc-41e1-845a-789c387a9c8c"
+                        },
+                        new
+                        {
+                            Id = "ba8b1242-49b5-4706-b641-e07d23b78884",
+                            DisplayName = "Authorization",
+                            Name = "ADMIN_AUTHORIZATION",
+                            ParentPermissionDefinitionId = "87800b42-e5dc-41e1-845a-789c387a9c8c"
+                        },
+                        new
+                        {
+                            Id = "038d6a97-5afc-4a47-b8c4-0dc1ef4e53dc",
+                            DisplayName = "User",
+                            Name = "ADMIN_USER",
+                            ParentPermissionDefinitionId = "87800b42-e5dc-41e1-845a-789c387a9c8c"
+                        },
+                        new
+                        {
                             Id = "aa55c85d-33ad-45ee-9dff-6d78aaf86a9c",
                             DisplayName = "Create Post",
                             Name = "ADMIN_POST_CREATE",
@@ -706,6 +765,230 @@ namespace Identity.Migrations
                             DisplayName = "Delete Category",
                             Name = "ADMIN_CATEGORY_DELETE",
                             ParentPermissionDefinitionId = "d2a3ae9f-c13e-459d-b5b6-3fe5937cceb4"
+                        },
+                        new
+                        {
+                            Id = "f9ac31ce-3d30-4590-aab1-fce1694a7690",
+                            DisplayName = "Create Static Page",
+                            Name = "ADMIN_STATIC_PAGE_CREATE",
+                            ParentPermissionDefinitionId = "ea105968-d9b2-4534-a7be-8ff26911e6d4"
+                        },
+                        new
+                        {
+                            Id = "4fd10b35-bfba-472c-884c-79106acb29d0",
+                            DisplayName = "Update Static Page",
+                            Name = "ADMIN_STATIC_PAGE_UPDATE",
+                            ParentPermissionDefinitionId = "ea105968-d9b2-4534-a7be-8ff26911e6d4"
+                        },
+                        new
+                        {
+                            Id = "7ef1f32e-97c6-4bb9-bc07-57a5384e032f",
+                            DisplayName = "Delete Static Page",
+                            Name = "ADMIN_STATIC_PAGE_DELETE",
+                            ParentPermissionDefinitionId = "ea105968-d9b2-4534-a7be-8ff26911e6d4"
+                        },
+                        new
+                        {
+                            Id = "e8e6009a-cf3b-41a4-89ef-0ae44fe53bbc",
+                            DisplayName = "Draft Static Page",
+                            Name = "ADMIN_STATIC_PAGE_DRAFT",
+                            ParentPermissionDefinitionId = "ea105968-d9b2-4534-a7be-8ff26911e6d4"
+                        },
+                        new
+                        {
+                            Id = "3075314b-4f93-4998-81c8-f80ffc9632b7",
+                            DisplayName = "Delete Static Page",
+                            Name = "ADMIN_STATIC_PAGE_PUBLISH",
+                            ParentPermissionDefinitionId = "ea105968-d9b2-4534-a7be-8ff26911e6d4"
+                        },
+                        new
+                        {
+                            Id = "f1e86cb5-37df-423f-9b77-c75c4d8cc4d3",
+                            DisplayName = "Create Blog Post",
+                            Name = "ADMIN_BLOG_POST_CREATE",
+                            ParentPermissionDefinitionId = "60bff600-0087-4b56-be68-a2193adc4e74"
+                        },
+                        new
+                        {
+                            Id = "6fe53ad5-e173-44af-a6a8-224ee49f15fe",
+                            DisplayName = "Update Blog Post",
+                            Name = "ADMIN_BLOG_POST_UPDATE",
+                            ParentPermissionDefinitionId = "60bff600-0087-4b56-be68-a2193adc4e74"
+                        },
+                        new
+                        {
+                            Id = "1bed742a-e365-430b-a38f-e0bf280b3c3c",
+                            DisplayName = "Delete Blog Post",
+                            Name = "ADMIN_BLOG_POST_DELETE",
+                            ParentPermissionDefinitionId = "60bff600-0087-4b56-be68-a2193adc4e74"
+                        },
+                        new
+                        {
+                            Id = "94014f4f-7632-4b22-b4e5-208e21a62ff3",
+                            DisplayName = "Draft Blog Post",
+                            Name = "ADMIN_BLOG_POST_DRAFT",
+                            ParentPermissionDefinitionId = "60bff600-0087-4b56-be68-a2193adc4e74"
+                        },
+                        new
+                        {
+                            Id = "837a53e1-27c9-46c6-87d7-3b8d6ca08deb",
+                            DisplayName = "Delete Blog Post",
+                            Name = "ADMIN_BLOG_POST_PUBLISH",
+                            ParentPermissionDefinitionId = "60bff600-0087-4b56-be68-a2193adc4e74"
+                        },
+                        new
+                        {
+                            Id = "bf45e6ac-c5b6-4545-bb88-13c5247d74d9",
+                            DisplayName = "Create Blog Category",
+                            Name = "ADMIN_BLOG_CATEGORY_CREATE",
+                            ParentPermissionDefinitionId = "7a0d912d-6939-41e2-b5bf-bb1679b4444a"
+                        },
+                        new
+                        {
+                            Id = "2c9ba66d-3843-4e1e-8310-566dfeb2b76a",
+                            DisplayName = "Update Blog Category",
+                            Name = "ADMIN_BLOG_CATEGORY_UPDATE",
+                            ParentPermissionDefinitionId = "7a0d912d-6939-41e2-b5bf-bb1679b4444a"
+                        },
+                        new
+                        {
+                            Id = "5dd47b71-652b-4820-ab37-961922ca9f9f",
+                            DisplayName = "Delete Blog Category",
+                            Name = "ADMIN_BLOG_CATEGORY_DELETE",
+                            ParentPermissionDefinitionId = "7a0d912d-6939-41e2-b5bf-bb1679b4444a"
+                        },
+                        new
+                        {
+                            Id = "eba68e19-aab6-4850-afc5-212af0170223",
+                            DisplayName = "Delete Blog Comment",
+                            Name = "ADMIN_BLOG_COMMENT_DELETE",
+                            ParentPermissionDefinitionId = "8f512611-db14-4ae8-8c51-bd6ee781fd63"
+                        },
+                        new
+                        {
+                            Id = "7b840a2b-6fd5-46d6-88be-3deab30d468a",
+                            DisplayName = "Upload File",
+                            Name = "ADMIN_FILE_UPLOAD",
+                            ParentPermissionDefinitionId = "dfe92ad3-1007-417c-bba0-ddf1498431ea"
+                        },
+                        new
+                        {
+                            Id = "a88f9a5b-de8e-4ca0-9849-d8be17a7d355",
+                            DisplayName = "Delete Contact",
+                            Name = "ADMIN_CONTACT_DELETE",
+                            ParentPermissionDefinitionId = "2eb69c14-bce8-43a8-93b0-d6f4919975e5"
+                        },
+                        new
+                        {
+                            Id = "c49c9c80-5531-4d97-923c-9c32220c0ce4",
+                            DisplayName = "Delete Report",
+                            Name = "ADMIN_REPORT_DELETE",
+                            ParentPermissionDefinitionId = "f61fb3eb-4498-4319-b618-615fbf962c26"
+                        },
+                        new
+                        {
+                            Id = "e022f309-249a-43d0-b04c-0e385faf4b2f",
+                            DisplayName = "Save SMTP Settings",
+                            Name = "ADMIN_FORUM_SETTINGS_SMTP_SAVE",
+                            ParentPermissionDefinitionId = "a5fa386c-fc18-4da6-a173-4788894e1df1"
+                        },
+                        new
+                        {
+                            Id = "5d3da4f1-95a7-4fc4-abac-df5f782f1e79",
+                            DisplayName = "Permission",
+                            Name = "ADMIN_AUTHORIZATION_PERMISSION",
+                            ParentPermissionDefinitionId = "ba8b1242-49b5-4706-b641-e07d23b78884"
+                        },
+                        new
+                        {
+                            Id = "0e894f8b-569c-45ae-bcec-257200d23c63",
+                            DisplayName = "Permission Definition",
+                            Name = "ADMIN_AUTHORIZATION_PERMISSION_DEFINITION",
+                            ParentPermissionDefinitionId = "ba8b1242-49b5-4706-b641-e07d23b78884"
+                        },
+                        new
+                        {
+                            Id = "2c15ed97-173a-41a8-8dcf-b16cf7090aec",
+                            DisplayName = "Role",
+                            Name = "ADMIN_AUTHORIZATION_ROLE",
+                            ParentPermissionDefinitionId = "ba8b1242-49b5-4706-b641-e07d23b78884"
+                        },
+                        new
+                        {
+                            Id = "8347ac9a-2b9a-4b03-9cb5-3855adc46355",
+                            DisplayName = "Change Permission Status",
+                            Name = "ADMIN_AUTHORIZATION_PERMISSION_STATUS_CHANGE",
+                            ParentPermissionDefinitionId = "5d3da4f1-95a7-4fc4-abac-df5f782f1e79"
+                        },
+                        new
+                        {
+                            Id = "70d82cd8-8910-4447-af13-caddf6a1f55b",
+                            DisplayName = "Refresh Permissions",
+                            Name = "ADMIN_AUTHORIZATION_PERMISSIONS_REFRESH",
+                            ParentPermissionDefinitionId = "5d3da4f1-95a7-4fc4-abac-df5f782f1e79"
+                        },
+                        new
+                        {
+                            Id = "a3455235-c9b3-4e67-b3ae-aacf6751295d",
+                            DisplayName = "Create Permission Definition",
+                            Name = "ADMIN_AUTHORIZATION_PERMISSION_DEFINITION_CREATE",
+                            ParentPermissionDefinitionId = "0e894f8b-569c-45ae-bcec-257200d23c63"
+                        },
+                        new
+                        {
+                            Id = "cb42ac4b-1daa-4f7c-856c-2af6603473e5",
+                            DisplayName = "Update Permission Definition",
+                            Name = "ADMIN_AUTHORIZATION_PERMISSION_DEFINITION_UPDATE",
+                            ParentPermissionDefinitionId = "0e894f8b-569c-45ae-bcec-257200d23c63"
+                        },
+                        new
+                        {
+                            Id = "54463466-4952-4613-af9c-9b503b4960b7",
+                            DisplayName = "Delete Permission Definition",
+                            Name = "ADMIN_AUTHORIZATION_PERMISSION_DEFINITION_DELETE",
+                            ParentPermissionDefinitionId = "0e894f8b-569c-45ae-bcec-257200d23c63"
+                        },
+                        new
+                        {
+                            Id = "7ae52279-9c38-4f0b-a1f1-e401db327816",
+                            DisplayName = "Refresh Permission Definitions",
+                            Name = "ADMIN_AUTHORIZATION_PERMISSION_DEFINITIONS_REFRESH",
+                            ParentPermissionDefinitionId = "0e894f8b-569c-45ae-bcec-257200d23c63"
+                        },
+                        new
+                        {
+                            Id = "29dfed48-ac55-4439-ba79-465e29d0c3b5",
+                            DisplayName = "Create Role",
+                            Name = "ADMIN_AUTHORIZATION_ROLE_CREATE",
+                            ParentPermissionDefinitionId = "2c15ed97-173a-41a8-8dcf-b16cf7090aec"
+                        },
+                        new
+                        {
+                            Id = "4b9c7722-f40b-403a-8a9b-670d91541657",
+                            DisplayName = "Update Role",
+                            Name = "ADMIN_AUTHORIZATION_ROLE_UPDATE",
+                            ParentPermissionDefinitionId = "2c15ed97-173a-41a8-8dcf-b16cf7090aec"
+                        },
+                        new
+                        {
+                            Id = "25195f3b-ba45-4e1b-9472-a44feefbbc65",
+                            DisplayName = "Delete Role",
+                            Name = "ADMIN_AUTHORIZATION_ROLE_DELETE",
+                            ParentPermissionDefinitionId = "2c15ed97-173a-41a8-8dcf-b16cf7090aec"
+                        },
+                        new
+                        {
+                            Id = "2da95710-6b31-413e-9e8b-979e58d8888d",
+                            DisplayName = "Create User",
+                            Name = "ADMIN_USER_CREATE",
+                            ParentPermissionDefinitionId = "038d6a97-5afc-4a47-b8c4-0dc1ef4e53dc"
+                        },
+                        new
+                        {
+                            Id = "55506640-2c10-4578-9391-78c3a8d04881",
+                            DisplayName = "Update User",
+                            Name = "ADMIN_USER_UPDATE",
+                            ParentPermissionDefinitionId = "038d6a97-5afc-4a47-b8c4-0dc1ef4e53dc"
                         });
                 });
 

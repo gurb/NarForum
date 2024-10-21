@@ -59,6 +59,7 @@ namespace Identity.Services
                 Id = currentUser.Id,
                 RegisterDate = currentUser.RegisterDate,
                 EmailConfirmed = currentUser.EmailConfirmed,
+                Role = currentUser.Role,
             };
 
             return response;
@@ -385,6 +386,8 @@ namespace Identity.Services
                         newForumUser.Email = request.Email;
                         newForumUser.Description = request.Description;
                         newForumUser.EmailConfirmed = true;
+                        newForumUser.NormalizedEmail = request.Email.ToUpper();
+                        newForumUser.NormalizedUserName = request.UserName.ToUpper();
                         var hasher = new PasswordHasher<ForumUser>();
                         newForumUser.PasswordHash = hasher.HashPassword(null, request.Password);
 

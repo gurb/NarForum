@@ -102,6 +102,10 @@ if (app.Environment.IsProduction())
         throw new InvalidOperationException("Database migration failed.", ex);
     }
 }
+else
+{
+
+}
 
 
 app.MapHub<TrackHub>("track", o => { 

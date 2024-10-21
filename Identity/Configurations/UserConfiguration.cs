@@ -23,8 +23,9 @@ public class UserConfiguration : IEntityTypeConfiguration<ForumUser>
                  NormalizedEmail = "ADMIN@LOCALHOST.COM",
                  FirstName = "System",
                  LastName = "Admin",
-                 UserName = "admin@localhost.com",
+                 UserName = "admin",
                  NormalizedUserName = "ADMIN@LOCALHOST.COM",
+                 Role="Administrator",
                  PasswordHash = hasher.HashPassword(null, "P@ssword1"),
                  EmailConfirmed = true
              },
@@ -35,7 +36,7 @@ public class UserConfiguration : IEntityTypeConfiguration<ForumUser>
                  NormalizedEmail = "USER@LOCALHOST.COM",
                  FirstName = "System",
                  LastName = "User",
-                 UserName = "user@localhost.com",
+                 UserName = "user",
                  NormalizedUserName = "USER@LOCALHOST.COM",
                  PasswordHash = hasher.HashPassword(null, "P@ssword1"),
                  EmailConfirmed = true
@@ -47,7 +48,7 @@ public class UserConfiguration : IEntityTypeConfiguration<ForumUser>
                  NormalizedEmail = "MODERATOR@LOCALHOST.COM",
                  FirstName = "System",
                  LastName = "Moderator",
-                 UserName = "moderator@localhost.com",
+                 UserName = "moderator",
                  NormalizedUserName = "MODERATOR@LOCALHOST.COM",
                  PasswordHash = hasher.HashPassword(null, "P@ssword1"),
                  EmailConfirmed = true
