@@ -23,6 +23,7 @@ using NarForumAdmin.Models.Report;
 using NarForumAdmin.Models.Contact;
 using NarForumAdmin.Models.SmtpSettings;
 using NarForumAdmin.Models.Enums;
+using NarForumAdmin.Models.Authentication;
 
 
 namespace NarForumAdmin.MappingProfiles
@@ -177,6 +178,8 @@ namespace NarForumAdmin.MappingProfiles
                 CreateMap<GetContactQueryVM, GetContactQuery>().ReverseMap();
                 CreateMap<GetContactsQueryVM, GetContactsQuery>().ReverseMap();
                 CreateMap<GetContactsWithPaginationQueryVM, GetContactsWithPaginationQuery>().ReverseMap();
+
+                CreateMap<AuthResponse, AuthResponseVM>().ReverseMap();
 
                 CreateMap<ChatStatusVM, ChatStatus>().ReverseMap();
                 CreateMap<ContactTypeVM, ContactType>().ReverseMap();

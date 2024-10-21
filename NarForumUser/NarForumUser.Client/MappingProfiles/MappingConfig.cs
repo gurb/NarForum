@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NarForumUser.Client.Models;
+using NarForumUser.Client.Models.Authentication;
 using NarForumUser.Client.Models.Authorization;
 using NarForumUser.Client.Models.BlogCategory;
 using NarForumUser.Client.Models.BlogComment;
@@ -145,6 +146,8 @@ namespace NarForumUser.Client.MappingProfiles
 
             CreateMap<GetPermissionsResponse, GetPermissionsResponseVM>().ReverseMap();
             CreateMap<PermissionDTO, PermissionVM>().ReverseMap();
+
+            CreateMap<AuthResponse, AuthResponseVM>().ReverseMap();
 
             CreateMap<AllStatsResponse, AllStatsResponseVM>().ReverseMap();
             CreateMap<StatsResponse, StatsResponseVM>().ReverseMap();

@@ -55,7 +55,8 @@ public partial class Login: IAsyncDisposable
 
     protected async Task HandleLogin()
     {
-        if (await AuthenticationService.AuthenticateAsync(Model.Email, Model.Password))
+        var response = await AuthenticationService.AuthenticateAsync(Model.Email, Model.Password);
+        if (response.IsSuccess)
         {
             NavigationManager.NavigateTo("/");
 
@@ -89,7 +90,17 @@ public partial class Login: IAsyncDisposable
                 }
             }
         }
-        Message = "Username/password combination unknown";
+        else
+        {
+            if (response.Message is not null)
+            {
+                Message = response.Message;
+            }
+            else
+            {
+                Message = "Username/password combination unknown";
+            }
+        }
     }
 
     

@@ -40,9 +40,25 @@ public class AuthService : IAuthService
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
+
         if(user == null)
         {
-            throw new NotFoundException($"User with {request.Email} not found.", request.Email);
+            return new AuthResponse
+            {
+                Token = string.Empty,
+                IsSuccess = false,
+                Message = $"User with {request.Email} not found."
+            };
+        }
+
+        if(user.IsBlocked)
+        {
+            return new AuthResponse
+            {
+                Token = string.Empty,
+                IsSuccess = false,
+                Message = "This account is banned. If you think there is a mistake in this case, please contact us from the contact page."
+            };
         }
 
         if(request.IsAdminPanel)
@@ -68,7 +84,12 @@ public class AuthService : IAuthService
                     }
                     else
                     {
-                        throw new BadRequestException($"User has not authorize for admin panel.");
+                        return new AuthResponse
+                        {
+                            Token = string.Empty,
+                            IsSuccess = false,
+                            Message = $"User has not authorize for admin panel."
+                        };
                     }
                 }
             }
@@ -78,7 +99,12 @@ public class AuthService : IAuthService
 
         if(result.Succeeded == false)
         {
-            throw new BadRequestException($"Credentials for '{request.Email} aren't valid'.");
+            return new AuthResponse
+            {
+                Token = string.Empty,
+                IsSuccess = false,
+                Message = $"Credentials for '{request.Email} aren't valid'."
+            };
         }
 
         JwtSecurityToken jwtSecurityToken = await GenerateToken(user);

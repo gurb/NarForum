@@ -33,10 +33,21 @@ public partial class Login
 
     protected async Task HandleLogin()
     {
-        if (await AuthenticationService.AuthenticateAsync(Model.Email, Model.Password))
+        var response = await AuthenticationService.AuthenticateAsync(Model.Email, Model.Password);
+        if (response.IsSuccess)
         {
             NavigationManager.NavigateTo("/");
         }
-        Message = "Username/password combination unknown";
+        else
+        {
+            if(response.Message is not null)
+            {
+                Message = response.Message;
+            }
+            else
+            {
+                Message = "Username/password combination unknown";
+            }
+        }
     }
 }

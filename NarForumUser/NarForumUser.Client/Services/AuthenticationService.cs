@@ -5,6 +5,7 @@ using NarForumUser.Client.Providers;
 using NarForumUser.Client.Services.Base;
 using NarForumUser.Client.Services.Common;
 using Microsoft.AspNetCore.Components.Authorization;
+using NarForumUser.Client.Models.Authentication;
 
 namespace NarForumUser.Client.Services;
 
@@ -19,12 +20,16 @@ public class AuthenticationService : BaseHttpService, IAuthenticationService
         _mapper = mapper;
     }
 
-    public async Task<bool> AuthenticateAsync(string email, string password)
+    public async Task<AuthResponseVM> AuthenticateAsync(string email, string password)
     {
+        AuthResponseVM response = new AuthResponseVM();
+        response.IsSuccess = false;
+        response.Message = string.Empty;
         try
         {
             AuthRequest authenticationRequest = new AuthRequest() { Email = email, Password = password };
             var authenticationResponse = await _client.LoginAsync(authenticationRequest);
+            response = _mapper.Map<AuthResponseVM>(authenticationResponse);
 
             if (authenticationResponse.Token != string.Empty)
             {
@@ -33,16 +38,16 @@ public class AuthenticationService : BaseHttpService, IAuthenticationService
                 // Set claims in Blazor and login state
                 await ((ApiAuthenticationStateProvider)_authenticationStateProvider).LoggedIn();
 
-                return true;
+                return response;
             }
         }
         catch (Exception ex)
         {
-            var tct = ex.Message.ToString();
-            return false;
+            response.Message = ex.Message;
+            response.IsSuccess = false;
         }
 
-        return false;
+        return response;
     }
 
     public async Task Logout()
