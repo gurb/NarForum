@@ -239,6 +239,12 @@
 	{
 		PostVM? post;
 
+		if (string.IsNullOrEmpty(Model.Content))
+		{
+			ToastService!.CreateErrorToast("Empty Heading Content", "The heading content cannot be empty.");
+			return;
+		}
+
 		post = new PostVM
         {
             HeadingId = HeadingId,
