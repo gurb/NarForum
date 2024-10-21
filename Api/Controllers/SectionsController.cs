@@ -42,12 +42,10 @@ namespace Api.Controllers
         /// <param name="command">The command containing Name(string).</param>
         /// <returns>The creating a new section result as ActionResult.</returns>
         [HttpPost]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public async Task<ActionResult> Create(CreateSectionCommand command)
+        public async Task<ApiResponse> Create(CreateSectionCommand command)
         {
             var response = await _mediator.Send(command);
-            return Ok(response);
+            return response;
         }
 
 

@@ -12,7 +12,7 @@ namespace NarForumAdmin.Contracts
         Task<SectionPaginationVM> GetSectionsWithPagination(SectionPaginationQueryVM paramQuery);
 
         // commands
-        Task<ApiResponse<Guid>> CreateSection(SectionVM post);
+        Task<ApiResponseVM> CreateSection(SectionVM post);
         Task<ApiResponseVM> UpdateSection(SectionVM section);
 
 

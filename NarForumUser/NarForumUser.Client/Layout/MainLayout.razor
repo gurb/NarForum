@@ -2,6 +2,7 @@
 @using NarForumUser.Client.Services
 @using NarForumUser.Client.Services.Common
 @inject NavigationManager nav
+@inject RefreshStateService refreshStateService;
 @inherits LayoutComponentBase
 
 @if (!IsBot)
@@ -9,6 +10,8 @@
     @inject AuthorizationService authorizationService;
     @inject ToastService ToastService;
     <Toast @ref="toast"></Toast>
+
+    
 }
 
 <div class="page h-100">
@@ -105,7 +108,6 @@
         if(firstRender)
         {
             ToastService.AddNotificationAction += AddNotification;
-
             if (!IsBot)
             {
                 var authState = await authenticationStateTask;
@@ -118,11 +120,23 @@
                     if (authorizationService is not null)
                     {
                         await authorizationService.SetPermissions(username);
+                        if (refreshStateService is not null && refreshStateService.RefreshSectionList is not null)
+                        {
+                            refreshStateService.RefreshSectionList();
+                        }
+                        await InvokeAsync(StateHasChanged);
                     }
                 }
             }
         }
         await base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        
+
+        await base.OnInitializedAsync();
     }
 
     private void CheckNav()

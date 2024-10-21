@@ -16,21 +16,11 @@ public class SectionService : BaseHttpService, ISectionService
         _mapper = mapper;
     }
 
-    public async Task<ApiResponse<Guid>> CreateSection(SectionVM section)
+    public async Task<ApiResponseVM> CreateSection(SectionVM section)
     {
-        try
-        {
-            var createSectionCommand = _mapper.Map<CreateSectionCommand>(section);
-            await _client.SectionsAsync(createSectionCommand);
-            return new ApiResponse<Guid>
-            {
-                Success = true
-            };
-        }
-        catch (ApiException ex)
-        {
-            return ConvertApiExceptions<Guid>(ex);
-        }
+        var createSectionCommand = _mapper.Map<CreateSectionCommand>(section);
+        var response = await _client.SectionsAsync(createSectionCommand);
+        return _mapper.Map<ApiResponseVM>(response);
     }
 
     public async Task<List<SectionVM>> GetSections()

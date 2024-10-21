@@ -53,11 +53,11 @@
 
         var result = await SectionService.CreateSection(sectionVM);
 
-        if(result.Success)
+        if(result.IsSuccess)
         {
             if (ToastService is not null)
             {
-                ToastService.CreateSuccessToast("Created Section", "The sections is created successfully");
+                ToastService.CreateSuccessToast("Created Section", "The section is created successfully");
             }
         }
         else
