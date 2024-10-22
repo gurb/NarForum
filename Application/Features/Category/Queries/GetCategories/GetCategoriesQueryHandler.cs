@@ -67,7 +67,6 @@ namespace Application.Features.Category.Queries.GetCategories
                     }
                    
                     category.LastHeadingTitle = heading.Title;
-                    category.LastUserId = heading.UserId;
                 }
             }
 

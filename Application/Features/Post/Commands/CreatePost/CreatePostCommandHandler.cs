@@ -1,5 +1,4 @@
-﻿using Application.Contracts.Hubs;
-using Application.Contracts.Identity;
+﻿using Application.Contracts.Identity;
 using Application.Contracts.Persistence;
 using Application.Exceptions;
 using Application.Features.Category.Queries.GetCategories;
@@ -8,7 +7,6 @@ using Application.Models;
 using Application.Models.Identity.Message;
 using Application.Models.Identity.Notification;
 using AutoMapper;
-using Domain;
 using MediatR;
 using Newtonsoft.Json;
 

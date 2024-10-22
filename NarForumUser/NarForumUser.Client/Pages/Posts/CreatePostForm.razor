@@ -259,6 +259,10 @@
 
 		if(response.IsSuccess)
 		{
+			Model.Content = string.Empty;
+			Model.DisplayContent = string.Empty;
+			await SetContenteditable();
+
 			if (ToastService is not null)
 			{
 				ToastService.CreateSuccessToast("Created Post", "The post is created successfully");

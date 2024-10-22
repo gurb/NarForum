@@ -78,7 +78,7 @@ namespace Persistence.Repositories
             var categories = await _context.Categories.Where(x => x.IsActive).ToListAsync();
             await IterateUpdateCategoryWhenCreatePost(categoryId, lastUserName, lastUserId, lastHeadingId, lastPostId, categoryList, categories);
 
-            _context.UpdateRange(categoryList);
+            _context.Categories.UpdateRange(categoryList);
             await _context.SaveChangesAsync();
         }
 
