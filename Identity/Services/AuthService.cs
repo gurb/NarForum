@@ -171,6 +171,7 @@ public class AuthService : IAuthService
                 LastName = request.LastName,
                 UserName = request.UserName,
                 EmailConfirmed = false,
+                Role = "Member",
             };
 
 
