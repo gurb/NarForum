@@ -198,9 +198,23 @@
 			content = content.Replace(match.Value, newQuote);
 		}
 
+		string onlyBrPattern = @"<div\s*>\s*<br\s*/?>\s*</div\s*>";
+		content = Regex.Replace(content, onlyBrPattern, "<br>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+		string brPattern = @"<div[^>]*>(.*?)<\/div>";
+		content = Regex.Replace(content, brPattern, "<br>$1", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
 		// Regex pattern to allow only specified HTML tags
 		string pattern = @"<(?!/?(?:a|b|blockquote|br|code|del|dd|dl|dt|em|h[1-6]|hr|i|img|kbd|li|ol|p|pre|s|strong|sub|sup|ul)\b)[^>]+>";
 		content = Regex.Replace(content, pattern, string.Empty);
+
+		string quotePattern = @"(?<=\[\/Quote\])\s*(<br\s*/?>)\s*"; ;
+		content = Regex.Replace(content, quotePattern, string.Empty);
+
+		if (content.StartsWith("<br>", StringComparison.OrdinalIgnoreCase))
+		{
+			return content.Substring(4).Trim();
+		}
 
 		return content;
 	}

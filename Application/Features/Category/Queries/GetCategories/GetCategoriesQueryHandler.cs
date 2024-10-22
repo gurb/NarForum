@@ -70,7 +70,6 @@ namespace Application.Features.Category.Queries.GetCategories
                 }
             }
 
-            // return list of DTOs
             return data;
         }
     }

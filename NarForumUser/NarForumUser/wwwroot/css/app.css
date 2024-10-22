@@ -519,6 +519,15 @@ span.heading-card-status {
     color: var(--color-mini-post-user-fg);
 }
 
+.custom-mini-post-username a {
+    color: var(--color-mini-post-user-fg)!important;
+}
+
+.custom-mini-post-username:hover {
+    color: var(--color-mini-post-user-fg)!important;
+    opacity: 0.8 !important;
+}
+
 .custom-mini-post-content {
     padding: 20px;
     font-size: 14px;
