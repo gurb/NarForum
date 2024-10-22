@@ -488,7 +488,7 @@ else
 
     protected async Task RefreshPosts()
     {
-        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingGuid, 1, PageSize);
+        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingGuid, CurrentPage, PageSize);
         Posts = postPagination.Posts;
         await CheckUserImageProfile();
         QuotePosts = postPagination.QuotePosts;
