@@ -127,7 +127,7 @@
     --color-recent-heading-category-badge-bg: #25371f;
     --color-recent-heading-category-badge-fg: #ccc;
     --color-category-card-body-bg: #324153;
-    --color-category-card-body-fg: #f1f1f1;
+    --color-category-card-body-fg: #dddddd70;
     --color-category-card-body-border: #37485e;
     --color-category-card-description-fg: #ddd;
     --color-last-post-date-fg: #ccc;
@@ -202,7 +202,6 @@
     --color-favorites-table-thead-bg: #34485f;
     --color-blog-post-card-footer-bg: #34485f;
 }
-
 html, body {
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
     background-color: var(--color-bg)!important;
@@ -214,6 +213,10 @@ html {
 
 h1:focus {
     outline: none;
+}
+
+p {
+    color: var(--color-fg);
 }
 
 @media (min-width: 1200px) {

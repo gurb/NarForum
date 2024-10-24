@@ -1,5 +1,4 @@
 ﻿using Application.Contracts.Identity;
-using Application.Exceptions;
 using Application.Models;
 using Application.Models.Identity;
 using Application.Models.Identity.User;
@@ -120,8 +119,6 @@ public class AuthService : IAuthService
 
         return response;
     }
-
-   
 
     private async Task<JwtSecurityToken> GenerateToken(ForumUser user)
     {
