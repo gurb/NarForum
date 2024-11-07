@@ -21,7 +21,7 @@
                         if (heading.UserId is not null && isImageAvailables.ContainsKey(heading.UserId.Value) && isImageAvailables[heading.UserId.Value])
                         {
                             <span class=image-user-profile>
-                                <img width="35" height="35" src="@GetImageUrl(heading.UserId.Value)" />
+                                <img alt="@(heading.UserName + "'s profile image")" width="35" height="35" src="@GetImageUrl(heading.UserId.Value)" />
                             </span>
                         }
                         else
