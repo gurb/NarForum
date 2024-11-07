@@ -207,7 +207,7 @@ According to these projects we need to setup Windows Server:
    * Open IIS Manager, select admin.domain-name.com from Sites and click Start button.
    * Let's check out https://admin.domain-name.com
 
-### Configuring User Blazor WASM Hosted (NarForumAdmin)
+### Configuring User Blazor WASM Hosted (NarForumUser)
 
 1. Open NarForumUser project from Visual Studio, or any IDE that you used for it.
 2. Right click and click Publish option.

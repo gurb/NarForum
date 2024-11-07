@@ -64,7 +64,10 @@ builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthorizationCore();
 
-
+builder.Services.AddAntiforgery(x =>
+{
+    x.SuppressXFrameOptionsHeader = true;
+});
 
 if (builder.Environment.IsStaging() || builder.Environment.IsProduction())
 {
