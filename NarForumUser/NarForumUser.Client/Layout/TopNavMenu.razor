@@ -28,7 +28,7 @@
                 <AuthorizeView @rendermode="new InteractiveAutoRenderMode(prerender: true)">
                     <NotAuthorized>
                         <div class="col-lg-3 text-end">
-                            <a class="btn btn-change-theme me-2 fw-normal" @onclick="ChangeThemeType">
+                            <button class="btn btn-change-theme me-2 fw-normal" @onclick="ChangeThemeType">
                                 @if (themeType == "light")
                                 {
                                     <i class="bi bi-moon-fill"></i>
@@ -37,7 +37,7 @@
                                 {
                                     <i class="bi bi-sun-fill"></i>
                                 }
-                            </a>
+                            </button>
                             <button @onclick="GoToLogin" class="btn btn-login me-2 fw-normal">Login</button>
                             <button @onclick="GoToRegister" class="btn btn-register fw-normal">Register</button>
                         </div>
