@@ -1,0 +1,685 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head lang="en">
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Template Documentation Template</title>
+	<!-- Framework CSS -->
+	<link rel="stylesheet" href="assets/css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+	<link rel="stylesheet" href="assets/blueprint-css/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="assets/blueprint-css/print.css" type="text/css" media="print">
+	<!--[if lt IE 8]><link rel="stylesheet" href="assets/blueprint-css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+	<link rel="stylesheet" href="assets/blueprint-css/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+	<style type="text/css" media="screen">
+		p, table, hr, .box { margin-bottom:25px; }
+		.box p { margin-bottom:10px; }
+	</style>
+	<script src="assets/js/bootstrap.bundle.min.js"></script>
+</head>
+
+
+<body>
+	<div class="container">
+	
+		<h3 class="center alt">&ldquo;NarForum Forum Software&rdquo; Documentation by &ldquo;Gürbüz Uğurgül&rdquo; v1.0</h3>
+		
+		<hr>
+		
+		<h1 class="center">&ldquo;NarForum Forum Software Documentation&rdquo;</h1>
+		
+		<div class="row">
+			<div class="col-4 border-right info">
+				<p class="prepend-top">
+					<strong>
+					Created: 10/28/2024<br>
+					By: Gürbüz Uğurgül<br>
+					Email: <a href="mailto:narforumsoftware@gmail.com">narforumsoftware@gmail.com</a>
+					</strong>
+				</p>
+			</div><!-- end div .span-6 -->		
+	
+			<div class="col-8 last">
+				<p class="prepend-top append-0">Thank you for purchasing the forum software. If you have any questions that are beyond the scope of this help file, please feel free to email via my user page contact form <a href="http://themeforest.net/user/gurbdev">here</a>. Thanks so much!</p>
+			</div>
+		</div><!-- end div .borderTop -->
+		
+		<hr>
+		
+		<h2 id="toc" class="alt">Table of Contents</h2>
+		<ol class="alpha">
+			<li><a href="#deployingProject">Deploying The Project on IIS</a>
+				<ol>
+					<li><a href="#requirementsDeploying">Requirements</a></li>
+					<li><a href="#windowsServerRequirements">Windows Server Requirements</a></li>
+					<li><a href="#configureCloudFlare">Configuring CloudFlare and Domain Name (Optional)</a></li>
+					<li><a href="#configureApi">Configuring Web Api</a></li>
+					<li><a href="#configureAdmin">Configuring Admin Blazor WASM (NarForumAdmin)</a></li>
+					<li><a href="#configureUser">Configuring User Blazor WASM Hosted (NarForumUser)</a></li>
+				</ol>
+			</li>
+			<li><a href="#developmentTheProject">Development The Project</a>
+				<ol>
+					<li><a href="#requirementsDevEnv">Requirements for Setting up your Developer Environment</a></li>
+					<li><a href="#runningDevEnv">Running the project in the development environment</a></li>
+					<li><a href="#apiUpdate">API Update</a></li>
+				</ol>
+			</li>
+			<li><a href="#updateDatabase">How to Update Database?</a></li>
+			<li><a href="#settingsAdmin">Setting up Admin Panel Settings</a>
+				<ol>
+					<li><a href="#settingsGeneral">Setting up General Settings</a></li>
+					<li><a href="#settingsSMTP">Setting up SMTP Settings</a></li>
+				</ol>
+			</li>
+		</ol>
+		
+
+
+		<hr>
+		<h3 id="deployingProject"><b>A) Deploying The Project on IIS</b> - <a href="#toc">top</a></h3>
+		<p>This documentation for windows server. If you know already what you do, you dont have to apply these steps for the installation. If you don't want to use Windows Server, You can try Docker option which doesn't exist the current version of the project. (So you have to make it yourself for now. I'm going to add this option for the next versions.)</p>
+		<h4 id="requirementsDeploying"><b>A.1) Requirements</b></h4>
+		<ul>
+			<li>Windows Server 2022</li>
+			<li>Domain name</li>
+			<li>Cloudflare account (Optional)</li>
+		</ul>
+		<p><b>Note:</b> Cloudflare is optional. I used it because of free SSL and caching features. It has more features that paid or free can be useful for your project. That's the easy part for our usage. It's optional, you don't have to use it for this part.
+		</p>
+		<h4 id="windowsServerRequirements"><b>A.2) Windows Server Requirements</b> - <a href="#toc">top</a></h4>
+		Narforum consists of three separate projects. These projects:<br/>
+		<ul>
+			<li>ASP.NET Core Web Api (.NET 8)</li>
+			<li>Blazor Webassembly Standalone Application (NarForumAdmin) (.NET 8)</li>
+			<li>Blazor Webassembly Interractive Global Application (NarForumUser) (.NET 8)</li>
+		</ul>
+		According to these projects we need to setup Windows Server:
+		<ol>
+			<li>Open <b>Server Manager</b></li>
+			<li>Click <b>Add Roles and Features</b> option at the Manage Menu</li>
+			<li>Click Next, and choose Web Server(IIS) role.</li>
+			<li>Click Next, and choose necessary components(The installed ones on NarForum Server) After these installations probably your server will be restarted:
+				<ul>
+					<li><i class="bi bi-check-square-fill color-green"></i> Web Server (IIS)
+						<ul>
+							<li><i class="bi bi-check-square-fill color-green"></i> Common HTTP Features
+								<ul>
+									<li><i class="bi bi-check-square-fill color-green"></i> Default Document</li>
+									<li><i class="bi bi-check-square-fill color-green"></i> Directory Browsing</li>
+									<li><i class="bi bi-check-square-fill color-green"></i> HTTP Errors</li>
+									<li><i class="bi bi-check-square-fill color-green"></i> Static Content</li>
+								</ul>
+							</li>
+							<li><i class="bi bi-check-square-fill color-green"></i> Health and Diagnostics
+								<ul>
+									<li><i class="bi bi-check-square-fill color-green"></i> HTTP Logging</li>
+								</ul>
+							</li>
+							<li><i class="bi bi-check-square-fill color-green"></i> Performance
+								<ul>
+									<li><i class="bi bi-check-square-fill color-green"></i> Static Content Compression</li>
+								</ul>
+							</li>
+							<li><i class="bi bi-check-square-fill color-green"></i> Security
+								<ul>
+									<li><i class="bi bi-check-square-fill color-green"></i> Request Filtering</li>
+								</ul>
+							</li>
+							<li><i class="bi bi-check-square-fill color-green"></i> Application Development
+								<ul>
+									<li><i class="bi bi-check-square-fill color-green"></i> WebSocket</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><i class="bi bi-check-square-fill color-green"></i> File and Storage Services
+						<ul>
+							<li><i class="bi bi-check-square-fill color-green"></i> Storage Services</li>
+						</ul>
+					</li>
+					<li><i class="bi bi-check-square-fill color-green"></i> Management Tools
+						<ul>
+							<li><i class="bi bi-check-square-fill color-green"></i> IIS Management Console</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li>Install <a target="_blank" href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0">Hosting Bundle</a></li>
+			<li>Install <a target="_blank" href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0">URL Rewrite Module</a></li>
+			<li>Download <a target="_blank" href="https://www.postgresql.org/download/windows/">PostgreSQL</a></li>
+			<li>Install PostgreSQL on the server and create server, user and password. We will use them in the <b>connection string</b>.</li>
+			<li>Download <a target="_blank" href="https://github.com/microsoft/garnet/releases">GarnetServer</a> <i>(The installed version is win-x64-based-readytorun.zip file for NarForum software) Garnet is a remote cache-store also it's an Redis alternative. There is no installation, we are going to execute the executable file. But it's must always work on the server, if not the api won't work without it.</i></li>
+			<li><b>(Optional)</b> Also you can install <b>Node.js</b> and <b>NPM</b> to install <a target="_blank" href="https://www.npmjs.com/package/redis-cli/v/2.1.2">Redis-Cli</a> package. This tool provides control on the command line. Why Redis-Cli, because Garnet is also compatible with redis-cli as Redis alternative.</li>
+		</ol>
+		<h4 id="configureCloudFlare"><b>A.3) Configuring CloudFlare and Domain Name (Optional)</b> - <a href="#toc">top</a></h4>
+		<ol>
+			<li>Create an account for Cloudflare if it does not exist.</li>
+			<li>Click <b>Add a domain</b> button.</li>
+			<img class="img-fluid" src="assets/images/add-domain-cloudflare.png" alt="CloudFlare Add Domain" />
+			<li>Enter an existing domain.</li>
+			<li>Open **DNS Records** and add records like table below:</li>
+			<table class="table">
+				<thead>
+				  <tr>
+					<th>Type</th>
+					<th>Name</th>
+					<th>Content (IPv4)</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					<td>A</td>
+					<td>admin</td>
+					<td>XXX.XXX.XXX.XXX</td>
+				  </tr>
+				  <tr>
+					<td>A</td>
+					<td>api</td>
+					<td>XXX.XXX.XXX.XXX</td>
+				  </tr>
+				  <tr>
+					<td>A</td>
+					<td>@</td>
+					<td>XXX.XXX.XXX.XXX</td>
+				  </tr>
+				</tbody>
+			</table>
+			<li>Cloudflare will give nameservers like below:</li>
+			<table class="table">
+				<thead>
+				  <tr>
+					<th>Type</th>
+					<th>Value</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					<td>NS</td>
+					<td>xxx.ns.cloudflare.com</td>
+				  </tr>
+				  <tr>
+					<td>NS</td>
+					<td>xxx.ns.cloudflare.com</td>
+				  </tr>
+				</tbody>
+			</table>
+			<li>Since the NarForum domain name is purchased from a different provider, I need to register the nameservers through that provider. I changed default the nameservers value with the nameservers are given by CloudFlare.</li>
+			<li>Open SSL/TLS, and configure SSL/TLS which option is fit for you.</li>
+			<li>Open Caching, and click the Purge Everything in Configuration module.</li>
+		</ol>
+		<h4 class="configureApi"><b>A.4) Configuring Web Api</b> - <a href="#toc">top</a></h4>
+		<ol>
+			<li>Open NarForum Web Api project from Visual Studio, or any IDE that you used for it.</li>
+			<li>In <code>Program.cs</code> file, add your address as allowed origin for CORS and WebSockets:</li>
+			<pre>
+builder.Services.AddWebSockets(o => { 
+	...
+	<span class="bg-yellow">o.AllowedOrigins.Add("https://domain-name.com");</span>
+	<span class="bg-yellow">o.AllowedOrigins.Add("https://admin.domain-name.com");</span>
+});
+
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("all", builder => builder
+		.WithOrigins("...", "...", <span class="bg-yellow">"https://domain-name.com"</span>, <span class="bg-yellow">"https://admin.domain-name.com"</span>)
+		.AllowAnyHeader()
+		.AllowAnyMethod()
+		.AllowCredentials()
+		.SetIsOriginAllowed((host) => true)
+	);
+...				
+			</pre>
+			<li>Right click and click <b>Publish</b> option.</li>
+			<li>Publish settings option like below:</li>
+			<img class="img-fluid" src="assets/images/api-publish.png" alt="Projects" />
+			<li>Click the <b>Publish</b> button. When publish succeeded, click navigate copy all files from this folder for your server.</li>
+			<li>Create a folder named <code>Publish</code> in your Windows Server Desktop, and create new folder named api.domain-name.com folder inside Publish folder. Paste all files that copied from your local machine.</li>
+			<li>Open <code>appsettings.json</code> file from api.domain-name.com file, and change the two connection string according to PostgreSQL Server that installed Windows Server:</li>
+			<pre>
+{
+	...
+	"ConnectionStrings": {
+		"ForumDatabaseConnectionString": "Host=localhost;Database=db_forum;Username=postgres;Password=pwd;Port=5432;",
+		"ForumIdentityDatabaseConnectionString": "Host=localhost;Database=db_forum_identity;Username=postgres; Password=pwd;Port=5432;"
+	},
+	...		
+			</pre>
+			<li>Open IIS Manager and right-click Sites and click Add Website button:
+				<ul>
+					<li>Enter site name, example: api.domain-name.com</li>
+					<li>Choose content directory which is your api files from Publish directory. Choose the api.domain-name.com folder.</li>
+					<li>Binding options:<ul>
+						<li>Type: https</li>
+						<li>IP Address(IPv4): XXX.XXX.XXX.XXX  (your server IP Address for external that also used in Cloudflare)</li>
+						<li>Port: 80</li>
+						<li>Host name: api.domain-name.com</li>
+					</ul></li>
+					<img class="img-fluid" src="assets/images/edit-site-binding.png" alt="Edit Site Bindings" />
+					<li>Uncheck <b>Start Website</b> immediately for now.</li>
+					<li>Click OK.</li>
+					<li>Open Home panel in IIS Manager and click <b>Server Certificates</b></li>
+					<li>Click <b>Create Self-Signed Certificate</b> from the right panel.</li>
+					<li>Give a name to this certificate, for example: CloudFlare-SelfSigned and choose Personal store.</li>
+					<li>Click OK.</li>
+					<li><code>Right-Click</code> api.domain-name.com from Sites tree menu.</li>
+					<li>Click **Edit Bindings..** button.</li>
+					<li>Click binding to add https type of api.domain-name.com:</li>
+					<li>Binding options:<ul>
+						<li>Type: https</li>
+						<li>IP Address(IPv4): XXX.XXX.XXX.XXX  (your server IP Address for external that also used in Cloudflare)</li>
+						<li>Port: 443</li>
+						<li>Host name: api.domain-name.com</li>
+						<li>SSL certificate: Cloudflare-SelfSigned</li>
+					</ul></li>
+					<li>Before start this api, we need give permission to IIS Manager from content directory. Go Publish folder in Windows Server Desktop.</li>
+					<li><code>Right-Click</code> Publish folder, click Properties, open Security tab.</li>
+					<li>Edit Group or user names, add <code>IIS_IUSRS</code> user.</li>
+					<li>Give <b>Read & Execute</b> , <b>List folder contents</b> and <b>Read</b> permissions.</li>
+					<li>Go back to IIS Manager, open <b>Application Pools</b> and <code>Right-Click</code> api.domain-name.com and click <b>Edit Application Pool</b>.</li>
+					<img class="img-fluid" src="assets/images/edit-application-pool.png" alt="Edit Application Pool" />
+					<li>Select <b>No Managed Code</b> as .NET CLR version.</li>
+					<li>Click <code>OK</code>.</li>
+					<li>Open IIS Manager Home panel, click <b>Authentication</b></li>
+					<li>Enable <b>Anonymous Authentication</b></li>
+					<li>Make sure GarnetServer is running on the server. If it does not then click GarnetServer .exe file to run.</li>
+					<li>Open IIS Manager, select api.domain-name.com from Sites and click Start button.</li>
+					<li>Let's check out <b>https://api.domain-name.com/swagger</b>. If you see swagger ui with no error everything is great. Also check if databases are created in PostgreSQL.</li>
+				</ul>
+			</li>
+		</ol>
+		<h4 id="configureAdmin"><b>A.5) Configuring Admin Blazor WASM (NarForumAdmin)</b> - <a href="#toc">top</a></h4>
+		<ol>
+			<li>Open NarForumAdmin Blazor WASM Standalone project from Visual Studio, or any IDE that you used for it.</li>
+			<li><code>Right-click</code> and click Publish option.</li>
+			<li>Publish settings option like below:</li>
+			<img class="img-fluid" src="assets/images/admin-publish.png" alt="Admin Publish" />
+			<li>Click the <b>Publish</b> button. When publish succeeded, click navigate copy all files from this folder for your server.</li>
+			<li>Create a folder named Publish in your Windows Server Desktop, and create new folder named admin.domain-name.com folder inside Publish folder. Paste all files that copied from your local machine.</li>
+			<li>Open <code>appsettings.json</code> file from admin.domain-name.com folder, and add your api urls:</li>
+			<pre>
+{
+	"ApiBaseUrl": "https://api.domain-name.com/api",
+	"HubBaseUrl": "https://api.domain-name.com"
+}
+			</pre>
+			<li>Open IIS Manager and right-click Sites and click Add Website button:
+				<ul>
+					<li>Enter site name, example: admin.domain-name.com</li>
+					<li>Choose content directory which is your admin files from Publish directory. Choose the <b>admin.domain-name.com</b> folder.</li>
+					<li>Binding options:
+						<ul>
+							<li>Type: http</li>
+							<li>IP Address(IPv4): XXX.XXX.XXX.XXX  (your server IP Address for external that also used in Cloudflare)</li>
+							<li>Port: 80</li>
+							<li>Host name: admin.domain-name.com</li>
+						</ul>
+					</li>
+					<li>Uncheck <b>Start Website</b> immediately for now.</li>
+					<li>Click OK.</li>
+					<li><code>Right-Click</code> admin.domain-name.com from Sites tree menu.</li>
+					<li>Click <code>Edit Bindings..</code> button.</li>
+					<li>Click binding to add https type of admin.domain-name.com:</li>
+					<li>Binding options:
+						<ul>
+							<li>Type: https</li>
+							<li>IP Address(IPv4): XXX.XXX.XXX.XXX  (your server IP Address for external that also used in Cloudflare)</li>
+							<li>Port: 443</li>
+							<li>Host name: admin.domain-name.com</li>
+							<li>SSL certificate: Cloudflare-SelfSigned</li>
+						</ul>
+					</li>
+					<li>Open <b>Application Pools</b> and <code>Right-Click</code> admin.domain-name.com and click <b>Edit Application Pool</b>.</li>
+					<li>Select <b>No Managed Code</b> as .NET CLR version.</li>
+					<li>Click <code>OK</code>.</li>
+					<li>Open IIS Manager, select admin.domain-name.com from Sites and click Start button.</li>
+					<li>Let's check out https://admin.domain-name.com</li>
+				</ul>
+			</li>
+		</ol>
+		<h4 id="configureUser"><b>A.6) Configuring User Blazor WASM Hosted (NarForumUser)</b> - <a href="#toc">top</a></h4>
+		<ol>
+			<li>Open NarForumUser project from Visual Studio, or any IDE that you used for it.</li>
+			<li><code>Right-click</code> and click Publish option.</li>
+			<li>Publish settings option like below:</li>
+			<img class="img-fluid" src="assets/images/user-publish.png" alt="User Publish" />
+			<li>Click the <b>Publish</b> button. When publish succeeded, click navigate copy all files from this folder for your server.</li>
+			<li>Create a folder named Publish in your Windows Server Desktop, and create new folder named <b>domain-name.com</b> folder inside Publish folder. Paste all files that copied from your local machine.</li>
+			<li>Open <code>appsettings.json</code> file from <b>domain-name.com</b> folder, and add your api urls:</li>
+			<pre>
+{
+	"Logging": {
+		"LogLevel": {
+		"Default": "Information",
+		"Microsoft.AspNetCore": "Warning"
+		}
+	},
+	"AllowedHosts": "*",
+	"ApiBaseUrl": "https://api.narforum.com/api",
+	"HubBaseUrl": "https://api.narforum.com",
+	"BaseUrl": "https://domain-name.com"
+}
+			</pre>
+			<li>Open wwwroot in **domain-name.com** folder and edit <code>appsettings.json</code> file too:</li>
+			<pre>
+{
+	"Logging": {
+		"LogLevel": {
+		"Default": "Information",
+		"Microsoft.AspNetCore": "Warning"
+		}
+	},
+	"ApiBaseUrl": "https://api.domain-name.com/api",
+	"HubBaseUrl": "https://api.domain-name.com",
+	"BaseUrl": "https://domain-name.com",
+	"SiteName": "Domain-Name",
+	"Locale": "en_EN",
+	"HrefLang": "en",
+	"ContentLanguage": "en",
+	"Description": "Your forum website description"
+}
+				</pre>			
+			<li>Open IIS Manager and right-click Sites and click Add Website button:
+				<ul>
+					<li>Enter site name, example: admin.domain-name.com</li>
+					<li>Choose content directory which is your admin files from Publish directory. Choose the <b>domain-name.com</b> folder.</li>
+					<li>Binding options:
+						<ul>
+							<li>Type: http</li>
+							<li>IP Address(IPv4): XXX.XXX.XXX.XXX  (your server IP Address for external that also used in Cloudflare)</li>
+							<li>Port: 80</li>
+							<li>Host name: domain-name.com</li>
+						</ul>
+					</li>
+					<li>Uncheck <b>Start Website</b> immediately for now.</li>
+					<li>Click OK.</li>
+					<li><code>Right-Click</code> domain-name.com from Sites tree menu.</li>
+					<li>Click <code>Edit Bindings..</code> button.</li>
+					<li>Click binding to add https type of domain-name.com:</li>
+					<li>Binding options:
+						<ul>
+							<li>Type: https</li>
+							<li>IP Address(IPv4): XXX.XXX.XXX.XXX  (your server IP Address for external that also used in Cloudflare)</li>
+							<li>Port: 443</li>
+							<li>Host name: domain-name.com</li>
+							<li>SSL certificate: Cloudflare-SelfSigned</li>
+						</ul>
+					</li>
+					<li>Open <b>Application Pools</b> and <code>Right-Click</code> domain-name.com and click <b>Edit Application Pool</b>.</li>
+					<li>Select <b>No Managed Code</b> as .NET CLR version.</li>
+					<li>Click <code>OK</code>.</li>
+					<li>Open IIS Manager, select domain-name.com from Sites and click Start button.</li>
+					<li>Let's check out https://domain-name.com</li>
+				</ul>
+			</li>
+		</ol>
+		<hr>
+
+		<h3 id="developmentTheProject"><b>B) Development The Project</b> - <a href="#toc">top</a></h3>
+		<p>In this section, if you want to make different additions to the project independently of us, you will find information on how you can do this.</p>
+		<h4 id="requirementsDevEnv"><b>B.1) Requirements for Setting up your Developer Environment</b> - <a href="#toc">top</a></h4>
+		The following programs must be installed on your computer.<br/>
+		<ul>
+			<li>.NET 8 SDK (ASP.NET Core)</li>
+			<li>Visual Studio Code or Visual Studio 2022(Recommended)</li>
+			<li>PostgreSQL</li>
+			<li>GarnetServer (It's a redis alternative as a remote cache-store) (Download it from <a target="_blank" href="https://github.com/microsoft/garnet/releases">here</a>.)</li>
+		</ul>
+		<h4 id="runningDevEnv"><b>B.2) Running the project in the development environment</b> - <a href="#toc">top</a></h4>
+		There are 3 separate projects in the project:<br/>
+		<ul>
+			<li>Api</li>
+			<li>NarForumAdmin</li>
+			<li>NarForumUser</li>
+		</ul>
+		<img class="img-fluid" src="assets/images/run-projects.png" alt="Projects" />
+		<p>Before running these projects, you have to run <b>GarnetServer</b>. Because the API project can work depending on GarnetServer. This is a must as the API caches with Garnet Server at regular intervals in the background.</p>
+		<img class="img-fluid" src="assets/images/garnetserver.png" alt="GarnetServer" />
+		
+		<p>Now that Garnet Server is working as seen in the picture above, we can run our projects.</p>
+		<p>As the developer of the project, I do not use Visual Studio when running projects. I generally run projects using <b>windows terminal</b>. In this way, I do not create unnecessary load on my computer and the startup process is faster.</p>
+		So how do we do this? For example, to run the API project, let's first copy the path of the directory it is in:<br/>
+		<ul>
+			<li>Copy API Folder path</li>
+			<li>Open the terminal (example: windows terminal)</li>
+			<li>Enter this command <b>cd C:\Users\gurbu\source\repos\Forum\Api</b> (The project directory path will be different for you.)</li>
+			<li>Enter this command <b>dotnet run</b></li>
+		</ul>
+		<p>The Api project worked as seen in the picture below:</p>
+		<img class="img-fluid" src="assets/images/apidotnetrun.png" alt="DotnetRun" />
+		<p>We can also understand that the API project is running from here <a target="_blank" href="https://localhost:44342/swagger/index.html">https://localhost:44342/swagger/index.html</a>.</p>
+		
+		<p>Likewise, we can run the <b>NarForumAdmin</b> and <b>NarForumUser</b> projects by following the steps we did above:</p>
+		<img class="img-fluid" src="assets/images/cmd-projects.png" alt="CmdProjects" />
+		<br/>
+		<br/>
+		<h4 id="apiUpdate"><b>B.3) API Update</b> - <a href="#toc">top</a></h4>
+		<p>In my case, there is a problem about creating a heading. The problem is when we are creating a heading as a response we got just GUID value. But we can also encounter error, however we cannot understand what is the error what we got. In general, we use ApiResponse for create, update and remove commands because of that. ApiResponse:</p>
+		<pre>
+public class ApiResponse
+{
+	public bool IsSuccess { get; set; } = true;
+	public string Message { get; set; } = string.Empty;
+	public object? Result { get; set; }
+}
+		</pre>
+		<p>Firstly, we are going to update a feature that called CreateHeadingCommand from Application project. (Application > Features > Heading > Commands > CreateHeading > CreateHeadingCommand.cs)</p>
+		<p><i>The pattern that used is CQRS pattern. We use it via MediatR library. So if you have no idea about this pattern, we suggest you should look at first what is CQRS and why used in the projects. It's easy and it provides us easier manageability and changeability on the development side. If you want to add new feature on the project, you should definitely follow CQRS pattern for it on this project.</i></p>
+		<p><i>Of course, CQRS was not implemented perfectly in this project. Especially in the Identity layer, the logic part was carried out mostly via Repository. We can say that CQRS was used only on models connected to the persistence layer.</i></p>
+		<p>If we opened the CreateHeadingCommand file. Let's make the response type returned ApiResponse instead of Guid.</p>
+		<pre>
+public class CreateHeadingCommand : IRequest&lt;<span class="bg-yellow">ApiResponse</span>>
+{
+	public string? Title { get; set; }
+	public string? Description { get; set; }
+	public Guid CategoryId { get; set; }
+	public string? Content { get; set; }
+}
+		</pre>
+		<p>Now let's update the handler class connected to this class as follows:</p>
+		<pre>
+namespace Application.Features.Heading.Commands.CreateHeading
+{
+	public class CreateHeadingCommandHandler : IRequestHandler&lt;CreateHeadingCommand, <span class="bg-yellow">ApiResponse</span>>
+	{
+		private readonly IMapper _mapper;
+		private readonly IHeadingRepository _HeadingRepository;
+		private readonly IPostRepository _PostRepository;
+		private readonly ICategoryRepository _CategoryRepository;
+		private readonly IUserService _userService;
+
+		public CreateHeadingCommandHandler(IMapper mapper, IHeadingRepository HeadingRepository, IPostRepository PostRepository, IUserService userService, ICategoryRepository categoryRepository)
+		{
+			_mapper = mapper;
+			_HeadingRepository = HeadingRepository;
+			_PostRepository = PostRepository;
+			_userService = userService;
+			_CategoryRepository = categoryRepository;
+		}
+
+		public async Task&lt;<span class="bg-yellow">ApiResponse</span>> Handle(CreateHeadingCommand request, CancellationToken cancellationToken)
+		{
+			<span class="bg-yellow">ApiResponse response = new ApiResponse();</span>
+
+			try
+			{
+				var user = await _userService.GetCurrentUser();
+
+				// convert to domain entity object
+				var Heading = _mapper.Map&lt;Domain.Heading>(request);
+				Heading.UserName = user.UserName;
+				if (user.Id != null)
+				{
+					Heading.UserId = new Guid(user.Id);
+				}
+
+				var category = await _CategoryRepository.GetByIdAsync(Heading.CategoryId);
+
+				// add to database
+				await _HeadingRepository.CreateAsync(Heading);
+
+				if (request.Content != null)
+				{
+					Domain.Post headingPost = new Domain.Post
+					{
+						HeadingId = Heading.Id,
+						Content = request.Content,
+						UserName = user.UserName,
+					};
+
+					if (user.Id != null)
+					{
+						headingPost.UserId = new Guid(user.Id);
+					}
+
+					await _PostRepository.CreateAsync(headingPost);
+
+					Heading.MainPostId = headingPost.Id;
+					Heading.LastPostId = headingPost.Id;
+
+					await _HeadingRepository.UpdateAsync(Heading);
+
+					await _HeadingRepository.UpdateHeadingWhenCreatePost(Heading.Id, headingPost.UserName, headingPost.UserId.Value, headingPost.Id);
+					await _CategoryRepository.UpdateCategoryWhenCreatePost(Heading.CategoryId, headingPost.UserName, headingPost.UserId.Value, Heading.Id, headingPost.Id);
+				}
+				else
+				{
+					response.Message = "The content is cannot be null or empty";
+					response.IsSuccess = false;
+
+					return response;
+				}
+
+				if (Heading.Id != null && category != null)
+				{
+					await _CategoryRepository.IncreaseHeadingCounter(Heading.CategoryId);
+					await _HeadingRepository.IncreasePostCounter(Heading.Id);
+					await _CategoryRepository.IncreasePostCounter(Heading.Id);
+					await _userService.IncreaseHeadingPostCounter(user.Id);
+				}
+
+				response.Message = "The heading is created successfully";
+
+			}
+			catch (Exception ex)
+			{
+				<span class="bg-yellow">response.Message = ex.Message;</span>
+				<span class="bg-yellow">response.IsSuccess = false;</span>
+			}
+
+			return response;
+		}
+	}
+}
+		</pre>
+		<p>Okay, let's update the controller named <b>HeadingsController</b>:</p>
+		<pre>
+[HttpPost]
+public async Task&lt;<span class="bg-yellow">ApiResponse</span>> Create(CreateHeadingCommand command)
+{
+	var response = await _mediator.Send(command);
+	return response;
+}
+		</pre>
+		<p>Let's run our project if we don't get any errors. We can move on to updates on UI projects.</p>
+		<p>UI projects communicate with the API through the ServiceClient class. Instead of writing this class ourselves, we generate it with a tool called nswag. (for more detail: <a target="_blank" href="https://github.com/RicoSuter/NSwag">NSwag</a></p>
+		<p>There is a nswag file in both projects(NarForumUser, NarForumAdmin). All we need to do is run clientsettings from the Services > Base folder, then click the Create local Copy button and then click the Generate button. After this process, ServiceClient.cs file will be updated. We have to just update our services that used the client service.</p>
+		<p>Let's open Contracts folder in the UI projects and update <b>IHeadingService</b> class like below:</p>
+		<pre>
+public interface IHeadingService
+{
+	// queries
+	...
+
+	// commands
+	Task&lt;ApiResponseVM> CreateHeading(HeadingVM heading);
+	...
+
+}			
+		</pre>
+		<p>After that, open Services folder and update HeadingService class like below:</p>
+		<pre>
+public async Task&lt;ApiResponseVM> CreateHeading(HeadingVM post)
+{
+	try
+	{
+		var createHeadingCommand = _mapper.Map&lt;CreateHeadingCommand>(post);
+		var response = await _client.HeadingsAsync(createHeadingCommand);
+		return _mapper.Map&lt;ApiResponseVM>(response);
+	}
+	catch (ApiException ex)
+	{
+		return new ApiResponseVM
+		{
+			IsSuccess = false,
+			Message = ex.Message,
+		};
+	}
+}			
+		</pre>
+		<p>That's it, we can use it this method in our blazor pages and components.</p>
+		<hr>
+
+		<h3 id="updateDatabase"><strong>C) How to update database?</strong> - <a href="#toc">top</a></h3>
+
+		<p>EF Core is used on the database side of the forum software. If you want to make any changes to the DB, you can learn how to do it in this section.</p>
+		<p><b>NOTE</b>: If you are considering making a critical change to the database, I strongly recommend that you backup your existing database beforehand.</p> 
+		<p>Let's proceed with an example case. I did not add the fields required to store the <b>PostCounter</b> and <b>HeadingCounter</b> values of the users to the <b>ForumUser</b> table before. However, I need these fields now, so we need to update the existing database.</p>
+		<p>We make updates to the database <b>code first</b>. That is, we do not write SQL, we make the necessary changes using <b>EF Core</b>. First, we need to open the <b>ForumUser</b> class that we will modify. 
+		The classes representing the database tables in the project are located in the <b>Domain</b> layer. However, The classes used for the Persistence layer are located there. The classes defined for the Identity layer are located in the Models folder in the <b>Identity</b> layer.
+		The distinction here is made intentionally. The parts not related to Identity are defined as models in the Domain layer. As a result, the <b>ForumUser</b> table is in the <b>Models</b> folder in the <b>Identity</b> layer.</p>
+		<img class="img-fluid" src="assets/images/identity-forumuser.png" alt="Identity ForumUser" />
+		<p>Let's open that class and make the following additions:</p>
+		<pre>
+public class ForumUser: IdentityUser
+{
+	public string? FirstName { get; set; }
+	public string? LastName { get; set; }
+	...
+	<span class="bg-yellow">public int PostCounter { get; set; }</span>
+	<span class="bg-yellow">public int HeadingCounter { get; set; }</span>
+}
+		</pre>
+		<p>After adding the HeadingCounter and PostCounter fields, we need to create ef migrations:</p>
+		<ul>
+			<li>Open Package Manager Console on Visual Studio (View > Other Windows > Package Manager Console)</li>
+			<li>Choose <b>Identity</b> as Default project</li>
+			<li>Set <b>Api</b> as start up project</li>
+			<li>Enter this command: <code>add-migration Id5 -c ForumIdentityDbContext</code> <i>My last migration was [DATESTAMP]_Id4. So new migration name should be Id5</i></li>
+			<br /><img class="img-fluid" src="assets/images/add-migration.png" alt="Add Migration" /><br />
+			<li>After build succeeded, check your migration.</li>
+			<br /><img class="img-fluid" src="assets/images/migrations.png" alt="Migrations" /><br />
+			<li>Let's update local db in development environment.</li>
+			<li>Enter this command: <code>update-database -Context ForumIdentityDbContext</code></li>
+			<li>Check your local database from <b>pgAdmin</b>. Look at your <b>db_forum_identity</b> database, find the table named <b>Users</b>. (Schemas > public > Tables > Users) Everything looks good, the update worked well on local db.</code></li>
+			<br /><img class="img-fluid" src="assets/images/db-forumuser.png" alt="Db ForumUser" /><br />
+			<li>Let's update our API on the server.</li>
+		</ul>
+		<hr>
+		
+		<h3 id="settingsAdmin"><strong>D) Setting up Admin Panel Settings</strong> - <a href="#toc">top</a></h3>
+		
+		<p>Log in to the admin panel. On initial installation, admin user information is as follows by default:</p>
+		<p><i>For security purposes, you need to change this information afterwards.</i></p>
+		<ul>
+			<li>email: <b>admin@localhost.com</b></li>
+			<li>password: <b>P@ssword1</b></li>
+		</ul>
+		<h4 id="settingsGeneral"><b>D.1) Setting up General Settings</b> - <a href="#toc">top</a></h4>
+		<p>The settings required for the forum are in the Settings section. In this section, you can upload your forum address, favicon and logo, if any.</p>
+		<img class="img-fluid" src="assets/images/settings-general.png" alt="CmdProjects" />
+		<br/>
+		<br/>
+		<h4 id="settingsSMTP"><b>D.2) Setting up SMTP Settings</b> - <a href="#toc">top</a></h4>
+		<p>It is very important to adjust SMTP settings. These settings are necessary for features such as "Refresh Password", "Email Confirmation", "Contact" to work correctly.</p>
+		<img class="img-fluid" src="assets/images/settings-smtp.png" alt="CmdProjects" />
+		<hr>
+		
+		<p>Once again, thank you so much for purchasing this forum software. As I said at the beginning, I'd be glad to help you if you have any questions relating to this forum software. No guarantees, but I'll do my best to assist. If you have a more general question relating to the themes on CodeCanyon, you might consider visiting the forums and asking your question in the "Item Discussion" section.</p> 
+		
+		<p class="append-bottom alt large"><strong>Gürbüz Uğurgül</strong></p>
+		<p><a href="#toc">Go To Table of Contents</a></p>
+		
+		<hr class="space">
+	</div><!-- end div .container -->
+</body>
+</html>

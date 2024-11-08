@@ -7,7 +7,6 @@ using NarForumUser.Client.Models.BlogComment;
 using NarForumUser.Client.Models.BlogPost;
 using NarForumUser.Client.Models.Category;
 using NarForumUser.Client.Models.Contact;
-using NarForumUser.Client.Models.Enums;
 using NarForumUser.Client.Models.Favorite;
 using NarForumUser.Client.Models.ForumSettings;
 using NarForumUser.Client.Models.Heading;

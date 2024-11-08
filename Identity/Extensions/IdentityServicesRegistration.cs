@@ -25,7 +25,6 @@ namespace Identity.Extensions
 
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
-            //services.AddDbContext<ForumIdentityDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ForumIdentityDatabaseConnectionString")));
             services.AddDbContext<ForumIdentityDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("ForumIdentityDatabaseConnectionString")));
             
             services.AddIdentity<ForumUser, IdentityRole>()
