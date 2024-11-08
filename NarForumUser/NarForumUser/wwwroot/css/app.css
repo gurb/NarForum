@@ -568,6 +568,15 @@ span.heading-card-status {
     margin-left: 10px;
 }
 
+.post-message-badge {
+    background: transparent !important;
+    color: #999;
+    font-size: 15px;
+    padding: 0px;
+    margin-left: 10px;
+    cursor:pointer;
+}
+
 .post-favorite-button {
     float: right;
     background: var(--color-mini-post-favorite-bg);
