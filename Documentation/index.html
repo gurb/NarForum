@@ -59,6 +59,7 @@
 			</li>
 			<li><a href="#developmentTheProject">Development The Project</a>
 				<ol>
+					<li><a href="#createdDatabaseMigration">Create Databases using EF Core Migration</a></li>
 					<li><a href="#requirementsDevEnv">Requirements for Setting up your Developer Environment</a></li>
 					<li><a href="#runningDevEnv">Running the project in the development environment</a></li>
 					<li><a href="#apiUpdate">API Update</a></li>
@@ -69,12 +70,10 @@
 				<ol>
 					<li><a href="#settingsGeneral">Setting up General Settings</a></li>
 					<li><a href="#settingsSMTP">Setting up SMTP Settings</a></li>
+					<li><a href="#settingsPermissions">Setting Up Administrator Permissions</a></li>
 				</ol>
 			</li>
 		</ol>
-		
-
-
 		<hr>
 		<h3 id="deployingProject"><b>A) Deploying The Project on IIS</b> - <a href="#toc">top</a></h3>
 		<p>This documentation for windows server. If you know already what you do, you dont have to apply these steps for the installation. If you don't want to use Windows Server, You can try Docker option which doesn't exist the current version of the project. (So you have to make it yourself for now. I'm going to add this option for the next versions.)</p>
@@ -416,7 +415,22 @@ builder.Services.AddCors(options =>
 
 		<h3 id="developmentTheProject"><b>B) Development The Project</b> - <a href="#toc">top</a></h3>
 		<p>In this section, if you want to make different additions to the project independently of us, you will find information on how you can do this.</p>
-		<h4 id="requirementsDevEnv"><b>B.1) Requirements for Setting up your Developer Environment</b> - <a href="#toc">top</a></h4>
+		<h4 id="createdDatabaseMigration"><b>B.1) Create Databases using EF Core Migration</b> - <a href="#toc">top</a></h4>
+		We need to first create databases in the development environment. There will be two databases to which the project will be connected. These are the <code>db_forum</code> and <code>db_forum_identity</code> databases. 
+		<code>db_forum</code> updates should be applied in the <b>Persistence</b> layer, and <code>db_forum_identity</code> updates should be applied in the <b>Identity</b> layer.
+		<ul>
+			<li>Choose Api as start-up project</li>
+			<img class="img-fluid" src="assets/images/startUpProject.png" alt="Set as start-up project" />
+			<li>Open <b>package manager console</b> and choose <code>src\Infrastructure\Identity</code> as Default Project</li>
+			<img class="img-fluid" src="assets/images/identityInitial.png" alt="Initial migration" />
+			<li>enter this command <code>add-migration InitialMigration-c ForumIdentityDbContext</code></li>
+			<li>after that <code>update-database -Context ForumIdentityDbContext</code></li>
+			<li>choose <code>src\Infrastructure\Persistence</code> as Default Project</li>
+			<li>enter this command <code>add-migration InitialMigration-c ForumDbContext</code></li>
+			<li>after that <code>update-database -Context ForumDbContext</code></li>
+		</ul>
+		<p>After these operations, both databases should have been created successfully. <i>If you still receive an error and cannot find a solution, please contact us via <a href="https://codecanyon.net/item/narforum-forum-software/55040830/comments">CodeCanyon</a> or <b>narforumsoftware@gmail.com</b>.</i></p>
+		<h4 id="requirementsDevEnv"><b>B.2) Requirements for Setting up your Developer Environment</b> - <a href="#toc">top</a></h4>
 		The following programs must be installed on your computer.<br/>
 		<ul>
 			<li>.NET 8 SDK (ASP.NET Core)</li>
@@ -424,7 +438,7 @@ builder.Services.AddCors(options =>
 			<li>PostgreSQL</li>
 			<li>GarnetServer (It's a redis alternative as a remote cache-store) (Download it from <a target="_blank" href="https://github.com/microsoft/garnet/releases">here</a>.)</li>
 		</ul>
-		<h4 id="runningDevEnv"><b>B.2) Running the project in the development environment</b> - <a href="#toc">top</a></h4>
+		<h4 id="runningDevEnv"><b>B.3) Running the project in the development environment</b> - <a href="#toc">top</a></h4>
 		There are 3 separate projects in the project:<br/>
 		<ul>
 			<li>Api</li>
@@ -452,7 +466,7 @@ builder.Services.AddCors(options =>
 		<img class="img-fluid" src="assets/images/cmd-projects.png" alt="CmdProjects" />
 		<br/>
 		<br/>
-		<h4 id="apiUpdate"><b>B.3) API Update</b> - <a href="#toc">top</a></h4>
+		<h4 id="apiUpdate"><b>B.4) API Update</b> - <a href="#toc">top</a></h4>
 		<p>In my case, there is a problem about creating a heading. The problem is when we are creating a heading as a response we got just GUID value. But we can also encounter error, however we cannot understand what is the error what we got. In general, we use ApiResponse for create, update and remove commands because of that. ApiResponse:</p>
 		<pre>
 public class ApiResponse
@@ -666,14 +680,18 @@ public class ForumUser: IdentityUser
 		</ul>
 		<h4 id="settingsGeneral"><b>D.1) Setting up General Settings</b> - <a href="#toc">top</a></h4>
 		<p>The settings required for the forum are in the Settings section. In this section, you can upload your forum address, favicon and logo, if any.</p>
-		<img class="img-fluid" src="assets/images/settings-general.png" alt="CmdProjects" />
+		<img class="img-fluid" src="assets/images/settings-general.png" alt="General Settings" />
 		<br/>
 		<br/>
 		<h4 id="settingsSMTP"><b>D.2) Setting up SMTP Settings</b> - <a href="#toc">top</a></h4>
 		<p>It is very important to adjust SMTP settings. These settings are necessary for features such as "Refresh Password", "Email Confirmation", "Contact" to work correctly.</p>
-		<img class="img-fluid" src="assets/images/settings-smtp.png" alt="CmdProjects" />
+		<img class="img-fluid" src="assets/images/settings-smtp.png" alt="SMTP Settings" />
+		<h4 id="settingsPermissions"><b>D.3) Setting up Administrator Permissions</b> - <a href="#toc">top</a></h4>
+		<p>After the installation phase or in the development environment, all administrator permissions must be activated manually. First, open the <b>Authorization</b> page via the admin panel and then open the <b>Permissions</b> tab. Click the <b>Refresh Permissions</b> button. After all required permissions are listed, select the <b>Admin</b> role and activate all roles with the checkbox.</p>
+		<img class="img-fluid" src="assets/images/permissionManagement.png" alt="Permission Management" />
+		<br/>
+		<br/>
 		<hr>
-		
 		<p>Once again, thank you so much for purchasing this forum software. As I said at the beginning, I'd be glad to help you if you have any questions relating to this forum software. No guarantees, but I'll do my best to assist. If you have a more general question relating to the themes on CodeCanyon, you might consider visiting the forums and asking your question in the "Item Discussion" section.</p> 
 		
 		<p class="append-bottom alt large"><strong>Gürbüz Uğurgül</strong></p>
