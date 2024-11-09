@@ -1,12 +1,14 @@
 ﻿@page "/category/{CategoryName}-{CategoryId:int}"
 @page "/category/{CategoryName}-{CategoryId:int}/{PageIndex:int}"
-@using NarForumUser.Client.Pages.Category.Modal
+@using NarForumUser.Client.Pages.Category.Modal;
 
 @inject HttpClient Http
 @inject IConfiguration Configuration
+@inject PersistentComponentState ApplicationState
+
+@implements IDisposable
 
 <MediaQuery Width=768 @bind-Value=min768></MediaQuery>
-
 
 @if(isLoading)
 {
@@ -163,10 +165,11 @@ else
 
 
 @code {
+    private PersistingComponentStateSubscription _subscription;
+
     private bool isLoading { get; set; } = true;
     private CategoryVM? Model { get; set; }
     private CategoryVM? SelectedModel { get; set; }
-
 
     Pagination? top, bottom;
 
@@ -188,7 +191,6 @@ else
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
-
 
     public List<CategoryVM>? Categories { get; set; }
 
@@ -224,6 +226,15 @@ else
 
     protected async Task SetBreadcrumb(int CurrentCategoryId)
     {
+        var foundInState = ApplicationState
+                            .TryTakeFromJson<List<BreadcrumbItem>>("breadcrumbItems", out var _BreadcrumbItems);
+
+        if (foundInState)
+        {
+            BreadcrumbItems = _BreadcrumbItems ?? new List<BreadcrumbItem>();
+            return;
+        }
+
         var parentCategories = await CategoryService.GetParentCategoriesByIntId(CurrentCategoryId);
         parentCategories = parentCategories.OrderBy(x => x.CategoryId).ToList();
 
@@ -235,39 +246,106 @@ else
         }
         BreadcrumbItems.Last().IsCurrentPage = true;
 
-        await InvokeAsync(StateHasChanged);
+        await Task.CompletedTask;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _subscription = ApplicationState.RegisterOnPersisting(Persist);
+
+
+        var foundInState = ApplicationState
+            .TryTakeFromJson<bool>("isLoading", out var _isLoading);
+
+        isLoading = foundInState ? _isLoading : isLoading;
+    }
+
+    private async Task Persist()
+    {
+        ApplicationState.PersistAsJson("model", Model);
+        ApplicationState.PersistAsJson("categories", Categories);
+        ApplicationState.PersistAsJson("headings", Headings);
+        ApplicationState.PersistAsJson("totalPages", TotalPages);
+        ApplicationState.PersistAsJson("currentPage", CurrentPage);
+        ApplicationState.PersistAsJson("breadcrumbItems", BreadcrumbItems);
+        ApplicationState.PersistAsJson("isLoading", isLoading);
+        await Task.CompletedTask;
     }
 
     protected async override Task OnParametersSetAsync()
     {
         if (PageIndex == 0) PageIndex = 1;
 
-        Model = await CategoryService.GetCategoryByIntId(CategoryId);
-        Categories = await CategoryService.GetCategoriesById(Model.Id);
-        Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
-
-        CurrentPage = PageIndex;
-
-        query = new GetHeadingsWithPaginationQueryVM
-        {
-            SortType = selectedSortTypeVM,
-            CategoryId = Model.Id,
-            PageIndex = PageIndex,
-            PageSize = PageSize,
-            StartDate = query != null ? query.StartDate : null,
-            EndDate = query != null ? query.EndDate : null,
-            SearchTitle = query != null ? query.SearchTitle : null,
-            SearchUser = query != null ? query.SearchUser : null,
-        };
-
-        HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
-        Headings = headingsPagination.Headings;
-        await CheckUserImageProfile();
-        TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
-
+        await GetCategories();
+        await GetHeadings();
         await SetBreadcrumb(Model.CategoryId);
 
         isLoading = false;
+    }
+
+    private async Task GetCategories()
+    {
+        var foundInStateModel = ApplicationState
+            .TryTakeFromJson<CategoryVM?>("model", out var _Model);
+
+        Model = foundInStateModel ? _Model : Model;
+
+        if (!foundInStateModel)
+        {
+            Model = await CategoryService.GetCategoryByIntId(CategoryId);
+        }
+
+        var foundInState = ApplicationState
+                .TryTakeFromJson<List<CategoryVM>?>("categories", out var _Categories);
+
+        Categories = foundInState ? _Categories : Categories;
+        if (!foundInState)
+        {
+            Categories = await CategoryService.GetCategoriesById(Model.Id);
+            Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
+        }
+
+        var foundInStateCurrentPage = ApplicationState
+                .TryTakeFromJson<int>("currentPage", out var _CurrentPage);
+
+        CurrentPage = foundInStateCurrentPage ? _CurrentPage : PageIndex;
+    }
+
+    private async Task GetHeadings()
+    {
+        var foundInStateHeadings = ApplicationState
+            .TryTakeFromJson<List<HeadingVM>?>("headings", out var _Headings);
+
+        Headings = foundInStateHeadings ? _Headings : Headings;
+
+        if(foundInStateHeadings)
+        {
+            var foundInStateTotal = ApplicationState
+                .TryTakeFromJson<int>("totalPages", out var _TotalPages);
+
+            TotalPages = foundInStateTotal ? _TotalPages : TotalPages;
+            return;
+        }
+
+        if(!foundInStateHeadings)
+        {
+            query = new GetHeadingsWithPaginationQueryVM
+            {
+                SortType = selectedSortTypeVM,
+                CategoryId = Model.Id,
+                PageIndex = PageIndex,
+                PageSize = PageSize,
+                StartDate = query != null ? query.StartDate : null,
+                EndDate = query != null ? query.EndDate : null,
+                SearchTitle = query != null ? query.SearchTitle : null,
+                SearchUser = query != null ? query.SearchUser : null,
+            };
+
+            HeadingsPaginationVM headingsPagination = await HeadingService.GetHeadingsWithPagination(query);
+            Headings = headingsPagination.Headings;
+            await CheckUserImageProfile();
+            TotalPages = (int)Math.Ceiling((double)headingsPagination.TotalCount / PageSize);
+        }
     }
 
     protected async Task SortHeadingList(SortTypeVM sortType)
@@ -415,5 +493,10 @@ else
         {
             return false;
         }
+    }
+
+    public void Dispose()
+    {
+        _subscription.Dispose();
     }
 }
