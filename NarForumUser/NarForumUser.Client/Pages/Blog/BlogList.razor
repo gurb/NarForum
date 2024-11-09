@@ -171,18 +171,18 @@ else
     private async Task GetBlogCategory()
     {
         var foundInState = ApplicationState
-            .TryTakeFromJson<BlogCategoryVM?>("model", out var Model);
+            .TryTakeFromJson<BlogCategoryVM?>("model", out var _Model);
 
+        Model = foundInState ? _Model : Model;
 
         if (BlogCategoryService is not null && foundInState is false)
         {
             string categoryName = CategoryName.Replace("-", " ");
 
             GetBlogCategoryQueryVM request = new GetBlogCategoryQueryVM
-                {
-                    Name = categoryName
-                };
-
+            {
+                Name = categoryName
+            };
 
             Model = await BlogCategoryService.GetBlogCategory(request);
 

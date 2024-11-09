@@ -4,16 +4,15 @@ using NarForumUser.Client.Models.Section;
 using NarForumUser.Client.Pages.Sections.Modal;
 using NarForumUser.Client.Services.UI;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
 
 
 namespace NarForumUser.Client.Pages.Sections
 {
     public partial class SectionList
     {
+        private PersistingComponentStateSubscription _subscription;
         public bool min768 { get; set; } = false;
-
-        [CascadingParameter(Name = "SSRParameter")]
-        public bool IsSSR { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
@@ -42,33 +41,63 @@ namespace NarForumUser.Client.Pages.Sections
 
         protected override async Task OnInitializedAsync()
         {
+            _subscription = ApplicationState.RegisterOnPersisting(Persist);
+        }
+
+        protected override async Task OnParametersSetAsync()
+        {
             RefreshStateService.RefreshSectionList += Refresh;
-            
-            Sections = await SectionService.GetSections();
-            Sections = Sections.OrderBy(x => x.OrderIndex).ToList();
-            Categories = await CategoryService.GetSectionCategories();
-            Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
+
+            await GetSections();
+            await GetCategories();
+
             await CheckUserImageProfile();
 
             onInit = true;
         }
 
-        protected override async Task OnParametersSetAsync()
+        private async Task GetSections()
         {
-            if (onInit)
-            {
+            var foundInState = ApplicationState
+                .TryTakeFromJson<List<SectionVM>?>("sections", out var _Sections);
 
+            Sections = foundInState ? _Sections : Sections;
+
+            if (!foundInState)
+            {
+                Sections = await SectionService.GetSections();
+                Sections = Sections.OrderBy(x => x.OrderIndex).ToList();
+            }
+        }
+
+        private async Task GetCategories()
+        {
+            var foundInState = ApplicationState
+                .TryTakeFromJson<List<CategoryVM>?>("categories", out var _Categories);
+
+            Categories = foundInState ? _Categories : Categories;
+
+            if(!foundInState)
+            {
+                Categories = await CategoryService.GetSectionCategories();
+                Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
             }
         }
 
         private async void Refresh()
         {
-            Sections = await SectionService.GetSections();
-            Sections = Sections.OrderBy(x => x.OrderIndex).ToList();
-            Categories = await CategoryService.GetSectionCategories();
-            Categories = Categories.OrderBy(x => x.OrderIndex).ToList();
+            await GetSections();
+            await GetCategories();
+
             await CheckUserImageProfile();
             await InvokeAsync(StateHasChanged);
+        }
+
+        private async Task Persist()
+        {
+            ApplicationState.PersistAsJson("sections", Sections);
+            ApplicationState.PersistAsJson("categories", Categories);
+            await Task.CompletedTask;
         }
 
         private void OpenModal()
@@ -117,6 +146,11 @@ namespace NarForumUser.Client.Pages.Sections
             {
                 return false;
             }
+        }
+
+        public void Dispose()
+        {
+            _subscription.Dispose();
         }
     }
 }

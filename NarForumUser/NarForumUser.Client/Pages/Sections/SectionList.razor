@@ -1,4 +1,7 @@
 ﻿@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+@inject PersistentComponentState ApplicationState
+
+@implements IDisposable
 
 @if (Sections == null)
 {
