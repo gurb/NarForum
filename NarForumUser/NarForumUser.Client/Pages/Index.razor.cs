@@ -14,8 +14,9 @@ namespace NarForumUser.Client.Pages;
 public partial class Index
 {
 
-    [CascadingParameter]
+    [CascadingParameter(Name = "BotParameter")]
     public bool isBot { get; set; }
+    
     [Inject]
     private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 

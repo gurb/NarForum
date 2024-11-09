@@ -1,4 +1,5 @@
 ﻿@page "/blog/{Title}-{BlogPostId:int}"
+@rendermode @(new InteractiveAutoRenderMode(prerender: true))
 
 @using NarForumUser.Client.Models.BlogPost
 @using NarForumUser.Client.Pages.Blog.Component

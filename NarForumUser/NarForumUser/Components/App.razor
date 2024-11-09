@@ -4,7 +4,6 @@
 @{
 
     Boolean isBot = false;
-    Boolean isSSR = true;
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
     var userAgent = HttpContextAccessor?.HttpContext?.Request.Headers[HeaderNames.UserAgent];
     if (userAgent.HasValue)
@@ -54,13 +53,12 @@
     {
         <HeadOutlet @rendermode="new InteractiveWebAssemblyRenderMode(prerender: false)" />
     }
-    @* <HeadOutlet @rendermode="InteractiveWebAssembly" /> *@
+    
 </head>
 
 <body class="d-flex flex-column min-h-100">
     <div id="app" class="h-100">
     <CascadingValue Value="isBot" Name="BotParameter">
-            <CascadingValue Value="isSSR" Name="SSRParameter">
         @if (isBot)
         {
             <Routes @rendermode="new InteractiveWebAssemblyRenderMode(prerender: true)" />
@@ -72,13 +70,10 @@
                 <p>Loading...</p>
             </div> *@
         }
-        </CascadingValue>
     </CascadingValue>
     </div>
 
-    @{
-        isSSR = false;
-    }
+    
 
     @* <Routes @rendermode="InteractiveWebAssembly" /> *@
     @* <script src="_framework/blazor.web.js"></script> *@

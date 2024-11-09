@@ -78,9 +78,6 @@
     [CascadingParameter(Name ="BotParameter")]
     public bool IsBot { get; set; }
 
-    [CascadingParameter(Name = "SSRParameter")]
-    public bool IsSSR { get; set; }
-
     private ErrorBoundary? _errorBoundary;
 
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }

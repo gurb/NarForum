@@ -2,12 +2,15 @@
 @page "/blog/{PageIndex:int}"
 @page "/blog/{CategoryName}"
 @page "/blog/{CategoryName}/{PageIndex:int}"
+
+@inject PersistentComponentState ApplicationState
+
 @using NarForumUser.Client.Models.BlogCategory
 @using NarForumUser.Client.Models.BlogPost
 @using NarForumUser.Client.Models.BlogComment
 @using NarForumUser.Client.Pages.Blog.Component
-
 @inject IConfiguration Configuration
+@implements IDisposable
 
 @if (isLoading)
 {
@@ -79,6 +82,8 @@ else
 
 
 @code {
+    private PersistingComponentStateSubscription _subscription;
+
     [Inject]
     public IBlogCategoryService? BlogCategoryService { get; set; }
     [Inject]
@@ -115,23 +120,26 @@ else
     private int PageSize = 10; // Number of items per page
     private int TotalPages = 1;
     private int CurrentPage = 1;
+    int test = 0;
 
+
+    protected override async Task OnInitializedAsync()
+    {
+        _subscription = ApplicationState.RegisterOnPersisting(Persist);
+
+        var foundInState = ApplicationState
+            .TryTakeFromJson<bool>("isLoading", out var _isLoading);
+
+        isLoading = foundInState ? _isLoading : isLoading;
+    }
 
     protected override async Task OnParametersSetAsync()
     {
-        isLoading = true;
         if (PageIndex == 0) PageIndex = 1;
 
         if(CategoryName is not null)
         {
-            string categoryName = CategoryName.Replace("-", " ");
-
-            GetBlogCategoryQueryVM request = new GetBlogCategoryQueryVM
-            {
-                Name = categoryName
-            };
-
-            Model = await BlogCategoryService.GetBlogCategory(request);
+            await GetBlogCategory();
         }
         else
         {
@@ -148,24 +156,84 @@ else
             IsInclude = true
         };
 
-        if(BlogPostService is not null)
-        {
-            BlogPostsPaginationVM blogPostsPagination = await BlogPostService.GetBlogPostsWithPagination(query);
-            BlogPosts = blogPostsPagination.BlogPosts;
-            TotalPages = (int)Math.Ceiling((double)blogPostsPagination.TotalCount / PageSize);
+        await GetBlogPosts();
 
-            await SetBreadcrumb();
-        }
+        await SetBreadcrumb();
+
 
         isLoading = false;
 
         await base.OnParametersSetAsync();
     }
 
+
+
+    private async Task GetBlogCategory()
+    {
+        var foundInState = ApplicationState
+            .TryTakeFromJson<BlogCategoryVM?>("model", out var Model);
+
+
+        if (BlogCategoryService is not null && foundInState is false)
+        {
+            string categoryName = CategoryName.Replace("-", " ");
+
+            GetBlogCategoryQueryVM request = new GetBlogCategoryQueryVM
+                {
+                    Name = categoryName
+                };
+
+
+            Model = await BlogCategoryService.GetBlogCategory(request);
+
+        }
+    }
+
+    private async Task Persist()
+    {
+        ApplicationState.PersistAsJson("model", Model);
+        ApplicationState.PersistAsJson("blogPosts", BlogPosts);
+        ApplicationState.PersistAsJson("totalPages", TotalPages);
+        ApplicationState.PersistAsJson("isLoading", isLoading);
+        ApplicationState.PersistAsJson("breadCrumbItems", BreadcrumbItems);
+        await Task.CompletedTask;
+    }
+
+    private async Task GetBlogPosts()
+    {
+        var foundInState = ApplicationState
+            .TryTakeFromJson<List<BlogPostVM>?>("blogPosts", out var _BlogPosts);
+
+        if (foundInState)
+        {
+            BlogPosts = _BlogPosts ?? null;
+            ApplicationState
+                .TryTakeFromJson<int>("totalPages", out var _TotalPages);
+            TotalPages = _TotalPages;
+        }
+
+        if (BlogPostService is not null && foundInState is false)
+        {
+            BlogPostsPaginationVM blogPostsPagination = await BlogPostService.GetBlogPostsWithPagination(query);
+            BlogPosts = blogPostsPagination.BlogPosts;
+            TotalPages = (int)Math.Ceiling((double)blogPostsPagination.TotalCount / PageSize);
+        }
+    }
+
+
     private List<BreadcrumbItem> BreadcrumbItems { get; set; }
 
     protected async Task SetBreadcrumb()
     {
+        var foundInState = ApplicationState
+                            .TryTakeFromJson<List<BreadcrumbItem>>("breadCrumbItems", out var _BreadcrumbItems);
+
+        if (foundInState)
+        {
+            BreadcrumbItems = _BreadcrumbItems ?? new List<BreadcrumbItem>();
+            return;
+        }
+
         BreadcrumbItems = new List<BreadcrumbItem>();
         BreadcrumbItems.Add(new BreadcrumbItem { Text = "Homepage", HrefLink = $"/" });
         BreadcrumbItems.Add(new BreadcrumbItem { Text = "Blog", HrefLink = $"/blog" });
@@ -174,7 +242,11 @@ else
             BreadcrumbItems.Add(new BreadcrumbItem { Text = Model.Name, HrefLink = $"/blog/{Model.Name.ToFriendlyUrl()}" });
         }
         BreadcrumbItems.Last().IsCurrentPage = true;
+        await Task.CompletedTask;
+    }
 
-        await InvokeAsync(StateHasChanged);
+    public void Dispose()
+    {
+        _subscription.Dispose();
     }
 }
