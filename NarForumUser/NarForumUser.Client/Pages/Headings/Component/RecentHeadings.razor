@@ -1,5 +1,8 @@
 ﻿@inject HttpClient Http
 @inject IConfiguration Configuration
+@inject PersistentComponentState ApplicationState
+
+@implements IDisposable
 
 <div class="row recent-heading-list-container mb-4">
     <h3 class="sidebar-title">Recent Headings</h3>
@@ -59,6 +62,8 @@
 
 
 @code {
+    private PersistingComponentStateSubscription _subscription;
+
     private bool isLoading = true;
 
     [Inject]
@@ -78,7 +83,41 @@
 
     protected async override Task OnInitializedAsync()
     {
-        if(headingService is not null)
+        _subscription = ApplicationState.RegisterOnPersisting(Persist);
+
+
+        var foundInState = ApplicationState
+            .TryTakeFromJson<bool>("isLoading_recent_headings", out var _isLoading);
+
+        isLoading = foundInState ? _isLoading : isLoading;
+
+        await GetHeadings();
+    }
+
+    private async Task GetHeadings()
+    {
+        var foundInState = ApplicationState
+                .TryTakeFromJson<List<HeadingVM>?>("recent_headings", out var _Headings);
+
+        headings = foundInState ? _Headings : headings;
+
+        if(foundInState)
+        {
+            if (headings is not null && headings.Count > 0)
+            {
+                foreach (var heading in headings)
+                {
+                    if (heading.UserId is not null && !isImageAvailables.ContainsKey(heading.UserId.Value))
+                    {
+                        bool isImageAvailable = await UrlExists($"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{heading.UserId.ToString()}");
+                        isImageAvailables.Add(heading.UserId.Value, isImageAvailable);
+                    }
+                }
+            }
+            await Task.CompletedTask;
+        }
+
+        if (headingService is not null)
         {
             GetHeadingsWithPaginationQueryVM query = new GetHeadingsWithPaginationQueryVM
             {
@@ -93,9 +132,9 @@
             headings = pagination.Headings;
 
 
-            if(headings is not null && headings.Count > 0)
+            if (headings is not null && headings.Count > 0)
             {
-                foreach(var heading in headings)
+                foreach (var heading in headings)
                 {
                     if (heading.UserId is not null && !isImageAvailables.ContainsKey(heading.UserId.Value))
                     {
@@ -106,10 +145,14 @@
 
             }
             isLoading = false;
-
         }
+    }
 
-        await base.OnInitializedAsync();
+    private async Task Persist()
+    {
+        ApplicationState.PersistAsJson("recent_headings", headings);
+        ApplicationState.PersistAsJson("isLoading_recent_headings", isLoading);
+        await Task.CompletedTask;
     }
 
     private async Task<bool> UrlExists(string url)
@@ -123,5 +166,10 @@
         {
             return false;
         }
+    }
+
+    public void Dispose()
+    {
+        _subscription.Dispose();
     }
 }

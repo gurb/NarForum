@@ -2,43 +2,26 @@
 @inject NavigationManager nav
 @using NarForumUser.Client.Pages.Blog.Component
 
-@if(isLoaded)
-{
-    @if (activePage == "blog")
-    {
-        <BlogCategoryList></BlogCategoryList>
-    }
-    else if (activePage == "user")
-    {
-        <UserFavorites UserName="@param2"></UserFavorites>
-    }
-    else if (activePage == "contact")
-    {
 
-    }
-    else if (activePage == "post")
-    {
-        <RecentHeadings></RecentHeadings>
-        <ForumStats></ForumStats>
-    }
-    else if (activePage == "category")
-    {
-        <RecentHeadings></RecentHeadings>
-        <ForumStats></ForumStats>
-    }
-    else if (activePage == "create-heading")
-    {
-        <RecentHeadings></RecentHeadings>
-        <ForumStats></ForumStats>
-    }
-    else if (activePage == null || activePage == "")
-    {
-        <RecentHeadings></RecentHeadings>
-        <ForumStats></ForumStats>
-    }
-    else
-    {
-    }
+@if (activePage == "blog")
+{
+    <BlogCategoryList></BlogCategoryList>
+}
+else if (activePage == "user")
+{
+    <UserFavorites UserName="@param2"></UserFavorites>
+}
+else if (activePage == "contact")
+{
+
+}
+else if (activePage == null || activePage == "" || activePage == "create-heading" || activePage == "category" || activePage == "post")
+{
+    <RecentHeadings></RecentHeadings>
+    <ForumStats></ForumStats>
+}
+else
+{
 }
 
 
@@ -119,7 +102,6 @@
             activePage = "";
             param2 = string.Empty;
         }
-        isLoaded = true;
         StateHasChanged();
     }
 }

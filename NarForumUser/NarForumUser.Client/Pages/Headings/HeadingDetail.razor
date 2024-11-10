@@ -397,32 +397,23 @@ else
 
         HeadingGuid = HeadingId.DecodeBase64UrlToGuid();
 
-        try
-        {
-            await GetHeading();
-            await SetBreadcrumb();
+        await GetHeading();
+        await SetBreadcrumb();
 
-            await GetPosts();
+        await GetPosts();
 
-            await CheckUserImageProfile();
+        await CheckUserImageProfile();
 
-            CreateModel.HeadingTitle = Heading.Title;
+        CreateModel.HeadingTitle = Heading.Title;
 
-            ConfigureDisplayPosts(Posts);
+        ConfigureDisplayPosts(Posts);
 
-            await GetLikes();
-            await GetUsers();
-            await GetFavorites();
+        await GetLikes();
+        await GetUsers();
+        await GetFavorites();
 
-            SetLikes();
-            SetFavorites();
-
-        }
-        catch(Exception ex)
-        {
-            var test = ex.Message;
-        }
-        
+        SetLikes();
+        SetFavorites();
 
         isLoading = false;
         parameterSet = true;

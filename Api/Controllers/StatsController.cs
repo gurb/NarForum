@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Persistence;
 using Application.Models.Persistence.Stats;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -20,6 +21,7 @@ namespace Api.Controllers
         /// </summary>
         /// <returns>The getting all stats result as AllStatsResponse.</returns>
         [HttpPost("GetAllStats")]
+        [AllowAnonymous]
         public async Task<AllStatsResponse> GetAllStats()
         {
             return await _forumStatService.GetAllStats();
