@@ -7,7 +7,9 @@
 @inject HttpClient Http
 @inject IConfiguration Configuration
 @inject IJSRuntime JS
+@inject PersistentComponentState ApplicationState
 
+@implements IDisposable
 @implements IAsyncDisposable
 
 @inject RefreshStateService refreshStateService;
@@ -131,6 +133,8 @@ else
 <MediaQuery Width=768 @bind-Value=min768></MediaQuery>
 
 @code {
+    private PersistingComponentStateSubscription _subscription;
+
     private bool isLoading { get; set; } = true;
     private bool parameterSet = false;
 
@@ -229,6 +233,16 @@ else
 
     protected async Task SetBreadcrumb()
     {
+        var foundInState = ApplicationState
+                            .TryTakeFromJson<List<BreadcrumbItem>>("breadcrumbItems", out var _BreadcrumbItems);
+
+        BreadcrumbItems = foundInState ? _BreadcrumbItems : BreadcrumbItems;
+
+        if (foundInState)
+        {
+            return;
+        }
+
         var parentCategories = await CategoryService.GetParentCategoriesByIntId(CategoryId);
         parentCategories = parentCategories.OrderBy(x => x.CategoryId).ToList();
 
@@ -322,6 +336,8 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _subscription = ApplicationState.RegisterOnPersisting(Persist);
+
         if(JS is not IJSInProcessRuntime)
         {
             return;
@@ -343,12 +359,28 @@ else
 
             await TrackingLogService.AddTrackingLog(command);
         }
+
+        var foundInState = ApplicationState
+            .TryTakeFromJson<bool>("isLoading", out var _isLoading);
+
+        isLoading = foundInState ? _isLoading : isLoading;
     }
 
+    private async Task Persist()
+    {
+        ApplicationState.PersistAsJson("heading", Heading);
+        ApplicationState.PersistAsJson("posts", Posts);
+        ApplicationState.PersistAsJson("totalPages", TotalPages);
+        ApplicationState.PersistAsJson("quotePosts", QuotePosts);
+        ApplicationState.PersistAsJson("users", Users);
+        ApplicationState.PersistAsJson("likes", Likes);
+        ApplicationState.PersistAsJson("breadcrumbItems", BreadcrumbItems);
+        ApplicationState.PersistAsJson("isLoading", isLoading);
+        await Task.CompletedTask;
+    }
 
     protected async override Task OnParametersSetAsync()
     {
-        isLoading = true;
         CreateModel = new PostVM();
 
         if (PageIndex == 0) PageIndex = 1;
@@ -365,63 +397,141 @@ else
 
         HeadingGuid = HeadingId.DecodeBase64UrlToGuid();
 
-        Heading = await HeadingService.GetHeadingById(HeadingGuid);
-        PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingGuid, PageIndex, PageSize);
-        Posts = postPagination.Posts;
-        await CheckUserImageProfile();
-        QuotePosts = postPagination.QuotePosts;
-
-        CreateModel.HeadingTitle = Heading.Title;
-
-        ConfigureDisplayPosts(Posts);
-
-        Likes = await LikeService.GetLikesByHeadingId(HeadingGuid);
-
-        if (Posts is not null)
+        try
         {
-            var userIds = Posts.Select(x => x.UserId.ToString()).Distinct().ToList();
-            Users = await UserService.GetUsersByIds(userIds);
+            await GetHeading();
+            await SetBreadcrumb();
 
-            if(Users is not null && Users.Count > 0)
-            {
-                foreach (var postVM in Posts)
-                {
-                    postVM.UserInfoVM = Users.FirstOrDefault(x => x.UserName == postVM.UserName);
-                }
-            }
+            await GetPosts();
+
+            await CheckUserImageProfile();
+
+            CreateModel.HeadingTitle = Heading.Title;
+
+            ConfigureDisplayPosts(Posts);
+
+            await GetLikes();
+            await GetUsers();
+            await GetFavorites();
+
+            SetLikes();
+            SetFavorites();
+
         }
-
-        if(CurrentUsername != null)
+        catch(Exception ex)
         {
-            Favorites = await FavoriteService.GetFavoritesByHeadingIdAndUserName(HeadingGuid, CurrentUsername);
+            var test = ex.Message;
         }
-
-        SetLikes();
-        SetFavorites();
-
-
-        TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
-
-        await SetBreadcrumb();
+        
 
         isLoading = false;
         parameterSet = true;
-        await InvokeAsync(StateHasChanged);
+        // await InvokeAsync(StateHasChanged);
 
         if (parameterSet && JumpPost is not null)
         {
             await ScrollToEntry();
             parameterSet = false; // Bayrağı sıfırlayın
         }
-
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-       
+
         await base.OnAfterRenderAsync(firstRender);
     }
 
+    private async Task GetHeading()
+    {
+        var foundInState = ApplicationState
+                .TryTakeFromJson<HeadingVM?>("heading", out var _Heading);
+
+        Heading = foundInState ? _Heading : Heading;
+
+        if(!foundInState)
+        {
+            Heading = await HeadingService.GetHeadingById(HeadingGuid);
+        }
+    }
+
+    private async Task GetPosts()
+    {
+        var foundInState = ApplicationState
+                .TryTakeFromJson<List<PostVM>?>("posts", out var _Posts);
+
+        Posts = foundInState ? _Posts : Posts;
+
+        if(foundInState)
+        {
+            var foundInStateTotal = ApplicationState
+                .TryTakeFromJson<int>("totalPages", out var _TotalPages);
+
+            TotalPages = foundInStateTotal ? _TotalPages : TotalPages;
+
+            var foundInStateQuotes = ApplicationState
+                .TryTakeFromJson<List<PostVM>?>("quotePosts", out var _QuotePosts);
+
+            QuotePosts = foundInStateQuotes ? _QuotePosts : QuotePosts;
+        }
+
+        if (!foundInState)
+        {
+            PostsPaginationVM postPagination = await PostService.GetPostsByHeadingIdWithPagination(HeadingGuid, PageIndex, PageSize);
+            Posts = postPagination.Posts;
+            await CheckUserImageProfile();
+            QuotePosts = postPagination.QuotePosts;
+            TotalPages = (int)Math.Ceiling((double)postPagination.TotalCount / PageSize);
+        }
+    }
+
+
+    private async Task GetUsers()
+    {
+        if (Posts is null)
+        {
+            return;
+        }
+
+        var foundInState = ApplicationState
+                .TryTakeFromJson<List<UserInfoVM>?>("users", out var _Users);
+
+        Users = foundInState ? _Users : Users;
+
+        if(!foundInState)
+        {
+            var userIds = Posts.Select(x => x.UserId.ToString()).Distinct().ToList();
+            Users = await UserService.GetUsersByIds(userIds);
+        }
+
+        if (Users is not null && Users.Count > 0)
+        {
+            foreach (var postVM in Posts)
+            {
+                postVM.UserInfoVM = Users.FirstOrDefault(x => x.UserName == postVM.UserName);
+            }
+        }
+    }
+
+    private async Task GetLikes()
+    {
+        var foundInState = ApplicationState
+                .TryTakeFromJson<List<LikeVM>?>("likes", out var _Likes);
+
+        Likes = foundInState ? _Likes : Likes;
+
+        if(!foundInState)
+        {
+            Likes = await LikeService.GetLikesByHeadingId(HeadingGuid);
+        }
+    }
+
+    private async Task GetFavorites()
+    {
+        if (CurrentUsername != null)
+        {
+            Favorites = await FavoriteService.GetFavoritesByHeadingIdAndUserName(HeadingGuid, CurrentUsername);
+        }
+    }
 
     private void ConfigureDisplayPosts(List<PostVM>? posts)
     {
@@ -734,5 +844,9 @@ else
         }
     }
 
+    public void Dispose()
+    {
+        _subscription.Dispose();
+    }
 
 }
