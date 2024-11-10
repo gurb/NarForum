@@ -1,0 +1,87 @@
+﻿
+<div class="card bg-light text-dark">
+    <div class="card-body row">
+        <div class="col-3 captcha-checkbox">
+            <input class="form-check-input" type="checkbox" value="" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            <div class="dropdown-menu captcha-dropdown">
+                <div class="captcha-description">Select the mark icons in below and click the check button:</div>
+                <div class="captcha-grid-container">
+                    <div class="captcha-grid-item @checkIndex(0)" @onclick="() => SelectItem(0)">@((MarkupString)@Values[0])</div>
+                    <div class="captcha-grid-item @checkIndex(1)" @onclick="() => SelectItem(1)">@((MarkupString)@Values[1])</div>
+                    <div class="captcha-grid-item @checkIndex(2)" @onclick="() => SelectItem(2)">@((MarkupString)@Values[2])</div>
+                    <div class="captcha-grid-item @checkIndex(3)" @onclick="() => SelectItem(3)">@((MarkupString)@Values[3])</div>
+                    <div class="captcha-grid-item @checkIndex(4)" @onclick="() => SelectItem(4)">@((MarkupString)@Values[4])</div>
+                    <div class="captcha-grid-item @checkIndex(5)" @onclick="() => SelectItem(5)">@((MarkupString)@Values[5])</div>
+                    <div class="captcha-grid-item @checkIndex(6)" @onclick="() => SelectItem(6)">@((MarkupString)@Values[6])</div>
+                    <div class="captcha-grid-item @checkIndex(7)" @onclick="() => SelectItem(7)">@((MarkupString)@Values[7])</div>
+                    <div class="captcha-grid-item @checkIndex(8)" @onclick="() => SelectItem(8)">@((MarkupString)@Values[8])</div>
+                </div>
+                <div class="captcha-selection-check text-end"><button type="button" @onclick="CheckCaptchaSelection" class="btn btn-captcha-check me-2 fw-normal">Check</button></div>
+            </div>    
+        </div>
+        <div class="col-9 captcha-content">I'm not a robot.</div>
+    </div>
+</div>
+
+@code {
+    private static string rightVal = "<i class='bi bi-check'></i>";
+    private static string wrongVal = "<i class='bi bi-x'></i>";
+
+    private List<string> Values = new List<string>
+    {
+        wrongVal,
+        wrongVal,
+        wrongVal,
+        wrongVal,
+        wrongVal,
+        wrongVal,
+        wrongVal,
+        wrongVal,
+        wrongVal,
+    };
+
+    private List<int> selectedIndexes = new List<int>();
+
+    private string checkIndex(int index)
+    {
+        if(selectedIndexes.Contains(index))
+        {
+            return " selected";
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        Values[0] = rightVal;
+
+        return base.OnInitializedAsync();
+    }
+
+    protected async Task SelectItem(int index)
+    {
+        if(selectedIndexes.Contains(index))
+        {
+            selectedIndexes.Remove(index);
+        }
+        else
+        {
+            selectedIndexes.Add(index);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task CheckCaptchaSelection()
+    {
+        
+    }
+
+    protected async Task OpenCaptchaTest()
+    {
+        
+    }
+}

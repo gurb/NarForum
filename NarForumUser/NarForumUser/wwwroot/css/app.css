@@ -349,7 +349,6 @@ code {
 button:focus {
     box-shadow: none!important;
     outline: none!important;
-    background:transparent!important;
 }
 
 button:hover {
@@ -2261,4 +2260,71 @@ a.go-to-heading-link {
 
 span.small.comment-date {
     font-size: 0.75rem;
+}
+
+.captcha-checkbox .form-check-input {
+    width: 2em;
+    height: 2em;
+}
+
+.captcha-content {
+    display: flex;
+    align-self: center;
+}
+
+.captcha-dropdown {
+    font-size: 0.9em;
+    color: var(--color-fg);
+    background: var(--color-bg);
+    width: 100%;
+    user-select: none;
+    max-height: 500px;
+    overflow-y: hidden;
+}
+
+.captcha-description {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    color: #333;
+}
+
+.captcha-selection-check {
+    padding: 5px 10px;
+}
+
+.captcha-grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: #fff;
+    padding: 10px;
+    grid-gap: 5px;
+}
+
+.captcha-grid-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #edededcc;
+    border: 1px solid #00000033;
+    padding: 10px;
+    font-size: 30px;
+    text-align: center;
+    aspect-ratio: 1;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-captcha-check {
+    background: #3189ef;
+    color: #fff;
+    padding: 5px 10px;
+}
+
+.captcha-grid-item.selected {
+    background-color: #c5ebd2cc;
+}
+
+.btn:focus, .btn:active {
+    outline: none !important;
+    box-shadow: none;
 }
