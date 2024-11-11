@@ -31,9 +31,9 @@
             </label>
         </div>
         <div class="mb-3 mt-3">
-            <Captcha></Captcha>
+            <Captcha Callback="GetCaptchaResponse"></Captcha>
         </div>
-        <button class="w-100 btn btn-forum mt-2 fw-normal" type="submit">Sign in</button>
+        <button class="w-100 btn btn-forum mt-2 fw-normal" type="submit" disabled="@(!captchaResponse.IsSuccess)">Sign in</button>
         <div class="mb-3 mt-3">
             <label>
                 <a class="link-primary" href="reset-password">Forgot password?</a>

@@ -1,9 +1,36 @@
 ﻿
-<div class="card bg-light text-dark">
-    <div class="card-body row">
+<div class="card text-dark captcha-card-border">
+    <div class="card-body row captcha-card-bg">
         <div class="col-3 captcha-checkbox">
-            <input class="form-check-input" type="checkbox" value="" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-            <div class="dropdown-menu captcha-dropdown">
+            @if(response is null || !response.IsSuccess) {
+                <input class="form-check-input" type="checkbox" @onclick="OpenCaptchaTest" value="" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            }
+            @if(loadingApprove) {
+                <div class="spinner-border captcha-loading-spinner-bg" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            }
+            else if(response is not null && response.IsSuccess) {
+                <i class="bi bi-check-circle-fill color-green captcha-approve"></i>
+            }
+            <div class="dropdown-menu captcha-dropdown @show">
+                @if(response is not null)
+                {
+                    <div class="captcha-response-message">
+                        @if(response.IsSuccess)
+                        {
+                            <div class="alert alert-success" role="alert">
+                                You are not a robot!
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                You are a robot! 
+                            </div>
+                        }
+                    </div>
+                }
                 <div class="captcha-description">Select the mark icons in below and click the check button:</div>
                 <div class="captcha-grid-container">
                     <div class="captcha-grid-item @checkIndex(0)" @onclick="() => SelectItem(0)">@((MarkupString)@Values[0])</div>
@@ -24,8 +51,22 @@
 </div>
 
 @code {
+    [Parameter]
+    public EventCallback<CaptchaResponse> Callback { get; set; }
+
+    bool loadingApprove = false;
+
+    Random random = new Random();
+
+    CaptchaResponse? response;
+
     private static string rightVal = "<i class='bi bi-check'></i>";
     private static string wrongVal = "<i class='bi bi-x'></i>";
+
+    private string show = "";
+
+    int wrongCounter = 0;
+    int markCount = 3;
 
     private List<string> Values = new List<string>
     {
@@ -56,8 +97,7 @@
 
     protected override Task OnInitializedAsync()
     {
-        Values[0] = rightVal;
-
+        GenerateIndexes();
         return base.OnInitializedAsync();
     }
 
@@ -75,13 +115,78 @@
         await InvokeAsync(StateHasChanged);
     }
 
+    private void GenerateIndexes()
+    {
+        selectedIndexes.Clear();
+        markCount = random.Next(3, 6);
+
+        for(int i = 0; i < Values.Count; i++)
+        {
+            Values[i] = wrongVal;
+        }
+
+        int[] numbers = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+        numbers = numbers.OrderBy(x => random.Next()).ToArray();
+
+        Values[numbers[0]] = rightVal;
+        Values[numbers[1]] = rightVal;
+        Values[numbers[2]] = rightVal;
+        if(markCount == 4)
+        {
+            Values[numbers[3]] = rightVal;
+        }
+        if(markCount == 5)
+        {
+            Values[numbers[3]] = rightVal;
+            Values[numbers[4]] = rightVal;
+        }
+    }
+
     protected async Task CheckCaptchaSelection()
     {
-        
+        if (CheckSelections())
+        {
+            response = new CaptchaResponse();
+            response.IsSuccess = true;
+            show = "";
+            loadingApprove = true;
+            await Task.Delay(2000);
+            loadingApprove = false;
+            if(Callback.HasDelegate)
+            {
+                await Callback.InvokeAsync(response);
+            }
+        }
+        else
+        {
+            response = new CaptchaResponse();
+            response.IsSuccess = false;
+            wrongCounter++;
+            GenerateIndexes();
+        }
+    }
+
+    private bool CheckSelections()
+    {
+        if(selectedIndexes.Count != markCount)
+        {
+            return false;
+        }
+
+        foreach (var selected in selectedIndexes)
+        {
+            if (Values[selected] != rightVal)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     protected async Task OpenCaptchaTest()
     {
-        
+        show = " show";
+        GenerateIndexes();
     }
 }

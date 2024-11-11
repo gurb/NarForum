@@ -8,6 +8,7 @@ using NarForumUser.Client.Services.UI;
 using NarForumUser.Client.Models.Logo;
 using NarForumUser.Client.Services;
 using NarForumUser.Client.Models.Toast;
+using NarForumUser.Client.Models.Component.Captcha;
 
 namespace NarForumUser.Client.Pages;
 
@@ -38,6 +39,8 @@ public partial class Login: IAsyncDisposable
 
     LogoVM LogoVM { get; set; } = new LogoVM();
 
+    private CaptchaResponse captchaResponse = new CaptchaResponse();
+
     public Login()
     {
     }
@@ -52,9 +55,13 @@ public partial class Login: IAsyncDisposable
         
     }
 
-
     protected async Task HandleLogin()
     {
+        if(!captchaResponse.IsSuccess)
+        {
+            Message = 
+        }
+
         var response = await AuthenticationService.AuthenticateAsync(Model.Email, Model.Password);
         if (response.IsSuccess)
         {
@@ -100,6 +107,14 @@ public partial class Login: IAsyncDisposable
             {
                 Message = "Username/password combination unknown";
             }
+        }
+    }
+
+    private async Task GetCaptchaResponse(CaptchaResponse response)
+    {
+        if(response.IsSuccess)
+        {
+            captchaResponse = response;
         }
     }
 

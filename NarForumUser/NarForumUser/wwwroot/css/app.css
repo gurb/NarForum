@@ -98,6 +98,10 @@
     --color-favorites-table-bg: #f1f1f157;
     --color-favorites-table-thead-bg: #ddd;
     --color-blog-post-card-footer-bg: #f5f5f5;
+    --color-captcha-dropdown-bg: #fff;
+    --color-captcha-grid-item-bg: #edededcc;
+    --color-captcha-card-border: #00000020;
+    --color-captcha-card-bg: #f8f9fa;
 }
 
 [data-theme="dark"] {
@@ -201,6 +205,10 @@
     --color-favorites-table-bg: #314155;
     --color-favorites-table-thead-bg: #34485f;
     --color-blog-post-card-footer-bg: #34485f;
+    --color-captcha-dropdown-bg: #2b3d53;
+    --color-captcha-grid-item-bg: #4f4f4fcc;
+    --color-captcha-card-border: #2a394bd6;
+    --color-captcha-card-bg: #31445a;
 }
 html, body {
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -2275,7 +2283,7 @@ span.small.comment-date {
 .captcha-dropdown {
     font-size: 0.9em;
     color: var(--color-fg);
-    background: var(--color-bg);
+    background: var(--color-captcha-dropdown-bg);
     width: 100%;
     user-select: none;
     max-height: 500px;
@@ -2285,7 +2293,7 @@ span.small.comment-date {
 .captcha-description {
     padding: 5px 10px;
     font-size: 0.8rem;
-    color: #333;
+    color: var(--color-fg);
 }
 
 .captcha-selection-check {
@@ -2295,7 +2303,7 @@ span.small.comment-date {
 .captcha-grid-container {
     display: grid;
     grid-template-columns: auto auto auto;
-    background-color: #fff;
+    background-color: var(--color-captcha-dropdown-bg);
     padding: 10px;
     grid-gap: 5px;
 }
@@ -2304,7 +2312,7 @@ span.small.comment-date {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #edededcc;
+    background-color: var(--color-captcha-grid-item-bg);
     border: 1px solid #00000033;
     padding: 10px;
     font-size: 30px;
@@ -2312,6 +2320,7 @@ span.small.comment-date {
     aspect-ratio: 1;
     cursor: pointer;
     border-radius: 5px;
+    color: var(--color-fg);
 }
 
 .btn-captcha-check {
@@ -2320,11 +2329,33 @@ span.small.comment-date {
     padding: 5px 10px;
 }
 
+.captcha-response-message {
+    padding: 5px 10px;
+}
+
+.captcha-approve {
+    font-size: 1.7em;
+}
+
 .captcha-grid-item.selected {
     background-color: #c5ebd2cc;
+    color: #333;
+}
+
+.captcha-card-bg {
+    background: var(--color-captcha-card-bg);
+    color: var(--color-fg);
+}
+
+.captcha-card-border {
+    border-color: var(--color-captcha-card-border);
 }
 
 .btn:focus, .btn:active {
     outline: none !important;
     box-shadow: none;
+}
+
+.captcha-loading-spinner-bg {
+    color: var(--color-fg);
 }
