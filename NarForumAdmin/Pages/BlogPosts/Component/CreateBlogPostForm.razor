@@ -10,7 +10,7 @@
 		<div class="head">
 			<div class="row">
 				<div class="col-sm-3">
-					<InputSelect class="form-select form-select-sm" aria-label="Default select example" @bind-Value="@formatBlockSelectedIndex" @oninput="formatBlockHandle">
+						<InputSelect class="form-select form-select-sm" aria-label="Default select example" ValueExpression="@(()=>formatBlockSelectedIndex)" Value="@formatBlockSelectedIndex" ValueChanged="@((string value) => formatBlockHandle(value))">
 						@foreach (var formatBlock in formatBlocks)
 						{
 							<option value="@formatBlock.Type">@formatBlock.Text</option>
@@ -18,7 +18,7 @@
 					</InputSelect>
 				</div>
 				<div class="col-sm-3">
-					<InputSelect class="form-select form-select-sm" aria-label="Default select example" @bind-Value="@fontSizeSelectedIndex" @oninput="fontSizeHandle">
+						<InputSelect class="form-select form-select-sm" aria-label="Default select example" ValueExpression="@(()=>fontSizeSelectedIndex)" Value="@fontSizeSelectedIndex" ValueChanged="@((int value) => fontSizeHandle(value))">
 						@foreach (var fontSize in fontSizes)
 						{
 							<option value="@fontSize.Index">@fontSize.Text</option>
@@ -310,20 +310,24 @@
 		}
 	}
 
-	protected async Task formatBlockHandle()
+	protected async Task formatBlockHandle(string val)
 	{
 		if (module != null)
 		{
+			formatBlockSelectedIndex = val;
 			string value = formatBlocks.Where(x => x.Type == formatBlockSelectedIndex).First().Type;
 
 			await module.InvokeAsync<string>("formatDoc", "formatBlock", value);
 		}
+
+		await Task.CompletedTask;
 	}
 
-	protected async Task fontSizeHandle()
+	protected async Task fontSizeHandle(int val)
 	{
 		if (module != null)
 		{
+			fontSizeSelectedIndex = val;
 			int value = fontSizes.Where(x => fontSizes.IndexOf(x) == fontSizeSelectedIndex).First().Index;
 			await module.InvokeAsync<string>("formatDoc", "fontSize", value.ToString());
 		}

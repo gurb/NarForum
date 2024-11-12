@@ -151,14 +151,14 @@
         if (TrackingLogService is not null && cookiePolicyAccepted == "true")
         {
             AddTrackingLogCommandVM command = new AddTrackingLogCommandVM
-                {
-                    Type = Models.Enums.TrackingTypeVM.BLOG,
-                    URL = $"/blog/{Title}-{BlogPostId}",
-                    TargetId = BlogPostVM is not null ? BlogPostVM.Id : null,
-                    DateTime = DateTime.UtcNow,
-                    IsMember = true,
-                    Browser = await JS.InvokeAsync<string>("GetBrowserName")
-                };
+            {
+                Type = Models.Enums.TrackingTypeVM.BLOG,
+                URL = $"/blog/{Title}-{BlogPostId}",
+                TargetId = BlogPostVM is not null ? BlogPostVM.Id : null,
+                DateTime = DateTime.UtcNow,
+                IsMember = true,
+                Browser = await JS.InvokeAsync<string>("GetBrowserName")
+            };
 
             await TrackingLogService.AddTrackingLog(command);
         }
