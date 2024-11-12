@@ -3,6 +3,7 @@ using NarForumUser.Client.Models.Authentication;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using NarForumUser.Client.Models.TrackingLog;
+using NarForumUser.Client.Models.Component.Captcha;
 
 namespace NarForumUser.Client.Pages;
 
@@ -23,6 +24,7 @@ public partial class Register
 
     [Inject]
     public ITrackingLogService? TrackingLogService { get; set; }
+    private CaptchaResponse captchaResponse = new CaptchaResponse();
 
     protected override void OnInitialized()
     {
@@ -31,6 +33,12 @@ public partial class Register
 
     protected async Task HandleRegister()
     {
+        if (!captchaResponse.IsSuccess)
+        {
+            Message = "Please confirm you are not a robot via captcha.";
+            return;
+        }
+
         Message = string.Empty;
 
         var result = await AuthenticationService.RegisterAsync(Model.FirstName, Model.LastName, Model.UserName, Model.Email, Model.Password);
@@ -68,4 +76,13 @@ public partial class Register
             await TrackingLogService.AddTrackingLog(command);
         }
     }
+
+    private async Task GetCaptchaResponse(CaptchaResponse response)
+    {
+        if (response.IsSuccess)
+        {
+            captchaResponse = response;
+        }
+    }
+
 }

@@ -22,7 +22,6 @@
             <label asp-for="LastName" class="control-label mb-1">Last Name</label>
             <InputText type="text" id="LastName" class="form-control" @bind-Value="@Model.LastName" autocomplete="off"></InputText>
             <ValidationMessage For="@(() => Model.LastName)" />
-
         </div>
         <div class="form-group mb-3">
             <label asp-for="Email" class="control-label mb-1">Email</label>
@@ -45,8 +44,11 @@
                 <input type="checkbox" @bind="@Model.IsAcceptUserTermsAndPolicy" value="" required> I agree to the <a href="page/privacy-policy" class="link-primary">privacy policy</a> and <a class="link-primary" href="page/terms-of-service">terms</a>.
             </label>
         </div>
+        <div class="form-group mt-3 mb-3">
+            <Captcha Callback="GetCaptchaResponse"></Captcha>
+        </div>
         <div class="form-group">
-            <input type="submit" value="Register" class="w-100 btn btn-forum mt-2 fw-normal" />
+            <input type="submit" value="Register" disabled="@(!captchaResponse.IsSuccess)" class="w-100 btn btn-forum mt-2 fw-normal" />
         </div>
     </EditForm>
 </main>
