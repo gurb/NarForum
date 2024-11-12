@@ -25,12 +25,16 @@
                 <button type="button" class="btn btn-light pb-0 pt-0" @onclick="CreateChat">
                     @if(min600)
                     {
-                        <i class="bi bi-send-plus"></i> @("Create Chat")
+                        <i class="bi bi-send-plus"></i> @(" Create Chat")
                     }
                     else
                     {
                         <i class="bi bi-send-plus"></i>
                     }
+                    
+                </button>
+                <button type="button" class="btn btn-light pb-0 pt-0 pe-1 ps-1 ms-1" @onclick="CloseChat">
+                    <i class="bi bi-x-square"></i>
                 </button>
             </div>
         </div>
@@ -213,6 +217,9 @@
 
     [Parameter]
     public HubConnection? HubConnection { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> CloseCallback { get; set; }
 
     [Parameter]
     public string? UserName { get; set; }
@@ -745,6 +752,14 @@
         UserLabels.Clear();
 
         await InvokeAsync(StateHasChanged);
+    }
+
+    protected async Task CloseChat()
+    {
+        if (CloseCallback.HasDelegate)
+        {
+            await CloseCallback.InvokeAsync(true);
+        }
     }
 
 

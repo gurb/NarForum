@@ -146,7 +146,7 @@
 
 @if(showChat)
 {
-    <ChatBox OpenCreateChatBox=openCreateChat UserName=@createChatUserName HubConnection=@hubConnection></ChatBox>
+    <ChatBox OpenCreateChatBox=openCreateChat UserName=@createChatUserName HubConnection=@hubConnection CloseCallback="CloseChatBox"></ChatBox>
 }
 
 
@@ -317,6 +317,15 @@
         showChat = true;
         openCreateChat = true;
         createChatUserName = userName;
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task CloseChatBox()
+    {
+        showChat = false;
+        openCreateChat = false;
+        createChatUserName = null;
 
         await InvokeAsync(StateHasChanged);
     }
