@@ -3,15 +3,15 @@
 @using NarForumUser.Client.Pages.Blog.Component
 
 
-@if (activePage == "blog")
+@if (GetNavSection == "blog")
 {
     <BlogCategoryList></BlogCategoryList>
 }
-else if (activePage == "user")
+else if (GetNavSection == "user")
 {
     <UserFavorites UserName="@param2"></UserFavorites>
 }
-else if (activePage == "contact")
+else if (GetNavSection == "contact")
 {
 
 }
@@ -36,6 +36,22 @@ else
     string url = "";
 
     bool isLoaded = false;
+
+    private string GetNavSection
+    {
+        get
+        {
+            url = nav.Uri;
+            string baseUrlRemoved = url.Split(new[] { "://" }, StringSplitOptions.None)[1].Split(new[] { '/' }, 2)[1];
+            string[] parts = baseUrlRemoved.Split('/');
+
+            if (parts is not null && parts.Length > 0)
+            {
+                return parts[0];
+            }
+            return "";
+        }
+    }
 
     protected override void OnInitialized()
     {
