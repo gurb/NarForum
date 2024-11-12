@@ -63,6 +63,7 @@
 					<li><a href="#requirementsDevEnv">Requirements for Setting up your Developer Environment</a></li>
 					<li><a href="#runningDevEnv">Running the project in the development environment</a></li>
 					<li><a href="#apiUpdate">API Update</a></li>
+					<li><a href="#fastRunningDevEnv">Fast Running the Project <i>(OPTIONAL)</i></a></li>
 				</ol>
 			</li>
 			<li><a href="#updateDatabase">How to Update Database?</a></li>
@@ -631,6 +632,61 @@ public async Task&lt;ApiResponseVM> CreateHeading(HeadingVM post)
 }			
 		</pre>
 		<p>That's it, we can use it this method in our blazor pages and components.</p>
+		<br/>
+		<br/>
+		<h4 id="fastRunningDevEnv"><b>B.5) Fast Running the Project <i>(OPTIONAL)</i></b> - <a href="#toc">top</a></h4>
+		<p>I wanted to add a script that I use myself. Thanks to this script, you can run the project much faster in the development environment. You will directly see a 4-panel Windows terminal screen. A C# script I wrote just to save time.</p>
+		<p>Before use the script, you have to change directories with yours, then you can use it:</p>
+		<pre>
+using System;
+using System.Diagnostics;
+
+namespace TerminalConfigurator
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] directories = new string[]
+            {
+                @"C:\Users\gurbu\source\repos\Forum\Api",
+                @"C:\Users\gurbu\source\repos\Forum\NarForumAdmin",
+                @"C:\Users\gurbu\source\repos\Forum\NarForumUser\NarForumUser",
+                @"C:\Users\gurbu\Desktop\win-x64-based-readytorun",
+            };
+
+            OpenWindowsTerminalWithSplitPanes(directories);
+        }
+
+        static void OpenWindowsTerminalWithSplitPanes(string[] directories)
+        {
+            try
+            {
+                string arguments = $"-d \"{directories[0]}\" cmd /k \"dotnet run\"";
+                arguments += $" ; split-pane -V -d \"{directories[1]}\" cmd /k \"dotnet run\"";
+                arguments += " ; move-focus left";
+                arguments += $" ; split-pane -H -d \"{directories[2]}\" cmd /k \"dotnet run\"";
+                arguments += " ; move-focus right";
+                arguments += $" ; split-pane -H -d \"{directories[3]}\" cmd /k \"GarnetServer\"";
+
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = "wt.exe",
+                    Arguments = arguments,
+                    UseShellExecute = true,
+                    CreateNoWindow = false
+                };
+
+                Process.Start(psi);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while opening Windows Terminal with split panes: {ex.Message}");
+            }
+        }
+    }
+}
+		</pre>
 		<hr>
 
 		<h3 id="updateDatabase"><strong>C) How to update database?</strong> - <a href="#toc">top</a></h3>
