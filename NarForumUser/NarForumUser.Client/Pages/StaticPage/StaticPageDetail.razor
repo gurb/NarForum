@@ -3,6 +3,9 @@
 @using System.Text.RegularExpressions
 @inject IConfiguration Configuration
 
+@inject PersistentComponentState ApplicationState
+@implements IDisposable
+
 @if(StaticPageVM is not null)
 {
     <MetaTags PageTitle="@StaticPageVM.Title"
@@ -35,6 +38,8 @@ else
 }
 
 @code {
+    private PersistingComponentStateSubscription _subscription;
+
     [Inject]
     private IPageService? pageService { get; set; }
 
@@ -50,9 +55,25 @@ else
     [Inject]
     public ITrackingLogService? TrackingLogService { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        _subscription = ApplicationState.RegisterOnPersisting(Persist);
+    }
+
+    private async Task Persist()
+    {
+        ApplicationState.PersistAsJson("staticPageVM", StaticPageVM);
+        await Task.CompletedTask;
+    }
+
     protected async override Task OnParametersSetAsync()
     {
-        if (pageService is not null)
+        var foundInState = ApplicationState
+            .TryTakeFromJson<StaticPageVM>("staticPageVM", out var _StaticPageVM);
+
+        StaticPageVM = foundInState ? _StaticPageVM : StaticPageVM;
+
+        if (!foundInState && pageService is not null)
         {
             var query = new GetStaticPageQueryVM
             {
@@ -60,8 +81,10 @@ else
             };
 
             StaticPageVM = await pageService.GetStaticPage(query);
-            await SaveTrackingLog();
         }
+
+        await SaveTrackingLog();
+
 
         await base.OnParametersSetAsync();
     }
@@ -94,5 +117,10 @@ else
     {
         string textOnly = Regex.Replace(content, "<.*?>", String.Empty);
         return textOnly;
+    }
+
+    public void Dispose()
+    {
+        _subscription.Dispose();
     }
 }

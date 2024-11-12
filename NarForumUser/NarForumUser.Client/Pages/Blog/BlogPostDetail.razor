@@ -1,10 +1,13 @@
 ﻿@page "/blog/{Title}-{BlogPostId:int}"
-@rendermode @(new InteractiveAutoRenderMode(prerender: true))
+
+@inject PersistentComponentState ApplicationState
 
 @using NarForumUser.Client.Models.BlogPost
 @using NarForumUser.Client.Pages.Blog.Component
 @using System.Text.RegularExpressions
 @inject IConfiguration Configuration
+
+@implements IDisposable
 @if (BlogPostVM is not null)
 {
     <MetaTags 
@@ -56,6 +59,8 @@
 }
 
 @code {
+    private PersistingComponentStateSubscription _subscription;
+
     [Inject]
     private IBlogPostService? blogPostService { get; set; }
 
@@ -78,6 +83,15 @@
 
     protected async Task SetBreadcrumb()
     {
+        var foundInState = ApplicationState
+                           .TryTakeFromJson<List<BreadcrumbItem>>("breadCrumbItems", out var _BreadcrumbItems);
+
+        if (foundInState)
+        {
+            BreadcrumbItems = _BreadcrumbItems ?? new List<BreadcrumbItem>();
+            return;
+        }
+
         BreadcrumbItems = new List<BreadcrumbItem>();
         BreadcrumbItems.Add(new BreadcrumbItem { Text = "Blog", HrefLink = $"/blog" });
         if(BlogPostVM.BlogCategory is not null)
@@ -91,9 +105,26 @@
         BreadcrumbItems.Add(new BreadcrumbItem { Text = $"{BlogPostVM.Title}", IsCurrentPage = true });
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        _subscription = ApplicationState.RegisterOnPersisting(Persist);
+    }
+
+    private async Task Persist()
+    {
+        ApplicationState.PersistAsJson("blogPostVM", BlogPostVM);
+        ApplicationState.PersistAsJson("breadCrumbItems", BreadcrumbItems);
+        await Task.CompletedTask;
+    }
+
     protected async override Task OnParametersSetAsync()
     {
-        if (BlogPostVM is null && blogPostService is not null)
+        var foundInState = ApplicationState
+            .TryTakeFromJson<BlogPostVM>("blogPostVM", out var _BlogPostVM);
+        
+        BlogPostVM = foundInState ? _BlogPostVM : BlogPostVM;
+
+        if (!foundInState && BlogPostVM is null && blogPostService is not null)
         {
             var query = new GetBlogPostQueryVM
             {
@@ -101,11 +132,9 @@
             };
 
             BlogPostVM = await blogPostService.GetBlogPost(query);
-
-
-            await SetBreadcrumb();
-            await SaveTrackingLog();
         }
+        await SetBreadcrumb();
+        await SaveTrackingLog();
 
         await base.OnParametersSetAsync();
     }
@@ -139,5 +168,10 @@
     {
         string textOnly = Regex.Replace(content, "<.*?>", String.Empty);
         return textOnly;
+    }
+
+    public void Dispose()
+    {
+        _subscription.Dispose();
     }
 }
