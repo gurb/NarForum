@@ -265,8 +265,6 @@
 		var result = await StaticPageService.CreateStaticPage(staticPage);
 
 		await Callback.InvokeAsync();
-
-		// NavigationManager.NavigateTo($"/category/{CategoryName}");
 	}
 
 	async ValueTask IAsyncDisposable.DisposeAsync()
