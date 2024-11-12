@@ -59,7 +59,7 @@ public partial class Login: IAsyncDisposable
     {
         if(!captchaResponse.IsSuccess)
         {
-            Message = 
+            Message = "Please confirm you are not a robot via captcha.";
         }
 
         var response = await AuthenticationService.AuthenticateAsync(Model.Email, Model.Password);
