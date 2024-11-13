@@ -22,5 +22,6 @@
         public Guid? LastUserId { get; set; }
         public DateTime? ActiveDate { get; set; }
         public string? UserProfileImageUrl { get; set; }
+        public string? Base64 { get; set;}
     }
 }

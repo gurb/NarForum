@@ -56,6 +56,7 @@ builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 
 builder.Services.AddSingleton<ToastService>();
+builder.Services.AddSingleton<ImageProvider>();
 
 builder.Services.AddAutoMapper(typeof(NarForumUser.Client.MappingProfiles.MappingConfig).Assembly);
 
@@ -64,6 +65,8 @@ builder.Services.AddScoped<AuthorizationService>();
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthorizationCore();
+
+builder.Services.AddResponseCaching();
 
 builder.Services.AddAntiforgery(x =>
 {
@@ -76,6 +79,8 @@ if (builder.Environment.IsStaging() || builder.Environment.IsProduction())
 }
 
 var app = builder.Build();
+
+app.UseResponseCaching();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -93,7 +98,15 @@ app.UseHttpsRedirection();
 
 app.UseRobotsMiddleware();
 
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        var headers = ctx.Context.Response.Headers;
+        headers["Cache-Control"] = "public, max-age=31536000";
+    }
+});
+
 
 app.UseAntiforgery();
 

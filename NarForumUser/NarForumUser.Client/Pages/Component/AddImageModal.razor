@@ -22,7 +22,7 @@
                 {
                     @foreach (var img in availableImages)
                     {
-                        <img width="120" @onclick="() => SelectImage(img)" height="70" class="image-gallery-item @(selectedImages.Contains(img) ? "selected" : "")" src="@getImgUrl(img)" />
+                        <img alt="Available Image" width="120" @onclick="() => SelectImage(img)" height="70" class="image-gallery-item @(selectedImages.Contains(img) ? "selected" : "")" src="@getImgUrl(img)" />
                     }
                 }
                 

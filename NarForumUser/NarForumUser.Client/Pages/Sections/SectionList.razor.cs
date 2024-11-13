@@ -5,6 +5,7 @@ using NarForumUser.Client.Pages.Sections.Modal;
 using NarForumUser.Client.Services.UI;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
+using NarForumUser.Client.Models.Message;
 
 
 namespace NarForumUser.Client.Pages.Sections
@@ -107,7 +108,7 @@ namespace NarForumUser.Client.Pages.Sections
 
         private string GetImageUrl(string userId)
         {
-            return $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userId}";
+            return $"user-profile/{userId}";
         }
 
 
@@ -119,34 +120,17 @@ namespace NarForumUser.Client.Pages.Sections
                 {
                     if (category.LastUserId is not null)
                     {
-                        string imageUrl = GetImageUrl(category.LastUserId.ToString());
-
-                        bool isExist = await UrlExists(imageUrl);
-                        if (isExist)
-                        {
-                            category.UserProfileImageUrl = imageUrl;
-                        }
+                        category.Base64 = await imageProvider.GetImage($"user-profile/{category.LastUserId.ToString()}");
                     }
                     else
                     {
-                        category.UserProfileImageUrl = null;
+                        category.Base64 = null;
                     }
                 }
             }
         }
 
-        private async Task<bool> UrlExists(string url)
-        {
-            try
-            {
-                var response = await Http.GetAsync(url);
-                return response.IsSuccessStatusCode;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        
 
         public void Dispose()
         {

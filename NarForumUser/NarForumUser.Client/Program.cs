@@ -48,6 +48,7 @@ builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 
 builder.Services.AddSingleton<ToastService>();
+builder.Services.AddSingleton<ImageProvider>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

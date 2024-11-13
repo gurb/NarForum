@@ -34,10 +34,10 @@
         <div class="col-sm-4 last-post-summary">
             <div class="d-flex flex-start">
                 <a class="me-3 no-image-user-profile-link" href="@userUrl">
-                    @if (@Model.UserProfileImageUrl is not null)
+                    @if (Model.Base64 is not null)
                     {
                         <span class="image-user-profile-heading-card">
-                            <img width="35" height="35" src="@Model.UserProfileImageUrl">
+                            <img alt="@Model.LastUserName's profile image" width="35" height="35" src="@Model.Base64">
                         </span>
                     }
                     else
@@ -107,6 +107,12 @@
             }
             return null;
         }
+    }
+
+
+    private async Task<string?> userImage()
+    {
+        return await imageProvider.GetImage($"user-profile/{Model.LastUserId}");
     }
 
     protected async Task UpdateCategory()
