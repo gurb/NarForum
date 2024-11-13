@@ -19,12 +19,12 @@
             <div class="d-flex flex-start @((i == 0) ? "mt-1" : "mt-3")">
                 <a class="me-3 no-image-user-profile-link" href="@($"user/{heading.UserName}")">
 
-                    @if (isImageAvailables is not null && isImageAvailables.Count > 0)
+                        @if (heading.UserId is not null)
                     {
-                        if (heading.UserId is not null && isImageAvailables.ContainsKey(heading.UserId.Value) && isImageAvailables[heading.UserId.Value])
+                        if (heading.Base64 is not null)
                         {
                             <span class=image-user-profile>
-                                <img alt="@(heading.UserName + "'s profile image")" width="35" height="35" src="@GetImageUrl(heading.UserId.Value)" />
+                                <img alt="@(heading.UserName + "'s profile image")" width="35" height="35" src="@heading.Base64" />
                             </span>
                         }
                         else
@@ -107,10 +107,9 @@
             {
                 foreach (var heading in headings)
                 {
-                    if (heading.UserId is not null && !isImageAvailables.ContainsKey(heading.UserId.Value))
+                    if (heading.UserId is not null)
                     {
-                        bool isImageAvailable = await UrlExists($"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{heading.UserId.ToString()}");
-                        isImageAvailables.Add(heading.UserId.Value, isImageAvailable);
+                        heading.Base64 = await imageProvider.GetImage($"user-profile/{heading.UserId.ToString()}");
                     }
                 }
             }
@@ -136,10 +135,9 @@
             {
                 foreach (var heading in headings)
                 {
-                    if (heading.UserId is not null && !isImageAvailables.ContainsKey(heading.UserId.Value))
+                    if (heading.UserId is not null)
                     {
-                        bool isImageAvailable = await UrlExists($"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{heading.UserId.ToString()}");
-                        isImageAvailables.Add(heading.UserId.Value, isImageAvailable);
+                        heading.Base64 = await imageProvider.GetImage($"user-profile/{heading.LastUserId.ToString()}");
                     }
                 }
 

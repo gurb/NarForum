@@ -7,19 +7,20 @@ namespace NarForumUser.Client.Services.Common
     {
         public Dictionary<string, string?> Images { get; set; }
 
+        [Inject]
+        private  IJSRuntime? jsRuntime { get; set; }
+
         bool IsWASM;
 
         HttpClient? httpClient { get; set; }
 
-        private readonly IJSRuntime jsRuntime;
         private readonly IConfiguration configuration;
 
-        public ImageProvider(IConfiguration configuration, IJSRuntime jsRuntime)
+        public ImageProvider(IConfiguration configuration)
         {
             this.configuration = configuration;
-            this.jsRuntime = jsRuntime;
             Images = new Dictionary<string, string?>();
-            IsWASM = this.jsRuntime is IJSInProcessRuntime;
+            IsWASM = jsRuntime is IJSInProcessRuntime;
         }
 
         public async Task<string?> GetImage(string imageUrl)
