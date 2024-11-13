@@ -19,7 +19,7 @@
             <div class="d-flex flex-start @((i == 0) ? "mt-1" : "mt-3")">
                 <a class="me-3 no-image-user-profile-link" href="@($"user/{heading.UserName}")">
 
-                        @if (heading.UserId is not null)
+                    @if (heading.UserId is not null)
                     {
                         if (heading.Base64 is not null)
                         {
@@ -137,7 +137,7 @@
                 {
                     if (heading.UserId is not null)
                     {
-                        heading.Base64 = await imageProvider.GetImage($"user-profile/{heading.LastUserId.ToString()}");
+                        heading.Base64 = await imageProvider.GetImage($"user-profile/{heading.UserId.ToString()}");
                     }
                 }
 

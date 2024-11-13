@@ -1,10 +1,9 @@
 ﻿@using NarForumUser.Client.Services.Common
-@inject HttpClient Http
 @inject IConfiguration Configuration
 @inject LocalStorageService LocalStorage;
 
 @if(LogoVM is not null) {
-    @if (isExistLogo)
+    @if (logoUrl is not null)
     {
         <img id="@LogoId" class="@Class" src="@logoUrl" alt="@LogoVM.AltText" />
     }
@@ -39,37 +38,15 @@ else
     public string? Class { get; set; } = "";
 
     bool isExistLogo { get; set; }
-    string logoUrl { get; set; }
+    string? logoUrl { get; set; }
     string localLogoUrl { get; set; } = string.Empty;
 
     protected async override Task OnInitializedAsync()
     {
         localLogoUrl = await LocalStorage.GetItem("logo-url");
 
-        logoUrl = $"{Configuration["ApiBaseUrl"]}/file/images/logo";
-        isExistLogo = await UrlExists(logoUrl);
-
-        if(isExistLogo)
-        {
-            await LocalStorage.AddItem("logo-url", logoUrl);
-        }
+        logoUrl = await imageProvider.GetImage("logo");
 
         await base.OnInitializedAsync();
-    }
-
-
-
-
-    private async Task<bool> UrlExists(string url)
-    {
-        try
-        {
-            var response = await Http.GetAsync(url);
-            return response.IsSuccessStatusCode;
-        }
-        catch
-        {
-            return false;
-        }
     }
 }

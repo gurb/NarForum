@@ -14,7 +14,7 @@
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                <img id="forum-logo" class="" src="@($"{Configuration["ApiBaseUrl"]}/file/images/logo")" alt="@($"{Configuration["SiteName"]}")" />
+                <img id="forum-logo" class="" src="@logoBase64" alt="@($"{Configuration["SiteName"]}")" />
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ms-lg-4 mb-sm-3 mb-md-3 mb-lg-0">
@@ -188,6 +188,8 @@
 
     private string themeType;
 
+    private string? logoBase64;
+
     List<NotificationVM> notificationList = new List<NotificationVM>();
     bool isNotify;
     int notifyCount;
@@ -202,6 +204,12 @@
     private string GetImageUrl(string userId)
     {
         return $"{Configuration["ApiBaseUrl"]}/file/images/user-profile/{userId}";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        logoBase64 = await imageProvider.GetImage("logo");
+        await base.OnInitializedAsync();
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
