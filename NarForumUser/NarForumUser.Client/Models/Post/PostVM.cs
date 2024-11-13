@@ -32,5 +32,6 @@ namespace NarForumUser.Client.Models.Post
         public UserInfoVM? UserInfoVM { get; set; }
         public HeadingVM? HeadingDTO { get; set; }
         public List<PostVM>? QuotePosts { get; set; }
+        public string? Base64 { get; set; }
     }
 }

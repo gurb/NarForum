@@ -295,6 +295,7 @@ else
             }
         }
     }
+    
 
     private async Task CheckUserImageProfile()
     {
@@ -304,32 +305,13 @@ else
             {
                 if (post.UserId is not null)
                 {
-                    string imageUrl = GetImageUrl(post.UserId.ToString());
-
-                    bool isExist = await UrlExists(imageUrl);
-                    if (isExist)
-                    {
-                        post.UserProfileImageUrl = imageUrl;
-                    }
+                    post.Base64 = await imageProvider.GetImage($"user-profile/{post.UserId.ToString()}");
                 }
                 else
                 {
-
+                    post.Base64 = null;
                 }
             }
-        }
-    }
-
-    private async Task<bool> UrlExists(string url)
-    {
-        try
-        {
-            var response = await Http.GetAsync(url);
-            return response.IsSuccessStatusCode;
-        }
-        catch
-        {
-            return false;
         }
     }
 

@@ -111,7 +111,6 @@ namespace NarForumUser.Client.Pages.Sections
             return $"user-profile/{userId}";
         }
 
-
         private async Task CheckUserImageProfile()
         {
             if (Categories is not null && Categories.Count > 0)
@@ -128,9 +127,7 @@ namespace NarForumUser.Client.Pages.Sections
                     }
                 }
             }
-        }
-
-        
+        }     
 
         public void Dispose()
         {

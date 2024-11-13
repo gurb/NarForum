@@ -423,6 +423,25 @@ else
         }
     }
 
+    private async Task CheckUserImageProfile()
+    {
+        if (Headings is not null && Headings.Count > 0)
+        {
+            foreach (var heading in Headings)
+            {
+                if (heading.LastUserId is not null)
+                {
+                    heading.Base64 = await imageProvider.GetImage($"user-profile/{heading.LastUserId.ToString()}");
+                }
+                else
+                {
+                    heading.Base64 = null;
+                }
+            }
+        }
+    }
+
+
     private void OpenModal()
     {
         addCategoryModal?.ShowModal();
@@ -452,48 +471,7 @@ else
 
         updateCategoryModal?.ShowModal();
     }
-
-
-    private async Task CheckUserImageProfile()
-    {
-        if (Headings is not null && Headings.Count > 0)
-        {
-            foreach (var heading in Headings)
-            {
-                if (heading.LastUserId is not null)
-                {
-                    string imageUrl = GetImageUrl(heading.LastUserId.ToString());
-
-                    bool isExist = await UrlExists(imageUrl);
-                    if (isExist)
-                    {
-                        heading.UserProfileImageUrl = imageUrl;
-                    }
-                    else
-                    {
-                        heading.UserProfileImageUrl = null;
-                    }
-                }
-                else
-                {
-
-                }
-            }
-        }
-    }
-
-    private async Task<bool> UrlExists(string url)
-    {
-        try
-        {
-            var response = await Http.GetAsync(url);
-            return response.IsSuccessStatusCode;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+    
 
     public void Dispose()
     {

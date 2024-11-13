@@ -1,9 +1,9 @@
 ﻿<article id="@($"post-{HeadingIndex}")" class="card mb-4 custom-mini-post">
     <header class="card-header border-0 bg-transparent align-items-center">
-            @if(Post.UserProfileImageUrl is not null)
+            @if(Post.Base64 is not null)
             {
                 <span class="image-user-profile-post shadow-1-strong me-3">
-                    <img src="@Post.UserProfileImageUrl" alt="avatar" width="45"
+                    <img src="@Post.Base64" alt="avatar" width="45"
                          height="45" />
                 </span>
             }
