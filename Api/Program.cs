@@ -60,7 +60,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseResponseCompression();
 
 app.UseMiddleware<ExceptionMiddleware>();
 

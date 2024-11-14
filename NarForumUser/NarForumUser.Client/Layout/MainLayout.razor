@@ -69,11 +69,11 @@
     </main>
 </div>
 
-@if (!IsBot && OperatingSystem.IsBrowser())
+@* @if (!IsBot && OperatingSystem.IsBrowser())
 {
     <ConsentCookie />
 }
-
+ *@
 @code {
     [CascadingParameter(Name ="BotParameter")]
     public bool IsBot { get; set; }

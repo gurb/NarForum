@@ -143,6 +143,13 @@ export function addLink() {
 
 }
 
+//export function addLink() {
+//	const url = prompt('Insert url');
+//	var sText = editorWindow.document.getSelection();
+
+//	editorWindow.document.execCommand('insertHTML', false, '<a href="' + url + '" target="_blank">' + sText + '</a>');
+//}
+
 export function addImageUrls(urlList) {
 	if (Array.isArray(urlList)) {
 		for (var i = 0; i < urlList.length; i++) {

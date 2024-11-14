@@ -15,7 +15,7 @@ else
 <EditForm Model="@Model" OnValidSubmit="HandleCreateHeading">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <div class="form-group form-margin">
+    <div class="form-group mb-2">
         <label asp-for="Title" class="control-label mb-2">Select Category</label>
         <InputSelect class="form-select select-category" aria-label="Default select example" @bind-Value="@Model.CategoryId">
             @if(categories != null)
@@ -32,13 +32,13 @@ else
         <ValidationMessage For="@(() => Model.Title)" />
     </div>
 
-    <div class="form-group form-margin">
+    <div class="form-group mb-4">
         <label asp-for="Title" class="control-label mb-2">Heading Title</label>
         <InputText type="text" id="Title" class="form-control" @bind-Value="@Model.Title"></InputText>
         <ValidationMessage For="@(() => Model.Title)" />
     </div>
 
-    <div class="form-group form-margin">
+    <div class="form-group mb-2">
         <CreatePostForm Placeholder="enter your post here" @ref=createPostForm Model="CreateModel"></CreatePostForm>
     </div>
 

@@ -31,7 +31,35 @@ namespace NarForumUser.Client.Services.Common
 
         public async Task<string?> GetImage(string imageUrl)
         {
-            return $"{apiBase}/file/images/{imageUrl}";
+            if (string.IsNullOrEmpty(imageUrl))
+            {
+                throw new ArgumentNullException(nameof(imageUrl), "Image URL cannot be null or empty.");
+            }
+            if (OperatingSystem.IsBrowser())
+            {
+                if (Images.ContainsKey(imageUrl))
+                {
+                    return "data:image/png;base64," + Images[imageUrl];
+                }
+                else
+                {
+                    string? base64 = await ImageUrlToBase64($"{apiBase}/file/images/{imageUrl}");
+
+                    if (base64 != null)
+                    {
+                        Images[imageUrl] = base64; 
+                        return "data:image/png;base64," + base64;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            else
+            {
+                return $"{apiBase}/file/images/{imageUrl}";
+            }
         }
 
         private async Task<string?> ImageUrlToBase64(string imageUrl)

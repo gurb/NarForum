@@ -80,6 +80,18 @@ if (builder.Environment.IsStaging() || builder.Environment.IsProduction())
 
 var app = builder.Build();
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        if (ctx.File.Name == "blazor.web.js")
+        {
+            ctx.Context.Response.Headers["Cache-Control"] = "public, max-age=31536000";
+        }
+    }
+});
+
+
 app.UseResponseCaching();
 
 // Configure the HTTP request pipeline.
@@ -98,14 +110,7 @@ app.UseHttpsRedirection();
 
 app.UseRobotsMiddleware();
 
-app.UseStaticFiles(new StaticFileOptions
-{
-    OnPrepareResponse = ctx =>
-    {
-        var headers = ctx.Context.Response.Headers;
-        headers["Cache-Control"] = "public, max-age=31536000";
-    }
-});
+
 
 
 app.UseAntiforgery();
