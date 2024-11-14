@@ -4,11 +4,11 @@
         caches.open('blazor-cache-v1').then((cache) => {
             // Cache’e alınacak dosyalar
             return cache.addAll([
-                '/_framework/blazor.web.js',  // Blazor WebAssembly dosyası
-                '/css/app.css',// CSS dosyası
-                '/css/bootstrap.min.css', // bootstrap min css
-                '/NarForumUser.styles.css',         // Diğer gerekli stil dosyaları
-                '/js/utils.js'                      // JavaScript dosyası
+                '/_framework/blazor.web.js', 
+                '/css/app.css',
+                '/css/bootstrap.min.css',
+                '/NarForumUser.styles.css',       
+                '/js/utils.js'                     
             ]);
         })
     );
@@ -21,7 +21,6 @@ self.addEventListener('fetch', (event) => {
                 console.log(event.request);
                 return cachedResponse;
             }
-            // Cache'de yoksa ağdan isteği yap
             return fetch(event.request);
         })
     );

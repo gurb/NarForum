@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Collections.Concurrent;
 
 namespace NarForumUser.Client.Services.Common
 {
     public class ImageProvider
     {
-        public Dictionary<string, string?> Images { get; set; }
+        public ConcurrentDictionary<string, string?> Images { get; set; }
 
         [Inject]
         private  IJSRuntime? jsRuntime { get; set; }
@@ -21,7 +22,7 @@ namespace NarForumUser.Client.Services.Common
         public ImageProvider(IConfiguration configuration)
         {
             this.configuration = configuration;
-            Images = new Dictionary<string, string?>();
+            Images = new ConcurrentDictionary<string, string?>();
             IsWASM = jsRuntime is IJSInProcessRuntime;
             if(configuration is not null)
             {
@@ -47,7 +48,7 @@ namespace NarForumUser.Client.Services.Common
 
                     if (base64 != null)
                     {
-                        Images[imageUrl] = base64; 
+                        Images.TryAdd(imageUrl, base64);
                         return "data:image/png;base64," + base64;
                     }
                     else
@@ -58,7 +59,16 @@ namespace NarForumUser.Client.Services.Common
             }
             else
             {
-                return $"{apiBase}/file/images/{imageUrl}";
+                var url = $"{apiBase}/file/images/{imageUrl}";
+                HttpResponseMessage response = await httpClient.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    return url;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
