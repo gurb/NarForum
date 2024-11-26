@@ -1,6 +1,8 @@
 # NarForum Forum Software
 
-<p>NarForum is a simple and flexible forum software built with Blazor. It includes real-time notifications, basic user and role management, and customizable themes. With its easy-to-use admin panel and SEO-friendly structure, NarForum provides essential tools for managing a modern forum.</p>
+<p>NarForum is a simple and flexible forum software built with .NET 8 and Blazor. It includes real-time notifications, basic user and role management, and customizable themes. With its easy-to-use admin panel and SEO-friendly structure, NarForum provides essential tools for managing a modern forum.</p>
+
+![Screenshot](https://raw.githubusercontent.com/gurb/NarForum/504057d7450214e160a1febae3e273c5caec7903/Documentation/images/1.png)
 
 <h2>Projects</h2>
 <ul>
@@ -68,3 +70,9 @@
     <li>Toast Notifications</li>
 	<li>Custom Captcha</li>
 </ul>
+
+<h2>Installation</h2>
+Read the documentation .html file from Documentation folder in the repo.
+
+<h2>License</h2>
+NarForum is open-source software licensed under the MIT License.
