@@ -1,13 +1,13 @@
 # NarForum Forum Software
 
+<p>NarForum is a simple and flexible forum software built with Blazor. It includes real-time notifications, basic user and role management, and customizable themes. With its easy-to-use admin panel and SEO-friendly structure, NarForum provides essential tools for managing a modern forum.</p>
+
 <h2>Demo Access:</h2>
 <p>Forum Application: -link- <br>
 <b>Email:</b> demouser@narforum.com | <b>Password:</b> DemoUser</p>
 
 <p>Admin Panel Application: -link- <br>
 <b>Email:</b> demoadmin@narforum.com | <b>Password:</b> DemoAdmin</p>
-
-<p>NarForum is a simple and flexible forum software built with Blazor. It includes real-time notifications, basic user and role management, and customizable themes. With its easy-to-use admin panel and SEO-friendly structure, NarForum provides essential tools for managing a modern forum.</p>
 
 <h2>Features Overview</h2>
 <ul>
@@ -26,6 +26,7 @@
     <li>Push Notifications</li>
     <li>Section/Category/Heading/Post Management</li>
     <li>SMTP Settings</li>
+    <li>Reset, forgot password</li>
     <li>Static Page Management</li>
     <li>Blog Post Management</li>
     <li>Supports Sub-Category Feature</li>
