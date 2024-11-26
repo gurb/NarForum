@@ -69,9 +69,9 @@
 	<li>Custom Captcha</li>
 </ul>
 
-<h2>Screenshots</h2>
+<h2>Screenshots:</h2>
 ![Homepage](https://raw.githubusercontent.com/gurb/NarForum/refs/heads/master/Documentation/images/1.png)
-![Homepage](https://raw.githubusercontent.com/gurb/NarForum/refs/heads/master/Documentation/images/10.png)
+![Posts](https://raw.githubusercontent.com/gurb/NarForum/refs/heads/master/Documentation/images/10.png)
 ![Admin Dashboard](https://github.com/gurb/NarForum/blob/master/Documentation/images/15.png)
 ![Permission Management](https://raw.githubusercontent.com/gurb/NarForum/refs/heads/master/Documentation/images/20.png)
 
