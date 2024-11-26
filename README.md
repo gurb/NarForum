@@ -25,6 +25,14 @@
     </li>
 </ul>
 
+<h2>Tech Stack:</h2>
+<ul>
+    <li>.NET 8</li>
+    <li>Blazor</li>
+    <li>PostgreSQL</li>
+    <li>GarnetServer</li>
+</ul>
+
 <h2>Demo Access:</h2>
 <p>Forum Application: https://narforum.com/ <br>
 <b>Email:</b> demouser@narforum.com | <b>Password:</b> DemoUser</p>
