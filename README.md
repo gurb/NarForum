@@ -70,10 +70,10 @@
 </ul>
 
 <h2>Screenshots:</h2>
-![Homepage](https://raw.githubusercontent.com/gurb/NarForum/refs/heads/master/Documentation/images/1.png)
-![Posts](https://raw.githubusercontent.com/gurb/NarForum/refs/heads/master/Documentation/images/10.png)
-![Admin Dashboard](https://github.com/gurb/NarForum/blob/master/Documentation/images/15.png)
-![Permission Management](https://raw.githubusercontent.com/gurb/NarForum/refs/heads/master/Documentation/images/20.png)
+![Homepage](https://raw.githubusercontent.com/gurb/NarForum/master/Documentation/images/1.png)
+![Posts](https://raw.githubusercontent.com/gurb/NarForum/master/Documentation/images/10.png)
+![Admin Dashboard](https://raw.githubusercontent.com/gurb/NarForum/master/Documentation/images/15.png)
+![Permission Management](https://raw.githubusercontent.com/gurb/NarForum/master/Documentation/images/20.png)
 
 <h2>Installation</h2>
 Read the documentation .html file from Documentation folder in the repo.
