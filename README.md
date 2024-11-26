@@ -3,10 +3,10 @@
 <p>NarForum is a simple and flexible forum software built with Blazor. It includes real-time notifications, basic user and role management, and customizable themes. With its easy-to-use admin panel and SEO-friendly structure, NarForum provides essential tools for managing a modern forum.</p>
 
 <h2>Demo Access:</h2>
-<p>Forum Application: -link- <br>
+<p>Forum Application: https://narforum.com/ <br>
 <b>Email:</b> demouser@narforum.com | <b>Password:</b> DemoUser</p>
 
-<p>Admin Panel Application: -link- <br>
+<p>Admin Panel Application: https://admin.narforum.com/ <br>
 <b>Email:</b> demoadmin@narforum.com | <b>Password:</b> DemoAdmin</p>
 
 <h2>Features Overview</h2>
