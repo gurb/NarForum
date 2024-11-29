@@ -21,7 +21,8 @@ namespace Identity.Configurations
                 new PermissionDefinition { Id = "d9687026-5c6b-44c8-a4cf-31a7f7ada844", Name = "FORUM_SECTION", DisplayName = "Section", ParentPermissionDefinitionId = "95e10e0e-7e21-4a7c-849b-30a2e82a61b8" },
                 new PermissionDefinition { Id = "1d42748d-3f19-4f1b-bde0-786a4a245f46", Name = "FORUM_CATEGORY", DisplayName = "Category", ParentPermissionDefinitionId = "95e10e0e-7e21-4a7c-849b-30a2e82a61b8" },
                 new PermissionDefinition { Id = "8fdcb439-e635-466f-ae81-d7b161fe9a80", Name = "FORUM_PROFILE", DisplayName = "Profile", ParentPermissionDefinitionId = "95e10e0e-7e21-4a7c-849b-30a2e82a61b8" },
-                new PermissionDefinition { Id = "433a025d-e09e-414c-8fa2-b3d8fc67ecbb", Name = "FORUM_MESSAGE", DisplayName = "Message", ParentPermissionDefinitionId = "95e10e0e-7e21-4a7c-849b-30a2e82a61b8" }
+                new PermissionDefinition { Id = "433a025d-e09e-414c-8fa2-b3d8fc67ecbb", Name = "FORUM_MESSAGE", DisplayName = "Message", ParentPermissionDefinitionId = "95e10e0e-7e21-4a7c-849b-30a2e82a61b8" },
+                new PermissionDefinition { Id = "ec601835-bea3-47c2-9c39-eeb053e05f4b", Name = "FORUM_FILE", DisplayName = "File", ParentPermissionDefinitionId = "95e10e0e-7e21-4a7c-849b-30a2e82a61b8" }
             );
 
             // FORUM_POST children
@@ -62,6 +63,11 @@ namespace Identity.Configurations
             // FORUM_MESSAGE children
             builder.HasData(
                 new PermissionDefinition { Id = "03508f20-5c3c-4167-9f41-d8cee9c35620", Name = "FORUM_MESSAGE_SEND", DisplayName = "Send Message", ParentPermissionDefinitionId = "433a025d-e09e-414c-8fa2-b3d8fc67ecbb" }
+            );
+
+            // FORUM_FILE children
+            builder.HasData(
+                new PermissionDefinition { Id = "b57a8564-f0d8-4dcc-927c-4cc8b31502cd", Name = "FORUM_FILE_UPLOAD", DisplayName = "Upload File", ParentPermissionDefinitionId = "ec601835-bea3-47c2-9c39-eeb053e05f4b" }
             );
 
             // ADMIN children
