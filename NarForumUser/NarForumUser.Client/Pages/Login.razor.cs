@@ -29,9 +29,6 @@ public partial class Login: IAsyncDisposable
     [Inject]
     LocalStorageService localStorage { get; set; }
 
-    [Inject]
-    ToastService ToastService { get; set; }
-
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     [Inject]

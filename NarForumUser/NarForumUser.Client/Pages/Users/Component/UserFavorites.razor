@@ -37,9 +37,6 @@
     [Inject]
     public IFavoriteService FavoriteService { get; set; }
 
-    [Inject]
-    public ToastService ToastService { get; set; }
-
     public List<FavoriteVM>? Favorites { get; set; }
 
     private string getUrlPostDetail(Guid postId)
