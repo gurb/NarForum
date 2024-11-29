@@ -47,8 +47,6 @@
     private Task<AuthenticationState>? authenticationStateTask { get; set; }
     [Inject]
     public IUserService? UserService { get; set; }
-    [Inject]
-    public ToastService? ToastService { get; set; }
 
     [Parameter]
     public BlogPostVM? BlogPostVM { get; set; }
