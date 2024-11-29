@@ -151,6 +151,13 @@
 
     private async Task LoadFavicon(InputFileChangeEventArgs e)
     {
+
+        @if (!AuthExtension.IsAuth("ADMIN_FILE_UPLOAD"))
+        {
+            ToastService!.CreateInfoToast("Action Denied", "Your user does not have permission to upload the favicon.");
+            return;
+        }
+
         request = new UploadImageRequestVM
         {
             Type = UploadImageTypeVM.Favicon,
