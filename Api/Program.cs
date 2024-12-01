@@ -49,6 +49,14 @@ builder.Services.AddCors(options =>
                        .AllowAnyHeader()
                        .AllowAnyMethod();
             });
+
+    options.AddPolicy("AllowAllOriginsForFiles",
+            builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+            });
 });
 
 builder.Services.AddHttpContextAccessor();

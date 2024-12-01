@@ -43,6 +43,7 @@ namespace Persistence.Extensions
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<IJsonFileService, JsonFileService>();
 
             services.AddScoped<IEmailSender, EmailSender>();
 
