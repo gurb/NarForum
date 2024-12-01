@@ -51,6 +51,7 @@ builder.Services.AddScoped<ISmtpSettingsService, SmtpSettingsService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<ILanguageService, LanguageService>();
 
 builder.Services.AddSingleton<AlertService>();
 builder.Services.AddSingleton<ToastService>();
