@@ -1,0 +1,44 @@
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    container_name: api
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    ports:
+        - "5000:5000"
+        - "5001:5001"
+
+  forumidentity.database:
+    image: postgres:latest
+    container_name: forum.identity.db
+    environment:
+        - POSTGRES_DB=forumidentitydb
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+    volumes:
+        - ./.containers/forumidentity-db:/var/lib/postgresql/data 
+    ports:
+        - 5432:5432 
+
+  forum.database:
+    image: postgres:latest
+    container_name: forum.db
+    environment:
+        - POSTGRES_DB=forumdb
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+    volumes:
+        - ./.containers/forum-db:/var/lib/postgresql/data
+    ports:
+        - 5433:5432
+  
+  garnet:
+    image: 'ghcr.io/microsoft/garnet'
+    ulimits:
+      memlock: -1
+    ports:
+      - "6379:6379"
+    volumes:
+      - garnetdata:/data 
+  

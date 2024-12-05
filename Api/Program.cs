@@ -88,8 +88,15 @@ if (app.Environment.IsProduction())
     app.UseSwaggerUI();
     try
     {
+
+
+
+
         using (var scope = app.Services.CreateScope())
         {
+
+
+
             using (var dbContext = scope.ServiceProvider.GetRequiredService<ForumIdentityDbContext>())
             {
                 if (dbContext.Database.GetPendingMigrations().Any())
@@ -114,9 +121,32 @@ if (app.Environment.IsProduction())
 }
 else
 {
+    try
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            using (var dbContext = scope.ServiceProvider.GetRequiredService<ForumIdentityDbContext>())
+            {
+                if (dbContext.Database.GetPendingMigrations().Any())
+                {
+                    dbContext.Database.Migrate();
+                }
+            }
 
+            using (var dbContext = scope.ServiceProvider.GetRequiredService<ForumDbContext>())
+            {
+                if (dbContext.Database.GetPendingMigrations().Any())
+                {
+                    dbContext.Database.Migrate();
+                }
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        throw new InvalidOperationException("Database migration failed.", ex);
+    }
 }
-
 
 app.MapHub<TrackHub>("track", o => { 
     o.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;

@@ -25,7 +25,7 @@ namespace Identity.Extensions
 
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
-            services.AddDbContext<ForumIdentityDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("ForumIdentityDatabaseConnectionString")));
+            services.AddDbContext<ForumIdentityDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("DockerForumIdentityDatabaseConnectionString")));
             
             services.AddIdentity<ForumUser, IdentityRole>()
                 .AddEntityFrameworkStores<ForumIdentityDbContext>()

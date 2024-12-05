@@ -15,7 +15,7 @@ namespace Persistence.Extensions
             services.AddDbContext<ForumDbContext>(options =>
                 {
                     //options.UseSqlServer(configuration.GetConnectionString("ForumDatabaseConnectionString"));
-                    options.UseNpgsql(configuration.GetConnectionString("ForumDatabaseConnectionString"));
+                    options.UseNpgsql(configuration.GetConnectionString("DockerForumDatabaseConnectionString"));
                 }
             );
 
