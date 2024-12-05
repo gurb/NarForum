@@ -31,4 +31,9 @@
     <Folder Include="Pages\Sections\Component\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\NarForum.ServiceDefaults\NarForum.ServiceDefaults.csproj" />
+  </ItemGroup>
+
 </Project>

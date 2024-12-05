@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Identity\Identity.csproj" />
+    <ProjectReference Include="..\NarForum.ServiceDefaults\NarForum.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Persistence\Persistence.csproj" />
   </ItemGroup>
 

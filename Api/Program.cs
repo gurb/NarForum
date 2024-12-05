@@ -9,7 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Identity.DatabaseContext;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// add NarForum.ServiceDefaults to Api project
+builder.AddServiceDefaults();
 
 builder.Services.AddSignalR(options =>
 {

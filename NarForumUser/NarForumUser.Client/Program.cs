@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Http;
 using System.Reflection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
-
 builder.Services.AddTransient<JwtAuthorizationMessageHandler>();
 builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("ApiBaseUrl")!)).AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
 
