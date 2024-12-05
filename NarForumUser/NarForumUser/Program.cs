@@ -112,13 +112,13 @@ app.UseHttpsRedirection();
 app.UseRobotsMiddleware();
 
 
-
-
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddInteractiveServerRenderMode()
     .AddAdditionalAssemblies(typeof(NarForumUser.Client._Imports).Assembly);
+
+app.MapDefaultEndpoints();
 
 app.Run();

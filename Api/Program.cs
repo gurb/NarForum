@@ -139,4 +139,6 @@ app.UseDeveloperExceptionPage();
 
 app.MapControllers();
 
+app.MapDefaultEndpoints();
+
 app.Run();
