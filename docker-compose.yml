@@ -11,6 +11,13 @@ services:
     depends_on:
         - garnet
 
+  narforumuser:
+     build:
+       context: ./NarForumUser
+       dockerfile: NarforumUser/Dockerfile
+     ports:
+        - "7072:7072"
+        - "7073:7073" 
 
   forum.database:
     image: postgres:latest
