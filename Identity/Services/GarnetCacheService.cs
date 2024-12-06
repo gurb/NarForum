@@ -140,23 +140,32 @@ namespace Identity.Services
 
         public async Task<Dictionary<string, string>?> GetAllHashSet (string key)
         {
-            using var db = new GarnetClient(_g.Address, _g.Port, GetSslOpts());
-            await db.ConnectAsync();
 
-            string[] hashArray = await db.ExecuteForStringArrayResultAsync("HGETALL", new string[] { key });
-
-            if(hashArray.Length > 0)
+            try
             {
-                Dictionary<string, string> hash = new Dictionary<string, string>();
-                for (int i = 0; i < hashArray.Length; i+=2)
+                using var db = new GarnetClient(_g.Address, _g.Port, GetSslOpts());
+                await db.ConnectAsync();
+
+                string[] hashArray = await db.ExecuteForStringArrayResultAsync("HGETALL", new string[] { key });
+
+                if (hashArray.Length > 0)
                 {
-                    hash.Add(hashArray[i], hashArray[(i + 1)]);
+                    Dictionary<string, string> hash = new Dictionary<string, string>();
+                    for (int i = 0; i < hashArray.Length; i += 2)
+                    {
+                        hash.Add(hashArray[i], hashArray[(i + 1)]);
+                    }
+
+                    return hash;
                 }
 
-                return hash;
             }
-            
+            catch(Exception ex)
+            {
+                var test = ex.Message.ToString();
+            }
             return null;
+            
         }
 
         public async Task<HashScanResult> HashScan(string key, string[] matchPatterns, int count)

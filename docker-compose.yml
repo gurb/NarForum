@@ -8,31 +8,23 @@ services:
     ports:
         - "5000:5000"
         - "5001:5001"
+    depends_on:
+        - garnet
 
-  forumidentity.database:
-    image: postgres:latest
-    container_name: forum.identity.db
-    environment:
-        - POSTGRES_DB=forumidentitydb
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
-    volumes:
-        - ./.containers/forumidentity-db:/var/lib/postgresql/data 
-    ports:
-        - 5432:5432 
 
   forum.database:
     image: postgres:latest
-    container_name: forum.db
+    container_name: forum.database
     environment:
-        - POSTGRES_DB=forumdb
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_USER=${POSTGRES_USER:-postgres}
+        - POSTGRES_PASSWORD=${POSTGRES_USER:-postgres}
+        - POSTGRES_MULTIPLE_DATABASES=forumidentitydb:postgres:postgres, forumdb:postgres:postgres
     volumes:
-        - ./.containers/forum-db:/var/lib/postgresql/data
+        - ./init-multiple-databases.sh:/docker-entrypoint-initdb.d/init-multiple-databases.sh
+        - ./.containers/forumidentity-db:/var/lib/postgresql/data 
     ports:
-        - 5433:5432
-  
+        - 5432:5432
+
   garnet:
     image: 'ghcr.io/microsoft/garnet'
     ulimits:
@@ -40,5 +32,8 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - garnetdata:/data 
-  
+      - garnetdata:/data
+
+volumes:
+  garnetdata:
+
