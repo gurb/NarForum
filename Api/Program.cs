@@ -67,86 +67,41 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 var app = builder.Build();
-
 
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 app.UseHttpsRedirection();
 
+app.UseSwagger();
+app.UseSwaggerUI();
 
-
-if (app.Environment.IsProduction())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    try
+    using (var scope = app.Services.CreateScope())
     {
-
-
-
-
-        using (var scope = app.Services.CreateScope())
+        using (var dbContext = scope.ServiceProvider.GetRequiredService<ForumIdentityDbContext>())
         {
-
-
-
-            using (var dbContext = scope.ServiceProvider.GetRequiredService<ForumIdentityDbContext>())
+            await dbContext.Database.EnsureCreatedAsync();
+            if (dbContext.Database.GetPendingMigrations().Any())
             {
-                if (dbContext.Database.GetPendingMigrations().Any())
-                {
-                    dbContext.Database.Migrate();
-                }
-            }
-
-            using (var dbContext = scope.ServiceProvider.GetRequiredService<ForumDbContext>())
-            {
-                if (dbContext.Database.GetPendingMigrations().Any())
-                {
-                    dbContext.Database.Migrate();
-                }
+                dbContext.Database.Migrate();
             }
         }
-    }
-    catch (Exception ex)
-    {
-        throw new InvalidOperationException("Database migration failed.", ex);
+        using (var dbContext = scope.ServiceProvider.GetRequiredService<ForumDbContext>())
+        {
+            await dbContext.Database.EnsureCreatedAsync();
+            if (dbContext.Database.GetPendingMigrations().Any())
+            {
+                dbContext.Database.Migrate();
+            }
+        }
     }
 }
-else
+catch (Exception ex)
 {
-    try
-    {
-        using (var scope = app.Services.CreateScope())
-        {
-            using (var dbContext = scope.ServiceProvider.GetRequiredService<ForumIdentityDbContext>())
-            {
-                if (dbContext.Database.GetPendingMigrations().Any())
-                {
-                    dbContext.Database.Migrate();
-                }
-            }
-
-            using (var dbContext = scope.ServiceProvider.GetRequiredService<ForumDbContext>())
-            {
-                if (dbContext.Database.GetPendingMigrations().Any())
-                {
-                    dbContext.Database.Migrate();
-                }
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        throw new InvalidOperationException("Database migration failed.", ex);
-    }
+    throw new InvalidOperationException("Database migration failed.", ex);
 }
 
 app.MapHub<TrackHub>("track", o => { 
