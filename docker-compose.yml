@@ -11,13 +11,16 @@ services:
     depends_on:
         - garnet
 
-  narforumuser:
-     build:
-       context: ./NarForumUser
-       dockerfile: NarforumUser/Dockerfile
-     ports:
-        - "7072:7072"
-        - "7073:7073" 
+  blazor:
+    image: narforumuser:latest
+    build:
+      context: .
+      dockerfile: NarForumUser/NarForumUser/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - api
 
   forum.database:
     image: postgres:latest

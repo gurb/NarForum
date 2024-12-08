@@ -31,12 +31,13 @@ builder.Services.AddWebSockets(o => {
     o.AllowedOrigins.Add("http://localhost:5081/");
     o.AllowedOrigins.Add("https://narforum.com");
     o.AllowedOrigins.Add("https://admin.narforum.com");
+    o.AllowedOrigins.Add("https://localhost:32775/");
 });
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("all", builder => builder
-        .WithOrigins("https://localhost:7058", "https://localhost:7212", "http://localhost:5081/", "https://narforum.com", "https://admin.narforum.com")
+        .WithOrigins("https://localhost:7058", "https://localhost:7212", "http://localhost:5081/", "https://narforum.com", "https://admin.narforum.com", "https://localhost:32775/")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()  
